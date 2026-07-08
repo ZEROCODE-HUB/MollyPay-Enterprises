@@ -157,8 +157,20 @@ function Page() {
               </div>
               <div className="flex gap-2">
                 <BtnOutline onClick={() => setConfirm(false)} className="flex-1">Volver</BtnOutline>
-                <BtnPrimary onClick={() => setConfirm(false)} className="flex-1">Confirmar transferencia</BtnPrimary>
+                <BtnPrimary
+                  onClick={() => {
+                    setConfirm(false);
+                    toast.success("Transferencia enviada");
+                    // No auto-guardado: preguntar si querés guardar el destinatario
+                    setDestAlias("proveedor.sa");
+                    setSaveDestOpen(true);
+                  }}
+                  className="flex-1"
+                >
+                  Confirmar transferencia
+                </BtnPrimary>
               </div>
+
             </div>
           )}
         </Card>
