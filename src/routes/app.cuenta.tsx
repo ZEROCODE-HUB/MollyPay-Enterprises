@@ -1,8 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Building2, Upload, FileText, CheckCircle2, AlertCircle, CreditCard, SlidersHorizontal } from "lucide-react";
+import { useState } from "react";
+import { Building2, Upload, FileText, CheckCircle2, AlertCircle, CreditCard, SlidersHorizontal, Download, Landmark } from "lucide-react";
 import { PageHeader, Card, Input, Label, BtnPrimary, BtnOutline, Badge, Stat } from "@/components/portal-shell";
+import { toast } from "sonner";
+import { MollyLogo } from "@/components/molly-logo";
 
 export const Route = createFileRoute("/app/cuenta")({ component: Page });
+
 
 const docs = [
   { n: "Estatuto social", e: "Validado", f: "15/02/2026" },
@@ -20,6 +24,14 @@ const plan = {
 };
 
 function Page() {
+  const [cbuPreview, setCbuPreview] = useState(false);
+  const empresa = {
+    nombre: "Empresa Demo SA",
+    cuit: "30-12345678-9",
+    cbu: "0000003 100012345678 90",
+    alias: "molly.empresa.demo",
+  };
+
   return (
     <>
       <PageHeader
@@ -111,6 +123,28 @@ function Page() {
           </Card>
 
           <Card>
+            <div className="flex items-start justify-between gap-3 mb-2">
+              <h3 className="font-semibold text-sm flex items-center gap-2 min-w-0">
+                <Landmark size={16} className="shrink-0 text-primary" />
+                <span className="truncate">Constancia de CBU</span>
+              </h3>
+              <Badge tone="success">Oficial</Badge>
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">
+              Documento oficial con razón social, CUIT, CBU y alias — útil para acreditar tu cuenta ante terceros.
+            </p>
+            <div className="text-xs space-y-1 mb-3">
+              <div className="flex justify-between gap-2"><span className="text-muted-foreground">CBU</span><span className="font-mono font-semibold truncate">{empresa.cbu}</span></div>
+              <div className="flex justify-between gap-2"><span className="text-muted-foreground">Alias</span><span className="font-mono font-semibold truncate">{empresa.alias}</span></div>
+            </div>
+            <BtnPrimary className="w-full" onClick={() => setCbuPreview(true)}>
+              <Download size={14} /> Descargar constancia (PDF)
+            </BtnPrimary>
+          </Card>
+
+
+
+          <Card>
             <h3 className="font-semibold mb-3 flex items-center gap-2"><CreditCard size={16} /> Facturación</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between"><span className="text-muted-foreground">Método de pago</span><span className="font-semibold">Débito CBU</span></div>
@@ -149,6 +183,55 @@ function Page() {
           </Card>
         </div>
       </div>
+
+      {cbuPreview && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setCbuPreview(false)} />
+          <div className="relative bg-card rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-xl">
+            <div className="sticky top-0 bg-card border-b px-6 py-4 flex justify-between items-center z-10">
+              <div className="font-semibold">Vista previa — Constancia de CBU</div>
+              <BtnOutline className="h-8 px-3 text-xs" onClick={() => setCbuPreview(false)}>Cerrar</BtnOutline>
+            </div>
+            <div className="p-8 space-y-5">
+              <div className="flex items-center justify-between border-b pb-4">
+                <MollyLogo />
+                <div className="text-right text-xs text-muted-foreground">
+                  <div className="font-mono font-semibold text-foreground">CBU-EMP-2026-000042</div>
+                  <div>Generado: {new Date().toLocaleString("es-AR")}</div>
+                </div>
+              </div>
+              <h2 className="text-xl font-semibold">Constancia de CBU</h2>
+              <p className="text-xs text-muted-foreground">
+                Molly Money Life SA certifica que la siguiente cuenta está activa a nombre de la empresa detallada:
+              </p>
+              <Card className="bg-muted/30">
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between gap-3"><span className="text-muted-foreground">Razón social</span><span className="font-semibold text-right">{empresa.nombre}</span></div>
+                  <div className="flex justify-between gap-3"><span className="text-muted-foreground">CUIT</span><span className="font-mono font-semibold">{empresa.cuit}</span></div>
+                  <div className="flex justify-between gap-3"><span className="text-muted-foreground">CBU</span><span className="font-mono font-semibold text-right break-all">{empresa.cbu}</span></div>
+                  <div className="flex justify-between gap-3"><span className="text-muted-foreground">Alias</span><span className="font-mono font-semibold">{empresa.alias}</span></div>
+                </div>
+              </Card>
+              <div className="text-[11px] text-muted-foreground border-t pt-3">
+                Documento firmado digitalmente por Molly Money Life SA. Válido como constancia oficial de cuenta.
+              </div>
+              <div className="flex gap-2 pt-1">
+                <BtnOutline className="flex-1" onClick={() => setCbuPreview(false)}>Cancelar</BtnOutline>
+                <BtnPrimary
+                  className="flex-1"
+                  onClick={() => {
+                    setCbuPreview(false);
+                    toast.success("Constancia de CBU descargada");
+                  }}
+                >
+                  <Download size={14} /> Descargar PDF
+                </BtnPrimary>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
+
   );
 }

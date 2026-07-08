@@ -19,12 +19,45 @@ const rows = [
   { f: "29/05/2026 17:44", d: "Transferencia – Juan Pérez", t: "Transferencia", sc: "Sucursal Norte", m: "- 35.000,00", e: "Pendiente", ref: "TR-9968" },
 ];
 
+function parseRowDate(f: string): Date {
+  // f: "02/06/2026 10:42"
+  const [d, t] = f.split(" ");
+  const [dd, mm, yyyy] = d.split("/").map(Number);
+  const [hh, min] = (t ?? "00:00").split(":").map(Number);
+  return new Date(yyyy, mm - 1, dd, hh, min);
+}
+
 function Page() {
   const [filtrosOpen, setFiltrosOpen] = useState(false);
   const [vista, setVista] = useState<"principal" | "sub">("principal");
   const [sub, setSub] = useState("Operaciones");
   const [preview, setPreview] = useState(false);
+  const [desde, setDesde] = useState("");
+  const [hasta, setHasta] = useState("");
+  const [tipo, setTipo] = useState("Todas");
+  const [subFiltro, setSubFiltro] = useState("Todas");
+  const [montoMin, setMontoMin] = useState("");
   const serie = "RP-EMP-2026-000042";
+
+  const filtered = rows.filter((r) => {
+    const rd = parseRowDate(r.f);
+    if (desde) {
+      const d1 = new Date(desde + "T00:00:00");
+      if (rd < d1) return false;
+    }
+    if (hasta) {
+      const d2 = new Date(hasta + "T23:59:59");
+      if (rd > d2) return false;
+    }
+    if (tipo !== "Todas" && r.t !== tipo) return false;
+    if (subFiltro !== "Todas" && r.sc !== subFiltro) return false;
+    if (montoMin) {
+      const min = Number(montoMin.replace(/[^\d]/g, ""));
+      const amt = Number(r.m.replace(/[^\d]/g, ""));
+      if (amt < min) return false;
+    }
+    return true;
+  });
   return (
     <>
       <PageHeader
@@ -78,25 +111,65 @@ function Page() {
       </div>
 
       <Card>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-6 gap-2 mb-4">
-          <Input type="date" />
-          <Input type="date" />
-          <select className="h-10 px-3 rounded-md border bg-card text-sm">
-            <option>Tipo: todos</option>
-            <option>Transferencia</option>
-            <option>Cobro</option>
-            <option>Link</option>
-            <option>Lote</option>
-            <option>Servicio</option>
-          </select>
-          <select className="h-10 px-3 rounded-md border bg-card text-sm">
-            <option>Subcuenta: todas</option>
-            <option>Operaciones</option>
-            <option>Sucursal Centro</option>
-            <option>Sucursal Norte</option>
-          </select>
-          <Input placeholder="Monto mínimo" />
-          <BtnPrimary className="lg:col-span-1">Aplicar</BtnPrimary>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-2 mb-4">
+          <div className="min-w-0">
+            <label className="block text-[11px] text-muted-foreground mb-1">Desde</label>
+            <Input type="date" value={desde} onChange={(e) => setDesde(e.target.value)} />
+          </div>
+          <div className="min-w-0">
+            <label className="block text-[11px] text-muted-foreground mb-1">Hasta</label>
+            <Input type="date" value={hasta} onChange={(e) => setHasta(e.target.value)} min={desde || undefined} />
+          </div>
+          <div className="min-w-0">
+            <label className="block text-[11px] text-muted-foreground mb-1">Tipo</label>
+            <select
+              value={tipo}
+              onChange={(e) => setTipo(e.target.value)}
+              className="w-full h-10 px-3 rounded-md border bg-card text-sm"
+            >
+              <option value="Todas">Todas</option>
+              <option>Transferencia</option>
+              <option>Cobro</option>
+              <option>Link</option>
+              <option>Lote</option>
+              <option>Servicio</option>
+            </select>
+          </div>
+          <div className="min-w-0">
+            <label className="block text-[11px] text-muted-foreground mb-1">Subcuenta</label>
+            <select
+              value={subFiltro}
+              onChange={(e) => setSubFiltro(e.target.value)}
+              className="w-full h-10 px-3 rounded-md border bg-card text-sm"
+            >
+              <option value="Todas">Todas</option>
+              <option>Operaciones</option>
+              <option>Sucursal Centro</option>
+              <option>Sucursal Norte</option>
+            </select>
+          </div>
+          <div className="min-w-0">
+            <label className="block text-[11px] text-muted-foreground mb-1">Monto mínimo</label>
+            <Input
+              placeholder="$ 0"
+              value={montoMin}
+              onChange={(e) => setMontoMin(e.target.value)}
+            />
+          </div>
+          <div className="flex items-end gap-2">
+            <BtnOutline
+              className="flex-1"
+              onClick={() => {
+                setDesde("");
+                setHasta("");
+                setTipo("Todas");
+                setSubFiltro("Todas");
+                setMontoMin("");
+              }}
+            >
+              Limpiar
+            </BtnOutline>
+          </div>
         </div>
 
         <div className="overflow-x-auto -mx-5">
@@ -113,7 +186,14 @@ function Page() {
               </tr>
             </thead>
             <tbody>
-              {rows.map((r, i) => {
+              {filtered.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="text-center py-8 text-sm text-muted-foreground">
+                    No hay movimientos que coincidan con los filtros.
+                  </td>
+                </tr>
+              )}
+              {filtered.map((r, i) => {
                 const isIn = r.m.startsWith("+");
                 return (
                   <tr key={i} className="border-b last:border-0 hover:bg-muted/30">
@@ -145,6 +225,7 @@ function Page() {
             </tbody>
           </table>
         </div>
+
 
         <div className="flex items-center justify-between mt-4 text-xs text-muted-foreground">
           <div>Mostrando 1–8 de 142 movimientos</div>

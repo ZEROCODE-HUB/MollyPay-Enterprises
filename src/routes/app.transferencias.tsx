@@ -7,6 +7,7 @@ import { FormDialog } from "@/components/form-dialog";
 
 export const Route = createFileRoute("/app/transferencias")({ component: Page });
 
+
 const recientes = [
   { n: "Proveedor SA", a: "proveedor.sa", m: "$ 220.000", f: "Hoy 10:42" },
   { n: "Estudio Ríos", a: "rios.contable", m: "$ 145.000", f: "Ayer 18:10" },
@@ -31,6 +32,9 @@ function Page() {
   const [confirm, setConfirm] = useState(false);
   const [tab, setTab] = useState<"unica" | "lote" | "programada">("unica");
   const [plantOpen, setPlantOpen] = useState(false);
+  const [saveDestOpen, setSaveDestOpen] = useState(false);
+  const [destAlias, setDestAlias] = useState("");
+
 
   return (
     <>
@@ -153,8 +157,20 @@ function Page() {
               </div>
               <div className="flex gap-2">
                 <BtnOutline onClick={() => setConfirm(false)} className="flex-1">Volver</BtnOutline>
-                <BtnPrimary onClick={() => setConfirm(false)} className="flex-1">Confirmar transferencia</BtnPrimary>
+                <BtnPrimary
+                  onClick={() => {
+                    setConfirm(false);
+                    toast.success("Transferencia enviada");
+                    // No auto-guardado: preguntar si querés guardar el destinatario
+                    setDestAlias("proveedor.sa");
+                    setSaveDestOpen(true);
+                  }}
+                  className="flex-1"
+                >
+                  Confirmar transferencia
+                </BtnPrimary>
               </div>
+
             </div>
           )}
         </Card>
@@ -251,6 +267,25 @@ function Page() {
           <Input placeholder="Ej. Pago proveedor mensual" />
         </div>
       </FormDialog>
+
+      <FormDialog
+        open={saveDestOpen}
+        onClose={() => setSaveDestOpen(false)}
+        title="¿Deseas guardar este destinatario como recurrente?"
+        description={`Podés agendar a @${destAlias} en tu lista de destinatarios frecuentes para reutilizarlo.`}
+        submitLabel="Sí, guardar destinatario"
+        onSubmit={() => {
+          setSaveDestOpen(false);
+          toast.success(`@${destAlias} agregado a destinatarios frecuentes`);
+        }}
+      >
+        <div className="text-xs text-muted-foreground">
+          Los destinatarios ya no se guardan automáticamente. Solo se agendan si confirmás aquí.
+          Si presionás "Cerrar" no se guardará.
+        </div>
+      </FormDialog>
+
     </>
   );
 }
+

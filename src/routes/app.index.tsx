@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import {
   ArrowLeftRight,
   Link2,
@@ -6,14 +7,17 @@ import {
   Upload,
   ArrowUpRight,
   ArrowDownLeft,
-  Wallet,
   TrendingUp,
   Clock,
   AlertCircle,
   Receipt,
   Users,
+  Download,
+  FileSpreadsheet,
+  FileText,
 } from "lucide-react";
-import { PageHeader, Card, Stat, Badge } from "@/components/portal-shell";
+import { PageHeader, Card, Stat, Badge, BtnOutline } from "@/components/portal-shell";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/")({
   component: Dashboard,
@@ -34,10 +38,59 @@ const subcuentas = [
   { n: "Operativa Sueldos", cbu: "···· 0021", saldo: "$ 4.220.500,00" },
 ];
 
-const chartData = [40, 62, 58, 80, 72, 95, 88, 110, 102, 130, 124, 145];
+type PeriodKey = "7d" | "15d" | "30d" | "90d" | "day";
+
+// Deterministic pseudo-random series so days without movement can render as 0.
+function seriesFor(days: number) {
+  const out: Array<{ label: string; dep: number; qr: number; link: number }> = [];
+  const today = new Date();
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const seed = d.getDate() + d.getMonth() * 31;
+    // Force some zero days deterministically
+    const isZero = seed % 11 === 0;
+    const dep = isZero ? 0 : ((seed * 37) % 90) + 10;
+    const qr = isZero ? 0 : ((seed * 17) % 60) + 5;
+    const link = isZero ? 0 : ((seed * 23) % 40);
+    out.push({
+      label: `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}`,
+      dep,
+      qr,
+      link,
+    });
+  }
+  return out;
+}
+
+const PERIODS: Array<{ k: PeriodKey; l: string; days: number }> = [
+  { k: "7d", l: "7 días", days: 7 },
+  { k: "15d", l: "15 días", days: 15 },
+  { k: "30d", l: "30 días", days: 30 },
+  { k: "90d", l: "90 días", days: 90 },
+];
 
 function Dashboard() {
-  const max = Math.max(...chartData);
+  const [period, setPeriod] = useState<PeriodKey>("7d");
+  const [day, setDay] = useState<string>(() => new Date().toISOString().slice(0, 10));
+
+  const data = useMemo(() => {
+    if (period === "day") {
+      return seriesFor(1).map((p) => ({ ...p, label: day }));
+    }
+    const days = PERIODS.find((p) => p.k === period)?.days ?? 7;
+    return seriesFor(days);
+  }, [period, day]);
+
+  const periodLabel = period === "day" ? day : PERIODS.find((p) => p.k === period)!.l;
+
+  const doExport = (fmt: "xlsx" | "pdf") =>
+    toast.success(`Reporte ${periodLabel} exportado (${fmt.toUpperCase()})`);
+
+  const maxStacked = Math.max(1, ...data.map((d) => d.dep + d.qr + d.link));
+  // Adjust bar gap for dense ranges to keep it legible
+  const gap = data.length > 30 ? "gap-[2px]" : data.length > 15 ? "gap-1" : "gap-1.5";
+
   return (
     <>
       <PageHeader
@@ -50,11 +103,63 @@ function Dashboard() {
         }
       />
 
+      {/* Controles de periodo + exportación */}
+      <Card className="mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto] gap-3 items-center">
+          <div className="flex flex-wrap items-center gap-2 min-w-0">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide shrink-0">
+              Periodo
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {PERIODS.map((p) => (
+                <button
+                  key={p.k}
+                  onClick={() => setPeriod(p.k)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
+                    period === p.k
+                      ? "bg-[color:var(--brand-soft)] text-[color:var(--brand-dark)] border-transparent"
+                      : "bg-card hover:bg-muted"
+                  }`}
+                >
+                  {p.l}
+                </button>
+              ))}
+              <button
+                onClick={() => setPeriod("day")}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
+                  period === "day"
+                    ? "bg-[color:var(--brand-soft)] text-[color:var(--brand-dark)] border-transparent"
+                    : "bg-card hover:bg-muted"
+                }`}
+              >
+                Día específico
+              </button>
+              {period === "day" && (
+                <input
+                  type="date"
+                  value={day}
+                  onChange={(e) => setDay(e.target.value)}
+                  className="h-8 px-2 rounded-md border bg-card text-xs"
+                />
+              )}
+            </div>
+          </div>
+          <div className="flex gap-2 justify-start md:justify-end">
+            <BtnOutline onClick={() => doExport("xlsx")}>
+              <FileSpreadsheet size={14} /> Excel
+            </BtnOutline>
+            <BtnOutline onClick={() => doExport("pdf")}>
+              <FileText size={14} /> PDF
+            </BtnOutline>
+          </div>
+        </div>
+      </Card>
+
       {/* KPI grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <Stat label="Saldo disponible" value="$ 12.480.330" sub="CBU ···· 67890" />
-        <Stat label="Ingresos del mes" value="$ 8.420.110" sub="+12% vs mes anterior" />
-        <Stat label="Egresos del mes" value="$ 5.110.500" sub="48 operaciones" />
+        <Stat label="Ingresos del periodo" value="$ 8.420.110" sub="+12% vs periodo anterior" />
+        <Stat label="Egresos del periodo" value="$ 5.110.500" sub="48 operaciones" />
         <Stat label="A acreditar" value="$ 320.450" sub="14 ops en proceso" />
       </div>
 
@@ -80,59 +185,73 @@ function Dashboard() {
         ))}
       </div>
 
-      {/* 2-column desktop layout */}
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* Left: chart + movs */}
-        <div className="lg:col-span-2 space-y-6">
+      {/* Layout responsive */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6 min-w-0">
           <Card>
-            <div className="flex items-end justify-between mb-4">
-              <div>
-                <h3 className="font-semibold">Flujo mensual</h3>
-                <p className="text-xs text-muted-foreground">Últimos 12 meses</p>
+            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 mb-4">
+              <div className="min-w-0">
+                <h3 className="font-semibold truncate">Ingresos por periodo</h3>
+                <p className="text-xs text-muted-foreground truncate">{periodLabel}</p>
               </div>
-              <div className="hidden md:flex items-center gap-3 text-xs">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-primary" /> Ingresos
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-[color:var(--brand-blue)]" /> Egresos
-                </span>
-                <span className="text-primary font-semibold inline-flex items-center gap-1">
-                  <TrendingUp size={14} /> +18,4%
-                </span>
-              </div>
+              <span className="text-primary font-semibold inline-flex items-center gap-1 text-xs shrink-0">
+                <TrendingUp size={14} /> +18,4%
+              </span>
             </div>
-            <div className="flex items-end gap-2 h-40">
-              {chartData.map((v, i) => (
-                <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <div className="w-full flex gap-0.5 items-end h-full">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs mb-3">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-sm bg-primary" /> Depósitos
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-sm bg-[color:var(--brand-blue)]" /> Cobro QR
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-sm bg-amber-400" /> Link de pago
+              </span>
+              <span className="ml-auto text-muted-foreground">Total apilado por día</span>
+            </div>
+            <div className={`flex items-end ${gap} h-40 min-w-0`}>
+              {data.map((d, i) => {
+                const total = d.dep + d.qr + d.link;
+                const h = (total / maxStacked) * 100;
+                const showLabel =
+                  data.length <= 15 || i % Math.ceil(data.length / 10) === 0;
+                return (
+                  <div key={i} className="flex-1 min-w-0 flex flex-col items-center gap-1">
                     <div
-                      className="flex-1 rounded-t bg-primary/80"
-                      style={{ height: `${(v / max) * 100}%` }}
-                    />
-                    <div
-                      className="flex-1 rounded-t bg-[color:var(--brand-blue)]/70"
-                      style={{ height: `${((v * 0.6) / max) * 100}%` }}
-                    />
+                      className="w-full rounded-t bg-muted/60 flex flex-col justify-end overflow-hidden"
+                      style={{ height: `${Math.max(h, 2)}%` }}
+                      title={`${d.label} · Dep $${d.dep}k · QR $${d.qr}k · Link $${d.link}k`}
+                    >
+                      {total > 0 ? (
+                        <>
+                          <div className="bg-amber-400" style={{ height: `${(d.link / total) * 100}%` }} />
+                          <div className="bg-[color:var(--brand-blue)]" style={{ height: `${(d.qr / total) * 100}%` }} />
+                          <div className="bg-primary" style={{ height: `${(d.dep / total) * 100}%` }} />
+                        </>
+                      ) : null}
+                    </div>
+                    {showLabel && (
+                      <span className="text-[9px] text-muted-foreground truncate max-w-full">
+                        {d.label}
+                      </span>
+                    )}
                   </div>
-                  <span className="text-[10px] text-muted-foreground">
-                    {["E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"][i]}
-                  </span>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </Card>
 
           <Card>
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="font-semibold">Últimos movimientos</h2>
-              <Link to="/app/historial" className="text-xs text-primary font-semibold">
+            <div className="flex items-center justify-between mb-3 gap-2">
+              <h2 className="font-semibold truncate">Últimos movimientos</h2>
+              <Link to="/app/historial" className="text-xs text-primary font-semibold shrink-0">
                 Ver todos →
               </Link>
             </div>
             <div className="divide-y">
               {movs.map((m) => (
-                <div key={m.t} className="flex items-center justify-between py-3">
+                <div key={m.t} className="flex items-center justify-between py-3 gap-3">
                   <div className="flex items-center gap-3 min-w-0">
                     <div
                       className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
@@ -158,36 +277,21 @@ function Dashboard() {
           </Card>
         </div>
 
-        {/* Right: side widgets */}
-        <div className="space-y-6">
-          <Card className="bg-[color:var(--brand-blue)] text-white border-0">
-            <div className="flex items-center gap-2 text-xs uppercase tracking-wide opacity-80">
-              <Wallet size={14} /> Cuenta operativa
-            </div>
-            <div className="text-2xl font-semibold mt-1">$ 12.480.330,55</div>
-            <div className="text-xs opacity-80 mt-1">CBU 0000003 100012345678 90</div>
-            <div className="text-xs opacity-80">Alias: molly.empresa.demo</div>
-            <Link
-              to="/app/cuenta"
-              className="inline-block mt-4 text-xs font-semibold underline underline-offset-4"
-            >
-              Ver detalle de cuenta →
-            </Link>
-          </Card>
-
+        {/* Side widgets — bloque "Cuenta operativa" eliminado (duplica Actividad) */}
+        <div className="space-y-6 min-w-0">
           <Card>
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold">Subcuentas</h3>
-              <Link to="/app/subcuentas" className="text-xs text-primary font-semibold">
+            <div className="flex items-center justify-between mb-3 gap-2">
+              <h3 className="font-semibold truncate">Subcuentas</h3>
+              <Link to="/app/subcuentas" className="text-xs text-primary font-semibold shrink-0">
                 Gestionar →
               </Link>
             </div>
             <div className="divide-y">
               {subcuentas.map((s) => (
                 <div key={s.n} className="py-2.5">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-2">
                     <div className="text-sm font-semibold truncate">{s.n}</div>
-                    <div className="text-sm font-semibold">{s.saldo}</div>
+                    <div className="text-sm font-semibold shrink-0">{s.saldo}</div>
                   </div>
                   <div className="text-[11px] text-muted-foreground">CBU {s.cbu}</div>
                 </div>
@@ -201,18 +305,36 @@ function Dashboard() {
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li className="flex items-start gap-2">
-                <Receipt size={14} className="mt-0.5 text-muted-foreground" />
+                <Receipt size={14} className="mt-0.5 text-muted-foreground shrink-0" />
                 <span>3 cobros con vencimiento mañana</span>
               </li>
               <li className="flex items-start gap-2">
-                <Users size={14} className="mt-0.5 text-muted-foreground" />
+                <Users size={14} className="mt-0.5 text-muted-foreground shrink-0" />
                 <span>2 destinatarios sin validar CBU</span>
               </li>
               <li className="flex items-start gap-2">
-                <Upload size={14} className="mt-0.5 text-muted-foreground" />
+                <Upload size={14} className="mt-0.5 text-muted-foreground shrink-0" />
                 <span>Lote de marzo listo para conciliar</span>
               </li>
             </ul>
+          </Card>
+
+          <Card>
+            <div className="flex items-center justify-between mb-3 gap-2">
+              <h3 className="font-semibold truncate">Exportar resumen</h3>
+              <Download size={14} className="text-muted-foreground shrink-0" />
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">
+              Descargá el reporte del periodo seleccionado ({periodLabel}).
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <BtnOutline onClick={() => doExport("xlsx")}>
+                <FileSpreadsheet size={14} /> Excel
+              </BtnOutline>
+              <BtnOutline onClick={() => doExport("pdf")}>
+                <FileText size={14} /> PDF
+              </BtnOutline>
+            </div>
           </Card>
         </div>
       </div>
