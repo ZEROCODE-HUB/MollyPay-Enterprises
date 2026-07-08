@@ -1,8 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Shield, Smartphone, Key, Monitor, AlertTriangle, CheckCircle2, Plus, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { Shield, Smartphone, Key, Monitor, AlertTriangle, CheckCircle2, Plus, Trash2, Mail, QrCode } from "lucide-react";
 import { PageHeader, Card, Input, Label, BtnPrimary, BtnOutline, Badge, Stat } from "@/components/portal-shell";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/seguridad")({ component: Page });
+
 
 const sessions = [
   { d: "Chrome · MacBook Pro", l: "Buenos Aires, AR", ip: "190.12.44.21", f: "Activa ahora", curr: true },
