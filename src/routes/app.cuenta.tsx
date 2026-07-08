@@ -123,6 +123,28 @@ function Page() {
           </Card>
 
           <Card>
+            <div className="flex items-start justify-between gap-3 mb-2">
+              <h3 className="font-semibold text-sm flex items-center gap-2 min-w-0">
+                <Landmark size={16} className="shrink-0 text-primary" />
+                <span className="truncate">Constancia de CBU</span>
+              </h3>
+              <Badge tone="success">Oficial</Badge>
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">
+              Documento oficial con razón social, CUIT, CBU y alias — útil para acreditar tu cuenta ante terceros.
+            </p>
+            <div className="text-xs space-y-1 mb-3">
+              <div className="flex justify-between gap-2"><span className="text-muted-foreground">CBU</span><span className="font-mono font-semibold truncate">{empresa.cbu}</span></div>
+              <div className="flex justify-between gap-2"><span className="text-muted-foreground">Alias</span><span className="font-mono font-semibold truncate">{empresa.alias}</span></div>
+            </div>
+            <BtnPrimary className="w-full" onClick={() => setCbuPreview(true)}>
+              <Download size={14} /> Descargar constancia (PDF)
+            </BtnPrimary>
+          </Card>
+
+
+
+          <Card>
             <h3 className="font-semibold mb-3 flex items-center gap-2"><CreditCard size={16} /> Facturación</h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between"><span className="text-muted-foreground">Método de pago</span><span className="font-semibold">Débito CBU</span></div>
