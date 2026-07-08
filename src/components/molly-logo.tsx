@@ -14,12 +14,7 @@ export function MollyLogo({
       <img
         src={logoAsset.url}
         alt="Moli"
-        style={{
-          height: size,
-          width: "auto",
-          display: "block",
-          filter: variant === "light" ? "brightness(0) invert(1)" : "none",
-        }}
+        style={{ height: size, width: "auto", display: "block" }}
       />
     </div>
   );
