@@ -125,20 +125,21 @@ function SiteHeader() {
         zIndex: 40,
       }}
     >
-      <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-        <MollyLogo size={36} />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between gap-3">
+        <MollyLogo size={30} className="sm:hidden" />
+        <MollyLogo size={36} className="hidden sm:inline-flex" />
         <nav
-          className="hidden md:flex items-center gap-10"
+          className="hidden md:flex items-center gap-8 lg:gap-10"
           style={{ fontFamily: "Inter, sans-serif", fontSize: "0.975rem", fontWeight: 500, color: "#0A1628" }}
         >
           <a href="#servicios" className="hover:text-[#C8102E] transition-colors">Servicios</a>
           <a href="#nosotros" className="hover:text-[#C8102E] transition-colors">Nosotros</a>
           <a href="#contacto" className="hover:text-[#C8102E] transition-colors">Contacto</a>
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <Link
             to="/login"
-            className="hidden sm:inline-flex h-10 items-center px-4 transition-colors hover:bg-[#0A1628]/5"
+            className="hidden md:inline-flex h-10 items-center px-4 transition-colors hover:bg-[#0A1628]/5"
             style={{
               border: "1px solid #0A1628",
               color: "#0A1628",
@@ -152,16 +153,17 @@ function SiteHeader() {
           </Link>
           <Link
             to="/login"
-            className="inline-flex h-10 items-center px-4 text-white transition-colors hover:opacity-90"
+            className="inline-flex h-9 sm:h-10 items-center px-3 sm:px-4 text-white transition-colors hover:opacity-90 whitespace-nowrap"
             style={{
               background: "#C8102E",
               borderRadius: 2,
               fontFamily: "Inter, sans-serif",
-              fontSize: "0.9rem",
+              fontSize: "0.8125rem",
               fontWeight: 500,
             }}
           >
-            Registra tu empresa
+            <span className="hidden sm:inline">Registra tu empresa</span>
+            <span className="sm:hidden">Registrar</span>
           </Link>
         </div>
       </div>
@@ -200,7 +202,7 @@ function Hero() {
         }}
       />
 
-      <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-36 md:pt-40 md:pb-44">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-24 sm:pt-28 sm:pb-32 md:pt-40 md:pb-44">
         <Eyebrow tone="brass">Money Life S.R.L. — Plataforma financiera digital</Eyebrow>
         <h1
           style={{
@@ -425,14 +427,9 @@ function ContamosCon() {
         >
           Contamos con
         </h2>
-        {/* First 3 in top row, last 2 centered below */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
-          {items.slice(0, 3).map(({ icon: Icon, t, d }) => (
-            <CapabilityCard key={t} Icon={Icon} t={t} d={d} />
-          ))}
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-8 mt-8 lg:max-w-3xl lg:mx-auto">
-          {items.slice(3).map(({ icon: Icon, t, d }) => (
+        {/* 2 cols mobile, 3 tablet, 5 desktop — square-ish vertical cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 mt-12 md:mt-16">
+          {items.map(({ icon: Icon, t, d }) => (
             <CapabilityCard key={t} Icon={Icon} t={t} d={d} />
           ))}
         </div>
@@ -451,37 +448,43 @@ function CapabilityCard({
   d: string;
 }) {
   return (
-    <GlassCard padding="1.75rem 1.5rem 2rem" className="h-full">
-      <div className="flex items-start gap-4">
-        <div
-          style={{
-            width: 40,
-            height: 40,
-            flexShrink: 0,
-            display: "grid",
-            placeItems: "center",
-            border: "1px solid rgba(176,141,87,0.4)",
-            borderRadius: 2,
-            background: "rgba(176,141,87,0.06)",
-          }}
-        >
-          <Icon size={18} strokeWidth={1.5} color="#0A1628" />
-        </div>
-        <div className="min-w-0">
-          <h3 style={{ ...display, fontSize: "1.125rem", color: "#131A2A", lineHeight: 1.25 }}>{t}</h3>
-          <p
-            className="mt-2"
-            style={{
-              fontFamily: "Inter, sans-serif",
-              color: "#4B5563",
-              fontSize: "0.875rem",
-              lineHeight: 1.6,
-            }}
-          >
-            {d}
-          </p>
-        </div>
+    <GlassCard padding="1.5rem 1.25rem" className="h-full flex flex-col aspect-square min-h-[220px]">
+      <div
+        style={{
+          width: 42,
+          height: 42,
+          flexShrink: 0,
+          display: "grid",
+          placeItems: "center",
+          border: "1px solid rgba(176,141,87,0.4)",
+          borderRadius: 2,
+          background: "rgba(176,141,87,0.06)",
+        }}
+      >
+        <Icon size={18} strokeWidth={1.5} color="#0A1628" />
       </div>
+      <h3
+        className="mt-4"
+        style={{
+          ...display,
+          fontSize: "1rem",
+          color: "#131A2A",
+          lineHeight: 1.25,
+        }}
+      >
+        {t}
+      </h3>
+      <p
+        className="mt-2"
+        style={{
+          fontFamily: "Inter, sans-serif",
+          color: "#4B5563",
+          fontSize: "0.8125rem",
+          lineHeight: 1.55,
+        }}
+      >
+        {d}
+      </p>
     </GlassCard>
   );
 }
@@ -583,19 +586,16 @@ function PorQueElegirnos() {
       icon: Lock,
       t: "Tecnología Segura",
       d: "Plataforma diseñada para ser dinámica, escalable y segura, cumpliendo con todas las normativas vigentes.",
-      num: "01",
     },
     {
       icon: HeartHandshake,
       t: "Atención Personalizada",
       d: "Acompañamos a nuestros clientes con una atención cercana, atendiendo todas sus necesidades.",
-      num: "02",
     },
     {
       icon: Plane,
       t: "Alcance Internacional",
       d: "Operaciones en múltiples países de América Latina con alianzas estratégicas sólidas.",
-      num: "03",
     },
   ];
   return (
@@ -606,8 +606,8 @@ function PorQueElegirnos() {
         position: "relative",
       }}
     >
-      <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+      <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-32">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
           <div>
             <Eyebrow tone="brass">Diferenciales</Eyebrow>
             <h2
@@ -634,38 +634,20 @@ function PorQueElegirnos() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {items.map(({ icon: Icon, t, d, num }, i) => (
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {items.map(({ icon: Icon, t, d }) => (
             <article
               key={t}
-              className="group transition-all duration-300 hover:-translate-y-1"
+              className="group transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-24px_rgba(10,22,40,0.25)]"
               style={{
-                position: "relative",
-                padding: "2.5rem 2rem 2.25rem",
-                background: i === 1 ? "#0A1628" : "#F5F6F8",
-                color: i === 1 ? "#F5F6F8" : "#131A2A",
+                padding: "2.25rem 1.75rem 2rem",
+                background: "#FFFFFF",
+                color: "#131A2A",
                 borderRadius: 4,
-                border: i === 1 ? "1px solid rgba(176,141,87,0.35)" : "1px solid #D8DCE3",
-                overflow: "hidden",
+                border: "1px solid #D8DCE3",
+                borderTop: "2px solid #C8102E",
               }}
             >
-              {/* Big background number */}
-              <div
-                aria-hidden="true"
-                style={{
-                  ...displayHeavy,
-                  position: "absolute",
-                  top: -20,
-                  right: 12,
-                  fontSize: "9rem",
-                  lineHeight: 1,
-                  color: i === 1 ? "rgba(176,141,87,0.14)" : "rgba(10,22,40,0.05)",
-                  pointerEvents: "none",
-                }}
-              >
-                {num}
-              </div>
-
               <div
                 style={{
                   width: 52,
@@ -673,8 +655,8 @@ function PorQueElegirnos() {
                   display: "grid",
                   placeItems: "center",
                   borderRadius: 999,
-                  background: i === 1 ? "rgba(200,16,46,0.15)" : "rgba(200,16,46,0.08)",
-                  border: `1px solid ${i === 1 ? "rgba(200,16,46,0.5)" : "rgba(200,16,46,0.25)"}`,
+                  background: "rgba(200,16,46,0.08)",
+                  border: "1px solid rgba(200,16,46,0.25)",
                 }}
               >
                 <Icon size={22} strokeWidth={1.5} color="#C8102E" />
@@ -683,11 +665,10 @@ function PorQueElegirnos() {
               <h3
                 style={{
                   ...display,
-                  fontSize: "1.5rem",
-                  marginTop: "1.75rem",
-                  color: i === 1 ? "#F5F6F8" : "#131A2A",
+                  fontSize: "1.375rem",
+                  marginTop: "1.5rem",
+                  color: "#131A2A",
                   lineHeight: 1.2,
-                  position: "relative",
                 }}
               >
                 {t}
@@ -697,17 +678,16 @@ function PorQueElegirnos() {
                   height: 1,
                   width: 32,
                   background: "#B08D57",
-                  marginTop: "1rem",
-                  marginBottom: "1rem",
+                  marginTop: "0.875rem",
+                  marginBottom: "0.875rem",
                 }}
               />
               <p
                 style={{
                   fontFamily: "Inter, sans-serif",
-                  color: i === 1 ? "rgba(245,246,248,0.75)" : "#4B5563",
+                  color: "#4B5563",
                   fontSize: "0.9375rem",
                   lineHeight: 1.65,
-                  position: "relative",
                 }}
               >
                 {d}
