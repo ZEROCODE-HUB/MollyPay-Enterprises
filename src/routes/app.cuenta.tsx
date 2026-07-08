@@ -24,6 +24,14 @@ const plan = {
 };
 
 function Page() {
+  const [cbuPreview, setCbuPreview] = useState(false);
+  const empresa = {
+    nombre: "Empresa Demo SA",
+    cuit: "30-12345678-9",
+    cbu: "0000003 100012345678 90",
+    alias: "molly.empresa.demo",
+  };
+
   return (
     <>
       <PageHeader
