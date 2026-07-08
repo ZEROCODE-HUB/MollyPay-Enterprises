@@ -1,5 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  Wallet,
+  Globe2,
+  Building2,
+  Smartphone,
+  ShieldCheck,
+  FileCheck2,
+  BarChart3,
+  Cog,
+  Briefcase,
+  Lock,
+  HeartHandshake,
+  Plane,
+  Target,
+  Compass,
+} from "lucide-react";
 import { MollyLogo } from "@/components/molly-logo";
+import heroBg from "@/assets/hero-bg.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -45,8 +63,31 @@ const mono = {
 
 function Eyebrow({ children, tone = "ink" }: { children: React.ReactNode; tone?: "ink" | "brass" | "paper" }) {
   const color = tone === "brass" ? "#B08D57" : tone === "paper" ? "rgba(245,246,248,0.7)" : "#6B7280";
+  return <div style={{ ...mono, color }}>{children}</div>;
+}
+
+/* Glass card on light background */
+function GlassCard({
+  children,
+  padding = "2rem 1.75rem 2.25rem",
+  className = "",
+}: {
+  children: React.ReactNode;
+  padding?: string;
+  className?: string;
+}) {
   return (
-    <div style={{ ...mono, color }}>
+    <div
+      className={`transition-all duration-300 hover:-translate-y-0.5 ${className}`}
+      style={{
+        padding,
+        background: "rgba(255,255,255,0.55)",
+        backdropFilter: "blur(14px) saturate(140%)",
+        border: "1px solid rgba(19,26,42,0.08)",
+        borderRadius: 4,
+        boxShadow: "0 1px 0 rgba(19,26,42,0.02)",
+      }}
+    >
       {children}
     </div>
   );
@@ -76,32 +117,49 @@ function SiteHeader() {
   return (
     <header
       style={{
-        background: "#FFFFFF",
+        background: "rgba(255,255,255,0.85)",
+        backdropFilter: "blur(12px)",
         borderBottom: "1px solid #D8DCE3",
         position: "sticky",
         top: 0,
         zIndex: 40,
       }}
     >
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <MollyLogo />
-        <nav className="hidden md:flex items-center gap-10 text-sm" style={{ color: "#4B5563" }}>
-          <a href="#servicios" className="hover:text-[#131A2A] transition-colors">servicios</a>
-          <a href="#nosotros" className="hover:text-[#131A2A] transition-colors">nosotros</a>
-          <a href="#contacto" className="hover:text-[#131A2A] transition-colors">contacto</a>
+      <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+        <MollyLogo size={36} />
+        <nav
+          className="hidden md:flex items-center gap-10"
+          style={{ fontFamily: "Inter, sans-serif", fontSize: "0.975rem", fontWeight: 500, color: "#0A1628" }}
+        >
+          <a href="#servicios" className="hover:text-[#C8102E] transition-colors">Servicios</a>
+          <a href="#nosotros" className="hover:text-[#C8102E] transition-colors">Nosotros</a>
+          <a href="#contacto" className="hover:text-[#C8102E] transition-colors">Contacto</a>
         </nav>
         <div className="flex items-center gap-2">
           <Link
             to="/login"
-            className="hidden sm:inline-flex h-9 items-center px-4 text-sm font-medium transition-colors"
-            style={{ border: "1px solid #0A1628", color: "#0A1628", borderRadius: 2 }}
+            className="hidden sm:inline-flex h-10 items-center px-4 transition-colors hover:bg-[#0A1628]/5"
+            style={{
+              border: "1px solid #0A1628",
+              color: "#0A1628",
+              borderRadius: 2,
+              fontFamily: "Inter, sans-serif",
+              fontSize: "0.9rem",
+              fontWeight: 500,
+            }}
           >
             Inicia sesión
           </Link>
           <Link
             to="/login"
-            className="inline-flex h-9 items-center px-4 text-sm font-medium text-white transition-colors hover:opacity-90"
-            style={{ background: "#C8102E", borderRadius: 2 }}
+            className="inline-flex h-10 items-center px-4 text-white transition-colors hover:opacity-90"
+            style={{
+              background: "#C8102E",
+              borderRadius: 2,
+              fontFamily: "Inter, sans-serif",
+              fontSize: "0.9rem",
+              fontWeight: 500,
+            }}
           >
             Registra tu empresa
           </Link>
@@ -115,34 +173,69 @@ function SiteHeader() {
 
 function Hero() {
   return (
-    <section style={{ background: "#0A1628", color: "#F5F6F8", position: "relative", overflow: "hidden" }}>
-      {/* Subtle payments network illustration */}
-      <NetworkBackdrop />
+    <section style={{ position: "relative", overflow: "hidden", isolation: "isolate" }}>
+      {/* Background image */}
+      <img
+        src={heroBg}
+        alt=""
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          zIndex: -2,
+        }}
+      />
+      {/* Dark overlay ~80% */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: -1,
+          background:
+            "linear-gradient(180deg, rgba(10,22,40,0.88) 0%, rgba(10,22,40,0.82) 60%, rgba(10,22,40,0.92) 100%)",
+        }}
+      />
 
-      <div className="relative max-w-6xl mx-auto px-6 pt-28 pb-32 md:pt-36 md:pb-40">
+      <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-36 md:pt-40 md:pb-44">
         <Eyebrow tone="brass">Money Life S.R.L. — Plataforma financiera digital</Eyebrow>
         <h1
-          style={{ ...displayHeavy, fontSize: "clamp(2.5rem, 5.5vw, 4.5rem)", lineHeight: 1.02, marginTop: "1.75rem", maxWidth: "18ch" }}
+          style={{
+            ...displayHeavy,
+            fontSize: "clamp(2.75rem, 5.8vw, 4.75rem)",
+            lineHeight: 1.02,
+            marginTop: "1.75rem",
+            maxWidth: "18ch",
+            color: "#F5F6F8",
+          }}
         >
           Soluciones financieras digitales para todos
         </h1>
         <p
           className="mt-8 max-w-xl"
-          style={{ fontFamily: "Inter, sans-serif", color: "rgba(245,246,248,0.72)", fontSize: "1.0625rem", lineHeight: 1.6 }}
+          style={{
+            fontFamily: "Inter, sans-serif",
+            color: "rgba(245,246,248,0.78)",
+            fontSize: "1.0625rem",
+            lineHeight: 1.65,
+          }}
         >
           Integramos en una sola plataforma servicios de pagos y cobros para Individuos, PyMEs y Empresas.
         </p>
         <div className="mt-10 flex flex-wrap gap-3">
           <a
             href="#servicios"
-            className="inline-flex h-12 items-center px-7 text-sm font-medium text-white transition-colors hover:opacity-90"
+            className="inline-flex h-12 items-center gap-2 px-7 text-sm font-medium text-white transition-colors hover:opacity-90"
             style={{ background: "#C8102E", borderRadius: 2 }}
           >
-            Conoce más
+            Conoce más <ArrowRight size={16} />
           </a>
           <a
             href="#contacto"
-            className="inline-flex h-12 items-center px-7 text-sm font-medium transition-colors hover:bg-white/5"
+            className="inline-flex h-12 items-center px-7 text-sm font-medium transition-colors hover:bg-white/10"
             style={{ border: "1px solid rgba(245,246,248,0.4)", color: "#F5F6F8", borderRadius: 2 }}
           >
             Contáctanos
@@ -150,47 +243,6 @@ function Hero() {
         </div>
       </div>
     </section>
-  );
-}
-
-function NetworkBackdrop() {
-  // Minimalist Latin America lines + nodes, opacity 8-12%
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 800 600"
-      preserveAspectRatio="xMidYMid slice"
-      style={{
-        position: "absolute",
-        inset: 0,
-        width: "100%",
-        height: "100%",
-        opacity: 0.1,
-        pointerEvents: "none",
-      }}
-    >
-      <g fill="none" stroke="#F5F6F8" strokeWidth="0.8">
-        {/* Stylized LATAM silhouette */}
-        <path d="M430 90 L470 110 L495 150 L505 200 L520 240 L510 290 L520 340 L500 400 L470 460 L440 505 L410 540 L385 555 L370 540 L360 500 L370 460 L355 420 L340 380 L330 340 L340 300 L360 260 L365 220 L380 175 L400 135 Z" />
-        {/* Nodes and connecting lines */}
-        <g stroke="#B08D57" strokeWidth="0.6">
-          <line x1="150" y1="120" x2="400" y2="180" />
-          <line x1="400" y1="180" x2="650" y2="140" />
-          <line x1="400" y1="180" x2="420" y2="330" />
-          <line x1="420" y1="330" x2="180" y2="400" />
-          <line x1="420" y1="330" x2="640" y2="380" />
-          <line x1="420" y1="330" x2="400" y2="480" />
-          <line x1="180" y1="400" x2="120" y2="520" />
-          <line x1="640" y1="380" x2="700" y2="480" />
-        </g>
-        {[
-          [150, 120], [400, 180], [650, 140], [420, 330],
-          [180, 400], [640, 380], [400, 480], [120, 520], [700, 480],
-        ].map(([x, y]) => (
-          <circle key={`${x}-${y}`} cx={x} cy={y} r="3.5" fill="#B08D57" stroke="none" />
-        ))}
-      </g>
-    </svg>
   );
 }
 
@@ -211,12 +263,18 @@ function LedgerStrip() {
             <div
               key={label}
               className="py-6 md:py-7 px-4 md:px-6"
-              style={{
-                borderLeft: i === 0 ? "none" : "1px solid rgba(255,255,255,0.12)",
-              }}
+              style={{ borderLeft: i === 0 ? "none" : "1px solid rgba(255,255,255,0.12)" }}
             >
               <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>{label}</div>
-              <div className="mt-2" style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: "0.875rem", color: "#F5F6F8", letterSpacing: "0.02em" }}>
+              <div
+                className="mt-2"
+                style={{
+                  fontFamily: '"IBM Plex Mono", monospace',
+                  fontSize: "0.875rem",
+                  color: "#F5F6F8",
+                  letterSpacing: "0.02em",
+                }}
+              >
                 {value}
               </div>
             </div>
@@ -232,38 +290,90 @@ function LedgerStrip() {
 function Servicios() {
   const items = [
     {
+      icon: Wallet,
       t: "Cuenta de Pago",
       d: "CVU para enviar y recibir dinero de cuentas bancarias y billeteras virtuales de manera ágil y segura.",
     },
     {
+      icon: Globe2,
       t: "Crossborder",
       d: "Servicios de transferencias internacionales y remesas con cobertura en América Latina.",
     },
     {
+      icon: Building2,
       t: "CVU Collect",
       d: "Soluciones de recaudación para desarrolladores inmobiliarios, consorcios e inmobiliarias.",
     },
     {
+      icon: Smartphone,
       t: "Billetera",
       d: "QR, tarjetas prepagas físicas y virtuales, pagos NFC, wireless y pagos de servicios para individuos. Para comercios: QR estático y dinámico, Smartpos y link de pago.",
     },
   ];
   return (
-    <section id="servicios" style={{ background: "#F5F6F8", borderTop: "1px solid #D8DCE3" }}>
-      <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+    <section
+      id="servicios"
+      style={{
+        background: "linear-gradient(180deg, #F5F6F8 0%, #EDF0F4 100%)",
+        borderTop: "1px solid #D8DCE3",
+        position: "relative",
+      }}
+    >
+      {/* Subtle blurred accent for glass depth */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "20%",
+          left: "-8%",
+          width: 420,
+          height: 420,
+          background: "radial-gradient(circle, rgba(200,16,46,0.08), transparent 70%)",
+          filter: "blur(40px)",
+          pointerEvents: "none",
+        }}
+      />
+      <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
         <Eyebrow tone="brass">Servicios</Eyebrow>
-        <h2 style={{ ...display, fontSize: "clamp(2rem, 3.5vw, 3rem)", lineHeight: 1.1, marginTop: "1rem", maxWidth: "20ch" }}>
+        <h2
+          style={{
+            ...display,
+            fontSize: "clamp(2rem, 3.5vw, 3rem)",
+            lineHeight: 1.1,
+            marginTop: "1rem",
+            maxWidth: "20ch",
+          }}
+        >
           Nuestros Servicios
         </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px mt-16" style={{ background: "#D8DCE3" }}>
-          {items.map(({ t, d }) => (
-            <div key={t} style={{ background: "#F5F6F8", padding: "2rem 1.5rem 2.5rem" }}>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
+          {items.map(({ icon: Icon, t, d }) => (
+            <GlassCard key={t} className="flex flex-col h-full">
               <div style={{ height: 1, background: "#B08D57", width: 32, marginBottom: "1.5rem" }} />
-              <h3 style={{ ...display, fontSize: "1.375rem", color: "#131A2A" }}>{t}</h3>
-              <p className="mt-3" style={{ fontFamily: "Inter, sans-serif", color: "#4B5563", fontSize: "0.9375rem", lineHeight: 1.6 }}>
+              <Icon size={22} strokeWidth={1.4} color="#0A1628" />
+              <h3
+                style={{
+                  ...display,
+                  fontSize: "1.375rem",
+                  color: "#131A2A",
+                  marginTop: "1rem",
+                  lineHeight: 1.2,
+                }}
+              >
+                {t}
+              </h3>
+              <p
+                className="mt-3"
+                style={{
+                  fontFamily: "Inter, sans-serif",
+                  color: "#4B5563",
+                  fontSize: "0.9375rem",
+                  lineHeight: 1.65,
+                }}
+              >
                 {d}
               </p>
-            </div>
+            </GlassCard>
           ))}
         </div>
       </div>
@@ -275,27 +385,55 @@ function Servicios() {
 
 function ContamosCon() {
   const items = [
-    { t: "Plataforma Tecnológica", d: "Sistema escalable y seguro que garantiza el cumplimiento de normas nacionales y compliance." },
-    { t: "Compliance Integral", d: "Políticas y procedimientos personalizados garantizando el cumplimiento normativo." },
-    { t: "Reporting", d: "Informes y declaraciones obligatorias ante autoridades competentes." },
-    { t: "Administración", d: "Seguimiento y control de gestión de toda la actividad." },
-    { t: "Management", d: "Acompañamiento estratégico para el crecimiento y desarrollo empresarial." },
+    { icon: Cog, t: "Plataforma Tecnológica", d: "Sistema escalable y seguro que garantiza el cumplimiento de normas nacionales y compliance." },
+    { icon: ShieldCheck, t: "Compliance Integral", d: "Políticas y procedimientos personalizados garantizando el cumplimiento normativo." },
+    { icon: FileCheck2, t: "Reporting", d: "Informes y declaraciones obligatorias ante autoridades competentes." },
+    { icon: BarChart3, t: "Administración", d: "Seguimiento y control de gestión de toda la actividad." },
+    { icon: Briefcase, t: "Management", d: "Acompañamiento estratégico para el crecimiento y desarrollo empresarial." },
   ];
   return (
-    <section id="nosotros" style={{ background: "#F5F6F8", borderTop: "1px solid #D8DCE3" }}>
-      <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+    <section
+      id="nosotros"
+      style={{
+        background: "linear-gradient(180deg, #EDF0F4 0%, #F5F6F8 100%)",
+        borderTop: "1px solid #D8DCE3",
+        position: "relative",
+      }}
+    >
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "10%",
+          right: "-6%",
+          width: 420,
+          height: 420,
+          background: "radial-gradient(circle, rgba(30,58,138,0.08), transparent 70%)",
+          filter: "blur(40px)",
+          pointerEvents: "none",
+        }}
+      />
+      <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
         <Eyebrow tone="brass">Capacidades</Eyebrow>
-        <h2 style={{ ...display, fontSize: "clamp(2rem, 3.5vw, 3rem)", lineHeight: 1.1, marginTop: "1rem" }}>
+        <h2
+          style={{
+            ...display,
+            fontSize: "clamp(2rem, 3.5vw, 3rem)",
+            lineHeight: 1.1,
+            marginTop: "1rem",
+          }}
+        >
           Contamos con
         </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-8 mt-16">
-          {items.map(({ t, d }) => (
-            <div key={t} style={{ borderTop: "1px solid #B08D57", paddingTop: "1.25rem" }}>
-              <h3 style={{ ...display, fontSize: "1.125rem", color: "#131A2A", lineHeight: 1.25 }}>{t}</h3>
-              <p className="mt-3" style={{ fontFamily: "Inter, sans-serif", color: "#4B5563", fontSize: "0.875rem", lineHeight: 1.55 }}>
-                {d}
-              </p>
-            </div>
+        {/* First 3 in top row, last 2 centered below */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+          {items.slice(0, 3).map(({ icon: Icon, t, d }) => (
+            <CapabilityCard key={t} Icon={Icon} t={t} d={d} />
+          ))}
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-8 mt-8 lg:max-w-3xl lg:mx-auto">
+          {items.slice(3).map(({ icon: Icon, t, d }) => (
+            <CapabilityCard key={t} Icon={Icon} t={t} d={d} />
           ))}
         </div>
       </div>
@@ -303,27 +441,134 @@ function ContamosCon() {
   );
 }
 
+function CapabilityCard({
+  Icon,
+  t,
+  d,
+}: {
+  Icon: React.ComponentType<{ size?: number; strokeWidth?: number; color?: string }>;
+  t: string;
+  d: string;
+}) {
+  return (
+    <GlassCard padding="1.75rem 1.5rem 2rem" className="h-full">
+      <div className="flex items-start gap-4">
+        <div
+          style={{
+            width: 40,
+            height: 40,
+            flexShrink: 0,
+            display: "grid",
+            placeItems: "center",
+            border: "1px solid rgba(176,141,87,0.4)",
+            borderRadius: 2,
+            background: "rgba(176,141,87,0.06)",
+          }}
+        >
+          <Icon size={18} strokeWidth={1.5} color="#0A1628" />
+        </div>
+        <div className="min-w-0">
+          <h3 style={{ ...display, fontSize: "1.125rem", color: "#131A2A", lineHeight: 1.25 }}>{t}</h3>
+          <p
+            className="mt-2"
+            style={{
+              fontFamily: "Inter, sans-serif",
+              color: "#4B5563",
+              fontSize: "0.875rem",
+              lineHeight: 1.6,
+            }}
+          >
+            {d}
+          </p>
+        </div>
+      </div>
+    </GlassCard>
+  );
+}
+
 /* ---------- Misión / Visión ---------- */
 
 function MisionVision() {
   return (
-    <section style={{ background: "#0A1628", color: "#F5F6F8" }}>
-      <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-        <div className="grid md:grid-cols-2 gap-px" style={{ background: "#B08D57" }}>
-          <div style={{ background: "#0A1628", padding: "0 2.5rem 0 0" }} className="md:pr-12">
-            <Eyebrow tone="brass">01 — Misión</Eyebrow>
-            <h3 style={{ ...display, fontSize: "2rem", marginTop: "1rem", color: "#F5F6F8" }}>Misión</h3>
-            <p className="mt-6" style={{ fontFamily: "Inter, sans-serif", color: "rgba(245,246,248,0.72)", fontSize: "1rem", lineHeight: 1.65 }}>
+    <section style={{ background: "#0A1628", color: "#F5F6F8", position: "relative", overflow: "hidden" }}>
+      {/* Ambient glow */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "-10%",
+          left: "40%",
+          width: 600,
+          height: 600,
+          background: "radial-gradient(circle, rgba(176,141,87,0.10), transparent 70%)",
+          filter: "blur(40px)",
+          pointerEvents: "none",
+        }}
+      />
+      <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
+        <div className="grid md:grid-cols-12 gap-8">
+          {/* Misión — larger, offset up */}
+          <article
+            className="md:col-span-7"
+            style={{
+              padding: "2.5rem 2.25rem 2.75rem",
+              background: "linear-gradient(160deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              borderRadius: 4,
+              position: "relative",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <Target size={22} strokeWidth={1.4} color="#B08D57" />
+              <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>01 — Misión</div>
+            </div>
+            <h3 style={{ ...display, fontSize: "clamp(1.75rem, 2.6vw, 2.35rem)", color: "#F5F6F8", marginTop: "1.25rem", lineHeight: 1.15 }}>
+              Facilitar la gestión digital de cobros y pagos.
+            </h3>
+            <p
+              className="mt-6"
+              style={{
+                fontFamily: "Inter, sans-serif",
+                color: "rgba(245,246,248,0.76)",
+                fontSize: "1rem",
+                lineHeight: 1.7,
+              }}
+            >
               Proporcionar soluciones financieras seguras, transparentes y simples que faciliten la gestión de cobros y pagos para todos nuestros usuarios en un entorno digital en constante evolución.
             </p>
-          </div>
-          <div style={{ background: "#0A1628" }} className="md:pl-12 pt-12 md:pt-0">
-            <Eyebrow tone="brass">02 — Visión</Eyebrow>
-            <h3 style={{ ...display, fontSize: "2rem", marginTop: "1rem", color: "#F5F6F8" }}>Visión</h3>
-            <p className="mt-6" style={{ fontFamily: "Inter, sans-serif", color: "rgba(245,246,248,0.72)", fontSize: "1rem", lineHeight: 1.65 }}>
+          </article>
+
+          {/* Visión — offset down, narrower */}
+          <article
+            className="md:col-span-5 md:mt-16"
+            style={{
+              padding: "2.5rem 2.25rem 2.75rem",
+              background: "#16213E",
+              border: "1px solid rgba(176,141,87,0.35)",
+              borderRadius: 4,
+              position: "relative",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <Compass size={22} strokeWidth={1.4} color="#B08D57" />
+              <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>02 — Visión</div>
+            </div>
+            <h3 style={{ ...display, fontSize: "clamp(1.5rem, 2.2vw, 2rem)", color: "#F5F6F8", marginTop: "1.25rem", lineHeight: 1.15 }}>
+              Ser un referente Fintech en la región.
+            </h3>
+            <p
+              className="mt-6"
+              style={{
+                fontFamily: "Inter, sans-serif",
+                color: "rgba(245,246,248,0.76)",
+                fontSize: "0.9375rem",
+                lineHeight: 1.7,
+              }}
+            >
               Posicionarnos como un referente en el sector Fintech, acompañando la evolución de cobros y pagos digitales con soluciones ágiles y simples.
             </p>
-          </div>
+          </article>
         </div>
       </div>
     </section>
@@ -334,26 +579,140 @@ function MisionVision() {
 
 function PorQueElegirnos() {
   const items = [
-    { t: "Tecnología Segura", d: "Plataforma diseñada para ser dinámica, escalable y segura, cumpliendo con todas las normativas vigentes." },
-    { t: "Atención Personalizada", d: "Acompañamos a nuestros clientes con una atención cercana, atendiendo todas sus necesidades." },
-    { t: "Alcance Internacional", d: "Operaciones en múltiples países de América Latina con alianzas estratégicas sólidas." },
+    {
+      icon: Lock,
+      t: "Tecnología Segura",
+      d: "Plataforma diseñada para ser dinámica, escalable y segura, cumpliendo con todas las normativas vigentes.",
+      num: "01",
+    },
+    {
+      icon: HeartHandshake,
+      t: "Atención Personalizada",
+      d: "Acompañamos a nuestros clientes con una atención cercana, atendiendo todas sus necesidades.",
+      num: "02",
+    },
+    {
+      icon: Plane,
+      t: "Alcance Internacional",
+      d: "Operaciones en múltiples países de América Latina con alianzas estratégicas sólidas.",
+      num: "03",
+    },
   ];
   return (
-    <section style={{ background: "#F5F6F8", borderTop: "1px solid #D8DCE3" }}>
-      <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-        <Eyebrow tone="brass">Diferenciales</Eyebrow>
-        <h2 style={{ ...display, fontSize: "clamp(2rem, 3.5vw, 3rem)", lineHeight: 1.1, marginTop: "1rem" }}>
-          ¿Por qué elegirnos?
-        </h2>
-        <div className="grid md:grid-cols-3 gap-px mt-16" style={{ background: "#D8DCE3" }}>
-          {items.map(({ t, d }) => (
-            <div key={t} style={{ background: "#F5F6F8", padding: "2rem 1.5rem 2.5rem" }}>
-              <div style={{ height: 1, background: "#B08D57", width: 32, marginBottom: "1.5rem" }} />
-              <h3 style={{ ...display, fontSize: "1.375rem", color: "#131A2A" }}>{t}</h3>
-              <p className="mt-3" style={{ fontFamily: "Inter, sans-serif", color: "#4B5563", fontSize: "0.9375rem", lineHeight: 1.6 }}>
+    <section
+      style={{
+        background: "#FFFFFF",
+        borderTop: "1px solid #D8DCE3",
+        position: "relative",
+      }}
+    >
+      <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+          <div>
+            <Eyebrow tone="brass">Diferenciales</Eyebrow>
+            <h2
+              style={{
+                ...display,
+                fontSize: "clamp(2rem, 3.5vw, 3rem)",
+                lineHeight: 1.1,
+                marginTop: "1rem",
+              }}
+            >
+              ¿Por qué elegirnos?
+            </h2>
+          </div>
+          <p
+            className="md:max-w-sm"
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontSize: "0.9375rem",
+              color: "#4B5563",
+              lineHeight: 1.65,
+            }}
+          >
+            Tres pilares que definen la forma en la que trabajamos y nos diferencian del resto del sector.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {items.map(({ icon: Icon, t, d, num }, i) => (
+            <article
+              key={t}
+              className="group transition-all duration-300 hover:-translate-y-1"
+              style={{
+                position: "relative",
+                padding: "2.5rem 2rem 2.25rem",
+                background: i === 1 ? "#0A1628" : "#F5F6F8",
+                color: i === 1 ? "#F5F6F8" : "#131A2A",
+                borderRadius: 4,
+                border: i === 1 ? "1px solid rgba(176,141,87,0.35)" : "1px solid #D8DCE3",
+                overflow: "hidden",
+              }}
+            >
+              {/* Big background number */}
+              <div
+                aria-hidden="true"
+                style={{
+                  ...displayHeavy,
+                  position: "absolute",
+                  top: -20,
+                  right: 12,
+                  fontSize: "9rem",
+                  lineHeight: 1,
+                  color: i === 1 ? "rgba(176,141,87,0.14)" : "rgba(10,22,40,0.05)",
+                  pointerEvents: "none",
+                }}
+              >
+                {num}
+              </div>
+
+              <div
+                style={{
+                  width: 52,
+                  height: 52,
+                  display: "grid",
+                  placeItems: "center",
+                  borderRadius: 999,
+                  background: i === 1 ? "rgba(200,16,46,0.15)" : "rgba(200,16,46,0.08)",
+                  border: `1px solid ${i === 1 ? "rgba(200,16,46,0.5)" : "rgba(200,16,46,0.25)"}`,
+                }}
+              >
+                <Icon size={22} strokeWidth={1.5} color="#C8102E" />
+              </div>
+
+              <h3
+                style={{
+                  ...display,
+                  fontSize: "1.5rem",
+                  marginTop: "1.75rem",
+                  color: i === 1 ? "#F5F6F8" : "#131A2A",
+                  lineHeight: 1.2,
+                  position: "relative",
+                }}
+              >
+                {t}
+              </h3>
+              <div
+                style={{
+                  height: 1,
+                  width: 32,
+                  background: "#B08D57",
+                  marginTop: "1rem",
+                  marginBottom: "1rem",
+                }}
+              />
+              <p
+                style={{
+                  fontFamily: "Inter, sans-serif",
+                  color: i === 1 ? "rgba(245,246,248,0.75)" : "#4B5563",
+                  fontSize: "0.9375rem",
+                  lineHeight: 1.65,
+                  position: "relative",
+                }}
+              >
                 {d}
               </p>
-            </div>
+            </article>
           ))}
         </div>
       </div>
@@ -383,7 +742,14 @@ function RegulatoryStrip() {
           </div>
           <div>
             <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>Usuarios financieros</div>
-            <div className="mt-1" style={{ fontFamily: "Inter, sans-serif", fontSize: "0.875rem", color: "rgba(245,246,248,0.85)" }}>
+            <div
+              className="mt-1"
+              style={{
+                fontFamily: "Inter, sans-serif",
+                fontSize: "0.875rem",
+                color: "rgba(245,246,248,0.85)",
+              }}
+            >
               Banco Central de la República Argentina — protección al usuario financiero.
             </div>
           </div>
@@ -392,12 +758,7 @@ function RegulatoryStrip() {
           href="https://www.usuariosfinancieros.gob.ar"
           target="_blank"
           rel="noreferrer"
-          style={{
-            ...mono,
-            color: "#F5F6F8",
-            borderBottom: "1px solid #B08D57",
-            paddingBottom: 2,
-          }}
+          style={{ ...mono, color: "#F5F6F8", borderBottom: "1px solid #B08D57", paddingBottom: 2 }}
         >
           usuariosfinancieros.gob.ar →
         </a>
@@ -410,11 +771,29 @@ function RegulatoryStrip() {
 
 function SiteFooter() {
   return (
-    <footer id="contacto" style={{ background: "#0A1628", color: "#F5F6F8", borderTop: "1px solid rgba(255,255,255,0.12)" }}>
+    <footer
+      id="contacto"
+      style={{
+        background: "#0A1628",
+        color: "#F5F6F8",
+        borderTop: "1px solid rgba(255,255,255,0.12)",
+      }}
+    >
       <div className="max-w-6xl mx-auto px-6 py-20 grid gap-12 md:grid-cols-4">
         <div className="md:col-span-1">
-          <MollyLogo variant="light" />
-          <p className="mt-6" style={{ fontFamily: "Inter, sans-serif", fontSize: "0.8125rem", color: "rgba(245,246,248,0.55)", lineHeight: 1.6, maxWidth: 260 }}>
+          <div style={{ background: "#F5F6F8", display: "inline-block", padding: "0.75rem 1rem", borderRadius: 4 }}>
+            <MollyLogo size={32} />
+          </div>
+          <p
+            className="mt-6"
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontSize: "0.8125rem",
+              color: "rgba(245,246,248,0.55)",
+              lineHeight: 1.6,
+              maxWidth: 260,
+            }}
+          >
             © 2026 MONEY LIFE S.R.L. Todos los derechos reservados.
           </p>
           <p className="mt-4" style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>
@@ -424,7 +803,14 @@ function SiteFooter() {
 
         <div>
           <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>Enlaces útiles</div>
-          <ul className="mt-5 space-y-3" style={{ fontFamily: "Inter, sans-serif", fontSize: "0.9rem", color: "rgba(245,246,248,0.72)" }}>
+          <ul
+            className="mt-5 space-y-3"
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontSize: "0.9rem",
+              color: "rgba(245,246,248,0.72)",
+            }}
+          >
             <li><Link to="/legales/privacidad" className="hover:text-white transition-colors">Políticas de privacidad</Link></li>
             <li><Link to="/legales/terminos" className="hover:text-white transition-colors">Términos y condiciones</Link></li>
             <li><Link to="/legales/comisiones" className="hover:text-white transition-colors">Comisiones</Link></li>
@@ -434,7 +820,14 @@ function SiteFooter() {
 
         <div>
           <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>Contactános</div>
-          <ul className="mt-5 space-y-3" style={{ fontFamily: "Inter, sans-serif", fontSize: "0.9rem", color: "rgba(245,246,248,0.72)" }}>
+          <ul
+            className="mt-5 space-y-3"
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontSize: "0.9rem",
+              color: "rgba(245,246,248,0.72)",
+            }}
+          >
             <li><a href="mailto:contacto@molipay.com.ar" className="hover:text-white transition-colors">contacto@molipay.com.ar</a></li>
             <li><a href="mailto:admin@molipay.com.ar" className="hover:text-white transition-colors">admin@molipay.com.ar</a></li>
             <li><a href="mailto:reclamos@molipay.com.ar" className="hover:text-white transition-colors">reclamos@molipay.com.ar</a></li>
@@ -452,7 +845,15 @@ function SiteFooter() {
             }}
           >
             <div style={{ ...mono, color: "#B08D57", fontSize: "0.6rem" }}>BCRA</div>
-            <div className="mt-1.5" style={{ fontFamily: "Inter, sans-serif", fontSize: "0.8125rem", color: "rgba(245,246,248,0.8)", lineHeight: 1.5 }}>
+            <div
+              className="mt-1.5"
+              style={{
+                fontFamily: "Inter, sans-serif",
+                fontSize: "0.8125rem",
+                color: "rgba(245,246,248,0.8)",
+                lineHeight: 1.5,
+              }}
+            >
               Banco Central de la República Argentina
             </div>
             <a
@@ -469,9 +870,18 @@ function SiteFooter() {
       </div>
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-        <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col md:flex-row gap-3 md:items-center md:justify-between" style={{ fontFamily: "Inter, sans-serif", fontSize: "0.7rem", color: "rgba(245,246,248,0.45)" }}>
+        <div
+          className="max-w-6xl mx-auto px-6 py-5 flex flex-col md:flex-row gap-3 md:items-center md:justify-between"
+          style={{
+            fontFamily: "Inter, sans-serif",
+            fontSize: "0.7rem",
+            color: "rgba(245,246,248,0.45)",
+          }}
+        >
           <div>MONEY LIFE S.R.L. — CUIT 30-71000000-0</div>
-          <div>Los fondos depositados no constituyen depósitos en una entidad financiera ni cuentan con la garantía de la Ley 24.485.</div>
+          <div>
+            Los fondos depositados no constituyen depósitos en una entidad financiera ni cuentan con la garantía de la Ley 24.485.
+          </div>
         </div>
       </div>
     </footer>
