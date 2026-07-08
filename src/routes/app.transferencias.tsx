@@ -32,6 +32,9 @@ function Page() {
   const [confirm, setConfirm] = useState(false);
   const [tab, setTab] = useState<"unica" | "lote" | "programada">("unica");
   const [plantOpen, setPlantOpen] = useState(false);
+  const [saveDestOpen, setSaveDestOpen] = useState(false);
+  const [destAlias, setDestAlias] = useState("");
+
 
   return (
     <>
