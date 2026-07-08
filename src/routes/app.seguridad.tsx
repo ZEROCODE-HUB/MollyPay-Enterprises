@@ -28,6 +28,8 @@ const team = [
 ];
 
 function Page() {
+  const [twoFa, setTwoFa] = useState<"email" | "totp">("email");
+
   return (
     <>
       <PageHeader
