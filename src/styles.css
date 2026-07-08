@@ -6,6 +6,15 @@
 
 @theme inline {
   --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-navy-950: var(--navy-950);
+  --color-navy-800: var(--navy-800);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-crimson: var(--crimson);
+  --color-brass: var(--brass);
+  --color-line: var(--line);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -47,20 +56,28 @@
 :root {
   --radius: 0.625rem;
 
-  /* Molly brand — rojo + azul */
-  --brand-red: oklch(0.58 0.21 25);      /* #D62828 */
-  --brand-red-dark: oklch(0.5 0.21 25);  /* #B91C1C */
-  --brand-blue: oklch(0.36 0.16 268);    /* #1E3A8A */
-  --brand-blue-dark: oklch(0.3 0.15 268);/* #1E2A6E */
-  --brand-soft: oklch(0.96 0.04 25);     /* rojo muy claro */
-  --brand-blue-soft: oklch(0.95 0.03 268);
+  /* Institutional palette */
+  --navy-950: #0A1628;
+  --navy-800: #16213E;
+  --paper: #F5F6F8;
+  --ink: #131A2A;
+  --crimson: #C8102E;
+  --brass: #B08D57;
+  --line: #D8DCE3;
 
-  /* Aliases legacy */
-  --brand: var(--brand-red);
-  --brand-dark: var(--brand-blue);
+  /* Molly brand — legacy aliases mapped to institutional palette */
+  --brand-red: var(--crimson);
+  --brand-red-dark: #A00D26;
+  --brand-blue: var(--navy-800);
+  --brand-blue-dark: var(--navy-950);
+  --brand-soft: #FBEAEC;
+  --brand-blue-soft: #E6EAF3;
 
-  --background: oklch(0.985 0.003 250); /* #F7F8FA */
-  --foreground: oklch(0.2 0.03 268);
+  --brand: var(--crimson);
+  --brand-dark: var(--navy-950);
+
+  --background: #FFFFFF;
+  --foreground: var(--ink);
 
 
   --card: oklch(1 0 0);
