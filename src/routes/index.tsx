@@ -509,10 +509,9 @@ function MisionVision() {
         }}
       />
       <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
-        <div className="grid md:grid-cols-12 gap-8">
-          {/* Misión — larger, offset up */}
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Misión */}
           <article
-            className="md:col-span-7"
             style={{
               padding: "2.5rem 2.25rem 2.75rem",
               background: "linear-gradient(160deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
@@ -526,7 +525,7 @@ function MisionVision() {
               <Target size={22} strokeWidth={1.4} color="#B08D57" />
               <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>01 — Misión</div>
             </div>
-            <h3 style={{ ...display, fontSize: "clamp(1.75rem, 2.6vw, 2.35rem)", color: "#F5F6F8", marginTop: "1.25rem", lineHeight: 1.15 }}>
+            <h3 style={{ ...display, fontSize: "clamp(1.75rem, 2.4vw, 2.15rem)", color: "#F5F6F8", marginTop: "1.25rem", lineHeight: 1.15 }}>
               Facilitar la gestión digital de cobros y pagos.
             </h3>
             <p
@@ -542,9 +541,8 @@ function MisionVision() {
             </p>
           </article>
 
-          {/* Visión — offset down, narrower */}
+          {/* Visión */}
           <article
-            className="md:col-span-5 md:mt-16"
             style={{
               padding: "2.5rem 2.25rem 2.75rem",
               background: "#16213E",
@@ -557,7 +555,7 @@ function MisionVision() {
               <Compass size={22} strokeWidth={1.4} color="#B08D57" />
               <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>02 — Visión</div>
             </div>
-            <h3 style={{ ...display, fontSize: "clamp(1.5rem, 2.2vw, 2rem)", color: "#F5F6F8", marginTop: "1.25rem", lineHeight: 1.15 }}>
+            <h3 style={{ ...display, fontSize: "clamp(1.75rem, 2.4vw, 2.15rem)", color: "#F5F6F8", marginTop: "1.25rem", lineHeight: 1.15 }}>
               Ser un referente Fintech en la región.
             </h3>
             <p
@@ -565,7 +563,7 @@ function MisionVision() {
               style={{
                 fontFamily: "Inter, sans-serif",
                 color: "rgba(245,246,248,0.76)",
-                fontSize: "0.9375rem",
+                fontSize: "1rem",
                 lineHeight: 1.7,
               }}
             >
