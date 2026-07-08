@@ -9,12 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as RegistroValidarEmailRouteImport } from './routes/registro.validar-email'
+import { Route as RegistroValidacionExitosaRouteImport } from './routes/registro.validacion-exitosa'
+import { Route as RegistroExitoRouteImport } from './routes/registro.exito'
+import { Route as RegistroEmpresaRouteImport } from './routes/registro.empresa'
 import { Route as LegalesTerminosRouteImport } from './routes/legales.terminos'
 import { Route as LegalesPrivacidadRouteImport } from './routes/legales.privacidad'
 import { Route as LegalesComisionesRouteImport } from './routes/legales.comisiones'
@@ -43,6 +48,11 @@ import { Route as AdminClientesRouteImport } from './routes/admin.clientes'
 import { Route as AdminCbuRouteImport } from './routes/admin.cbu'
 import { Route as AdminAlquileresRouteImport } from './routes/admin.alquileres'
 
+const RegistroRoute = RegistroRouteImport.update({
+  id: '/registro',
+  path: '/registro',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -72,6 +82,27 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const RegistroValidarEmailRoute = RegistroValidarEmailRouteImport.update({
+  id: '/validar-email',
+  path: '/validar-email',
+  getParentRoute: () => RegistroRoute,
+} as any)
+const RegistroValidacionExitosaRoute =
+  RegistroValidacionExitosaRouteImport.update({
+    id: '/validacion-exitosa',
+    path: '/validacion-exitosa',
+    getParentRoute: () => RegistroRoute,
+  } as any)
+const RegistroExitoRoute = RegistroExitoRouteImport.update({
+  id: '/exito',
+  path: '/exito',
+  getParentRoute: () => RegistroRoute,
+} as any)
+const RegistroEmpresaRoute = RegistroEmpresaRouteImport.update({
+  id: '/empresa',
+  path: '/empresa',
+  getParentRoute: () => RegistroRoute,
 } as any)
 const LegalesTerminosRoute = LegalesTerminosRouteImport.update({
   id: '/legales/terminos',
@@ -214,6 +245,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/registro': typeof RegistroRouteWithChildren
   '/admin/alquileres': typeof AdminAlquileresRoute
   '/admin/cbu': typeof AdminCbuRoute
   '/admin/clientes': typeof AdminClientesRoute
@@ -241,12 +273,17 @@ export interface FileRoutesByFullPath {
   '/legales/comisiones': typeof LegalesComisionesRoute
   '/legales/privacidad': typeof LegalesPrivacidadRoute
   '/legales/terminos': typeof LegalesTerminosRoute
+  '/registro/empresa': typeof RegistroEmpresaRoute
+  '/registro/exito': typeof RegistroExitoRoute
+  '/registro/validacion-exitosa': typeof RegistroValidacionExitosaRoute
+  '/registro/validar-email': typeof RegistroValidarEmailRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/registro': typeof RegistroRouteWithChildren
   '/admin/alquileres': typeof AdminAlquileresRoute
   '/admin/cbu': typeof AdminCbuRoute
   '/admin/clientes': typeof AdminClientesRoute
@@ -274,6 +311,10 @@ export interface FileRoutesByTo {
   '/legales/comisiones': typeof LegalesComisionesRoute
   '/legales/privacidad': typeof LegalesPrivacidadRoute
   '/legales/terminos': typeof LegalesTerminosRoute
+  '/registro/empresa': typeof RegistroEmpresaRoute
+  '/registro/exito': typeof RegistroExitoRoute
+  '/registro/validacion-exitosa': typeof RegistroValidacionExitosaRoute
+  '/registro/validar-email': typeof RegistroValidarEmailRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
 }
@@ -283,6 +324,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/registro': typeof RegistroRouteWithChildren
   '/admin/alquileres': typeof AdminAlquileresRoute
   '/admin/cbu': typeof AdminCbuRoute
   '/admin/clientes': typeof AdminClientesRoute
@@ -310,6 +352,10 @@ export interface FileRoutesById {
   '/legales/comisiones': typeof LegalesComisionesRoute
   '/legales/privacidad': typeof LegalesPrivacidadRoute
   '/legales/terminos': typeof LegalesTerminosRoute
+  '/registro/empresa': typeof RegistroEmpresaRoute
+  '/registro/exito': typeof RegistroExitoRoute
+  '/registro/validacion-exitosa': typeof RegistroValidacionExitosaRoute
+  '/registro/validar-email': typeof RegistroValidarEmailRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
 }
@@ -320,6 +366,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/login'
+    | '/registro'
     | '/admin/alquileres'
     | '/admin/cbu'
     | '/admin/clientes'
@@ -347,12 +394,17 @@ export interface FileRouteTypes {
     | '/legales/comisiones'
     | '/legales/privacidad'
     | '/legales/terminos'
+    | '/registro/empresa'
+    | '/registro/exito'
+    | '/registro/validacion-exitosa'
+    | '/registro/validar-email'
     | '/admin/'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
+    | '/registro'
     | '/admin/alquileres'
     | '/admin/cbu'
     | '/admin/clientes'
@@ -380,6 +432,10 @@ export interface FileRouteTypes {
     | '/legales/comisiones'
     | '/legales/privacidad'
     | '/legales/terminos'
+    | '/registro/empresa'
+    | '/registro/exito'
+    | '/registro/validacion-exitosa'
+    | '/registro/validar-email'
     | '/admin'
     | '/app'
   id:
@@ -388,6 +444,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/login'
+    | '/registro'
     | '/admin/alquileres'
     | '/admin/cbu'
     | '/admin/clientes'
@@ -415,6 +472,10 @@ export interface FileRouteTypes {
     | '/legales/comisiones'
     | '/legales/privacidad'
     | '/legales/terminos'
+    | '/registro/empresa'
+    | '/registro/exito'
+    | '/registro/validacion-exitosa'
+    | '/registro/validar-email'
     | '/admin/'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -424,6 +485,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
+  RegistroRoute: typeof RegistroRouteWithChildren
   LegalesArrepentimientoRoute: typeof LegalesArrepentimientoRoute
   LegalesComisionesRoute: typeof LegalesComisionesRoute
   LegalesPrivacidadRoute: typeof LegalesPrivacidadRoute
@@ -432,6 +494,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/registro': {
+      id: '/registro'
+      path: '/registro'
+      fullPath: '/registro'
+      preLoaderRoute: typeof RegistroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -473,6 +542,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/registro/validar-email': {
+      id: '/registro/validar-email'
+      path: '/validar-email'
+      fullPath: '/registro/validar-email'
+      preLoaderRoute: typeof RegistroValidarEmailRouteImport
+      parentRoute: typeof RegistroRoute
+    }
+    '/registro/validacion-exitosa': {
+      id: '/registro/validacion-exitosa'
+      path: '/validacion-exitosa'
+      fullPath: '/registro/validacion-exitosa'
+      preLoaderRoute: typeof RegistroValidacionExitosaRouteImport
+      parentRoute: typeof RegistroRoute
+    }
+    '/registro/exito': {
+      id: '/registro/exito'
+      path: '/exito'
+      fullPath: '/registro/exito'
+      preLoaderRoute: typeof RegistroExitoRouteImport
+      parentRoute: typeof RegistroRoute
+    }
+    '/registro/empresa': {
+      id: '/registro/empresa'
+      path: '/empresa'
+      fullPath: '/registro/empresa'
+      preLoaderRoute: typeof RegistroEmpresaRouteImport
+      parentRoute: typeof RegistroRoute
     }
     '/legales/terminos': {
       id: '/legales/terminos'
@@ -732,11 +829,30 @@ const AppRouteChildren: AppRouteChildren = {
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
+interface RegistroRouteChildren {
+  RegistroEmpresaRoute: typeof RegistroEmpresaRoute
+  RegistroExitoRoute: typeof RegistroExitoRoute
+  RegistroValidacionExitosaRoute: typeof RegistroValidacionExitosaRoute
+  RegistroValidarEmailRoute: typeof RegistroValidarEmailRoute
+}
+
+const RegistroRouteChildren: RegistroRouteChildren = {
+  RegistroEmpresaRoute: RegistroEmpresaRoute,
+  RegistroExitoRoute: RegistroExitoRoute,
+  RegistroValidacionExitosaRoute: RegistroValidacionExitosaRoute,
+  RegistroValidarEmailRoute: RegistroValidarEmailRoute,
+}
+
+const RegistroRouteWithChildren = RegistroRoute._addFileChildren(
+  RegistroRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
+  RegistroRoute: RegistroRouteWithChildren,
   LegalesArrepentimientoRoute: LegalesArrepentimientoRoute,
   LegalesComisionesRoute: LegalesComisionesRoute,
   LegalesPrivacidadRoute: LegalesPrivacidadRoute,
