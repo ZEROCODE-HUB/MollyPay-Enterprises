@@ -6,6 +6,15 @@
 
 @theme inline {
   --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-navy-950: var(--navy-950);
+  --color-navy-800: var(--navy-800);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-crimson: var(--crimson);
+  --color-brass: var(--brass);
+  --color-line: var(--line);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
