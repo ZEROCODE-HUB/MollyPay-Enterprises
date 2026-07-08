@@ -584,19 +584,16 @@ function PorQueElegirnos() {
       icon: Lock,
       t: "Tecnología Segura",
       d: "Plataforma diseñada para ser dinámica, escalable y segura, cumpliendo con todas las normativas vigentes.",
-      num: "01",
     },
     {
       icon: HeartHandshake,
       t: "Atención Personalizada",
       d: "Acompañamos a nuestros clientes con una atención cercana, atendiendo todas sus necesidades.",
-      num: "02",
     },
     {
       icon: Plane,
       t: "Alcance Internacional",
       d: "Operaciones en múltiples países de América Latina con alianzas estratégicas sólidas.",
-      num: "03",
     },
   ];
   return (
@@ -607,8 +604,8 @@ function PorQueElegirnos() {
         position: "relative",
       }}
     >
-      <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+      <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-32">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
           <div>
             <Eyebrow tone="brass">Diferenciales</Eyebrow>
             <h2
@@ -635,38 +632,20 @@ function PorQueElegirnos() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {items.map(({ icon: Icon, t, d, num }, i) => (
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {items.map(({ icon: Icon, t, d }) => (
             <article
               key={t}
-              className="group transition-all duration-300 hover:-translate-y-1"
+              className="group transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-24px_rgba(10,22,40,0.25)]"
               style={{
-                position: "relative",
-                padding: "2.5rem 2rem 2.25rem",
-                background: i === 1 ? "#0A1628" : "#F5F6F8",
-                color: i === 1 ? "#F5F6F8" : "#131A2A",
+                padding: "2.25rem 1.75rem 2rem",
+                background: "#FFFFFF",
+                color: "#131A2A",
                 borderRadius: 4,
-                border: i === 1 ? "1px solid rgba(176,141,87,0.35)" : "1px solid #D8DCE3",
-                overflow: "hidden",
+                border: "1px solid #D8DCE3",
+                borderTop: "2px solid #C8102E",
               }}
             >
-              {/* Big background number */}
-              <div
-                aria-hidden="true"
-                style={{
-                  ...displayHeavy,
-                  position: "absolute",
-                  top: -20,
-                  right: 12,
-                  fontSize: "9rem",
-                  lineHeight: 1,
-                  color: i === 1 ? "rgba(176,141,87,0.14)" : "rgba(10,22,40,0.05)",
-                  pointerEvents: "none",
-                }}
-              >
-                {num}
-              </div>
-
               <div
                 style={{
                   width: 52,
@@ -674,8 +653,8 @@ function PorQueElegirnos() {
                   display: "grid",
                   placeItems: "center",
                   borderRadius: 999,
-                  background: i === 1 ? "rgba(200,16,46,0.15)" : "rgba(200,16,46,0.08)",
-                  border: `1px solid ${i === 1 ? "rgba(200,16,46,0.5)" : "rgba(200,16,46,0.25)"}`,
+                  background: "rgba(200,16,46,0.08)",
+                  border: "1px solid rgba(200,16,46,0.25)",
                 }}
               >
                 <Icon size={22} strokeWidth={1.5} color="#C8102E" />
@@ -684,11 +663,10 @@ function PorQueElegirnos() {
               <h3
                 style={{
                   ...display,
-                  fontSize: "1.5rem",
-                  marginTop: "1.75rem",
-                  color: i === 1 ? "#F5F6F8" : "#131A2A",
+                  fontSize: "1.375rem",
+                  marginTop: "1.5rem",
+                  color: "#131A2A",
                   lineHeight: 1.2,
-                  position: "relative",
                 }}
               >
                 {t}
@@ -698,17 +676,16 @@ function PorQueElegirnos() {
                   height: 1,
                   width: 32,
                   background: "#B08D57",
-                  marginTop: "1rem",
-                  marginBottom: "1rem",
+                  marginTop: "0.875rem",
+                  marginBottom: "0.875rem",
                 }}
               />
               <p
                 style={{
                   fontFamily: "Inter, sans-serif",
-                  color: i === 1 ? "rgba(245,246,248,0.75)" : "#4B5563",
+                  color: "#4B5563",
                   fontSize: "0.9375rem",
                   lineHeight: 1.65,
-                  position: "relative",
                 }}
               >
                 {d}
