@@ -125,20 +125,21 @@ function SiteHeader() {
         zIndex: 40,
       }}
     >
-      <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-        <MollyLogo size={36} />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between gap-3">
+        <MollyLogo size={30} className="sm:hidden" />
+        <MollyLogo size={36} className="hidden sm:inline-flex" />
         <nav
-          className="hidden md:flex items-center gap-10"
+          className="hidden md:flex items-center gap-8 lg:gap-10"
           style={{ fontFamily: "Inter, sans-serif", fontSize: "0.975rem", fontWeight: 500, color: "#0A1628" }}
         >
           <a href="#servicios" className="hover:text-[#C8102E] transition-colors">Servicios</a>
           <a href="#nosotros" className="hover:text-[#C8102E] transition-colors">Nosotros</a>
           <a href="#contacto" className="hover:text-[#C8102E] transition-colors">Contacto</a>
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <Link
             to="/login"
-            className="hidden sm:inline-flex h-10 items-center px-4 transition-colors hover:bg-[#0A1628]/5"
+            className="hidden md:inline-flex h-10 items-center px-4 transition-colors hover:bg-[#0A1628]/5"
             style={{
               border: "1px solid #0A1628",
               color: "#0A1628",
@@ -152,16 +153,17 @@ function SiteHeader() {
           </Link>
           <Link
             to="/login"
-            className="inline-flex h-10 items-center px-4 text-white transition-colors hover:opacity-90"
+            className="inline-flex h-9 sm:h-10 items-center px-3 sm:px-4 text-white transition-colors hover:opacity-90 whitespace-nowrap"
             style={{
               background: "#C8102E",
               borderRadius: 2,
               fontFamily: "Inter, sans-serif",
-              fontSize: "0.9rem",
+              fontSize: "0.8125rem",
               fontWeight: 500,
             }}
           >
-            Registra tu empresa
+            <span className="hidden sm:inline">Registra tu empresa</span>
+            <span className="sm:hidden">Registrar</span>
           </Link>
         </div>
       </div>
