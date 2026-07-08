@@ -152,7 +152,21 @@ function SiteHeader() {
             Inicia sesión
           </Link>
           <Link
-            to="/login"
+            to="/registro"
+            className="hidden sm:inline-flex h-10 items-center px-4 transition-colors hover:bg-[#0A1628]/5"
+            style={{
+              border: "1px solid #0A1628",
+              color: "#0A1628",
+              borderRadius: 2,
+              fontFamily: "Inter, sans-serif",
+              fontSize: "0.9rem",
+              fontWeight: 500,
+            }}
+          >
+            Regístrate
+          </Link>
+          <Link
+            to="/registro/empresa"
             className="inline-flex h-9 sm:h-10 items-center px-3 sm:px-4 text-white transition-colors hover:opacity-90 whitespace-nowrap"
             style={{
               background: "#C8102E",
