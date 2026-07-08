@@ -425,14 +425,9 @@ function ContamosCon() {
         >
           Contamos con
         </h2>
-        {/* First 3 in top row, last 2 centered below */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
-          {items.slice(0, 3).map(({ icon: Icon, t, d }) => (
-            <CapabilityCard key={t} Icon={Icon} t={t} d={d} />
-          ))}
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-2 gap-8 mt-8 lg:max-w-3xl lg:mx-auto">
-          {items.slice(3).map(({ icon: Icon, t, d }) => (
+        {/* 2 cols mobile, 3 tablet, 5 desktop — square-ish vertical cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 mt-12 md:mt-16">
+          {items.map(({ icon: Icon, t, d }) => (
             <CapabilityCard key={t} Icon={Icon} t={t} d={d} />
           ))}
         </div>
@@ -451,37 +446,43 @@ function CapabilityCard({
   d: string;
 }) {
   return (
-    <GlassCard padding="1.75rem 1.5rem 2rem" className="h-full">
-      <div className="flex items-start gap-4">
-        <div
-          style={{
-            width: 40,
-            height: 40,
-            flexShrink: 0,
-            display: "grid",
-            placeItems: "center",
-            border: "1px solid rgba(176,141,87,0.4)",
-            borderRadius: 2,
-            background: "rgba(176,141,87,0.06)",
-          }}
-        >
-          <Icon size={18} strokeWidth={1.5} color="#0A1628" />
-        </div>
-        <div className="min-w-0">
-          <h3 style={{ ...display, fontSize: "1.125rem", color: "#131A2A", lineHeight: 1.25 }}>{t}</h3>
-          <p
-            className="mt-2"
-            style={{
-              fontFamily: "Inter, sans-serif",
-              color: "#4B5563",
-              fontSize: "0.875rem",
-              lineHeight: 1.6,
-            }}
-          >
-            {d}
-          </p>
-        </div>
+    <GlassCard padding="1.5rem 1.25rem" className="h-full flex flex-col aspect-square min-h-[220px]">
+      <div
+        style={{
+          width: 42,
+          height: 42,
+          flexShrink: 0,
+          display: "grid",
+          placeItems: "center",
+          border: "1px solid rgba(176,141,87,0.4)",
+          borderRadius: 2,
+          background: "rgba(176,141,87,0.06)",
+        }}
+      >
+        <Icon size={18} strokeWidth={1.5} color="#0A1628" />
       </div>
+      <h3
+        className="mt-4"
+        style={{
+          ...display,
+          fontSize: "1rem",
+          color: "#131A2A",
+          lineHeight: 1.25,
+        }}
+      >
+        {t}
+      </h3>
+      <p
+        className="mt-2"
+        style={{
+          fontFamily: "Inter, sans-serif",
+          color: "#4B5563",
+          fontSize: "0.8125rem",
+          lineHeight: 1.55,
+        }}
+      >
+        {d}
+      </p>
     </GlassCard>
   );
 }
