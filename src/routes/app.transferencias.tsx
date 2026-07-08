@@ -267,6 +267,25 @@ function Page() {
           <Input placeholder="Ej. Pago proveedor mensual" />
         </div>
       </FormDialog>
+
+      <FormDialog
+        open={saveDestOpen}
+        onClose={() => setSaveDestOpen(false)}
+        title="¿Deseas guardar este destinatario como recurrente?"
+        description={`Podés agendar a @${destAlias} en tu lista de destinatarios frecuentes para reutilizarlo.`}
+        submitLabel="Sí, guardar destinatario"
+        cancelLabel="No, gracias"
+        icon={<UserPlus size={20} />}
+        onSubmit={() => {
+          setSaveDestOpen(false);
+          toast.success(`@${destAlias} agregado a destinatarios frecuentes`);
+        }}
+      >
+        <div className="text-xs text-muted-foreground">
+          Los destinatarios ya no se guardan automáticamente. Solo se agendan si confirmás aquí.
+        </div>
+      </FormDialog>
     </>
   );
 }
+
