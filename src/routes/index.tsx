@@ -202,7 +202,7 @@ function Hero() {
         }}
       />
 
-      <div className="relative max-w-6xl mx-auto px-6 pt-32 pb-36 md:pt-40 md:pb-44">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-24 sm:pt-28 sm:pb-32 md:pt-40 md:pb-44">
         <Eyebrow tone="brass">Money Life S.R.L. — Plataforma financiera digital</Eyebrow>
         <h1
           style={{
