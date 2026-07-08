@@ -20,6 +20,11 @@ import { Route as RegistroValidarEmailRouteImport } from './routes/registro.vali
 import { Route as RegistroValidacionExitosaRouteImport } from './routes/registro.validacion-exitosa'
 import { Route as RegistroExitoRouteImport } from './routes/registro.exito'
 import { Route as RegistroEmpresaRouteImport } from './routes/registro.empresa'
+import { Route as OnboardingLoginRouteImport } from './routes/onboarding.login'
+import { Route as OnboardingKycRouteImport } from './routes/onboarding.kyc'
+import { Route as OnboardingEnProcesoRouteImport } from './routes/onboarding.en-proceso'
+import { Route as OnboardingDatosPersonalesRouteImport } from './routes/onboarding.datos-personales'
+import { Route as OnboardingDatosEmpresaRouteImport } from './routes/onboarding.datos-empresa'
 import { Route as LegalesTerminosRouteImport } from './routes/legales.terminos'
 import { Route as LegalesPrivacidadRouteImport } from './routes/legales.privacidad'
 import { Route as LegalesComisionesRouteImport } from './routes/legales.comisiones'
@@ -103,6 +108,32 @@ const RegistroEmpresaRoute = RegistroEmpresaRouteImport.update({
   id: '/empresa',
   path: '/empresa',
   getParentRoute: () => RegistroRoute,
+} as any)
+const OnboardingLoginRoute = OnboardingLoginRouteImport.update({
+  id: '/onboarding/login',
+  path: '/onboarding/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingKycRoute = OnboardingKycRouteImport.update({
+  id: '/onboarding/kyc',
+  path: '/onboarding/kyc',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingEnProcesoRoute = OnboardingEnProcesoRouteImport.update({
+  id: '/onboarding/en-proceso',
+  path: '/onboarding/en-proceso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingDatosPersonalesRoute =
+  OnboardingDatosPersonalesRouteImport.update({
+    id: '/onboarding/datos-personales',
+    path: '/onboarding/datos-personales',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const OnboardingDatosEmpresaRoute = OnboardingDatosEmpresaRouteImport.update({
+  id: '/onboarding/datos-empresa',
+  path: '/onboarding/datos-empresa',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LegalesTerminosRoute = LegalesTerminosRouteImport.update({
   id: '/legales/terminos',
@@ -273,6 +304,11 @@ export interface FileRoutesByFullPath {
   '/legales/comisiones': typeof LegalesComisionesRoute
   '/legales/privacidad': typeof LegalesPrivacidadRoute
   '/legales/terminos': typeof LegalesTerminosRoute
+  '/onboarding/datos-empresa': typeof OnboardingDatosEmpresaRoute
+  '/onboarding/datos-personales': typeof OnboardingDatosPersonalesRoute
+  '/onboarding/en-proceso': typeof OnboardingEnProcesoRoute
+  '/onboarding/kyc': typeof OnboardingKycRoute
+  '/onboarding/login': typeof OnboardingLoginRoute
   '/registro/empresa': typeof RegistroEmpresaRoute
   '/registro/exito': typeof RegistroExitoRoute
   '/registro/validacion-exitosa': typeof RegistroValidacionExitosaRoute
@@ -311,6 +347,11 @@ export interface FileRoutesByTo {
   '/legales/comisiones': typeof LegalesComisionesRoute
   '/legales/privacidad': typeof LegalesPrivacidadRoute
   '/legales/terminos': typeof LegalesTerminosRoute
+  '/onboarding/datos-empresa': typeof OnboardingDatosEmpresaRoute
+  '/onboarding/datos-personales': typeof OnboardingDatosPersonalesRoute
+  '/onboarding/en-proceso': typeof OnboardingEnProcesoRoute
+  '/onboarding/kyc': typeof OnboardingKycRoute
+  '/onboarding/login': typeof OnboardingLoginRoute
   '/registro/empresa': typeof RegistroEmpresaRoute
   '/registro/exito': typeof RegistroExitoRoute
   '/registro/validacion-exitosa': typeof RegistroValidacionExitosaRoute
@@ -352,6 +393,11 @@ export interface FileRoutesById {
   '/legales/comisiones': typeof LegalesComisionesRoute
   '/legales/privacidad': typeof LegalesPrivacidadRoute
   '/legales/terminos': typeof LegalesTerminosRoute
+  '/onboarding/datos-empresa': typeof OnboardingDatosEmpresaRoute
+  '/onboarding/datos-personales': typeof OnboardingDatosPersonalesRoute
+  '/onboarding/en-proceso': typeof OnboardingEnProcesoRoute
+  '/onboarding/kyc': typeof OnboardingKycRoute
+  '/onboarding/login': typeof OnboardingLoginRoute
   '/registro/empresa': typeof RegistroEmpresaRoute
   '/registro/exito': typeof RegistroExitoRoute
   '/registro/validacion-exitosa': typeof RegistroValidacionExitosaRoute
@@ -394,6 +440,11 @@ export interface FileRouteTypes {
     | '/legales/comisiones'
     | '/legales/privacidad'
     | '/legales/terminos'
+    | '/onboarding/datos-empresa'
+    | '/onboarding/datos-personales'
+    | '/onboarding/en-proceso'
+    | '/onboarding/kyc'
+    | '/onboarding/login'
     | '/registro/empresa'
     | '/registro/exito'
     | '/registro/validacion-exitosa'
@@ -432,6 +483,11 @@ export interface FileRouteTypes {
     | '/legales/comisiones'
     | '/legales/privacidad'
     | '/legales/terminos'
+    | '/onboarding/datos-empresa'
+    | '/onboarding/datos-personales'
+    | '/onboarding/en-proceso'
+    | '/onboarding/kyc'
+    | '/onboarding/login'
     | '/registro/empresa'
     | '/registro/exito'
     | '/registro/validacion-exitosa'
@@ -472,6 +528,11 @@ export interface FileRouteTypes {
     | '/legales/comisiones'
     | '/legales/privacidad'
     | '/legales/terminos'
+    | '/onboarding/datos-empresa'
+    | '/onboarding/datos-personales'
+    | '/onboarding/en-proceso'
+    | '/onboarding/kyc'
+    | '/onboarding/login'
     | '/registro/empresa'
     | '/registro/exito'
     | '/registro/validacion-exitosa'
@@ -490,6 +551,11 @@ export interface RootRouteChildren {
   LegalesComisionesRoute: typeof LegalesComisionesRoute
   LegalesPrivacidadRoute: typeof LegalesPrivacidadRoute
   LegalesTerminosRoute: typeof LegalesTerminosRoute
+  OnboardingDatosEmpresaRoute: typeof OnboardingDatosEmpresaRoute
+  OnboardingDatosPersonalesRoute: typeof OnboardingDatosPersonalesRoute
+  OnboardingEnProcesoRoute: typeof OnboardingEnProcesoRoute
+  OnboardingKycRoute: typeof OnboardingKycRoute
+  OnboardingLoginRoute: typeof OnboardingLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -570,6 +636,41 @@ declare module '@tanstack/react-router' {
       fullPath: '/registro/empresa'
       preLoaderRoute: typeof RegistroEmpresaRouteImport
       parentRoute: typeof RegistroRoute
+    }
+    '/onboarding/login': {
+      id: '/onboarding/login'
+      path: '/onboarding/login'
+      fullPath: '/onboarding/login'
+      preLoaderRoute: typeof OnboardingLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/kyc': {
+      id: '/onboarding/kyc'
+      path: '/onboarding/kyc'
+      fullPath: '/onboarding/kyc'
+      preLoaderRoute: typeof OnboardingKycRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/en-proceso': {
+      id: '/onboarding/en-proceso'
+      path: '/onboarding/en-proceso'
+      fullPath: '/onboarding/en-proceso'
+      preLoaderRoute: typeof OnboardingEnProcesoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/datos-personales': {
+      id: '/onboarding/datos-personales'
+      path: '/onboarding/datos-personales'
+      fullPath: '/onboarding/datos-personales'
+      preLoaderRoute: typeof OnboardingDatosPersonalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/datos-empresa': {
+      id: '/onboarding/datos-empresa'
+      path: '/onboarding/datos-empresa'
+      fullPath: '/onboarding/datos-empresa'
+      preLoaderRoute: typeof OnboardingDatosEmpresaRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/legales/terminos': {
       id: '/legales/terminos'
@@ -857,6 +958,11 @@ const rootRouteChildren: RootRouteChildren = {
   LegalesComisionesRoute: LegalesComisionesRoute,
   LegalesPrivacidadRoute: LegalesPrivacidadRoute,
   LegalesTerminosRoute: LegalesTerminosRoute,
+  OnboardingDatosEmpresaRoute: OnboardingDatosEmpresaRoute,
+  OnboardingDatosPersonalesRoute: OnboardingDatosPersonalesRoute,
+  OnboardingEnProcesoRoute: OnboardingEnProcesoRoute,
+  OnboardingKycRoute: OnboardingKycRoute,
+  OnboardingLoginRoute: OnboardingLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
