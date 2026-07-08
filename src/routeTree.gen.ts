@@ -15,6 +15,10 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as LegalesTerminosRouteImport } from './routes/legales.terminos'
+import { Route as LegalesPrivacidadRouteImport } from './routes/legales.privacidad'
+import { Route as LegalesComisionesRouteImport } from './routes/legales.comisiones'
+import { Route as LegalesArrepentimientoRouteImport } from './routes/legales.arrepentimiento'
 import { Route as AppTransferenciasRouteImport } from './routes/app.transferencias'
 import { Route as AppSubcuentasRouteImport } from './routes/app.subcuentas'
 import { Route as AppServiciosRouteImport } from './routes/app.servicios'
@@ -68,6 +72,26 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const LegalesTerminosRoute = LegalesTerminosRouteImport.update({
+  id: '/legales/terminos',
+  path: '/legales/terminos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalesPrivacidadRoute = LegalesPrivacidadRouteImport.update({
+  id: '/legales/privacidad',
+  path: '/legales/privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalesComisionesRoute = LegalesComisionesRouteImport.update({
+  id: '/legales/comisiones',
+  path: '/legales/comisiones',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalesArrepentimientoRoute = LegalesArrepentimientoRouteImport.update({
+  id: '/legales/arrepentimiento',
+  path: '/legales/arrepentimiento',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppTransferenciasRoute = AppTransferenciasRouteImport.update({
   id: '/transferencias',
@@ -213,6 +237,10 @@ export interface FileRoutesByFullPath {
   '/app/servicios': typeof AppServiciosRoute
   '/app/subcuentas': typeof AppSubcuentasRoute
   '/app/transferencias': typeof AppTransferenciasRoute
+  '/legales/arrepentimiento': typeof LegalesArrepentimientoRoute
+  '/legales/comisiones': typeof LegalesComisionesRoute
+  '/legales/privacidad': typeof LegalesPrivacidadRoute
+  '/legales/terminos': typeof LegalesTerminosRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
 }
@@ -242,6 +270,10 @@ export interface FileRoutesByTo {
   '/app/servicios': typeof AppServiciosRoute
   '/app/subcuentas': typeof AppSubcuentasRoute
   '/app/transferencias': typeof AppTransferenciasRoute
+  '/legales/arrepentimiento': typeof LegalesArrepentimientoRoute
+  '/legales/comisiones': typeof LegalesComisionesRoute
+  '/legales/privacidad': typeof LegalesPrivacidadRoute
+  '/legales/terminos': typeof LegalesTerminosRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
 }
@@ -274,6 +306,10 @@ export interface FileRoutesById {
   '/app/servicios': typeof AppServiciosRoute
   '/app/subcuentas': typeof AppSubcuentasRoute
   '/app/transferencias': typeof AppTransferenciasRoute
+  '/legales/arrepentimiento': typeof LegalesArrepentimientoRoute
+  '/legales/comisiones': typeof LegalesComisionesRoute
+  '/legales/privacidad': typeof LegalesPrivacidadRoute
+  '/legales/terminos': typeof LegalesTerminosRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
 }
@@ -307,6 +343,10 @@ export interface FileRouteTypes {
     | '/app/servicios'
     | '/app/subcuentas'
     | '/app/transferencias'
+    | '/legales/arrepentimiento'
+    | '/legales/comisiones'
+    | '/legales/privacidad'
+    | '/legales/terminos'
     | '/admin/'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -336,6 +376,10 @@ export interface FileRouteTypes {
     | '/app/servicios'
     | '/app/subcuentas'
     | '/app/transferencias'
+    | '/legales/arrepentimiento'
+    | '/legales/comisiones'
+    | '/legales/privacidad'
+    | '/legales/terminos'
     | '/admin'
     | '/app'
   id:
@@ -367,6 +411,10 @@ export interface FileRouteTypes {
     | '/app/servicios'
     | '/app/subcuentas'
     | '/app/transferencias'
+    | '/legales/arrepentimiento'
+    | '/legales/comisiones'
+    | '/legales/privacidad'
+    | '/legales/terminos'
     | '/admin/'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -376,6 +424,10 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
+  LegalesArrepentimientoRoute: typeof LegalesArrepentimientoRoute
+  LegalesComisionesRoute: typeof LegalesComisionesRoute
+  LegalesPrivacidadRoute: typeof LegalesPrivacidadRoute
+  LegalesTerminosRoute: typeof LegalesTerminosRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -421,6 +473,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/legales/terminos': {
+      id: '/legales/terminos'
+      path: '/legales/terminos'
+      fullPath: '/legales/terminos'
+      preLoaderRoute: typeof LegalesTerminosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legales/privacidad': {
+      id: '/legales/privacidad'
+      path: '/legales/privacidad'
+      fullPath: '/legales/privacidad'
+      preLoaderRoute: typeof LegalesPrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legales/comisiones': {
+      id: '/legales/comisiones'
+      path: '/legales/comisiones'
+      fullPath: '/legales/comisiones'
+      preLoaderRoute: typeof LegalesComisionesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legales/arrepentimiento': {
+      id: '/legales/arrepentimiento'
+      path: '/legales/arrepentimiento'
+      fullPath: '/legales/arrepentimiento'
+      preLoaderRoute: typeof LegalesArrepentimientoRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/app/transferencias': {
       id: '/app/transferencias'
@@ -657,6 +737,10 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
+  LegalesArrepentimientoRoute: LegalesArrepentimientoRoute,
+  LegalesComisionesRoute: LegalesComisionesRoute,
+  LegalesPrivacidadRoute: LegalesPrivacidadRoute,
+  LegalesTerminosRoute: LegalesTerminosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
