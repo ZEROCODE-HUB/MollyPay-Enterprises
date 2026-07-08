@@ -62,18 +62,95 @@ function Page() {
 
         <div className="space-y-6">
           <Card>
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="font-semibold flex items-center gap-2"><Smartphone size={16} /> Doble factor (2FA)</h3>
+            <div className="flex items-center justify-between mb-2 gap-2">
+              <h3 className="font-semibold flex items-center gap-2 min-w-0">
+                <Smartphone size={16} className="shrink-0" /> <span className="truncate">Doble factor (2FA)</span>
+              </h3>
               <Badge tone="success">Activo</Badge>
             </div>
             <p className="text-sm text-muted-foreground">
-              Recibís un código en Google Authenticator cada vez que iniciás sesión desde un dispositivo nuevo.
+              Elegí el método de verificación en dos pasos que preferís usar al iniciar sesión desde un dispositivo nuevo.
             </p>
+
+            <div className="grid sm:grid-cols-2 gap-2 mt-4">
+              <button
+                type="button"
+                onClick={() => setTwoFa("email")}
+                className={`text-left border rounded-lg p-3 transition ${
+                  twoFa === "email"
+                    ? "border-primary bg-[color:var(--brand-soft)]"
+                    : "hover:border-primary/50 bg-card"
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <Mail size={16} className="text-primary shrink-0" />
+                  <span className="font-semibold text-sm">Código por email</span>
+                  {twoFa === "email" && <Badge tone="success">Activo</Badge>}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Enviamos un código de 8 dígitos a tu correo corporativo.
+                </p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setTwoFa("totp")}
+                className={`text-left border rounded-lg p-3 transition ${
+                  twoFa === "totp"
+                    ? "border-primary bg-[color:var(--brand-soft)]"
+                    : "hover:border-primary/50 bg-card"
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <QrCode size={16} className="text-primary shrink-0" />
+                  <span className="font-semibold text-sm">Google Authenticator</span>
+                  {twoFa === "totp" && <Badge tone="success">Activo</Badge>}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Código TOTP de 6 dígitos generado en tu app (Google / 1Password / Authy).
+                </p>
+              </button>
+            </div>
+
+            {twoFa === "totp" && (
+              <div className="mt-4 border rounded-lg p-4 bg-muted/40">
+                <div className="grid grid-cols-1 sm:grid-cols-[auto_minmax(0,1fr)] gap-4 items-start">
+                  <div className="w-32 h-32 rounded-md bg-white border grid place-items-center shrink-0">
+                    <QrCode size={96} strokeWidth={1} className="text-foreground" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-xs text-muted-foreground">Escaneá el QR con Google Authenticator</div>
+                    <div className="text-[11px] text-muted-foreground mt-1">O ingresá manualmente la clave:</div>
+                    <div className="font-mono text-xs mt-1 p-2 bg-card border rounded break-all">
+                      JBSWY3DPEHPK3PXP-MOLLY-EMPRESA-DEMO
+                    </div>
+                    <div className="mt-3">
+                      <Label>Código de verificación</Label>
+                      <Input placeholder="123 456" inputMode="numeric" maxLength={6} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="flex gap-2 mt-4">
-              <BtnPrimary className="flex-1">Reconfigurar 2FA</BtnPrimary>
+              <BtnPrimary
+                className="flex-1"
+                onClick={() =>
+                  toast.success(
+                    twoFa === "totp"
+                      ? "Google Authenticator configurado como método 2FA"
+                      : "Código por email configurado como método 2FA",
+                  )
+                }
+              >
+                Guardar método 2FA
+              </BtnPrimary>
               <BtnOutline>Códigos de respaldo</BtnOutline>
             </div>
           </Card>
+
+
 
           <Card>
             <div className="flex items-center justify-between mb-2">
