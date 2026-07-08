@@ -19,12 +19,45 @@ const rows = [
   { f: "29/05/2026 17:44", d: "Transferencia – Juan Pérez", t: "Transferencia", sc: "Sucursal Norte", m: "- 35.000,00", e: "Pendiente", ref: "TR-9968" },
 ];
 
+function parseRowDate(f: string): Date {
+  // f: "02/06/2026 10:42"
+  const [d, t] = f.split(" ");
+  const [dd, mm, yyyy] = d.split("/").map(Number);
+  const [hh, min] = (t ?? "00:00").split(":").map(Number);
+  return new Date(yyyy, mm - 1, dd, hh, min);
+}
+
 function Page() {
   const [filtrosOpen, setFiltrosOpen] = useState(false);
   const [vista, setVista] = useState<"principal" | "sub">("principal");
   const [sub, setSub] = useState("Operaciones");
   const [preview, setPreview] = useState(false);
+  const [desde, setDesde] = useState("");
+  const [hasta, setHasta] = useState("");
+  const [tipo, setTipo] = useState("Todas");
+  const [subFiltro, setSubFiltro] = useState("Todas");
+  const [montoMin, setMontoMin] = useState("");
   const serie = "RP-EMP-2026-000042";
+
+  const filtered = rows.filter((r) => {
+    const rd = parseRowDate(r.f);
+    if (desde) {
+      const d1 = new Date(desde + "T00:00:00");
+      if (rd < d1) return false;
+    }
+    if (hasta) {
+      const d2 = new Date(hasta + "T23:59:59");
+      if (rd > d2) return false;
+    }
+    if (tipo !== "Todas" && r.t !== tipo) return false;
+    if (subFiltro !== "Todas" && r.sc !== subFiltro) return false;
+    if (montoMin) {
+      const min = Number(montoMin.replace(/[^\d]/g, ""));
+      const amt = Number(r.m.replace(/[^\d]/g, ""));
+      if (amt < min) return false;
+    }
+    return true;
+  });
   return (
     <>
       <PageHeader
