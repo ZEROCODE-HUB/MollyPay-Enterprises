@@ -1,8 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Building2, Upload, FileText, CheckCircle2, AlertCircle, CreditCard, SlidersHorizontal } from "lucide-react";
+import { useState } from "react";
+import { Building2, Upload, FileText, CheckCircle2, AlertCircle, CreditCard, SlidersHorizontal, Download, Landmark } from "lucide-react";
 import { PageHeader, Card, Input, Label, BtnPrimary, BtnOutline, Badge, Stat } from "@/components/portal-shell";
+import { toast } from "sonner";
+import { MollyLogo } from "@/components/molly-logo";
 
 export const Route = createFileRoute("/app/cuenta")({ component: Page });
+
 
 const docs = [
   { n: "Estatuto social", e: "Validado", f: "15/02/2026" },
