@@ -149,17 +149,89 @@ function Landing() {
       </section>
 
       <footer className="border-t bg-background">
-        <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between text-sm text-muted-foreground">
-          <MollyLogo />
-          <div className="flex flex-wrap gap-6">
-            <a href="#" className="hover:text-foreground">Términos</a>
-            <a href="#" className="hover:text-foreground">Privacidad</a>
-            <a href="#" className="hover:text-foreground">Compliance</a>
-            <a href="#" className="hover:text-foreground">Contacto</a>
+        <div className="max-w-6xl mx-auto px-6 py-12 grid gap-10 md:grid-cols-4 text-sm">
+          <div className="md:col-span-1">
+            <MollyLogo />
+            <p className="mt-3 text-xs text-muted-foreground max-w-xs">
+              Molly Money Life SA — Proveedor de Servicios de Pago (PSP). Registrado ante el Banco Central de la República Argentina (BCRA) bajo el régimen de PSPCP.
+            </p>
           </div>
-          <div>© {new Date().getFullYear()} Molly Money Life</div>
+
+          <div>
+            <div className="font-semibold text-foreground mb-3">Legales</div>
+            <ul className="space-y-2 text-muted-foreground">
+              <li><Link to="/legales/terminos" className="hover:text-foreground">Términos y condiciones</Link></li>
+              <li><Link to="/legales/privacidad" className="hover:text-foreground">Política de privacidad</Link></li>
+              <li><Link to="/legales/comisiones" className="hover:text-foreground">Tabla de comisiones</Link></li>
+              <li><Link to="/legales/arrepentimiento" className="hover:text-foreground">Botón de arrepentimiento</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <div className="font-semibold text-foreground mb-3">Contacto</div>
+            <ul className="space-y-2 text-muted-foreground">
+              <li>
+                <a href="tel:+541145550000" className="hover:text-foreground">
+                  +54 11 4555-0000
+                </a>
+              </li>
+              <li>
+                <a href="mailto:hola@molly.com.ar" className="hover:text-foreground">
+                  hola@molly.com.ar
+                </a>
+              </li>
+              <li className="text-xs">Lun a Vie · 9 a 18 hs</li>
+              <li className="text-xs">Av. Corrientes 1234, CABA, Argentina</li>
+            </ul>
+          </div>
+
+          <div>
+            <div className="font-semibold text-foreground mb-3">Ente fiscalizador</div>
+            <ul className="space-y-2 text-muted-foreground text-xs">
+              <li>
+                <a
+                  href="https://www.bcra.gob.ar"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-foreground"
+                >
+                  Banco Central de la República Argentina (BCRA)
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.argentina.gob.ar/aaip"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-foreground"
+                >
+                  Agencia de Acceso a la Información Pública (AAIP)
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://autogestion.produccion.gob.ar/consumidores"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-foreground"
+                >
+                  Defensa del Consumidor
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t">
+          <div className="max-w-6xl mx-auto px-6 py-5 flex flex-col md:flex-row gap-3 items-start md:items-center justify-between text-xs text-muted-foreground">
+            <div>© {new Date().getFullYear()} Molly Money Life SA — CUIT 30-71000000-0. Todos los derechos reservados.</div>
+            <div className="text-[11px]">
+              Los fondos depositados no constituyen depósitos en una entidad financiera ni cuentan con la garantía de la Ley 24.485.
+            </div>
+          </div>
         </div>
       </footer>
+
     </div>
   );
 }
