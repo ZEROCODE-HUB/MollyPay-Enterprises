@@ -28,7 +28,7 @@ function LoginPage() {
     <div className="min-h-screen grid lg:grid-cols-2">
       {/* Izquierda: imagen */}
       <div className="relative hidden lg:block">
-        <img src={heroImg} alt="" className="absolute inset-0 w-full h-full object-cover" width={1024} height={1280} />
+        <img src={heroImg} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" width={1024} height={1280} />
         <div className="absolute inset-0" style={{ background: "color-mix(in oklab, var(--brand-dark) 80%, transparent)" }} />
         <div className="relative h-full flex flex-col items-center justify-center px-12 text-center">
           <MollyLogo variant="light" className="scale-150" />

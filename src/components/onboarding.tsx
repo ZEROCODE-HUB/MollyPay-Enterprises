@@ -34,16 +34,16 @@ export function AuthShell({
         >
           <defs>
             <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#B08D57" strokeWidth="0.4" />
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0891B2" strokeWidth="0.4" />
             </pattern>
           </defs>
           <rect width="400" height="800" fill="url(#grid)" />
-          <g stroke="#B08D57" strokeWidth="0.6" fill="none" opacity="0.7">
+          <g stroke="#0891B2" strokeWidth="0.6" fill="none" opacity="0.7">
             <path d="M40 120 L200 260 L360 180" />
             <path d="M60 500 L220 400 L340 560" />
             <path d="M200 260 L220 400" />
           </g>
-          <g fill="#B08D57">
+          <g fill="#0891B2">
             <circle cx="40" cy="120" r="3" />
             <circle cx="200" cy="260" r="3" />
             <circle cx="360" cy="180" r="3" />
@@ -59,7 +59,7 @@ export function AuthShell({
           </Link>
           <p
             className="mt-10 uppercase tracking-[0.25em]"
-            style={{ fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontSize: "0.7rem", color: "#B08D57" }}
+            style={{ fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontSize: "0.7rem", color: "#0891B2" }}
           >
             {leftEyebrow}
           </p>
@@ -79,7 +79,7 @@ export function AuthShell({
         <div className="relative space-y-6">
           <div
             className="inline-flex items-center gap-2 border px-3 py-2"
-            style={{ borderColor: "rgba(176,141,87,0.5)", color: "#B08D57", borderRadius: 2 }}
+            style={{ borderColor: "rgba(8,145,178,0.5)", color: "#0891B2", borderRadius: 2 }}
           >
             <ShieldCheck size={14} />
             <span
@@ -181,7 +181,7 @@ export function FormTitle({ eyebrow, title, subtitle }: { eyebrow?: string; titl
             fontSize: "0.7rem",
             letterSpacing: "0.2em",
             textTransform: "uppercase",
-            color: "#B08D57",
+            color: "#0891B2",
           }}
         >
           {eyebrow}
@@ -534,7 +534,7 @@ export function FileUpload({
       >
         <div
           className="w-10 h-10 flex items-center justify-center"
-          style={{ background: "#0A1628", color: "#B08D57", borderRadius: 999 }}
+          style={{ background: "#0A1628", color: "#0891B2", borderRadius: 999 }}
         >
           <Camera size={18} />
         </div>
@@ -569,7 +569,7 @@ export function SuccessCard({
   children?: ReactNode;
   variant?: "success" | "info";
 }) {
-  const color = variant === "success" ? "#16A34A" : "#B08D57";
+  const color = variant === "success" ? "#16A34A" : "#0891B2";
   return (
     <div
       className="bg-white p-8 sm:p-10 text-center"

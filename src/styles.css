@@ -6,7 +6,7 @@
 
 @theme inline {
   --font-sans: "Inter", system-ui, sans-serif;
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-display: "Inter", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
   --color-navy-950: var(--navy-950);
   --color-navy-800: var(--navy-800);
@@ -62,7 +62,7 @@
   --paper: #F5F6F8;
   --ink: #131A2A;
   --crimson: #C8102E;
-  --brass: #B08D57;
+  --brass: #0891B2;
   --line: #D8DCE3;
 
   /* Molly brand — legacy aliases mapped to institutional palette */

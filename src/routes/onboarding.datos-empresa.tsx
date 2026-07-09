@@ -117,7 +117,7 @@ function DatosEmpresa() {
               fontSize: "0.7rem",
               letterSpacing: "0.2em",
               textTransform: "uppercase",
-              color: "#B08D57",
+              color: "#0891B2",
             }}
           >
             Resumen

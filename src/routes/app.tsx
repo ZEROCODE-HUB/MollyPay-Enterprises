@@ -15,9 +15,11 @@ import {
 } from "lucide-react";
 import { PortalShell, type NavItem } from "@/components/portal-shell";
 import { useDemoMode } from "@/contexts/demo-mode";
+import { RouteSkeleton } from "@/components/route-skeleton";
 
 export const Route = createFileRoute("/app")({
   component: AppLayout,
+  pendingComponent: RouteSkeleton,
 });
 
 const nav: NavItem[] = [

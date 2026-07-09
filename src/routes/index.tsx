@@ -17,7 +17,6 @@ import {
   Compass,
 } from "lucide-react";
 import { MollyLogo } from "@/components/molly-logo";
-import heroBg from "@/assets/hero-bg.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -41,16 +40,16 @@ export const Route = createFileRoute("/")({
 
 /* ---------- Design primitives ---------- */
 
-const display = {
-  fontFamily: 'Fraunces, ui-serif, Georgia, serif',
+const heading = {
+  fontFamily: 'Inter, sans-serif',
   fontWeight: 600,
-  letterSpacing: '-0.02em',
+  letterSpacing: '-0.01em',
 } as const;
 
-const displayHeavy = {
-  fontFamily: 'Fraunces, ui-serif, Georgia, serif',
-  fontWeight: 680,
-  letterSpacing: '-0.025em',
+const headingHeavy = {
+  fontFamily: 'Inter, sans-serif',
+  fontWeight: 700,
+  letterSpacing: '-0.02em',
 } as const;
 
 const mono = {
@@ -61,8 +60,8 @@ const mono = {
   fontWeight: 500,
 };
 
-function Eyebrow({ children, tone = "ink" }: { children: React.ReactNode; tone?: "ink" | "brass" | "paper" }) {
-  const color = tone === "brass" ? "#B08D57" : tone === "paper" ? "rgba(245,246,248,0.7)" : "#6B7280";
+function Eyebrow({ children, tone = "ink" }: { children: React.ReactNode; tone?: "ink" | "accent" | "paper" }) {
+  const color = tone === "accent" ? "#0891B2" : tone === "paper" ? "rgba(245,246,248,0.7)" : "#6B7280";
   return <div style={{ ...mono, color }}>{children}</div>;
 }
 
@@ -78,14 +77,13 @@ function GlassCard({
 }) {
   return (
     <div
-      className={`transition-all duration-300 hover:-translate-y-0.5 ${className}`}
+      className={`transition-all duration-300 hover:-translate-y-1 ${className}`}
       style={{
         padding,
-        background: "rgba(255,255,255,0.55)",
-        backdropFilter: "blur(14px) saturate(140%)",
-        border: "1px solid rgba(19,26,42,0.08)",
-        borderRadius: 4,
-        boxShadow: "0 1px 0 rgba(19,26,42,0.02)",
+        background: "#FFFFFF",
+        border: "1px solid #E2E8F0",
+        borderRadius: 12,
+        boxShadow: "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
       }}
     >
       {children}
@@ -143,7 +141,7 @@ function SiteHeader() {
             style={{
               border: "1px solid #0A1628",
               color: "#0A1628",
-              borderRadius: 2,
+              borderRadius: 8,
               fontFamily: "Inter, sans-serif",
               fontSize: "0.9rem",
               fontWeight: 500,
@@ -157,7 +155,7 @@ function SiteHeader() {
             style={{
               border: "1px solid #0A1628",
               color: "#0A1628",
-              borderRadius: 2,
+              borderRadius: 8,
               fontFamily: "Inter, sans-serif",
               fontSize: "0.9rem",
               fontWeight: 500,
@@ -170,7 +168,7 @@ function SiteHeader() {
             className="inline-flex h-9 sm:h-10 items-center px-3 sm:px-4 text-white transition-colors hover:opacity-90 whitespace-nowrap"
             style={{
               background: "#C8102E",
-              borderRadius: 2,
+              borderRadius: 8,
               fontFamily: "Inter, sans-serif",
               fontSize: "0.8125rem",
               fontWeight: 500,
@@ -189,38 +187,47 @@ function SiteHeader() {
 
 function Hero() {
   return (
-    <section style={{ position: "relative", overflow: "hidden", isolation: "isolate" }}>
-      {/* Background image */}
-      <img
-        src={heroBg}
-        alt=""
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          zIndex: -2,
-        }}
-      />
-      {/* Dark overlay ~80% */}
+    <section
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        isolation: "isolate",
+        background: "linear-gradient(135deg, #0A1628 0%, #16213E 50%, #1C2D50 100%)",
+      }}
+    >
+      {/* Ambient glow */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
-          inset: 0,
-          zIndex: -1,
-          background:
-            "linear-gradient(180deg, rgba(10,22,40,0.88) 0%, rgba(10,22,40,0.82) 60%, rgba(10,22,40,0.92) 100%)",
+          top: "-20%",
+          right: "-10%",
+          width: 600,
+          height: 600,
+          background: "radial-gradient(circle, rgba(8,145,178,0.12), transparent 70%)",
+          filter: "blur(60px)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          bottom: "-10%",
+          left: "-5%",
+          width: 400,
+          height: 400,
+          background: "radial-gradient(circle, rgba(200,16,46,0.08), transparent 70%)",
+          filter: "blur(60px)",
+          pointerEvents: "none",
         }}
       />
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-24 sm:pt-28 sm:pb-32 md:pt-40 md:pb-44">
-        <Eyebrow tone="brass">Money Life S.R.L. — Plataforma financiera digital</Eyebrow>
+        <Eyebrow tone="accent">Money Life S.R.L. — Plataforma financiera digital</Eyebrow>
         <h1
           style={{
-            ...displayHeavy,
+            ...headingHeavy,
             fontSize: "clamp(2.75rem, 5.8vw, 4.75rem)",
             lineHeight: 1.02,
             marginTop: "1.75rem",
@@ -245,14 +252,14 @@ function Hero() {
           <a
             href="#servicios"
             className="inline-flex h-12 items-center gap-2 px-7 text-sm font-medium text-white transition-colors hover:opacity-90"
-            style={{ background: "#C8102E", borderRadius: 2 }}
+            style={{ background: "#C8102E", borderRadius: 8 }}
           >
             Conoce más <ArrowRight size={16} />
           </a>
           <a
             href="#contacto"
             className="inline-flex h-12 items-center px-7 text-sm font-medium transition-colors hover:bg-white/10"
-            style={{ border: "1px solid rgba(245,246,248,0.4)", color: "#F5F6F8", borderRadius: 2 }}
+            style={{ border: "1px solid rgba(245,246,248,0.4)", color: "#F5F6F8", borderRadius: 8 }}
           >
             Contáctanos
           </a>
@@ -272,7 +279,7 @@ function LedgerStrip() {
     ["Plataforma", "100% digital"],
   ];
   return (
-    <section style={{ background: "#16213E", borderTop: "1px solid #B08D57", color: "#F5F6F8" }}>
+    <section style={{ background: "#16213E", borderTop: "1px solid rgba(255,255,255,0.1)", color: "#F5F6F8" }}>
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-4">
           {items.map(([label, value], i) => (
@@ -281,7 +288,7 @@ function LedgerStrip() {
               className="py-6 md:py-7 px-4 md:px-6"
               style={{ borderLeft: i === 0 ? "none" : "1px solid rgba(255,255,255,0.12)" }}
             >
-              <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>{label}</div>
+              <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>{label}</div>
               <div
                 className="mt-2"
                 style={{
@@ -350,10 +357,10 @@ function Servicios() {
         }}
       />
       <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
-        <Eyebrow tone="brass">Servicios</Eyebrow>
+        <Eyebrow tone="accent">Servicios</Eyebrow>
         <h2
           style={{
-            ...display,
+            ...heading,
             fontSize: "clamp(2rem, 3.5vw, 3rem)",
             lineHeight: 1.1,
             marginTop: "1rem",
@@ -365,11 +372,11 @@ function Servicios() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
           {items.map(({ icon: Icon, t, d }) => (
             <GlassCard key={t} className="flex flex-col h-full">
-              <div style={{ height: 1, background: "#B08D57", width: 32, marginBottom: "1.5rem" }} />
+              <div style={{ height: 1, background: "#0891B2", width: 32, marginBottom: "1.5rem" }} />
               <Icon size={22} strokeWidth={1.4} color="#0A1628" />
               <h3
                 style={{
-                  ...display,
+                  ...heading,
                   fontSize: "1.375rem",
                   color: "#131A2A",
                   marginTop: "1rem",
@@ -430,10 +437,10 @@ function ContamosCon() {
         }}
       />
       <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
-        <Eyebrow tone="brass">Capacidades</Eyebrow>
+        <Eyebrow tone="accent">Capacidades</Eyebrow>
         <h2
           style={{
-            ...display,
+            ...heading,
             fontSize: "clamp(2rem, 3.5vw, 3rem)",
             lineHeight: 1.1,
             marginTop: "1rem",
@@ -470,9 +477,9 @@ function CapabilityCard({
           flexShrink: 0,
           display: "grid",
           placeItems: "center",
-          border: "1px solid rgba(176,141,87,0.4)",
-          borderRadius: 2,
-          background: "rgba(176,141,87,0.06)",
+          border: "1px solid rgba(8,145,178,0.4)",
+          borderRadius: 8,
+          background: "rgba(8,145,178,0.06)",
         }}
       >
         <Icon size={18} strokeWidth={1.5} color="#0A1628" />
@@ -480,7 +487,7 @@ function CapabilityCard({
       <h3
         className="mt-4"
         style={{
-          ...display,
+          ...heading,
           fontSize: "1rem",
           color: "#131A2A",
           lineHeight: 1.25,
@@ -517,7 +524,7 @@ function MisionVision() {
           left: "40%",
           width: 600,
           height: 600,
-          background: "radial-gradient(circle, rgba(176,141,87,0.10), transparent 70%)",
+          background: "radial-gradient(circle, rgba(8,145,178,0.10), transparent 70%)",
           filter: "blur(40px)",
           pointerEvents: "none",
         }}
@@ -531,15 +538,15 @@ function MisionVision() {
               background: "linear-gradient(160deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
               backdropFilter: "blur(12px)",
               border: "1px solid rgba(255,255,255,0.12)",
-              borderRadius: 4,
+              borderRadius: 12,
               position: "relative",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <Target size={22} strokeWidth={1.4} color="#B08D57" />
-              <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>01 — Misión</div>
+              <Target size={22} strokeWidth={1.4} color="#0891B2" />
+              <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>01 — Misión</div>
             </div>
-            <h3 style={{ ...display, fontSize: "clamp(1.75rem, 2.4vw, 2.15rem)", color: "#F5F6F8", marginTop: "1.25rem", lineHeight: 1.15 }}>
+            <h3 style={{ ...heading, fontSize: "clamp(1.75rem, 2.4vw, 2.15rem)", color: "#F5F6F8", marginTop: "1.25rem", lineHeight: 1.15 }}>
               Facilitar la gestión digital de cobros y pagos.
             </h3>
             <p
@@ -560,16 +567,16 @@ function MisionVision() {
             style={{
               padding: "2.5rem 2.25rem 2.75rem",
               background: "#16213E",
-              border: "1px solid rgba(176,141,87,0.35)",
-              borderRadius: 4,
+              border: "1px solid rgba(8,145,178,0.35)",
+              borderRadius: 12,
               position: "relative",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <Compass size={22} strokeWidth={1.4} color="#B08D57" />
-              <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>02 — Visión</div>
+              <Compass size={22} strokeWidth={1.4} color="#0891B2" />
+              <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>02 — Visión</div>
             </div>
-            <h3 style={{ ...display, fontSize: "clamp(1.75rem, 2.4vw, 2.15rem)", color: "#F5F6F8", marginTop: "1.25rem", lineHeight: 1.15 }}>
+            <h3 style={{ ...heading, fontSize: "clamp(1.75rem, 2.4vw, 2.15rem)", color: "#F5F6F8", marginTop: "1.25rem", lineHeight: 1.15 }}>
               Ser un referente Fintech en la región.
             </h3>
             <p
@@ -621,10 +628,10 @@ function PorQueElegirnos() {
       <div className="relative max-w-6xl mx-auto px-6 py-20 md:py-32">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 md:mb-16">
           <div>
-            <Eyebrow tone="brass">Diferenciales</Eyebrow>
+            <Eyebrow tone="accent">Diferenciales</Eyebrow>
             <h2
               style={{
-                ...display,
+                ...heading,
                 fontSize: "clamp(2rem, 3.5vw, 3rem)",
                 lineHeight: 1.1,
                 marginTop: "1rem",
@@ -655,7 +662,7 @@ function PorQueElegirnos() {
                 padding: "2.25rem 1.75rem 2rem",
                 background: "#FFFFFF",
                 color: "#131A2A",
-                borderRadius: 4,
+                borderRadius: 12,
                 border: "1px solid #D8DCE3",
                 borderTop: "2px solid #C8102E",
               }}
@@ -676,7 +683,7 @@ function PorQueElegirnos() {
 
               <h3
                 style={{
-                  ...display,
+                  ...heading,
                   fontSize: "1.375rem",
                   marginTop: "1.5rem",
                   color: "#131A2A",
@@ -689,7 +696,7 @@ function PorQueElegirnos() {
                 style={{
                   height: 1,
                   width: 32,
-                  background: "#B08D57",
+                  background: "#0891B2",
                   marginTop: "0.875rem",
                   marginBottom: "0.875rem",
                 }}
@@ -716,12 +723,12 @@ function PorQueElegirnos() {
 
 function RegulatoryStrip() {
   return (
-    <section style={{ background: "#16213E", borderTop: "1px solid #B08D57", color: "#F5F6F8" }}>
+    <section style={{ background: "#16213E", borderTop: "1px solid rgba(255,255,255,0.1)", color: "#F5F6F8" }}>
       <div className="max-w-6xl mx-auto px-6 py-8 md:py-10 flex flex-col md:flex-row gap-6 md:items-center md:justify-between">
         <div className="flex items-center gap-5">
           <div
             style={{
-              border: "1px solid #B08D57",
+              border: "1px solid #0891B2",
               padding: "0.5rem 0.85rem",
               fontFamily: '"IBM Plex Mono", monospace',
               fontSize: "0.7rem",
@@ -733,7 +740,7 @@ function RegulatoryStrip() {
             BCRA
           </div>
           <div>
-            <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>Usuarios financieros</div>
+            <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>Usuarios financieros</div>
             <div
               className="mt-1"
               style={{
@@ -750,7 +757,7 @@ function RegulatoryStrip() {
           href="https://www.usuariosfinancieros.gob.ar"
           target="_blank"
           rel="noreferrer"
-          style={{ ...mono, color: "#F5F6F8", borderBottom: "1px solid #B08D57", paddingBottom: 2 }}
+          style={{ ...mono, color: "#F5F6F8", borderBottom: "1px solid #0891B2", paddingBottom: 2 }}
         >
           usuariosfinancieros.gob.ar →
         </a>
@@ -788,13 +795,13 @@ function SiteFooter() {
           >
             © 2026 MONEY LIFE S.R.L. Todos los derechos reservados.
           </p>
-          <p className="mt-4" style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>
+          <p className="mt-4" style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>
             PSPCP · Marco BCRA
           </p>
         </div>
 
         <div>
-          <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>Enlaces útiles</div>
+          <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>Enlaces útiles</div>
           <ul
             className="mt-5 space-y-3"
             style={{
@@ -811,7 +818,7 @@ function SiteFooter() {
         </div>
 
         <div>
-          <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>Contactános</div>
+          <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>Contactános</div>
           <ul
             className="mt-5 space-y-3"
             style={{
@@ -827,7 +834,7 @@ function SiteFooter() {
         </div>
 
         <div>
-          <div style={{ ...mono, color: "#B08D57", fontSize: "0.65rem" }}>Ente fiscalizador</div>
+          <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>Ente fiscalizador</div>
           <div
             className="mt-5"
             style={{
@@ -836,7 +843,7 @@ function SiteFooter() {
               background: "#16213E",
             }}
           >
-            <div style={{ ...mono, color: "#B08D57", fontSize: "0.6rem" }}>BCRA</div>
+            <div style={{ ...mono, color: "#0891B2", fontSize: "0.6rem" }}>BCRA</div>
             <div
               className="mt-1.5"
               style={{
