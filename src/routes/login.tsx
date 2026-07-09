@@ -19,9 +19,9 @@ function LoginPage() {
   const { setRole } = useDemoMode();
   const navigate = useNavigate();
 
-  const enterAs = (r: "empresa" | "admin") => {
-    setRole(r);
-    navigate({ to: r === "empresa" ? "/app" : "/admin" });
+  const enterAs = () => {
+    setRole("empresa");
+    navigate({ to: "/app" });
   };
 
   return (
@@ -68,7 +68,7 @@ function LoginPage() {
                 className="space-y-4"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  enterAs("empresa");
+                  enterAs();
                 }}
               >
                 <Field label="Email" type="email" placeholder="hola@empresa.com" />
@@ -82,7 +82,7 @@ function LoginPage() {
                 className="space-y-4"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  enterAs("empresa");
+                  enterAs();
                 }}
               >
                 <Field label="Nombre de la empresa" placeholder="Empresa SA" />
@@ -102,20 +102,12 @@ function LoginPage() {
                   <span className="bg-background px-3 text-xs text-muted-foreground uppercase tracking-wide">Acceso demo</span>
                 </div>
               </div>
-              <div className="grid gap-2 mt-5">
-                <button
-                  onClick={() => enterAs("empresa")}
-                  className="h-11 rounded-md border border-border bg-card text-sm font-semibold hover:bg-accent"
-                >
-                  Ingresar como Empresa
-                </button>
-                <button
-                  onClick={() => enterAs("admin")}
-                  className="h-11 rounded-md border border-border bg-card text-sm font-semibold hover:bg-accent"
-                >
-                  Ingresar como Administrador
-                </button>
-              </div>
+              <button
+                onClick={() => enterAs()}
+                className="w-full mt-5 h-11 rounded-md border border-border bg-card text-sm font-semibold hover:bg-accent"
+              >
+                Ingresar como Empresa
+              </button>
             </div>
           </div>
         </div>

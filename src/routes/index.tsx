@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { MollyLogo } from "@/components/molly-logo";
 import heroShotSrc from "@/assets/Capturadepantalla.png";
+import ogImageSrc from "@/assets/miniatura.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -34,6 +35,11 @@ export const Route = createFileRoute("/")({
         content:
           "Cuenta de pago, Crossborder, CVU Collect y Billetera. Plataforma tecnológica escalable y regulada.",
       },
+      { property: "og:image", content: ogImageSrc },
+      { property: "og:image:width", content: "1166" },
+      { property: "og:image:height", content: "552" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: ogImageSrc },
     ],
   }),
   component: Landing,
@@ -149,20 +155,6 @@ function SiteHeader() {
             }}
           >
             Inicia sesión
-          </Link>
-          <Link
-            to="/registro"
-            className="hidden sm:inline-flex h-10 items-center px-4 transition-colors hover:bg-[#0A1628]/5"
-            style={{
-              border: "1px solid #0A1628",
-              color: "#0A1628",
-              borderRadius: 8,
-              fontFamily: "Inter, sans-serif",
-              fontSize: "0.9rem",
-              fontWeight: 500,
-            }}
-          >
-            Regístrate
           </Link>
           <Link
             to="/registro/empresa"

@@ -26,7 +26,7 @@ export function PortalShell({
 }) {
   const path = useRouterState({ select: (r) => r.location.pathname });
   const [open, setOpen] = useState(false);
-  const { role, setRole } = useDemoMode();
+  const { setRole } = useDemoMode();
   const navigate = useNavigate();
 
   const leaves = useMemo(() => flattenLeaves(nav), [nav]);
@@ -59,15 +59,13 @@ export function PortalShell({
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex flex-col items-end leading-tight">
             <span className="text-xs text-muted-foreground">Sesión demo</span>
-            <span className="text-sm font-semibold">
-              {role === "admin" ? "Administrador" : "Empresa Demo SA"}
-            </span>
+            <span className="text-sm font-semibold">Empresa Demo SA</span>
           </div>
           <div
             className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold"
             style={{ background: "var(--brand-soft)", color: "var(--brand-dark)" }}
           >
-            {role === "admin" ? "MM" : "ED"}
+            ED
           </div>
           <button
             onClick={onLogout}
