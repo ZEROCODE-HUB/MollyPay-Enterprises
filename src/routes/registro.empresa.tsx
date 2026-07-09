@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { RegistroPage } from "./registro";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/registro/empresa")({
   head: () => ({
@@ -9,5 +9,13 @@ export const Route = createFileRoute("/registro/empresa")({
       { name: "robots", content: "noindex" },
     ],
   }),
-  component: () => <RegistroPage tipo="juridica" />,
+  component: RedirectToLogin,
 });
+
+function RedirectToLogin() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate({ to: "/login", replace: true });
+  }, [navigate]);
+  return null;
+}

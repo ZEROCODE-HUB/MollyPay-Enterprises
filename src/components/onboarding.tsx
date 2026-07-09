@@ -19,7 +19,7 @@ export function AuthShell({
   step?: string;
 }) {
   return (
-    <div className="min-h-screen grid lg:grid-cols-[minmax(0,42%)_1fr]" style={{ background: "#F7F5F0" }}>
+    <div className="min-h-screen grid lg:grid-cols-2" style={{ background: "#F7F5F0" }}>
       {/* Panel izquierdo */}
       <aside
         className="relative hidden lg:flex flex-col justify-between p-10 xl:p-12 overflow-hidden"
