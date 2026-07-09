@@ -75,7 +75,7 @@ function Eyebrow({ children, tone = "ink" }: { children: React.ReactNode; tone?:
 /* Glass card on light background */
 function GlassCard({
   children,
-  padding = "2rem 1.75rem 2.25rem",
+  padding,
   className = "",
 }: {
   children: React.ReactNode;
@@ -86,7 +86,7 @@ function GlassCard({
     <div
       className={`transition-all duration-300 hover:-translate-y-1 ${className}`}
       style={{
-        padding,
+        padding: padding ?? undefined,
         background: "#FFFFFF",
         border: "1px solid #E2E8F0",
         borderRadius: 12,
@@ -325,20 +325,20 @@ function LedgerStrip() {
   ];
   return (
     <section style={{ background: "#16213E", borderTop: "1px solid rgba(255,255,255,0.1)", color: "#F5F6F8" }}>
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-2 md:grid-cols-4">
           {items.map(([label, value], i) => (
             <div
               key={label}
-              className="py-6 md:py-7 px-4 md:px-6"
+              className="py-3 md:py-7 px-2 md:px-6"
               style={{ borderLeft: i === 0 ? "none" : "1px solid rgba(255,255,255,0.12)" }}
             >
-              <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>{label}</div>
+              <div style={{ ...mono, color: "#0891B2", fontSize: "0.6rem" }}>{label}</div>
               <div
-                className="mt-2"
+                className="mt-1 md:mt-2"
                 style={{
                   fontFamily: '"IBM Plex Mono", monospace',
-                  fontSize: "0.875rem",
+                  fontSize: "clamp(0.7rem, 2.5vw, 0.875rem)",
                   color: "#F5F6F8",
                   letterSpacing: "0.02em",
                 }}
@@ -416,7 +416,7 @@ function Servicios() {
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
           {items.map(({ icon: Icon, t, d }) => (
-            <GlassCard key={t} className="flex flex-col h-full">
+            <GlassCard key={t} className="flex flex-col h-full p-7">
               <div style={{ height: 1, background: "#0891B2", width: 32, marginBottom: "1.5rem" }} />
               <Icon size={22} strokeWidth={1.4} color="#0A1628" />
               <h3
@@ -493,8 +493,8 @@ function ContamosCon() {
         >
           Contamos con
         </h2>
-        {/* 2 cols mobile, 3 tablet, 5 desktop — square-ish vertical cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 mt-12 md:mt-16">
+        {/* 2 cols mobile, 3 tablet, 5 desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6 mt-12 md:mt-16">
           {items.map(({ icon: Icon, t, d }) => (
             <CapabilityCard key={t} Icon={Icon} t={t} d={d} />
           ))}
@@ -514,7 +514,7 @@ function CapabilityCard({
   d: string;
 }) {
   return (
-    <GlassCard padding="1.5rem 1.25rem" className="h-full flex flex-col aspect-square min-h-[220px]">
+    <GlassCard className="h-full flex flex-col p-4 sm:p-5">
       <div
         style={{
           width: 42,

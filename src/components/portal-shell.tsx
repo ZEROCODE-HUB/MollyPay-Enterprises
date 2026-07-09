@@ -1,7 +1,6 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { Menu, LogOut, MoreHorizontal, ChevronDown, type LucideIcon } from "lucide-react";
 import { useMemo, useState, type ReactNode } from "react";
-import { DemoBanner } from "./demo-banner";
 import { MollyLogo } from "./molly-logo";
 import { useDemoMode } from "@/contexts/demo-mode";
 
@@ -40,7 +39,6 @@ export function PortalShell({
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <DemoBanner />
       {/* Header */}
       <header className="h-14 border-b bg-card flex items-center justify-between px-4 lg:px-6 shrink-0">
         <div className="flex items-center gap-3">

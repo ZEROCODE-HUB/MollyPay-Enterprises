@@ -19,7 +19,7 @@ export function AuthShell({
   step?: string;
 }) {
   return (
-    <div className="min-h-screen grid lg:grid-cols-2" style={{ background: "#F7F5F0" }}>
+    <div className="min-h-screen grid lg:grid-cols-2 overflow-x-hidden" style={{ background: "#F7F5F0" }}>
       {/* Panel izquierdo */}
       <aside
         className="relative hidden lg:flex flex-col justify-between p-10 xl:p-12 overflow-hidden"
@@ -103,19 +103,25 @@ export function AuthShell({
       {/* Panel derecho */}
       <main className="flex flex-col">
         {/* Franja mobile */}
-        <div className="lg:hidden px-6 py-5 flex items-center justify-between" style={{ background: "#0A1628", color: "#fff" }}>
-          <Link to="/">
-            <MollyLogo variant="light" size={28} />
+        <div className="lg:hidden px-6 py-4 flex items-center justify-between" style={{ background: "#0A1628", color: "#fff" }}>
+          <Link to="/" className="inline-flex items-center gap-2">
+            <MollyLogo variant="light" size={26} />
           </Link>
-          <span
-            className="text-white/70"
-            style={{ fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontSize: "0.65rem", letterSpacing: "0.15em", textTransform: "uppercase" }}
-          >
-            BCRA
-          </span>
+          <div className="flex items-center gap-3">
+            <span
+              className="text-white/50 font-mono tracking-widest"
+              style={{ fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase" }}
+            >
+              BCRA
+            </span>
+            <span className="w-px h-4 bg-white/10" />
+            <span className="text-white/70 text-xs font-mono tracking-wider" style={{ fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontSize: "0.6rem" }}>
+              PSPCP
+            </span>
+          </div>
         </div>
 
-        <div className="flex-1 flex items-start lg:items-center justify-center px-4 sm:px-6 py-10 lg:py-16">
+        <div className="flex-1 flex items-start lg:items-center justify-center px-5 sm:px-8 py-8 lg:py-16 overflow-x-hidden">
           <div className="w-full max-w-[480px]">{children}</div>
         </div>
 

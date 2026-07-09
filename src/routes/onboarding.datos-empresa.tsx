@@ -130,7 +130,7 @@ function DatosEmpresa() {
           </h2>
           <dl className="divide-y" style={{ borderTop: "1px solid rgba(10,22,40,0.1)", borderBottom: "1px solid rgba(10,22,40,0.1)" }}>
             {rows.map(([k, v]) => (
-              <div key={k} className="grid grid-cols-[minmax(0,140px)_1fr] gap-4 py-3 text-sm">
+              <div key={k} className="grid grid-cols-1 sm:grid-cols-[minmax(0,140px)_1fr] gap-1 sm:gap-4 py-3 text-sm">
                 <dt className="text-[#0A1628]/60">{k}</dt>
                 <dd className="text-[#0A1628] font-semibold">{v || "—"}</dd>
               </div>
