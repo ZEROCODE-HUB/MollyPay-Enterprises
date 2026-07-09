@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowUpRight, Calendar, Clock, ShieldCheck, Shield, Star, Trash2, Edit3, Play, FileText, Save, Send, Users, AlertTriangle, X, Plus } from "lucide-react";
-import { PageHeader, Card, Input, Label, BtnPrimary, BtnOutline, Stat, Badge } from "@/components/portal-shell";
+import { ArrowUpRight, Calendar, Clock, ShieldCheck, Star, Trash2, Edit3, Play, FileText, Save, Users, X, Plus } from "lucide-react";
+import { PageHeader, Input, Label, BtnPrimary, BtnOutline, Badge } from "@/components/portal-shell";
 import { toast } from "sonner";
 import { FormDialog } from "@/components/form-dialog";
 
@@ -294,7 +294,7 @@ function Unica({
           ))}
         </div>
         <div className="flex items-center gap-2 text-xs text-muted-foreground p-3 bg-muted rounded">
-          <Shield size={14} /> Se solicitará 2FA al confirmar.
+          <ShieldCheck size={14} /> Se solicitará 2FA al confirmar.
         </div>
         <div className="flex gap-2">
           <BtnOutline onClick={() => setConfirm(false)} className="flex-1">Volver</BtnOutline>
@@ -323,7 +323,7 @@ function Unica({
             onChange={(e) => setDestinatario(e.target.value)}
           />
           <div className="text-xs text-muted-foreground mt-1">
-            <Shield size={11} className="inline mr-1" /> Validado: Proveedor SA — Banco Galicia
+            <ShieldCheck size={11} className="inline mr-1" /> Validado: Proveedor SA — Banco Galicia
           </div>
         </div>
         <div>
@@ -412,7 +412,7 @@ function Programar({ onSuccess }: { onSuccess: () => void }) {
           <Label>Destinatario</Label>
           <Input placeholder="Buscar por CBU, CVU o alias" defaultValue="proveedor.sa" />
           <div className="text-xs text-muted-foreground mt-1">
-            <Shield size={11} className="inline mr-1" /> Validado: Proveedor SA — Banco Galicia
+            <ShieldCheck size={11} className="inline mr-1" /> Validado: Proveedor SA — Banco Galicia
           </div>
         </div>
         <div>
