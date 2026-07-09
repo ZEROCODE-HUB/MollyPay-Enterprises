@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { DemoModeProvider } from "../contexts/demo-mode";
 import { Toaster } from "@/components/ui/sonner";
+import ogImageSrc from "@/assets/miniatura.png";
 
 function NotFoundComponent() {
   return (
@@ -87,8 +88,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:title", content: "MolyPay Money Life — Plataforma de pagos para empresas" },
       { name: "twitter:description", content: "Billetera virtual B2B para empresas, consorcios y administradores de alquileres en Argentina." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a798da24-113d-488a-8d9e-8e1434928df8/id-preview-38e643af--21f4f5f0-0d66-42be-9c6e-d846136c1bb6.lovable.app-1780498650265.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a798da24-113d-488a-8d9e-8e1434928df8/id-preview-38e643af--21f4f5f0-0d66-42be-9c6e-d846136c1bb6.lovable.app-1780498650265.png" },
+      { property: "og:image", content: ogImageSrc },
+      { property: "og:image:width", content: "1166" },
+      { property: "og:image:height", content: "552" },
+      { name: "twitter:image", content: ogImageSrc },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
