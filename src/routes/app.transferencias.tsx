@@ -1,250 +1,206 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowUpRight, Clock, ShieldCheck, Repeat, Calendar, AlertTriangle, Star, Trash2 } from "lucide-react";
+import { ArrowUpRight, Calendar, Clock, ShieldCheck, Shield, Star, Trash2, Edit3, Play, FileText, Save, Send, Users, AlertTriangle, X, Plus } from "lucide-react";
 import { PageHeader, Card, Input, Label, BtnPrimary, BtnOutline, Stat, Badge } from "@/components/portal-shell";
 import { toast } from "sonner";
 import { FormDialog } from "@/components/form-dialog";
 
 export const Route = createFileRoute("/app/transferencias")({ component: Page });
 
+type Tab = "unica" | "programar" | "borradores" | "programadas" | "destinatarios";
 
-const recientes = [
-  { n: "Proveedor SA", a: "proveedor.sa", m: "$ 220.000", f: "Hoy 10:42" },
-  { n: "Estudio Ríos", a: "rios.contable", m: "$ 145.000", f: "Ayer 18:10" },
-  { n: "Servicios Generales", a: "serv.generales", m: "$ 82.500", f: "30/05 16:22" },
-  { n: "Juan Pérez", a: "juanperez.mp", m: "$ 35.000", f: "29/05 09:05" },
+type Draft = { id: string; destinatario: string; alias: string; monto: string; concepto: string; ref: string; fecha: string };
+type Scheduled = { id: string; destinatario: string; alias: string; monto: string; fecha: string; hora: string; estado: string; concepto: string };
+type Destinatario = { nombre: string; alias: string; banco: string };
+
+const draftsMock: Draft[] = [
+  { id: "d1", destinatario: "Proveedor SA", alias: "proveedor.sa", monto: "$ 220.000", concepto: "Pago a proveedor", ref: "Factura 0034", fecha: "08/07/2026" },
+  { id: "d2", destinatario: "Estudio Ríos", alias: "rios.contable", monto: "$ 145.000", concepto: "Honorarios", ref: "Abril 2026", fecha: "07/07/2026" },
 ];
 
-const programadas = [
-  { d: "Sueldos Mayo", m: "$ 4.820.000", f: "05/06/2026", e: "Programada" },
-  { d: "Pago proveedor recurrente", m: "$ 220.000", f: "10/06/2026", e: "Recurrente" },
-  { d: "Honorarios estudio", m: "$ 145.000", f: "12/06/2026", e: "Programada" },
+const scheduledMock: Scheduled[] = [
+  { id: "s1", destinatario: "Sueldos Mayo", alias: "sueldos.empresa", monto: "$ 4.820.000", fecha: "10/07/2026", hora: "09:00", estado: "Programada", concepto: "Sueldos" },
+  { id: "s2", destinatario: "Proveedor SA", alias: "proveedor.sa", monto: "$ 220.000", fecha: "15/07/2026", hora: "14:30", estado: "Programada", concepto: "Pago a proveedor" },
+  { id: "s3", destinatario: "Estudio Ríos", alias: "rios.contable", monto: "$ 145.000", fecha: "12/07/2026", hora: "10:00", estado: "Recurrente", concepto: "Honorarios" },
 ];
 
-const plantillas = [
-  { n: "Sueldos mensuales", d: "Lote · 18 empleados", m: "$ 4.820.000" },
-  { n: "Pago proveedor SA", d: "Mensual · día 10", m: "$ 220.000" },
-  { n: "Honorarios estudio Ríos", d: "Mensual · día 12", m: "$ 145.000" },
-  { n: "Alquiler oficina", d: "Mensual · día 5", m: "$ 380.000" },
+const destinatariosMock: Destinatario[] = [
+  { nombre: "Proveedor SA", alias: "proveedor.sa", banco: "Banco Galicia" },
+  { nombre: "Estudio Ríos", alias: "rios.contable", banco: "Banco Nación" },
+  { nombre: "Servicios Generales", alias: "serv.generales", banco: "Banco Macro" },
+  { nombre: "Juan Pérez", alias: "juanperez.mp", banco: "Mercado Pago" },
+  { nombre: "María López", alias: "mlopez.cv", banco: "Banco Santander" },
 ];
 
 function Page() {
+  const [tab, setTab] = useState<Tab>("unica");
   const [confirm, setConfirm] = useState(false);
-  const [tab, setTab] = useState<"unica" | "lote" | "programada">("unica");
-  const [plantOpen, setPlantOpen] = useState(false);
-  const [saveDestOpen, setSaveDestOpen] = useState(false);
   const [destAlias, setDestAlias] = useState("");
+  const [saveDestOpen, setSaveDestOpen] = useState(false);
+  const [plantillaOpen, setPlantillaOpen] = useState(false);
+  const [drafts, setDrafts] = useState<Draft[]>(draftsMock);
+  const [scheduled, setScheduled] = useState<Scheduled[]>(scheduledMock);
 
+  const tabs: { key: Tab; label: string }[] = [
+    { key: "unica", label: "Transferencia única" },
+    { key: "programar", label: "Programar" },
+    { key: "borradores", label: "Borradores" },
+    { key: "programadas", label: "Transferencias programadas" },
+    { key: "destinatarios", label: "Destinatarios frecuentes" },
+  ];
+
+  const enterAs = () => {
+    setConfirm(false);
+    toast.success("Transferencia enviada");
+    setDestAlias("proveedor.sa");
+    setSaveDestOpen(true);
+  };
 
   return (
     <>
       <PageHeader
-        title="Transferencias"
-        description="Envíos inmediatos, programados y por lote a CBU o alias."
-        action={<BtnOutline onClick={() => setPlantOpen(true)}><Repeat size={14} /> Plantillas</BtnOutline>}
+        title="Transferir"
+        description="Envíos inmediatos, programados y a CBU, CVU o alias."
+        action={<BtnOutline onClick={() => setPlantillaOpen(true)}><FileText size={14} /> Plantillas</BtnOutline>}
       />
 
-      <div className="grid md:grid-cols-4 gap-4 mb-6">
-        <Stat label="Disponible hoy" value="$ 12.479.330,55" sub="Operativa + subcuentas" />
-        <Stat label="Enviado este mes" value="$ 28.4M" sub="142 operaciones" />
-        <Stat label="Programadas" value="3" sub="$ 5.185.000 próximos 10 días" />
-        <Stat label="Límite diario" value="$ 25M" sub="73% utilizado" />
-      </div>
-
-      <div className="grid lg:grid-cols-[1.4fr_1fr] gap-6">
-        <Card>
-          <div className="flex gap-1 mb-5 border-b -mt-1">
-            {[
-              ["unica", "Única"],
-              ["lote", "Por lote"],
-              ["programada", "Programada"],
-            ].map(([k, l]) => (
-              <button
-                key={k}
-                onClick={() => setTab(k as typeof tab)}
-                className={`px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px ${
-                  tab === k ? "border-primary text-primary" : "border-transparent text-muted-foreground"
-                }`}
-              >
-                {l}
-              </button>
-            ))}
-          </div>
-
-          {!confirm ? (
-            <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setConfirm(true); }}>
-              <div className="grid sm:grid-cols-2 gap-3">
-                <div className="sm:col-span-2">
-                  <Label>Origen de fondos</Label>
-                  <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
-                    <option>Cuenta operativa — $ 6.389.830,55</option>
-                    <option>Sucursal Centro — $ 4.220.000,00</option>
-                    <option>Sucursal Norte — $ 1.870.500,00</option>
-                  </select>
-                </div>
-                <div className="sm:col-span-2">
-                  <Label>Destinatario</Label>
-                  <Input placeholder="CBU, alias o buscar en agenda" defaultValue="proveedor.sa" />
-                  <div className="text-xs text-muted-foreground mt-1">
-                    <ShieldCheck size={11} className="inline mr-1" /> Validado: Proveedor SA — Banco Galicia
-                  </div>
-                </div>
-                <div>
-                  <Label>Monto</Label>
-                  <Input placeholder="$ 0,00" defaultValue="220000" />
-                </div>
-                <div>
-                  <Label>Moneda</Label>
-                  <Input defaultValue="ARS" readOnly />
-                </div>
-                <div>
-                  <Label>Concepto</Label>
-                  <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
-                    <option>Pago a proveedor</option>
-                    <option>Sueldos</option>
-                    <option>Honorarios</option>
-                    <option>Servicios</option>
-                    <option>Devolución</option>
-                  </select>
-                </div>
-                <div>
-                  <Label>Referencia</Label>
-                  <Input placeholder="Factura 0034" />
-                </div>
-              </div>
-
-              {tab === "programada" && (
-                <div className="grid sm:grid-cols-2 gap-3 p-3 rounded-md bg-muted">
-                  <div><Label>Fecha de envío</Label><Input type="date" /></div>
-                  <div>
-                    <Label>Recurrencia</Label>
-                    <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
-                      <option>Una sola vez</option>
-                      <option>Semanal</option>
-                      <option>Mensual</option>
-                    </select>
-                  </div>
-                </div>
-              )}
-
-              <div className="flex gap-2">
-                <BtnOutline className="flex-1">Guardar borrador</BtnOutline>
-                <BtnPrimary type="submit" className="flex-1">Continuar</BtnPrimary>
-              </div>
-            </form>
-          ) : (
-            <div className="space-y-4">
-              <div className="text-sm text-muted-foreground">Revisá los datos antes de confirmar.</div>
-              <div className="border rounded-md divide-y">
-                {[
-                  ["Origen", "Cuenta operativa"],
-                  ["Destinatario", "Proveedor SA"],
-                  ["CBU", "0000003 100099887766 11"],
-                  ["Banco", "Banco Galicia"],
-                  ["Monto", "$ 220.000,00"],
-                  ["Concepto", "Pago a proveedor"],
-                  ["Comisión estimada", "$ 80,00 (0,30%)"],
-                  ["Total débito", "$ 220.080,00"],
-                ].map(([k, v]) => (
-                  <div key={k} className="flex justify-between py-2.5 px-3 text-sm">
-                    <span className="text-muted-foreground">{k}</span>
-                    <span className="font-semibold">{v}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground p-3 bg-muted rounded">
-                <ShieldCheck size={14} /> Se solicitará 2FA al confirmar.
-              </div>
-              <div className="flex gap-2">
-                <BtnOutline onClick={() => setConfirm(false)} className="flex-1">Volver</BtnOutline>
-                <BtnPrimary
-                  onClick={() => {
-                    setConfirm(false);
-                    toast.success("Transferencia enviada");
-                    // No auto-guardado: preguntar si querés guardar el destinatario
-                    setDestAlias("proveedor.sa");
-                    setSaveDestOpen(true);
-                  }}
-                  className="flex-1"
-                >
-                  Confirmar transferencia
-                </BtnPrimary>
-              </div>
-
-            </div>
-          )}
-        </Card>
-
-        <div className="space-y-6">
-          <Card>
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold text-sm">Destinatarios frecuentes</h3>
-              <button className="text-xs text-primary font-semibold">Ver todos</button>
-            </div>
-            <div className="divide-y">
-              {recientes.map((r) => (
-                <div key={r.n} className="flex items-center justify-between py-2.5">
-                  <div>
-                    <div className="text-sm font-semibold">{r.n}</div>
-                    <div className="text-xs text-muted-foreground">@{r.a} · {r.f}</div>
-                  </div>
-                  <button className="text-xs text-primary font-semibold flex items-center gap-1">
-                    Reenviar <ArrowUpRight size={12} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </Card>
-
-          <Card>
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold text-sm flex items-center gap-2"><Calendar size={14} /> Programadas</h3>
-            </div>
-            <div className="divide-y">
-              {programadas.map((p) => (
-                <div key={p.d} className="py-2.5">
-                  <div className="flex justify-between text-sm">
-                    <span className="font-semibold">{p.d}</span>
-                    <span className="font-semibold">{p.m}</span>
-                  </div>
-                  <div className="flex justify-between mt-1">
-                    <span className="text-xs text-muted-foreground flex items-center gap-1"><Clock size={11} /> {p.f}</span>
-                    <Badge tone={p.e === "Recurrente" ? "neutral" : "warn"}>{p.e}</Badge>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Card>
-
-          <Card className="border-amber-200 bg-amber-50/50">
-            <div className="flex gap-2 items-start">
-              <AlertTriangle size={16} className="text-amber-600 mt-0.5" />
-              <div className="text-xs">
-                <div className="font-semibold text-amber-900 mb-1">Recordá</div>
-                <div className="text-amber-800">
-                  Transferencias mayores a $ 1.000.000 requieren validación 2FA y quedan sujetas a revisión de compliance.
-                </div>
-              </div>
-            </div>
-          </Card>
+      {/* Stats compactas */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        <div className="bg-card border rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Disponible hoy</div>
+          <div className="text-base md:text-lg font-semibold mt-0.5">$ 12.479.330</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5 truncate">Operativa + subcuentas</div>
+        </div>
+        <div className="bg-card border rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Enviado este mes</div>
+          <div className="text-base md:text-lg font-semibold mt-0.5">$ 28.4M</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">142 operaciones</div>
+        </div>
+        <div className="bg-card border rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Programadas</div>
+          <div className="text-base md:text-lg font-semibold mt-0.5">3</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">$ 5.185.000 próximos</div>
+        </div>
+        <div className="bg-card border rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Límite diario</div>
+          <div className="text-base md:text-lg font-semibold mt-0.5">$ 25M</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">73% utilizado</div>
         </div>
       </div>
 
+      {/* Tabs */}
+      <div className="bg-card border rounded-lg mb-6 overflow-hidden">
+        <div className="flex gap-0 border-b overflow-x-auto">
+          {tabs.map((t) => (
+            <button
+              key={t.key}
+              onClick={() => setTab(t.key)}
+              className={`px-4 py-3 text-sm font-semibold whitespace-nowrap border-b-2 -mb-px transition-colors ${
+                tab === t.key ? "border-primary text-primary" : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="p-5">
+          {tab === "unica" && (
+            <UnicaTransfer
+              confirm={confirm}
+              setConfirm={setConfirm}
+              onSuccess={enterAs}
+              onSaveDraft={(d) => {
+                setDrafts((prev) => [...prev, d]);
+                toast.success("Borrador guardado");
+              }}
+              onSaveTemplate={() => {
+                toast.success("Plantilla guardada");
+              }}
+            />
+          )}
+          {tab === "programar" && (
+            <Programar
+              onSuccess={() => {
+                const newSched: Scheduled = {
+                  id: `s${Date.now()}`,
+                  destinatario: "Nueva transferencia",
+                  alias: "alias.ejemplo",
+                  monto: "$ 0",
+                  fecha: "12/07/2026",
+                  hora: "10:00",
+                  estado: "Programada",
+                  concepto: "Pago",
+                };
+                setScheduled((prev) => [...prev, newSched]);
+                toast.success("Transferencia programada");
+                setTab("programadas");
+              }}
+            />
+          )}
+          {tab === "borradores" && (
+            <Borradores
+              drafts={drafts}
+              onDelete={(id) => {
+                setDrafts((prev) => prev.filter((d) => d.id !== id));
+                toast.success("Borrador eliminado");
+              }}
+              onEdit={() => {
+                setTab("unica");
+                toast.success("Borrador cargado en el formulario");
+              }}
+              onExecute={() => {
+                toast.success("Transferencia enviada desde borrador");
+              }}
+            />
+          )}
+          {tab === "programadas" && (
+            <Programadas
+              items={scheduled}
+              onCancel={(id) => {
+                setScheduled((prev) => prev.filter((s) => s.id !== id));
+                toast.success("Transferencia cancelada");
+              }}
+              onEdit={() => toast.success("Editando transferencia programada")}
+              onExecute={() => toast.success("Transferencia ejecutada")}
+            />
+          )}
+          {tab === "destinatarios" && (
+            <DestinatariosList onSelect={() => {
+              setTab("unica");
+              toast.success("Destinatario cargado");
+            }} />
+          )}
+        </div>
+      </div>
+
+      {/* Plantilla dialog */}
       <FormDialog
-        open={plantOpen}
-        onClose={() => setPlantOpen(false)}
+        open={plantillaOpen}
+        onClose={() => setPlantillaOpen(false)}
         title="Plantillas de transferencia"
-        description="Usá una plantilla guardada o creá una nueva para reutilizar."
+        description="Seleccioná una plantilla para precargar el formulario."
         submitLabel="Crear nueva plantilla"
         size="lg"
         onSubmit={() => {
-          setPlantOpen(false);
-          toast.success("Plantilla creada");
+          setPlantillaOpen(false);
+          toast.success("Nueva plantilla creada");
         }}
       >
-        <div className="divide-y border rounded-md">
-          {plantillas.map((p) => (
-            <div key={p.n} className="flex items-center justify-between p-3">
+        <div className="divide-y border rounded-md max-h-64 overflow-y-auto">
+          {[
+            { n: "Sueldos mensuales", d: "18 empleados", m: "$ 4.820.000", t: "unica" as const },
+            { n: "Pago proveedor SA", d: "Mensual · día 10", m: "$ 220.000", t: "unica" as const },
+            { n: "Honorarios estudio Ríos", d: "Mensual · día 12", m: "$ 145.000", t: "unica" as const },
+            { n: "Alquiler oficina", d: "Mensual · día 5", m: "$ 380.000", t: "programar" as const },
+          ].map((p) => (
+            <div key={p.n} className="flex items-center justify-between p-3 hover:bg-muted/50 cursor-pointer"
+              onClick={() => {
+                setPlantillaOpen(false);
+                setTab(p.t);
+                toast.success(`Plantilla "${p.n}" cargada`);
+              }}
+            >
               <div className="flex items-center gap-3 min-w-0">
                 <div className="w-9 h-9 rounded-md bg-[color:var(--brand-soft)] flex items-center justify-center shrink-0">
                   <Star size={14} className="text-[color:var(--brand-dark)]" />
@@ -256,7 +212,6 @@ function Page() {
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <span className="text-sm font-semibold">{p.m}</span>
-                <BtnOutline className="h-8 px-2 text-xs" onClick={() => { setPlantOpen(false); toast.success(`Plantilla "${p.n}" cargada`); }}>Usar</BtnOutline>
                 <button type="button" className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-accent text-muted-foreground"><Trash2 size={13} /></button>
               </div>
             </div>
@@ -271,7 +226,7 @@ function Page() {
       <FormDialog
         open={saveDestOpen}
         onClose={() => setSaveDestOpen(false)}
-        title="¿Deseas guardar este destinatario como recurrente?"
+        title="¿Deseas guardar este destinatario como frecuente?"
         description={`Podés agendar a @${destAlias} en tu lista de destinatarios frecuentes para reutilizarlo.`}
         submitLabel="Sí, guardar destinatario"
         onSubmit={() => {
@@ -281,11 +236,372 @@ function Page() {
       >
         <div className="text-xs text-muted-foreground">
           Los destinatarios ya no se guardan automáticamente. Solo se agendan si confirmás aquí.
-          Si presionás "Cerrar" no se guardará.
+          Si presionás "Cancelar" no se guardará.
         </div>
       </FormDialog>
-
     </>
   );
 }
 
+/* ===== Transferencia única ===== */
+
+function Unica({
+  confirm,
+  setConfirm,
+  onSuccess,
+  onSaveDraft,
+  onSaveTemplate,
+}: {
+  confirm: boolean;
+  setConfirm: (v: boolean) => void;
+  onSuccess: () => void;
+  onSaveDraft: (d: Draft) => void;
+  onSaveTemplate: () => void;
+}) {
+  const [monto, setMonto] = useState("220000");
+  const [destinatario, setDestinatario] = useState("proveedor.sa");
+
+  const saveAsDraft = () => {
+    onSaveDraft({
+      id: `d${Date.now()}`,
+      destinatario: "Nuevo borrador",
+      alias: destinatario,
+      monto: `$ ${Number(monto).toLocaleString("es-AR")}`,
+      concepto: "Pago a proveedor",
+      ref: "",
+      fecha: new Date().toLocaleDateString("es-AR"),
+    });
+  };
+
+  if (confirm) {
+    return (
+      <div className="space-y-4">
+        <div className="text-sm text-muted-foreground">Revisá los datos antes de confirmar.</div>
+        <div className="border rounded-md divide-y">
+          {[
+            ["Origen", "Cuenta operativa"],
+            ["Destinatario", "Proveedor SA"],
+            ["CBU", "0000003 100099887766 11"],
+            ["Banco", "Banco Galicia"],
+            ["Monto", "$ 220.000,00"],
+            ["Comisión estimada", "$ 80,00 (0,30%)"],
+            ["Total débito", "$ 220.080,00"],
+          ].map(([k, v]) => (
+            <div key={k} className="flex justify-between py-2.5 px-3 text-sm">
+              <span className="text-muted-foreground">{k}</span>
+              <span className="font-semibold">{v}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground p-3 bg-muted rounded">
+          <Shield size={14} /> Se solicitará 2FA al confirmar.
+        </div>
+        <div className="flex gap-2">
+          <BtnOutline onClick={() => setConfirm(false)} className="flex-1">Volver</BtnOutline>
+          <BtnPrimary onClick={onSuccess} className="flex-1">Confirmar transferencia</BtnPrimary>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setConfirm(true); }}>
+      <div className="grid sm:grid-cols-2 gap-3">
+        <div className="sm:col-span-2">
+          <Label>Origen de fondos</Label>
+          <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
+            <option>Cuenta operativa — $ 6.389.830,55</option>
+            <option>Sucursal Centro — $ 4.220.000,00</option>
+            <option>Sucursal Norte — $ 1.870.500,00</option>
+          </select>
+        </div>
+        <div className="sm:col-span-2">
+          <Label>Destinatario</Label>
+          <Input
+            placeholder="Buscar por CBU, CVU o alias"
+            value={destinatario}
+            onChange={(e) => setDestinatario(e.target.value)}
+          />
+          <div className="text-xs text-muted-foreground mt-1">
+            <Shield size={11} className="inline mr-1" /> Validado: Proveedor SA — Banco Galicia
+          </div>
+        </div>
+        <div>
+          <Label>Monto</Label>
+          <Input placeholder="$ 0,00" value={monto} onChange={(e) => setMonto(e.target.value)} />
+        </div>
+        <div>
+          <Label>Moneda</Label>
+          <div className="h-10 px-3 rounded-md border bg-muted flex items-center text-sm text-muted-foreground">
+            ARS — Pesos Argentinos
+          </div>
+        </div>
+        <div>
+          <Label>Concepto</Label>
+          <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
+            <option>Pago a proveedor</option>
+            <option>Sueldos</option>
+            <option>Honorarios</option>
+            <option>Servicios</option>
+            <option>Devolución</option>
+          </select>
+        </div>
+        <div>
+          <Label>Referencia</Label>
+          <Input placeholder="Factura 0034" />
+        </div>
+      </div>
+
+      <div className="flex gap-2 pt-1">
+        <BtnOutline type="button" className="flex-1" onClick={saveAsDraft}>
+          <Save size={14} /> Guardar borrador
+        </BtnOutline>
+        <BtnOutline type="button" className="flex-1" onClick={onSaveTemplate}>
+          <FileText size={14} /> Guardar como plantilla
+        </BtnOutline>
+        <BtnPrimary type="submit" className="flex-1">Continuar</BtnPrimary>
+      </div>
+    </form>
+  );
+}
+
+/* ===== Programar ===== */
+function Programar({ onSuccess }: { onSuccess: () => void }) {
+  const [confirm, setConfirm] = useState(false);
+
+  if (confirm) {
+    return (
+      <div className="space-y-4">
+        <div className="text-sm text-muted-foreground">Revisá los datos antes de programar.</div>
+        <div className="border rounded-md divide-y">
+          {[
+            ["Origen", "Cuenta operativa"],
+            ["Destinatario", "Proveedor SA"],
+            ["CBU", "0000003 100099887766 11"],
+            ["Monto", "$ 220.000,00"],
+            ["Fecha", "15/07/2026"],
+            ["Hora", "14:30"],
+            ["Comisión estimada", "$ 80,00 (0,30%)"],
+          ].map(([k, v]) => (
+            <div key={k} className="flex justify-between py-2.5 px-3 text-sm">
+              <span className="text-muted-foreground">{k}</span>
+              <span className="font-semibold">{v}</span>
+            </div>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <BtnOutline onClick={() => setConfirm(false)} className="flex-1">Volver</BtnOutline>
+          <BtnPrimary onClick={onSuccess} className="flex-1">Programar transferencia</BtnPrimary>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setConfirm(true); }}>
+      <div className="grid sm:grid-cols-2 gap-3">
+        <div className="sm:col-span-2">
+          <Label>Origen de fondos</Label>
+          <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
+            <option>Cuenta operativa — $ 6.389.830,55</option>
+            <option>Sucursal Centro — $ 4.220.000,00</option>
+            <option>Sucursal Norte — $ 1.870.500,00</option>
+          </select>
+        </div>
+        <div className="sm:col-span-2">
+          <Label>Destinatario</Label>
+          <Input placeholder="Buscar por CBU, CVU o alias" defaultValue="proveedor.sa" />
+          <div className="text-xs text-muted-foreground mt-1">
+            <Shield size={11} className="inline mr-1" /> Validado: Proveedor SA — Banco Galicia
+          </div>
+        </div>
+        <div>
+          <Label>Monto</Label>
+          <Input placeholder="$ 0,00" defaultValue="220000" />
+        </div>
+        <div>
+          <Label>Moneda</Label>
+          <div className="h-10 px-3 rounded-md border bg-card flex items-center text-sm text-muted-foreground">
+            ARS — Pesos Argentinos
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-3 sm:col-span-2">
+          <div>
+            <Label>Fecha de envío</Label>
+            <Input type="date" />
+          </div>
+          <div>
+            <Label>Hora de envío</Label>
+            <Input type="time" defaultValue="14:30" />
+          </div>
+        </div>
+        <div>
+          <Label>Concepto</Label>
+          <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
+            <option>Pago a proveedor</option>
+            <option>Sueldos</option>
+            <option>Honorarios</option>
+            <option>Servicios</option>
+            <option>Devolución</option>
+          </select>
+        </div>
+        <div>
+          <Label>Referencia</Label>
+          <Input placeholder="Factura 0034" />
+        </div>
+      </div>
+      <div className="flex gap-2 pt-1">
+        <BtnOutline type="button" className="flex-1" onClick={() => toast.success("Borrador programado guardado")}>
+          <Save size={14} /> Guardar borrador
+        </BtnOutline>
+        <BtnPrimary type="submit" className="flex-1">Programar</BtnPrimary>
+      </div>
+    </form>
+  );
+}
+
+/* ===== Borradores ===== */
+function Borradores({ drafts, onDelete, onEdit, onExecute }: {
+  drafts: Draft[];
+  onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
+  onExecute: (id: string) => void;
+}) {
+  if (drafts.length === 0) {
+    return (
+      <div className="text-center py-12 text-muted-foreground">
+        <FileText size={32} className="mx-auto mb-3 opacity-50" />
+        <p className="font-semibold">No tenés borradores</p>
+        <p className="text-sm mt-1">Las transferencias que guardes como borrador aparecerán acá.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="divide-y">
+      {drafts.map((d) => (
+        <div key={d.id} className="flex items-center justify-between py-3">
+          <div className="min-w-0">
+            <div className="text-sm font-semibold">{d.destinatario}</div>
+            <div className="text-xs text-muted-foreground">@{d.alias} · {d.monto} · {d.concepto}</div>
+            <div className="text-[11px] text-muted-foreground/60">Guardado el {d.fecha}</div>
+          </div>
+          <div className="flex items-center gap-1 shrink-0">
+            <button onClick={() => onEdit(d.id)} className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-accent text-muted-foreground" title="Editar">
+              <Edit3 size={13} />
+            </button>
+            <button onClick={() => onExecute(d.id)} className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-accent text-muted-foreground" title="Ejecutar">
+              <Play size={13} />
+            </button>
+            <button onClick={() => onDelete(d.id)} className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-red-50 text-muted-foreground hover:text-red-600" title="Eliminar">
+              <Trash2 size={13} />
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ===== Transferencias programadas ===== */
+function Programadas({ items, onCancel, onEdit, onExecute }: {
+  items: Scheduled[];
+  onCancel: (id: string) => void;
+  onEdit: (id: string) => void;
+  onExecute: (id: string) => void;
+}) {
+  if (items.length === 0) {
+    return (
+      <div className="text-center py-12 text-muted-foreground">
+        <Calendar size={32} className="mx-auto mb-3 opacity-50" />
+        <p className="font-semibold">No tenés transferencias programadas</p>
+        <p className="text-sm mt-1">Usá la pestaña "Programar" para agendar una transferencia.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="divide-y">
+      {items.map((s) => (
+        <div key={s.id} className="flex items-center justify-between py-3">
+          <div className="min-w-0">
+            <div className="text-sm font-semibold">{s.destinatario}</div>
+            <div className="text-xs text-muted-foreground">@{s.alias} · {s.monto} · {s.concepto}</div>
+            <div className="text-xs text-muted-foreground/70 flex items-center gap-1 mt-0.5">
+              <Calendar size={11} /> {s.fecha} <Clock size={11} className="ml-1" /> {s.hora}
+            </div>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <Badge tone={s.estado === "Recurrente" ? "neutral" : "warn"}>{s.estado}</Badge>
+            <button onClick={() => onEdit(s.id)} className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-accent text-muted-foreground" title="Editar">
+              <Edit3 size={13} />
+            </button>
+            <button onClick={() => onExecute(s.id)} className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-accent text-muted-foreground" title="Ejecutar ahora">
+              <Play size={13} />
+            </button>
+            <button onClick={() => onCancel(s.id)} className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-red-50 text-muted-foreground hover:text-red-600" title="Cancelar">
+              <X size={13} />
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ===== Destinatarios frecuentes ===== */
+function DestinatariosList({ onSelect }: { onSelect: (d: Destinatario) => void }) {
+  const [search, setSearch] = useState("");
+  const filtered = search
+    ? destinatariosMock.filter((d) =>
+        d.nombre.toLowerCase().includes(search.toLowerCase()) ||
+        d.alias.toLowerCase().includes(search.toLowerCase()) ||
+        d.banco.toLowerCase().includes(search.toLowerCase())
+      )
+    : destinatariosMock;
+
+  return (
+    <div className="space-y-3">
+      <div className="flex gap-3 items-center">
+        <div className="flex-1">
+          <Input
+            placeholder="Buscar por nombre, alias o banco..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {filtered.length === 0 ? (
+        <div className="text-center py-12 text-muted-foreground">
+          <Users size={32} className="mx-auto mb-3 opacity-50" />
+          <p className="font-semibold">No se encontraron destinatarios</p>
+          <p className="text-sm mt-1">Agregá destinatarios desde la pantalla de Destinatarios en el menú.</p>
+        </div>
+      ) : (
+        <div className="divide-y">
+          {filtered.map((d) => (
+            <div key={d.alias} className="flex items-center justify-between py-2.5">
+              <div>
+                <div className="text-sm font-semibold">{d.nombre}</div>
+                <div className="text-xs text-muted-foreground">@{d.alias} · {d.banco}</div>
+              </div>
+              <button
+                onClick={() => onSelect(d)}
+                className="text-xs text-primary font-semibold flex items-center gap-1 hover:underline"
+              >
+                Transferir <ArrowUpRight size={12} />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="pt-2">
+        <BtnOutline className="w-full">
+          <Plus size={14} /> Ver todos los destinatarios
+        </BtnOutline>
+      </div>
+    </div>
+  );
+}

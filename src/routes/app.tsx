@@ -25,7 +25,7 @@ export const Route = createFileRoute("/app")({
 const nav: NavItem[] = [
   { to: "/app", label: "Dashboard", icon: LayoutDashboard },
   { to: "/app/historial", label: "Historial", icon: History },
-  { to: "/app/transferencias", label: "Transferencias", icon: ArrowLeftRight },
+  { to: "/app/transferencias", label: "Transferir", icon: ArrowLeftRight },
   { to: "/app/destinatarios", label: "Destinatarios", icon: Users },
   { to: "/app/subcuentas", label: "Subcuentas", icon: Wallet },
   { to: "/app/link-pago", label: "Link de pago", icon: Link2 },
