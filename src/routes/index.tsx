@@ -185,6 +185,69 @@ function SiteHeader() {
 
 /* ---------- Hero ---------- */
 
+function DashboardMockup() {
+  return (
+    <div
+      style={{
+        background: "rgba(255,255,255,0.06)",
+        backdropFilter: "blur(20px)",
+        border: "1px solid rgba(255,255,255,0.12)",
+        borderRadius: 16,
+        padding: "1.75rem",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
+      }}
+    >
+      {/* Header */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+        <div>
+          <div style={{ fontSize: "0.7rem", color: "rgba(245,246,248,0.5)", letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: '"IBM Plex Mono", monospace' }}>
+            Saldo disponible
+          </div>
+          <div style={{ fontSize: "1.5rem", fontWeight: 700, color: "#F5F6F8", marginTop: 2 }}>
+            $ 12.480.330,42
+          </div>
+        </div>
+        <div style={{ width: 36, height: 36, borderRadius: "50%", background: "rgba(8,145,178,0.2)", display: "grid", placeItems: "center" }}>
+          <Wallet size={18} color="#0891B2" />
+        </div>
+      </div>
+
+      {/* Mini bar chart */}
+      <div style={{ display: "flex", alignItems: "flex-end", gap: 6, height: 80, marginBottom: "1.25rem" }}>
+        {[65, 40, 85, 55, 70, 45, 90].map((h, i) => (
+          <div
+            key={i}
+            style={{
+              flex: 1,
+              height: `${h}%`,
+              borderRadius: 4,
+              background: "linear-gradient(180deg, rgba(8,145,178,0.6), rgba(8,145,178,0.15))",
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Stats row */}
+      <div style={{ display: "flex", gap: "0.75rem" }}>
+        {[
+          { label: "Depósitos", value: "$ 3.2M", bg: "rgba(200,16,46,0.15)" },
+          { label: "Cobros QR", value: "$ 1.8M", bg: "rgba(8,145,178,0.15)" },
+          { label: "Link Pago", value: "$ 0.9M", bg: "rgba(245,191,79,0.15)" },
+        ].map((s) => (
+          <div key={s.label} style={{ flex: 1, background: s.bg, borderRadius: 8, padding: "0.7rem 0.6rem" }}>
+            <div style={{ fontSize: "0.55rem", color: "rgba(245,246,248,0.5)", letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: '"IBM Plex Mono", monospace' }}>
+              {s.label}
+            </div>
+            <div style={{ fontSize: "0.95rem", fontWeight: 600, color: "#F5F6F8", marginTop: 3 }}>
+              {s.value}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Hero() {
   return (
     <section
@@ -195,20 +258,35 @@ function Hero() {
         background: "linear-gradient(135deg, #0A1628 0%, #16213E 50%, #1C2D50 100%)",
       }}
     >
-      {/* Ambient glow */}
+      {/* Dot-grid pattern */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
-          top: "-20%",
-          right: "-10%",
-          width: 600,
-          height: 600,
-          background: "radial-gradient(circle, rgba(8,145,178,0.12), transparent 70%)",
+          inset: 0,
+          backgroundImage: "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Teal accent glow */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "-15%",
+          right: "5%",
+          width: 500,
+          height: 500,
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(8,145,178,0.10), transparent 70%)",
           filter: "blur(60px)",
           pointerEvents: "none",
         }}
       />
+
+      {/* Red accent glow */}
       <div
         aria-hidden="true"
         style={{
@@ -217,52 +295,63 @@ function Hero() {
           left: "-5%",
           width: 400,
           height: 400,
-          background: "radial-gradient(circle, rgba(200,16,46,0.08), transparent 70%)",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(200,16,46,0.07), transparent 70%)",
           filter: "blur(60px)",
           pointerEvents: "none",
         }}
       />
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-24 sm:pt-28 sm:pb-32 md:pt-40 md:pb-44">
-        <Eyebrow tone="accent">Money Life S.R.L. — Plataforma financiera digital</Eyebrow>
-        <h1
-          style={{
-            ...headingHeavy,
-            fontSize: "clamp(2.75rem, 5.8vw, 4.75rem)",
-            lineHeight: 1.02,
-            marginTop: "1.75rem",
-            maxWidth: "18ch",
-            color: "#F5F6F8",
-          }}
-        >
-          Soluciones financieras digitales para todos
-        </h1>
-        <p
-          className="mt-8 max-w-xl"
-          style={{
-            fontFamily: "Inter, sans-serif",
-            color: "rgba(245,246,248,0.78)",
-            fontSize: "1.0625rem",
-            lineHeight: 1.65,
-          }}
-        >
-          Integramos en una sola plataforma servicios de pagos y cobros para Individuos, PyMEs y Empresas.
-        </p>
-        <div className="mt-10 flex flex-wrap gap-3">
-          <a
-            href="#servicios"
-            className="inline-flex h-12 items-center gap-2 px-7 text-sm font-medium text-white transition-colors hover:opacity-90"
-            style={{ background: "#C8102E", borderRadius: 8 }}
-          >
-            Conoce más <ArrowRight size={16} />
-          </a>
-          <a
-            href="#contacto"
-            className="inline-flex h-12 items-center px-7 text-sm font-medium transition-colors hover:bg-white/10"
-            style={{ border: "1px solid rgba(245,246,248,0.4)", color: "#F5F6F8", borderRadius: 8 }}
-          >
-            Contáctanos
-          </a>
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-16 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24">
+        <div className="grid lg:grid-cols-2 lg:gap-14 items-center">
+          {/* Text column */}
+          <div>
+            <Eyebrow tone="accent">Money Life S.R.L. — Plataforma financiera digital</Eyebrow>
+            <h1
+              style={{
+                ...headingHeavy,
+                fontSize: "clamp(2.25rem, 4.5vw, 3.75rem)",
+                lineHeight: 1.05,
+                marginTop: "1.5rem",
+                maxWidth: "18ch",
+                color: "#F5F6F8",
+              }}
+            >
+              Soluciones financieras digitales para todos
+            </h1>
+            <p
+              className="mt-6 max-w-lg"
+              style={{
+                fontFamily: "Inter, sans-serif",
+                color: "rgba(245,246,248,0.72)",
+                fontSize: "1rem",
+                lineHeight: 1.65,
+              }}
+            >
+              Integramos en una sola plataforma servicios de pagos y cobros para Individuos, PyMEs y Empresas.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href="#servicios"
+                className="inline-flex h-12 items-center gap-2 px-7 text-sm font-medium text-white transition-colors hover:opacity-90"
+                style={{ background: "#C8102E", borderRadius: 8 }}
+              >
+                Conoce más <ArrowRight size={16} />
+              </a>
+              <a
+                href="#contacto"
+                className="inline-flex h-12 items-center px-7 text-sm font-medium transition-colors hover:bg-white/10"
+                style={{ border: "1px solid rgba(245,246,248,0.4)", color: "#F5F6F8", borderRadius: 8 }}
+              >
+                Contáctanos
+              </a>
+            </div>
+          </div>
+
+          {/* Mockup column — hidden on small screens */}
+          <div className="hidden lg:block">
+            <DashboardMockup />
+          </div>
         </div>
       </div>
     </section>

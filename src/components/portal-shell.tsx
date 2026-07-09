@@ -257,7 +257,7 @@ export function PageHeader({ title, description, action }: { title: string; desc
 }
 
 export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <div className={`bg-card border rounded-lg p-5 ${className}`}>{children}</div>;
+  return <div className={`bg-card border rounded-lg p-6 ${className}`}>{children}</div>;
 }
 
 export function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {

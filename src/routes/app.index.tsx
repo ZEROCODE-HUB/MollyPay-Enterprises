@@ -107,7 +107,7 @@ function Dashboard() {
       />
 
       {/* Filtros */}
-      <Card className="mb-6">
+      <Card className="mb-8">
         <div className="flex flex-wrap items-center gap-2 mb-3">
           <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide shrink-0">
             Período
@@ -147,37 +147,34 @@ function Dashboard() {
           </button>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          {period === "day" && (
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">Día</span>
             <input
               type="date"
               value={day}
               onChange={(e) => setDay(e.target.value)}
               className="h-9 px-3 rounded-md border bg-card text-sm"
             />
-          )}
-          {period === "range" && (
-            <>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-muted-foreground">Desde</span>
-                <input
-                  type="date"
-                  value={desde}
-                  onChange={(e) => setDesde(e.target.value)}
-                  className="h-9 px-3 rounded-md border bg-card text-sm"
-                />
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-muted-foreground">Hasta</span>
-                <input
-                  type="date"
-                  value={hasta}
-                  onChange={(e) => setHasta(e.target.value)}
-                  min={desde || undefined}
-                  className="h-9 px-3 rounded-md border bg-card text-sm"
-                />
-              </div>
-            </>
-          )}
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">Desde</span>
+            <input
+              type="date"
+              value={desde}
+              onChange={(e) => setDesde(e.target.value)}
+              className="h-9 px-3 rounded-md border bg-card text-sm"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">Hasta</span>
+            <input
+              type="date"
+              value={hasta}
+              onChange={(e) => setHasta(e.target.value)}
+              min={desde || undefined}
+              className="h-9 px-3 rounded-md border bg-card text-sm"
+            />
+          </div>
           <div className="ml-auto flex gap-2">
             <BtnOutline onClick={() => doExport("xlsx")}>
               <FileSpreadsheet size={14} /> Excel
@@ -190,7 +187,7 @@ function Dashboard() {
       </Card>
 
       {/* KPIs */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <Card>
           <div className="flex items-start justify-between">
             <div>
@@ -240,7 +237,7 @@ function Dashboard() {
           </div>
         </Card>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
         <Card>
           <div className="flex items-start justify-between">
             <div>
