@@ -1,4 +1,4 @@
-import logoAsset from "@/assets/moli-logo.png.asset.json";
+import logoSrc from "@/assets/molly-logo.png";
 
 export function MollyLogo({
   className = "",
@@ -12,7 +12,7 @@ export function MollyLogo({
   return (
     <div className={`inline-flex items-center ${className}`}>
       <img
-        src={logoAsset.url}
+        src={logoSrc}
         alt="Moli"
         style={{ height: size, width: "auto", display: "block" }}
       />

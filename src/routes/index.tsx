@@ -17,6 +17,7 @@ import {
   Compass,
 } from "lucide-react";
 import { MollyLogo } from "@/components/molly-logo";
+import heroShotSrc from "@/assets/Capturadepantalla.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -193,57 +194,20 @@ function DashboardMockup() {
         backdropFilter: "blur(20px)",
         border: "1px solid rgba(255,255,255,0.12)",
         borderRadius: 16,
-        padding: "1.75rem",
+        padding: "0.5rem",
         boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
       }}
     >
-      {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-        <div>
-          <div style={{ fontSize: "0.7rem", color: "rgba(245,246,248,0.5)", letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: '"IBM Plex Mono", monospace' }}>
-            Saldo disponible
-          </div>
-          <div style={{ fontSize: "1.5rem", fontWeight: 700, color: "#F5F6F8", marginTop: 2 }}>
-            $ 12.480.330,42
-          </div>
-        </div>
-        <div style={{ width: 36, height: 36, borderRadius: "50%", background: "rgba(8,145,178,0.2)", display: "grid", placeItems: "center" }}>
-          <Wallet size={18} color="#0891B2" />
-        </div>
-      </div>
-
-      {/* Mini bar chart */}
-      <div style={{ display: "flex", alignItems: "flex-end", gap: 6, height: 80, marginBottom: "1.25rem" }}>
-        {[65, 40, 85, 55, 70, 45, 90].map((h, i) => (
-          <div
-            key={i}
-            style={{
-              flex: 1,
-              height: `${h}%`,
-              borderRadius: 4,
-              background: "linear-gradient(180deg, rgba(8,145,178,0.6), rgba(8,145,178,0.15))",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Stats row */}
-      <div style={{ display: "flex", gap: "0.75rem" }}>
-        {[
-          { label: "Depósitos", value: "$ 3.2M", bg: "rgba(200,16,46,0.15)" },
-          { label: "Cobros QR", value: "$ 1.8M", bg: "rgba(8,145,178,0.15)" },
-          { label: "Link Pago", value: "$ 0.9M", bg: "rgba(245,191,79,0.15)" },
-        ].map((s) => (
-          <div key={s.label} style={{ flex: 1, background: s.bg, borderRadius: 8, padding: "0.7rem 0.6rem" }}>
-            <div style={{ fontSize: "0.55rem", color: "rgba(245,246,248,0.5)", letterSpacing: "0.08em", textTransform: "uppercase", fontFamily: '"IBM Plex Mono", monospace' }}>
-              {s.label}
-            </div>
-            <div style={{ fontSize: "0.95rem", fontWeight: 600, color: "#F5F6F8", marginTop: 3 }}>
-              {s.value}
-            </div>
-          </div>
-        ))}
-      </div>
+      <img
+        src={heroShotSrc}
+        alt="Panel de control MoliPay"
+        style={{
+          display: "block",
+          width: "100%",
+          height: "auto",
+          borderRadius: 12,
+        }}
+      />
     </div>
   );
 }
@@ -310,14 +274,14 @@ function Hero() {
             <h1
               style={{
                 ...headingHeavy,
-                fontSize: "clamp(2.25rem, 4.5vw, 3.75rem)",
+                fontSize: "clamp(2rem, 4vw, 3.5rem)",
                 lineHeight: 1.05,
                 marginTop: "1.5rem",
-                maxWidth: "18ch",
+                maxWidth: "26ch",
                 color: "#F5F6F8",
               }}
             >
-              Soluciones financieras digitales para todos
+              Soluciones financieras para todos
             </h1>
             <p
               className="mt-6 max-w-lg"
