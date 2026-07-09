@@ -106,7 +106,7 @@ function Page() {
 
         <div className="p-5">
           {tab === "unica" && (
-            <UnicaTransfer
+            <Unica
               confirm={confirm}
               setConfirm={setConfirm}
               onSuccess={enterAs}
@@ -145,11 +145,11 @@ function Page() {
                 setDrafts((prev) => prev.filter((d) => d.id !== id));
                 toast.success("Borrador eliminado");
               }}
-              onEdit={() => {
+              onEdit={(id) => {
                 setTab("unica");
                 toast.success("Borrador cargado en el formulario");
               }}
-              onExecute={() => {
+              onExecute={(id) => {
                 toast.success("Transferencia enviada desde borrador");
               }}
             />
@@ -161,8 +161,8 @@ function Page() {
                 setScheduled((prev) => prev.filter((s) => s.id !== id));
                 toast.success("Transferencia cancelada");
               }}
-              onEdit={() => toast.success("Editando transferencia programada")}
-              onExecute={() => toast.success("Transferencia ejecutada")}
+              onEdit={(id) => toast.success("Editando transferencia programada")}
+              onExecute={(id) => toast.success("Transferencia ejecutada")}
             />
           )}
           {tab === "destinatarios" && (
