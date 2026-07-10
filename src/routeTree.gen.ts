@@ -33,10 +33,14 @@ import { Route as AppSeguridadRouteImport } from './routes/app.seguridad'
 import { Route as AppQrRouteImport } from './routes/app.qr'
 import { Route as AppLinkPagoRouteImport } from './routes/app.link-pago'
 import { Route as AppHistorialRouteImport } from './routes/app.historial'
+import { Route as AppEcommerceRouteImport } from './routes/app.ecommerce'
 import { Route as AppDestinatariosRouteImport } from './routes/app.destinatarios'
 import { Route as AppCuentaRouteImport } from './routes/app.cuenta'
 import { Route as AppCobrosRouteImport } from './routes/app.cobros'
 import { Route as AppApiRouteImport } from './routes/app.api'
+import { Route as AppLinkPagoIndexRouteImport } from './routes/app.link-pago.index'
+import { Route as AppLinkPagoProductosRouteImport } from './routes/app.link-pago.productos'
+import { Route as AppLinkPagoECommerceRouteImport } from './routes/app.link-pago.e-commerce'
 
 const RegistroRoute = RegistroRouteImport.update({
   id: '/registro',
@@ -160,6 +164,11 @@ const AppHistorialRoute = AppHistorialRouteImport.update({
   path: '/historial',
   getParentRoute: () => AppRoute,
 } as any)
+const AppEcommerceRoute = AppEcommerceRouteImport.update({
+  id: '/ecommerce',
+  path: '/ecommerce',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDestinatariosRoute = AppDestinatariosRouteImport.update({
   id: '/destinatarios',
   path: '/destinatarios',
@@ -180,6 +189,21 @@ const AppApiRoute = AppApiRouteImport.update({
   path: '/api',
   getParentRoute: () => AppRoute,
 } as any)
+const AppLinkPagoIndexRoute = AppLinkPagoIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppLinkPagoRoute,
+} as any)
+const AppLinkPagoProductosRoute = AppLinkPagoProductosRouteImport.update({
+  id: '/productos',
+  path: '/productos',
+  getParentRoute: () => AppLinkPagoRoute,
+} as any)
+const AppLinkPagoECommerceRoute = AppLinkPagoECommerceRouteImport.update({
+  id: '/e-commerce',
+  path: '/e-commerce',
+  getParentRoute: () => AppLinkPagoRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -190,8 +214,9 @@ export interface FileRoutesByFullPath {
   '/app/cobros': typeof AppCobrosRoute
   '/app/cuenta': typeof AppCuentaRoute
   '/app/destinatarios': typeof AppDestinatariosRoute
+  '/app/ecommerce': typeof AppEcommerceRoute
   '/app/historial': typeof AppHistorialRoute
-  '/app/link-pago': typeof AppLinkPagoRoute
+  '/app/link-pago': typeof AppLinkPagoRouteWithChildren
   '/app/qr': typeof AppQrRoute
   '/app/seguridad': typeof AppSeguridadRoute
   '/app/servicios': typeof AppServiciosRoute
@@ -210,6 +235,9 @@ export interface FileRoutesByFullPath {
   '/registro/validacion-exitosa': typeof RegistroValidacionExitosaRoute
   '/registro/validar-email': typeof RegistroValidarEmailRoute
   '/app/': typeof AppIndexRoute
+  '/app/link-pago/e-commerce': typeof AppLinkPagoECommerceRoute
+  '/app/link-pago/productos': typeof AppLinkPagoProductosRoute
+  '/app/link-pago/': typeof AppLinkPagoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -219,8 +247,8 @@ export interface FileRoutesByTo {
   '/app/cobros': typeof AppCobrosRoute
   '/app/cuenta': typeof AppCuentaRoute
   '/app/destinatarios': typeof AppDestinatariosRoute
+  '/app/ecommerce': typeof AppEcommerceRoute
   '/app/historial': typeof AppHistorialRoute
-  '/app/link-pago': typeof AppLinkPagoRoute
   '/app/qr': typeof AppQrRoute
   '/app/seguridad': typeof AppSeguridadRoute
   '/app/servicios': typeof AppServiciosRoute
@@ -239,6 +267,9 @@ export interface FileRoutesByTo {
   '/registro/validacion-exitosa': typeof RegistroValidacionExitosaRoute
   '/registro/validar-email': typeof RegistroValidarEmailRoute
   '/app': typeof AppIndexRoute
+  '/app/link-pago/e-commerce': typeof AppLinkPagoECommerceRoute
+  '/app/link-pago/productos': typeof AppLinkPagoProductosRoute
+  '/app/link-pago': typeof AppLinkPagoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -250,8 +281,9 @@ export interface FileRoutesById {
   '/app/cobros': typeof AppCobrosRoute
   '/app/cuenta': typeof AppCuentaRoute
   '/app/destinatarios': typeof AppDestinatariosRoute
+  '/app/ecommerce': typeof AppEcommerceRoute
   '/app/historial': typeof AppHistorialRoute
-  '/app/link-pago': typeof AppLinkPagoRoute
+  '/app/link-pago': typeof AppLinkPagoRouteWithChildren
   '/app/qr': typeof AppQrRoute
   '/app/seguridad': typeof AppSeguridadRoute
   '/app/servicios': typeof AppServiciosRoute
@@ -270,6 +302,9 @@ export interface FileRoutesById {
   '/registro/validacion-exitosa': typeof RegistroValidacionExitosaRoute
   '/registro/validar-email': typeof RegistroValidarEmailRoute
   '/app/': typeof AppIndexRoute
+  '/app/link-pago/e-commerce': typeof AppLinkPagoECommerceRoute
+  '/app/link-pago/productos': typeof AppLinkPagoProductosRoute
+  '/app/link-pago/': typeof AppLinkPagoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -282,6 +317,7 @@ export interface FileRouteTypes {
     | '/app/cobros'
     | '/app/cuenta'
     | '/app/destinatarios'
+    | '/app/ecommerce'
     | '/app/historial'
     | '/app/link-pago'
     | '/app/qr'
@@ -302,6 +338,9 @@ export interface FileRouteTypes {
     | '/registro/validacion-exitosa'
     | '/registro/validar-email'
     | '/app/'
+    | '/app/link-pago/e-commerce'
+    | '/app/link-pago/productos'
+    | '/app/link-pago/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -311,8 +350,8 @@ export interface FileRouteTypes {
     | '/app/cobros'
     | '/app/cuenta'
     | '/app/destinatarios'
+    | '/app/ecommerce'
     | '/app/historial'
-    | '/app/link-pago'
     | '/app/qr'
     | '/app/seguridad'
     | '/app/servicios'
@@ -331,6 +370,9 @@ export interface FileRouteTypes {
     | '/registro/validacion-exitosa'
     | '/registro/validar-email'
     | '/app'
+    | '/app/link-pago/e-commerce'
+    | '/app/link-pago/productos'
+    | '/app/link-pago'
   id:
     | '__root__'
     | '/'
@@ -341,6 +383,7 @@ export interface FileRouteTypes {
     | '/app/cobros'
     | '/app/cuenta'
     | '/app/destinatarios'
+    | '/app/ecommerce'
     | '/app/historial'
     | '/app/link-pago'
     | '/app/qr'
@@ -361,6 +404,9 @@ export interface FileRouteTypes {
     | '/registro/validacion-exitosa'
     | '/registro/validar-email'
     | '/app/'
+    | '/app/link-pago/e-commerce'
+    | '/app/link-pago/productos'
+    | '/app/link-pago/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -548,6 +594,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHistorialRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/ecommerce': {
+      id: '/app/ecommerce'
+      path: '/ecommerce'
+      fullPath: '/app/ecommerce'
+      preLoaderRoute: typeof AppEcommerceRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/destinatarios': {
       id: '/app/destinatarios'
       path: '/destinatarios'
@@ -576,16 +629,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppApiRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/link-pago/': {
+      id: '/app/link-pago/'
+      path: '/'
+      fullPath: '/app/link-pago/'
+      preLoaderRoute: typeof AppLinkPagoIndexRouteImport
+      parentRoute: typeof AppLinkPagoRoute
+    }
+    '/app/link-pago/productos': {
+      id: '/app/link-pago/productos'
+      path: '/productos'
+      fullPath: '/app/link-pago/productos'
+      preLoaderRoute: typeof AppLinkPagoProductosRouteImport
+      parentRoute: typeof AppLinkPagoRoute
+    }
+    '/app/link-pago/e-commerce': {
+      id: '/app/link-pago/e-commerce'
+      path: '/e-commerce'
+      fullPath: '/app/link-pago/e-commerce'
+      preLoaderRoute: typeof AppLinkPagoECommerceRouteImport
+      parentRoute: typeof AppLinkPagoRoute
+    }
   }
 }
+
+interface AppLinkPagoRouteChildren {
+  AppLinkPagoECommerceRoute: typeof AppLinkPagoECommerceRoute
+  AppLinkPagoProductosRoute: typeof AppLinkPagoProductosRoute
+  AppLinkPagoIndexRoute: typeof AppLinkPagoIndexRoute
+}
+
+const AppLinkPagoRouteChildren: AppLinkPagoRouteChildren = {
+  AppLinkPagoECommerceRoute: AppLinkPagoECommerceRoute,
+  AppLinkPagoProductosRoute: AppLinkPagoProductosRoute,
+  AppLinkPagoIndexRoute: AppLinkPagoIndexRoute,
+}
+
+const AppLinkPagoRouteWithChildren = AppLinkPagoRoute._addFileChildren(
+  AppLinkPagoRouteChildren,
+)
 
 interface AppRouteChildren {
   AppApiRoute: typeof AppApiRoute
   AppCobrosRoute: typeof AppCobrosRoute
   AppCuentaRoute: typeof AppCuentaRoute
   AppDestinatariosRoute: typeof AppDestinatariosRoute
+  AppEcommerceRoute: typeof AppEcommerceRoute
   AppHistorialRoute: typeof AppHistorialRoute
-  AppLinkPagoRoute: typeof AppLinkPagoRoute
+  AppLinkPagoRoute: typeof AppLinkPagoRouteWithChildren
   AppQrRoute: typeof AppQrRoute
   AppSeguridadRoute: typeof AppSeguridadRoute
   AppServiciosRoute: typeof AppServiciosRoute
@@ -599,8 +690,9 @@ const AppRouteChildren: AppRouteChildren = {
   AppCobrosRoute: AppCobrosRoute,
   AppCuentaRoute: AppCuentaRoute,
   AppDestinatariosRoute: AppDestinatariosRoute,
+  AppEcommerceRoute: AppEcommerceRoute,
   AppHistorialRoute: AppHistorialRoute,
-  AppLinkPagoRoute: AppLinkPagoRoute,
+  AppLinkPagoRoute: AppLinkPagoRouteWithChildren,
   AppQrRoute: AppQrRoute,
   AppSeguridadRoute: AppSeguridadRoute,
   AppServiciosRoute: AppServiciosRoute,

@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+﻿import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import {
   LayoutDashboard,
@@ -8,10 +8,13 @@ import {
   Link2,
   QrCode,
   Receipt,
+  ShoppingCart,
   Upload,
   History,
   UserCog,
   Shield,
+  Package,
+  Store,
 } from "lucide-react";
 import { PortalShell, type NavItem } from "@/components/portal-shell";
 import { useDemoMode } from "@/contexts/demo-mode";
@@ -28,9 +31,18 @@ const nav: NavItem[] = [
   { to: "/app/transferencias", label: "Transferir", icon: ArrowLeftRight },
   { to: "/app/destinatarios", label: "Destinatarios", icon: Users },
   { to: "/app/subcuentas", label: "Subcuentas", icon: Wallet },
-  { to: "/app/link-pago", label: "Link de pago", icon: Link2 },
+  {
+    label: "Link de pago",
+    icon: Link2,
+    items: [
+      { to: "/app/link-pago", label: "Dashboard", icon: LayoutDashboard },
+      { to: "/app/link-pago/productos", label: "Productos", icon: Package },
+      { to: "/app/link-pago/e-commerce", label: "E-commerce", icon: Store },
+    ],
+  },
   { to: "/app/qr", label: "Pago QR", icon: QrCode },
   { to: "/app/servicios", label: "Pago de servicios", icon: Receipt },
+  { to: "/app/ecommerce", label: "E-commerce", icon: ShoppingCart },
   { to: "/app/cobros", label: "Cobros masivos", icon: Upload },
   { to: "/app/cuenta", label: "Mi cuenta", icon: UserCog },
   { to: "/app/seguridad", label: "Seguridad", icon: Shield },

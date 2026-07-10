@@ -1,74 +1,287 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
-  Search, Zap, Flame, Droplet, Building2, Tv, Phone, Wifi, FileText, Clock,
-  Globe, ShoppingCart, Copy, Send, ArrowRight, Power,
+  Search,
+  Zap,
+  Flame,
+  Droplet,
+  Building2,
+  Tv,
+  Phone,
+  Wifi,
+  FileText,
+  Clock,
+  Globe,
+  Send,
+  Calendar,
+  Filter,
 } from "lucide-react";
-import { PageHeader, Card, Input, BtnPrimary, BtnOutline, Stat, Badge, Label } from "@/components/portal-shell";
+import {
+  PageHeader,
+  Card,
+  Input,
+  BtnPrimary,
+  BtnOutline,
+  Badge,
+  Label,
+} from "@/components/portal-shell";
 import { toast } from "sonner";
 import type { LucideIcon } from "lucide-react";
 import { FormDialog } from "@/components/form-dialog";
 
 export const Route = createFileRoute("/app/servicios")({ component: Page });
 
-type Item = { n: string; c: string; v: string; venc: string; icon: LucideIcon; cat: string; e: "Pendiente" | "Próximo" | "Vencido" };
+type Item = {
+  n: string;
+  c: string;
+  v: string;
+  venc: string;
+  icon: LucideIcon;
+  cat: string;
+  e: "Pendiente" | "Próximo" | "Vencido";
+};
 
 const servicios: Item[] = [
-  { n: "Edesur", c: "Cuenta 8821-039 · Belgrano", v: "$ 64.320,00", venc: "05/06/2026", icon: Zap, cat: "Energía", e: "Pendiente" },
-  { n: "Metrogas", c: "Cuenta 4421-128 · Belgrano", v: "$ 22.180,00", venc: "08/06/2026", icon: Flame, cat: "Gas", e: "Pendiente" },
-  { n: "AySA", c: "Cuenta 9990-2211", v: "$ 18.450,00", venc: "12/06/2026", icon: Droplet, cat: "Agua", e: "Próximo" },
-  { n: "ABL CABA", c: "Partida 12.345.678", v: "$ 45.900,00", venc: "15/06/2026", icon: Building2, cat: "Impuesto", e: "Próximo" },
-  { n: "ARBA", c: "Cuenta 88.123-4", v: "$ 88.230,00", venc: "20/06/2026", icon: FileText, cat: "Impuesto", e: "Próximo" },
-  { n: "Cablevisión", c: "Cuenta 7728-339", v: "$ 32.100,00", venc: "03/06/2026", icon: Tv, cat: "Internet", e: "Vencido" },
-  { n: "Telecom", c: "Línea 011-4444-5555", v: "$ 14.800,00", venc: "10/06/2026", icon: Phone, cat: "Telefonía", e: "Próximo" },
-  { n: "Fibertel Empresas", c: "Cuenta 4488-1102", v: "$ 88.500,00", venc: "14/06/2026", icon: Wifi, cat: "Internet", e: "Próximo" },
+  {
+    n: "Edesur",
+    c: "Cuenta 8821-039 · Belgrano",
+    v: "$ 64.320,00",
+    venc: "05/06/2026",
+    icon: Zap,
+    cat: "Energía",
+    e: "Pendiente",
+  },
+  {
+    n: "Metrogas",
+    c: "Cuenta 4421-128 · Belgrano",
+    v: "$ 22.180,00",
+    venc: "08/06/2026",
+    icon: Flame,
+    cat: "Gas",
+    e: "Pendiente",
+  },
+  {
+    n: "AySA",
+    c: "Cuenta 9990-2211",
+    v: "$ 18.450,00",
+    venc: "12/06/2026",
+    icon: Droplet,
+    cat: "Agua",
+    e: "Próximo",
+  },
+  {
+    n: "ABL CABA",
+    c: "Partida 12.345.678",
+    v: "$ 45.900,00",
+    venc: "15/06/2026",
+    icon: Building2,
+    cat: "Impuesto",
+    e: "Próximo",
+  },
+  {
+    n: "ARBA",
+    c: "Cuenta 88.123-4",
+    v: "$ 88.230,00",
+    venc: "20/06/2026",
+    icon: FileText,
+    cat: "Impuesto",
+    e: "Próximo",
+  },
+  {
+    n: "Cablevisión",
+    c: "Cuenta 7728-339",
+    v: "$ 32.100,00",
+    venc: "03/06/2026",
+    icon: Tv,
+    cat: "Internet",
+    e: "Vencido",
+  },
+  {
+    n: "Telecom",
+    c: "Línea 011-4444-5555",
+    v: "$ 14.800,00",
+    venc: "10/06/2026",
+    icon: Phone,
+    cat: "Telefonía",
+    e: "Próximo",
+  },
+  {
+    n: "Fibertel Empresas",
+    c: "Cuenta 4488-1102",
+    v: "$ 88.500,00",
+    venc: "14/06/2026",
+    icon: Wifi,
+    cat: "Internet",
+    e: "Próximo",
+  },
 ];
 
 const cats = ["Todos", "Energía", "Gas", "Agua", "Impuesto", "Internet", "Telefonía"];
 
-const remesas: Array<{ f: string; pais: string; banco: string; mARS: string; mDest: string; tc: string; e: "Completado" | "En proceso" | "Rechazado" }> = [
-  { f: "01/06/2026", pais: "Colombia", banco: "Bancolombia", mARS: "$ 850.000", mDest: "COP 3.420.000", tc: "1 ARS = 4,02 COP", e: "Completado" },
-  { f: "28/05/2026", pais: "México", banco: "BBVA México", mARS: "$ 1.200.000", mDest: "MXN 20.400", tc: "Cripto USDT", e: "Completado" },
-  { f: "20/05/2026", pais: "España", banco: "Santander ES", mARS: "$ 2.400.000", mDest: "EUR 1.860", tc: "Bonos AL30/AL30D", e: "En proceso" },
-  { f: "15/05/2026", pais: "Brasil", banco: "Itaú", mARS: "$ 680.000", mDest: "BRL 3.180", tc: "P2P", e: "Rechazado" },
+type TxHist = {
+  f: string;
+  s: string;
+  cat: string;
+  m: string;
+  e: "Pagado" | "Vencido" | "Cancelado";
+};
+const historial: TxHist[] = [
+  { f: "03/06/2026", s: "Cablevisión", cat: "Internet", m: "$ 32.100", e: "Pagado" },
+  { f: "01/06/2026", s: "Edesur", cat: "Energía", m: "$ 58.200", e: "Pagado" },
+  { f: "28/05/2026", s: "AySA", cat: "Agua", m: "$ 17.900", e: "Pagado" },
+  { f: "25/05/2026", s: "ABL CABA", cat: "Impuesto", m: "$ 44.200", e: "Pagado" },
+  { f: "22/05/2026", s: "Telecom", cat: "Telefonía", m: "$ 14.800", e: "Pagado" },
+  { f: "20/05/2026", s: "Metrogas", cat: "Gas", m: "$ 22.180", e: "Pagado" },
+  { f: "18/05/2026", s: "ARBA", cat: "Impuesto", m: "$ 88.230", e: "Pagado" },
+  { f: "15/05/2026", s: "Fibertel Empresas", cat: "Internet", m: "$ 88.500", e: "Pagado" },
+  { f: "12/05/2026", s: "Edesur", cat: "Energía", m: "$ 58.200", e: "Pagado" },
+  { f: "10/05/2026", s: "AySA", cat: "Agua", m: "$ 17.900", e: "Cancelado" },
+  { f: "08/05/2026", s: "ABL CABA", cat: "Impuesto", m: "$ 44.200", e: "Vencido" },
+  { f: "05/05/2026", s: "Telecom", cat: "Telefonía", m: "$ 14.800", e: "Pagado" },
 ];
 
-const txGateway: Array<{ f: string; id: string; m: string; e: "Aprobado" | "Rechazado" }> = [
-  { f: "Hoy 10:18", id: "PAY-9k2x7a", m: "$ 18.400", e: "Aprobado" },
-  { f: "Hoy 09:42", id: "PAY-9k2x6b", m: "$ 92.800", e: "Aprobado" },
-  { f: "Ayer 18:30", id: "PAY-9k2x5c", m: "$ 45.000", e: "Aprobado" },
-  { f: "Ayer 17:08", id: "PAY-9k2x4d", m: "$ 22.500", e: "Rechazado" },
-  { f: "Ayer 14:22", id: "PAY-9k2x3e", m: "$ 8.200", e: "Aprobado" },
+const remesas: Array<{
+  f: string;
+  pais: string;
+  banco: string;
+  mARS: string;
+  mDest: string;
+  tc: string;
+  e: "Completado" | "En proceso" | "Rechazado";
+}> = [
+  {
+    f: "01/06/2026",
+    pais: "Colombia",
+    banco: "Bancolombia",
+    mARS: "$ 850.000",
+    mDest: "COP 3.420.000",
+    tc: "1 ARS = 4,02 COP",
+    e: "Completado",
+  },
+  {
+    f: "28/05/2026",
+    pais: "México",
+    banco: "BBVA México",
+    mARS: "$ 1.200.000",
+    mDest: "MXN 20.400",
+    tc: "Cripto USDT",
+    e: "Completado",
+  },
+  {
+    f: "20/05/2026",
+    pais: "España",
+    banco: "Santander ES",
+    mARS: "$ 2.400.000",
+    mDest: "EUR 1.860",
+    tc: "Bonos AL30/AL30D",
+    e: "En proceso",
+  },
+  {
+    f: "15/05/2026",
+    pais: "Brasil",
+    banco: "Itaú",
+    mARS: "$ 680.000",
+    mDest: "BRL 3.180",
+    tc: "P2P",
+    e: "Rechazado",
+  },
 ];
 
-type Tab = "servicios" | "remesas" | "ecommerce";
+function parseDate(d: string) {
+  const [dd, mm, yyyy] = d.split("/").map(Number);
+  return new Date(yyyy, mm - 1, dd);
+}
+
+function daysUntil(d: string) {
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const t = parseDate(d);
+  return Math.ceil((t.getTime() - now.getTime()) / 86400000);
+}
+
+type Tab = "servicios" | "remesas";
 
 function Page() {
   const [pagar, setPagar] = useState<Item | null>(null);
   const [tab, setTab] = useState<Tab>("servicios");
   const [remesaOpen, setRemesaOpen] = useState(false);
-  const copy = (txt: string, label: string) => {
-    navigator.clipboard?.writeText(txt);
-    toast.success(`${label} copiado`);
-  };
+  const [catFilt, setCatFilt] = useState("Todos");
+  const [sort, setSort] = useState("vencimiento");
+
+  const [hCat, setHCat] = useState("Todas");
+  const [hStatus, setHStatus] = useState("Todos");
+  const [hDesde, setHDesde] = useState("");
+
+  const sorted = [...servicios].sort((a, b) => {
+    if (sort === "vencimiento") return parseDate(a.venc).getTime() - parseDate(b.venc).getTime();
+    if (sort === "monto")
+      return (
+        parseFloat(a.v.replace(/[^0-9,]/g, "").replace(",", ".")) -
+        parseFloat(b.v.replace(/[^0-9,]/g, "").replace(",", "."))
+      );
+    return a.n.localeCompare(b.n);
+  });
+  const filtrados = catFilt === "Todos" ? sorted : sorted.filter((s) => s.cat === catFilt);
+
+  const prox = [...filtrados].sort(
+    (a, b) => parseDate(a.venc).getTime() - parseDate(b.venc).getTime(),
+  );
+
+  const hFiltrados = historial.filter((t) => {
+    if (hCat !== "Todas" && t.cat !== hCat) return false;
+    if (hStatus !== "Todos" && t.e !== hStatus) return false;
+    if (hDesde && parseDate(t.f).getTime() < parseDate(hDesde).getTime()) return false;
+    return true;
+  });
+
   return (
     <>
       <PageHeader
         title="Servicios y pagos"
-        description="Pago de servicios, remesas internacionales y pasarela e-commerce."
+        description="Pago de servicios, remesas internacionales e historial de operaciones."
       />
 
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        <div className="bg-card border rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+            Servicios adheridos
+          </div>
+          <div className="text-base md:text-lg font-semibold mt-0.5">14</div>
+        </div>
+        <div className="bg-card border rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+            A pagar este mes
+          </div>
+          <div className="text-base md:text-lg font-semibold mt-0.5">$ 384.480</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">8 facturas</div>
+        </div>
+        <div className="bg-card border rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Vencidos</div>
+          <div className="text-base md:text-lg font-semibold mt-0.5">1</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">Cablevisión - $ 32.100</div>
+        </div>
+        <div className="bg-card border rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+            Pagado este mes
+          </div>
+          <div className="text-base md:text-lg font-semibold mt-0.5">$ 1.240.300</div>
+        </div>
+      </div>
+
       <div className="flex gap-1 mb-6 border-b">
-        {([
-          ["servicios", "Servicios"],
-          ["remesas", "Remesas y crossborder"],
-          ["ecommerce", "E-commerce y pasarela"],
-        ] as Array<[Tab, string]>).map(([k, l]) => (
+        {(
+          [
+            ["servicios", "Servicios"],
+            ["remesas", "Remesas y crossborder"],
+          ] as Array<[Tab, string]>
+        ).map(([k, l]) => (
           <button
             key={k}
             onClick={() => setTab(k)}
             className={`px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px transition ${
-              tab === k ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
+              tab === k
+                ? "border-primary text-foreground"
+                : "border-transparent text-muted-foreground hover:text-foreground"
             }`}
           >
             {l}
@@ -76,235 +289,321 @@ function Page() {
         ))}
       </div>
 
-      {tab === "servicios" && (<>
-      <div className="grid md:grid-cols-4 gap-4 mb-6">
-        <Stat label="Servicios adheridos" value="14" />
-        <Stat label="A pagar este mes" value="$ 384.480" sub="8 facturas" />
-        <Stat label="Vencidos" value="1" sub="Cablevisión - $ 32.100" />
-        <Stat label="Pagado este mes" value="$ 1.240.300" />
-      </div>
-
-      <div className="grid lg:grid-cols-[1fr_280px] gap-6">
-        <Card>
-          <div className="flex flex-wrap gap-2 mb-4">
-            <div className="relative flex-1 min-w-[240px]">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-              <Input placeholder="Buscar servicio o número de cuenta..." className="pl-9" />
-            </div>
-            <select className="h-10 px-3 rounded-md border bg-card text-sm">
-              <option>Ordenar: vencimiento</option>
-              <option>Monto</option>
-              <option>Alfabético</option>
-            </select>
-          </div>
-
-          <div className="flex flex-wrap gap-1.5 mb-5">
-            {cats.map((c, i) => (
-              <button
-                key={c}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${
-                  i === 0 ? "bg-[color:var(--brand-soft)] text-[color:var(--brand-dark)] border-transparent" : "bg-card hover:bg-muted"
-                }`}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
-
-          <div className="divide-y">
-            {servicios.map((s) => {
-              const Icon = s.icon;
-              return (
-                <div key={s.n + s.c} className="flex items-center justify-between gap-3 py-3.5">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-md bg-[color:var(--brand-soft)] flex items-center justify-center shrink-0">
-                      <Icon size={18} className="text-[color:var(--brand-dark)]" />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="font-semibold text-sm truncate">{s.n} <span className="text-muted-foreground font-normal">· {s.cat}</span></div>
-                      <div className="text-xs text-muted-foreground truncate">{s.c}</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 shrink-0">
-                    <div className="text-right hidden sm:block">
-                      <div className="text-sm font-semibold">{s.v}</div>
-                      <div className="text-[11px] text-muted-foreground flex items-center gap-1 justify-end">
-                        <Clock size={10} /> Vence {s.venc}
+      {tab === "servicios" && (
+        <>
+          {/* Próximos pagos / vencimientos */}
+          <Card className="mb-6">
+            <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
+              <Calendar size={14} className="text-muted-foreground" />
+              Próximos pagos y vencimientos
+            </h3>
+            <div className="divide-y">
+              {prox.map((s) => {
+                const Icon = s.icon;
+                const dd = daysUntil(s.venc);
+                const isVencido = dd < 0;
+                return (
+                  <div key={s.n + s.c} className="flex items-center justify-between gap-3 py-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-9 h-9 rounded-md bg-[color:var(--brand-soft)] flex items-center justify-center shrink-0">
+                        <Icon size={16} className="text-[color:var(--brand-dark)]" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-semibold text-sm truncate">{s.n}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {s.c} · {s.cat}
+                        </div>
                       </div>
                     </div>
-                    <Badge tone={s.e === "Vencido" ? "danger" : s.e === "Pendiente" ? "warn" : "neutral"}>{s.e}</Badge>
-                    <BtnPrimary className="h-9 px-4" onClick={() => setPagar(s)}>Pagar</BtnPrimary>
+                    <div className="flex items-center gap-3 shrink-0">
+                      <div className="text-right">
+                        <div className="text-sm font-semibold">{s.v}</div>
+                        <div className="text-[11px] text-muted-foreground flex items-center gap-1 justify-end">
+                          <Clock size={10} />
+                          {isVencido ? `Vencido hace ${Math.abs(dd)} días` : `Vence en ${dd} días`}
+                        </div>
+                      </div>
+                      <Badge tone={isVencido ? "danger" : s.e === "Pendiente" ? "warn" : "neutral"}>
+                        {isVencido ? "Vencido" : s.e}
+                      </Badge>
+                      <BtnPrimary className="h-9 px-4" onClick={() => setPagar(s)}>
+                        Pagar
+                      </BtnPrimary>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        </Card>
-
-        <div className="space-y-6">
-          <Card>
-            <h3 className="font-semibold text-sm mb-3">Pago automático</h3>
-            <p className="text-xs text-muted-foreground mb-4">
-              Programá el débito al vencimiento desde la subcuenta que elijas.
-            </p>
-            <div className="space-y-2 text-xs">
-              <div className="flex justify-between"><span className="text-muted-foreground">Servicios adheridos</span><span className="font-semibold">5</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Próximo débito</span><span className="font-semibold">05/06</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Monto estimado</span><span className="font-semibold">$ 86.500</span></div>
+                );
+              })}
             </div>
-            <BtnOutline className="w-full mt-4">Gestionar adhesiones</BtnOutline>
           </Card>
 
-          <Card>
-            <h3 className="font-semibold text-sm mb-3">Últimos pagos</h3>
-            <div className="space-y-3 text-xs">
-              {[
-                ["Edesur", "$ 58.200", "Mayo"],
-                ["AySA", "$ 17.900", "Mayo"],
-                ["ABL CABA", "$ 44.200", "Mayo"],
-              ].map(([n, m, mes]) => (
-                <div key={n} className="flex justify-between">
-                  <span>{n} <span className="text-muted-foreground">· {mes}</span></span>
-                  <span className="font-semibold">{m}</span>
-                </div>
+          {/* Servicios suscritos */}
+          <Card className="mb-6">
+            <h3 className="font-semibold text-sm mb-3">Servicios suscritos</h3>
+            <div className="flex flex-wrap gap-2 mb-4">
+              <div className="relative flex-1 min-w-[200px]">
+                <Search
+                  size={14}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                />
+                <Input placeholder="Buscar servicio o número de cuenta..." className="pl-9" />
+              </div>
+              <select
+                className="h-10 px-3 rounded-md border bg-card text-sm"
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+              >
+                <option value="vencimiento">Orden: vencimiento</option>
+                <option value="monto">Monto</option>
+                <option value="alfabetico">Alfabético</option>
+              </select>
+            </div>
+            <div className="flex flex-wrap gap-1.5 mb-4">
+              {cats.map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setCatFilt(c)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${
+                    catFilt === c
+                      ? "bg-[color:var(--brand-soft)] text-[color:var(--brand-dark)] border-transparent"
+                      : "bg-card hover:bg-muted"
+                  }`}
+                >
+                  {c}
+                </button>
               ))}
             </div>
+            <div className="divide-y">
+              {filtrados.map((s) => {
+                const Icon = s.icon;
+                return (
+                  <div key={s.n + s.c} className="flex items-center justify-between gap-3 py-3.5">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-10 h-10 rounded-md bg-[color:var(--brand-soft)] flex items-center justify-center shrink-0">
+                        <Icon size={18} className="text-[color:var(--brand-dark)]" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-semibold text-sm truncate">
+                          {s.n} <span className="text-muted-foreground font-normal">· {s.cat}</span>
+                        </div>
+                        <div className="text-xs text-muted-foreground truncate">{s.c}</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 shrink-0">
+                      <div className="text-right hidden sm:block">
+                        <div className="text-sm font-semibold">{s.v}</div>
+                        <div className="text-[11px] text-muted-foreground flex items-center gap-1 justify-end">
+                          <Clock size={10} /> Vence {s.venc}
+                        </div>
+                      </div>
+                      <Badge
+                        tone={
+                          s.e === "Vencido" ? "danger" : s.e === "Pendiente" ? "warn" : "neutral"
+                        }
+                      >
+                        {s.e}
+                      </Badge>
+                      <BtnPrimary className="h-9 px-4" onClick={() => setPagar(s)}>
+                        Pagar
+                      </BtnPrimary>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </Card>
-        </div>
-      </div>
-      </>)}
 
-      {tab === "remesas" && (<>
-        <div className="grid md:grid-cols-4 gap-4 mb-6">
-          <Stat label="Enviadas este mes" value="12" sub="$ 18,4M ARS" />
-          <Stat label="Países destino" value="6" />
-          <Stat label="TC promedio" value="MORE rate" sub="Bonos · Cripto · P2P" />
-          <Stat label="En proceso" value="2" />
-        </div>
-        <div className="grid lg:grid-cols-[1fr_1.4fr] gap-6">
-          <Card>
-            <h3 className="font-semibold mb-3 flex items-center gap-2"><Globe size={16} /> Nueva remesa internacional</h3>
-            <p className="text-xs text-muted-foreground mb-4">Procesada vía MORE con la mejor cotización disponible (bonos, cripto o P2P).</p>
-            <BtnPrimary className="w-full" onClick={() => setRemesaOpen(true)}><Send size={14} /> Enviar remesa</BtnPrimary>
-          </Card>
+          {/* Historial de transacciones */}
           <Card className="p-0 overflow-hidden">
-            <div className="px-5 py-4 border-b flex justify-between items-center">
-              <h3 className="font-semibold">Historial de remesas</h3>
-              <div className="flex gap-2">
-                <select className="h-9 px-2 rounded-md border bg-card text-xs">
-                  <option>País: todos</option><option>Colombia</option><option>México</option><option>España</option><option>Brasil</option>
+            <div className="px-5 py-4 border-b">
+              <h3 className="font-semibold text-sm flex items-center gap-2 mb-3">
+                <Filter size={14} className="text-muted-foreground" />
+                Historial de transacciones
+              </h3>
+              <div className="flex flex-wrap gap-2 items-center">
+                <div className="relative">
+                  <Search
+                    size={12}
+                    className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground"
+                  />
+                  <Input
+                    placeholder="Buscar servicio..."
+                    className="h-8 pl-7 text-xs max-w-[160px]"
+                  />
+                </div>
+                <select
+                  className="h-8 px-2 rounded border bg-card text-xs"
+                  value={hCat}
+                  onChange={(e) => setHCat(e.target.value)}
+                >
+                  <option value="Todas">Categoría: todas</option>
+                  {cats
+                    .filter((c) => c !== "Todos")
+                    .map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
                 </select>
-                <Input type="date" className="h-9 max-w-[140px]" />
+                <select
+                  className="h-8 px-2 rounded border bg-card text-xs"
+                  value={hStatus}
+                  onChange={(e) => setHStatus(e.target.value)}
+                >
+                  <option value="Todos">Estado: todos</option>
+                  <option value="Pagado">Pagado</option>
+                  <option value="Vencido">Vencido</option>
+                  <option value="Cancelado">Cancelado</option>
+                </select>
+                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <span>Desde:</span>
+                  <input
+                    type="date"
+                    className="h-8 px-2 rounded border bg-card text-xs"
+                    value={hDesde}
+                    onChange={(e) => setHDesde(e.target.value)}
+                  />
+                </div>
               </div>
             </div>
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
-                  <th className="text-left px-5 py-2.5">Fecha</th>
-                  <th className="text-left px-5 py-2.5">Destino</th>
-                  <th className="text-right px-5 py-2.5">ARS</th>
-                  <th className="text-right px-5 py-2.5">Recibe</th>
-                  <th className="text-right px-5 py-2.5">Estado</th>
-                </tr>
-              </thead>
-              <tbody>
-                {remesas.map((r, i) => (
-                  <tr key={i} className="border-b last:border-0 hover:bg-muted/30">
-                    <td className="px-5 py-3 text-xs text-muted-foreground">{r.f}</td>
-                    <td className="px-5 py-3">
-                      <div className="font-semibold text-sm">{r.pais}</div>
-                      <div className="text-xs text-muted-foreground">{r.banco} · {r.tc}</div>
-                    </td>
-                    <td className="px-5 py-3 text-right font-semibold">{r.mARS}</td>
-                    <td className="px-5 py-3 text-right">{r.mDest}</td>
-                    <td className="px-5 py-3 text-right">
-                      <Badge tone={r.e === "Completado" ? "success" : r.e === "En proceso" ? "warn" : "danger"}>{r.e}</Badge>
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
+                    <th className="text-left px-5 py-2.5">Fecha</th>
+                    <th className="text-left px-5 py-2.5">Servicio</th>
+                    <th className="text-left px-5 py-2.5">Categoría</th>
+                    <th className="text-right px-5 py-2.5">Monto</th>
+                    <th className="text-right px-5 py-2.5">Estado</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {hFiltrados.map((t, i) => (
+                    <tr key={i} className="border-b last:border-0 hover:bg-muted/30">
+                      <td className="px-5 py-3 text-xs text-muted-foreground">{t.f}</td>
+                      <td className="px-5 py-3 font-semibold text-sm">{t.s}</td>
+                      <td className="px-5 py-3 text-xs text-muted-foreground">{t.cat}</td>
+                      <td className="px-5 py-3 text-right font-semibold">{t.m}</td>
+                      <td className="px-5 py-3 text-right">
+                        <Badge
+                          tone={
+                            t.e === "Pagado"
+                              ? "success"
+                              : t.e === "Cancelado"
+                                ? "neutral"
+                                : "danger"
+                          }
+                        >
+                          {t.e}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </Card>
-        </div>
-      </>)}
+        </>
+      )}
 
-      {tab === "ecommerce" && (<>
-        <div className="grid md:grid-cols-4 gap-4 mb-6">
-          <Stat label="Estado de la pasarela" value="Activa" sub="API v2" />
-          <Stat label="Transacciones (mes)" value="1.842" />
-          <Stat label="Volumen (mes)" value="$ 8,4M" />
-          <Stat label="Tasa de aprobación" value="96,2%" />
-        </div>
-        <div className="grid lg:grid-cols-[1fr_1fr] gap-6 mb-6">
-          <Card>
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="font-semibold flex items-center gap-2"><ShoppingCart size={16} /> Pasarela de pagos Molly</h3>
-              <Badge tone="success"><Power size={10} className="mr-1" /> Conectada</Badge>
+      {tab === "remesas" && (
+        <>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <div className="bg-card border rounded-lg p-3">
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                Enviadas este mes
+              </div>
+              <div className="text-base md:text-lg font-semibold mt-0.5">12</div>
+              <div className="text-[10px] text-muted-foreground mt-0.5">$ 18,4M ARS</div>
             </div>
-            <p className="text-sm text-muted-foreground">API RESTful para integrar cobros desde tu e-commerce: links de pago, QR, tokenización de tarjetas y webhooks de notificación. SDKs para Node, PHP y Python.</p>
-            <ul className="text-xs text-muted-foreground mt-3 space-y-1">
-              <li>· <strong className="text-foreground">POST /v2/payments</strong> — crear cobro</li>
-              <li>· <strong className="text-foreground">GET /v2/payments/:id</strong> — consultar estado</li>
-              <li>· <strong className="text-foreground">POST /v2/refunds</strong> — devolución total o parcial</li>
-              <li>· <strong className="text-foreground">Webhook</strong> — notificación push de cada evento</li>
-            </ul>
-            <BtnOutline className="mt-4"><FileText size={14} /> Ver documentación <ArrowRight size={12} /></BtnOutline>
-          </Card>
-          <Card>
-            <h3 className="font-semibold mb-3">Credenciales</h3>
-            <div className="space-y-3">
-              <div>
-                <Label>API key (producción)</Label>
-                <div className="flex gap-2">
-                  <Input readOnly value="sk_live_4f8a2c19b6d04e3aa1b7c9d8e6f5a3b2" className="font-mono text-xs" />
-                  <BtnOutline className="shrink-0" onClick={() => copy("sk_live_4f8a2c19b6d04e3aa1b7c9d8e6f5a3b2", "API key")}>
-                    <Copy size={14} />
-                  </BtnOutline>
-                </div>
+            <div className="bg-card border rounded-lg p-3">
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                Países destino
               </div>
-              <div>
-                <Label>Webhook URL</Label>
-                <div className="flex gap-2">
-                  <Input readOnly value="https://api.molly.com.ar/v2/webhooks/empresa-demo" className="font-mono text-xs" />
-                  <BtnOutline className="shrink-0" onClick={() => copy("https://api.molly.com.ar/v2/webhooks/empresa-demo", "Webhook")}>
-                    <Copy size={14} />
-                  </BtnOutline>
-                </div>
-              </div>
-              <div className="text-[11px] text-muted-foreground border-t pt-2">
-                Rotá la API key periódicamente desde Seguridad. Las llamadas requieren firma HMAC-SHA256.
-              </div>
+              <div className="text-base md:text-lg font-semibold mt-0.5">6</div>
             </div>
-          </Card>
-        </div>
-        <Card className="p-0 overflow-hidden">
-          <div className="px-5 py-4 border-b">
-            <h3 className="font-semibold">Transacciones procesadas por la pasarela</h3>
+            <div className="bg-card border rounded-lg p-3">
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                TC promedio
+              </div>
+              <div className="text-base md:text-lg font-semibold mt-0.5">MORE rate</div>
+              <div className="text-[10px] text-muted-foreground mt-0.5">Bonos · Cripto · P2P</div>
+            </div>
+            <div className="bg-card border rounded-lg p-3">
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                En proceso
+              </div>
+              <div className="text-base md:text-lg font-semibold mt-0.5">2</div>
+            </div>
           </div>
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
-                <th className="text-left px-5 py-2.5">Fecha</th>
-                <th className="text-left px-5 py-2.5">ID</th>
-                <th className="text-right px-5 py-2.5">Monto</th>
-                <th className="text-right px-5 py-2.5">Estado</th>
-              </tr>
-            </thead>
-            <tbody>
-              {txGateway.map((t) => (
-                <tr key={t.id} className="border-b last:border-0 hover:bg-muted/30">
-                  <td className="px-5 py-3 text-xs text-muted-foreground">{t.f}</td>
-                  <td className="px-5 py-3 font-mono text-xs">{t.id}</td>
-                  <td className="px-5 py-3 text-right font-semibold">{t.m}</td>
-                  <td className="px-5 py-3 text-right">
-                    <Badge tone={t.e === "Aprobado" ? "success" : "danger"}>{t.e}</Badge>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Card>
-      </>)}
+          <div className="grid lg:grid-cols-[1fr_1.4fr] gap-6">
+            <Card>
+              <h3 className="font-semibold mb-3 flex items-center gap-2">
+                <Globe size={16} /> Nueva remesa internacional
+              </h3>
+              <p className="text-xs text-muted-foreground mb-4">
+                Procesada vía MORE con la mejor cotización disponible (bonos, cripto o P2P).
+              </p>
+              <BtnPrimary className="w-full" onClick={() => setRemesaOpen(true)}>
+                <Send size={14} /> Enviar remesa
+              </BtnPrimary>
+            </Card>
+            <Card className="p-0 overflow-hidden">
+              <div className="px-5 py-4 border-b flex justify-between items-center">
+                <h3 className="font-semibold">Historial de remesas</h3>
+                <div className="flex gap-2">
+                  <select className="h-9 px-2 rounded-md border bg-card text-xs">
+                    <option>País: todos</option>
+                    <option>Colombia</option>
+                    <option>México</option>
+                    <option>España</option>
+                    <option>Brasil</option>
+                  </select>
+                  <Input type="date" className="h-9 max-w-[140px]" />
+                </div>
+              </div>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
+                    <th className="text-left px-5 py-2.5">Fecha</th>
+                    <th className="text-left px-5 py-2.5">Destino</th>
+                    <th className="text-right px-5 py-2.5">ARS</th>
+                    <th className="text-right px-5 py-2.5">Recibe</th>
+                    <th className="text-right px-5 py-2.5">Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {remesas.map((r, i) => (
+                    <tr key={i} className="border-b last:border-0 hover:bg-muted/30">
+                      <td className="px-5 py-3 text-xs text-muted-foreground">{r.f}</td>
+                      <td className="px-5 py-3">
+                        <div className="font-semibold text-sm">{r.pais}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {r.banco} · {r.tc}
+                        </div>
+                      </td>
+                      <td className="px-5 py-3 text-right font-semibold">{r.mARS}</td>
+                      <td className="px-5 py-3 text-right">{r.mDest}</td>
+                      <td className="px-5 py-3 text-right">
+                        <Badge
+                          tone={
+                            r.e === "Completado"
+                              ? "success"
+                              : r.e === "En proceso"
+                                ? "warn"
+                                : "danger"
+                          }
+                        >
+                          {r.e}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </Card>
+          </div>
+        </>
+      )}
 
       <FormDialog
         open={pagar !== null}
@@ -346,20 +645,36 @@ function Page() {
         description="Procesada vía MORE · cotización aplicada al confirmar."
         submitLabel="Enviar remesa"
         size="lg"
-        onSubmit={() => { setRemesaOpen(false); toast.success("Remesa enviada · en proceso de liquidación"); }}
+        onSubmit={() => {
+          setRemesaOpen(false);
+          toast.success("Remesa enviada · en proceso de liquidación");
+        }}
       >
         <div className="grid grid-cols-2 gap-3">
-          <div><Label>Monto en ARS</Label><Input placeholder="$ 0,00" /></div>
+          <div>
+            <Label>Monto en ARS</Label>
+            <Input placeholder="$ 0,00" />
+          </div>
           <div>
             <Label>País destino</Label>
             <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
-              <option>Colombia</option><option>México</option><option>España</option>
-              <option>Brasil</option><option>Chile</option><option>Uruguay</option>
+              <option>Colombia</option>
+              <option>México</option>
+              <option>España</option>
+              <option>Brasil</option>
+              <option>Chile</option>
+              <option>Uruguay</option>
             </select>
           </div>
         </div>
-        <div><Label>Banco / cuenta del destinatario</Label><Input placeholder="Ej. Bancolombia · Cuenta ahorros 1234-5678" /></div>
-        <div><Label>Beneficiario</Label><Input placeholder="Nombre completo y documento" /></div>
+        <div>
+          <Label>Banco / cuenta del destinatario</Label>
+          <Input placeholder="Ej. Bancolombia · Cuenta ahorros 1234-5678" />
+        </div>
+        <div>
+          <Label>Beneficiario</Label>
+          <Input placeholder="Nombre completo y documento" />
+        </div>
         <div>
           <Label>Tipo de conversión</Label>
           <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
