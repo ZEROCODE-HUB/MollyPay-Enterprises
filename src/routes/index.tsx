@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+﻿import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   Wallet,
@@ -23,17 +23,17 @@ import ogImageSrc from "@/assets/miniatura.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "MoliPay — Soluciones financieras digitales" },
+      { title: "MoliPay â€” Soluciones financieras digitales" },
       {
         name: "description",
         content:
-          "MoliPay integra pagos, cobros y remesas para individuos, PyMEs y empresas en América Latina. Plataforma regulada bajo marco normativo BCRA.",
+          "MoliPay integra pagos, cobros y remesas para individuos, PyMEs y empresas en AmÃ©rica Latina. Plataforma regulada bajo marco normativo BCRA.",
       },
-      { property: "og:title", content: "MoliPay — Soluciones financieras digitales" },
+      { property: "og:title", content: "MoliPay â€” Soluciones financieras digitales" },
       {
         property: "og:description",
         content:
-          "Cuenta de pago, Crossborder, CVU Collect y Billetera. Plataforma tecnológica escalable y regulada.",
+          "Cuenta de pago, Crossborder, CVU Collect y Billetera. Plataforma tecnolÃ³gica escalable y regulada.",
       },
       { property: "og:image", content: ogImageSrc },
       { property: "og:image:width", content: "1166" },
@@ -48,27 +48,34 @@ export const Route = createFileRoute("/")({
 /* ---------- Design primitives ---------- */
 
 const heading = {
-  fontFamily: 'Inter, sans-serif',
+  fontFamily: "Inter, sans-serif",
   fontWeight: 600,
-  letterSpacing: '-0.01em',
+  letterSpacing: "-0.01em",
 } as const;
 
 const headingHeavy = {
-  fontFamily: 'Inter, sans-serif',
+  fontFamily: "Inter, sans-serif",
   fontWeight: 700,
-  letterSpacing: '-0.02em',
+  letterSpacing: "-0.02em",
 } as const;
 
 const mono = {
   fontFamily: '"IBM Plex Mono", ui-monospace, monospace',
-  textTransform: 'uppercase' as const,
-  letterSpacing: '0.14em',
-  fontSize: '0.72rem',
+  textTransform: "uppercase" as const,
+  letterSpacing: "0.14em",
+  fontSize: "0.72rem",
   fontWeight: 500,
 };
 
-function Eyebrow({ children, tone = "ink" }: { children: React.ReactNode; tone?: "ink" | "accent" | "paper" }) {
-  const color = tone === "accent" ? "#0891B2" : tone === "paper" ? "rgba(245,246,248,0.7)" : "#6B7280";
+function Eyebrow({
+  children,
+  tone = "ink",
+}: {
+  children: React.ReactNode;
+  tone?: "ink" | "accent" | "paper";
+}) {
+  const color =
+    tone === "accent" ? "#0891B2" : tone === "paper" ? "rgba(245,246,248,0.7)" : "#6B7280";
   return <div style={{ ...mono, color }}>{children}</div>;
 }
 
@@ -131,15 +138,25 @@ function SiteHeader() {
       }}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between gap-3">
-        <MollyLogo size={30} className="sm:hidden" />
-        <MollyLogo size={36} className="hidden sm:inline-flex" />
+        <MollyLogo size={32} />
         <nav
           className="hidden md:flex items-center gap-8 lg:gap-10"
-          style={{ fontFamily: "Inter, sans-serif", fontSize: "0.975rem", fontWeight: 500, color: "#0A1628" }}
+          style={{
+            fontFamily: "Inter, sans-serif",
+            fontSize: "0.975rem",
+            fontWeight: 500,
+            color: "#0A1628",
+          }}
         >
-          <a href="#servicios" className="hover:text-[#C8102E] transition-colors">Servicios</a>
-          <a href="#nosotros" className="hover:text-[#C8102E] transition-colors">Nosotros</a>
-          <a href="#contacto" className="hover:text-[#C8102E] transition-colors">Contacto</a>
+          <a href="#servicios" className="hover:text-[#C8102E] transition-colors">
+            Servicios
+          </a>
+          <a href="#nosotros" className="hover:text-[#C8102E] transition-colors">
+            Nosotros
+          </a>
+          <a href="#contacto" className="hover:text-[#C8102E] transition-colors">
+            Contacto
+          </a>
         </nav>
         <div className="flex items-center gap-2 shrink-0">
           <Link
@@ -154,7 +171,7 @@ function SiteHeader() {
               fontWeight: 500,
             }}
           >
-            Inicia sesión
+            Inicia sesiÃ³n
           </Link>
           <Link
             to="/registro/empresa"
@@ -262,7 +279,7 @@ function Hero() {
         <div className="grid lg:grid-cols-2 lg:gap-14 items-center">
           {/* Text column */}
           <div>
-            <Eyebrow tone="accent">Money Life S.R.L. — Plataforma financiera digital</Eyebrow>
+            <Eyebrow tone="accent">Money Life S.R.L. â€” Plataforma financiera digital</Eyebrow>
             <h1
               style={{
                 ...headingHeavy,
@@ -284,7 +301,8 @@ function Hero() {
                 lineHeight: 1.65,
               }}
             >
-              Integramos en una sola plataforma servicios de pagos y cobros para Individuos, PyMEs y Empresas.
+              Integramos en una sola plataforma servicios de pagos y cobros para Individuos, PyMEs y
+              Empresas.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
@@ -292,19 +310,23 @@ function Hero() {
                 className="inline-flex h-12 items-center gap-2 px-7 text-sm font-medium text-white transition-colors hover:opacity-90"
                 style={{ background: "#C8102E", borderRadius: 8 }}
               >
-                Conoce más <ArrowRight size={16} />
+                Conoce mÃ¡s <ArrowRight size={16} />
               </a>
               <a
                 href="#contacto"
                 className="inline-flex h-12 items-center px-7 text-sm font-medium transition-colors hover:bg-white/10"
-                style={{ border: "1px solid rgba(245,246,248,0.4)", color: "#F5F6F8", borderRadius: 8 }}
+                style={{
+                  border: "1px solid rgba(245,246,248,0.4)",
+                  color: "#F5F6F8",
+                  borderRadius: 8,
+                }}
               >
-                Contáctanos
+                ContÃ¡ctanos
               </a>
             </div>
           </div>
 
-          {/* Mockup column — hidden on small screens */}
+          {/* Mockup column â€” hidden on small screens */}
           <div className="hidden lg:block">
             <DashboardMockup />
           </div>
@@ -319,12 +341,18 @@ function Hero() {
 function LedgerStrip() {
   const items = [
     ["Entidad registrada", "Money Life S.R.L."],
-    ["Cobertura", "América Latina"],
+    ["Cobertura", "AmÃ©rica Latina"],
     ["Compliance", "Marco normativo BCRA"],
     ["Plataforma", "100% digital"],
   ];
   return (
-    <section style={{ background: "#16213E", borderTop: "1px solid rgba(255,255,255,0.1)", color: "#F5F6F8" }}>
+    <section
+      style={{
+        background: "#16213E",
+        borderTop: "1px solid rgba(255,255,255,0.1)",
+        color: "#F5F6F8",
+      }}
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-2 md:grid-cols-4">
           {items.map(([label, value], i) => (
@@ -360,22 +388,22 @@ function Servicios() {
     {
       icon: Wallet,
       t: "Cuenta de Pago",
-      d: "CVU para enviar y recibir dinero de cuentas bancarias y billeteras virtuales de manera ágil y segura.",
+      d: "CVU para enviar y recibir dinero de cuentas bancarias y billeteras virtuales de manera Ã¡gil y segura.",
     },
     {
       icon: Globe2,
       t: "Crossborder",
-      d: "Servicios de transferencias internacionales y remesas con cobertura en América Latina.",
+      d: "Servicios de transferencias internacionales y remesas con cobertura en AmÃ©rica Latina.",
     },
     {
       icon: Building2,
       t: "CVU Collect",
-      d: "Soluciones de recaudación para desarrolladores inmobiliarios, consorcios e inmobiliarias.",
+      d: "Soluciones de recaudaciÃ³n para desarrolladores inmobiliarios, consorcios e inmobiliarias.",
     },
     {
       icon: Smartphone,
       t: "Billetera",
-      d: "QR, tarjetas prepagas físicas y virtuales, pagos NFC, wireless y pagos de servicios para individuos. Para comercios: QR estático y dinámico, Smartpos y link de pago.",
+      d: "QR, tarjetas prepagas fÃ­sicas y virtuales, pagos NFC, wireless y pagos de servicios para individuos. Para comercios: QR estÃ¡tico y dinÃ¡mico, Smartpos y link de pago.",
     },
   ];
   return (
@@ -418,7 +446,9 @@ function Servicios() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-12 md:mt-16">
           {items.map(({ icon: Icon, t, d }) => (
             <GlassCard key={t} className="flex flex-col h-full p-5 sm:p-7">
-              <div style={{ height: 1, background: "#0891B2", width: 32, marginBottom: "1.5rem" }} />
+              <div
+                style={{ height: 1, background: "#0891B2", width: 32, marginBottom: "1.5rem" }}
+              />
               <Icon size={22} strokeWidth={1.4} color="#0A1628" />
               <h3
                 style={{
@@ -454,11 +484,31 @@ function Servicios() {
 
 function ContamosCon() {
   const items = [
-    { icon: Cog, t: "Plataforma Tecnológica", d: "Sistema escalable y seguro que garantiza el cumplimiento de normas nacionales y compliance." },
-    { icon: ShieldCheck, t: "Compliance Integral", d: "Políticas y procedimientos personalizados garantizando el cumplimiento normativo." },
-    { icon: FileCheck2, t: "Reporting", d: "Informes y declaraciones obligatorias ante autoridades competentes." },
-    { icon: BarChart3, t: "Administración", d: "Seguimiento y control de gestión de toda la actividad." },
-    { icon: Briefcase, t: "Management", d: "Acompañamiento estratégico para el crecimiento y desarrollo empresarial." },
+    {
+      icon: Cog,
+      t: "Plataforma TecnolÃ³gica",
+      d: "Sistema escalable y seguro que garantiza el cumplimiento de normas nacionales y compliance.",
+    },
+    {
+      icon: ShieldCheck,
+      t: "Compliance Integral",
+      d: "PolÃ­ticas y procedimientos personalizados garantizando el cumplimiento normativo.",
+    },
+    {
+      icon: FileCheck2,
+      t: "Reporting",
+      d: "Informes y declaraciones obligatorias ante autoridades competentes.",
+    },
+    {
+      icon: BarChart3,
+      t: "AdministraciÃ³n",
+      d: "Seguimiento y control de gestiÃ³n de toda la actividad.",
+    },
+    {
+      icon: Briefcase,
+      t: "Management",
+      d: "AcompaÃ±amiento estratÃ©gico para el crecimiento y desarrollo empresarial.",
+    },
   ];
   return (
     <section
@@ -557,11 +607,13 @@ function CapabilityCard({
   );
 }
 
-/* ---------- Misión / Visión ---------- */
+/* ---------- MisiÃ³n / VisiÃ³n ---------- */
 
 function MisionVision() {
   return (
-    <section style={{ background: "#0A1628", color: "#F5F6F8", position: "relative", overflow: "hidden" }}>
+    <section
+      style={{ background: "#0A1628", color: "#F5F6F8", position: "relative", overflow: "hidden" }}
+    >
       {/* Ambient glow */}
       <div
         aria-hidden="true"
@@ -578,11 +630,12 @@ function MisionVision() {
       />
       <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Misión */}
+          {/* MisiÃ³n */}
           <article
             style={{
               padding: "2.5rem 2.25rem 2.75rem",
-              background: "linear-gradient(160deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
+              background:
+                "linear-gradient(160deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
               backdropFilter: "blur(12px)",
               border: "1px solid rgba(255,255,255,0.12)",
               borderRadius: 12,
@@ -591,10 +644,18 @@ function MisionVision() {
           >
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <Target size={22} strokeWidth={1.4} color="#0891B2" />
-              <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>01 — Misión</div>
+              <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>01 â€” MisiÃ³n</div>
             </div>
-            <h3 style={{ ...heading, fontSize: "clamp(1.75rem, 2.4vw, 2.15rem)", color: "#F5F6F8", marginTop: "1.25rem", lineHeight: 1.15 }}>
-              Facilitar la gestión digital de cobros y pagos.
+            <h3
+              style={{
+                ...heading,
+                fontSize: "clamp(1.75rem, 2.4vw, 2.15rem)",
+                color: "#F5F6F8",
+                marginTop: "1.25rem",
+                lineHeight: 1.15,
+              }}
+            >
+              Facilitar la gestiÃ³n digital de cobros y pagos.
             </h3>
             <p
               className="mt-6"
@@ -605,11 +666,13 @@ function MisionVision() {
                 lineHeight: 1.7,
               }}
             >
-              Proporcionar soluciones financieras seguras, transparentes y simples que faciliten la gestión de cobros y pagos para todos nuestros usuarios en un entorno digital en constante evolución.
+              Proporcionar soluciones financieras seguras, transparentes y simples que faciliten la
+              gestiÃ³n de cobros y pagos para todos nuestros usuarios en un entorno digital en
+              constante evoluciÃ³n.
             </p>
           </article>
 
-          {/* Visión */}
+          {/* VisiÃ³n */}
           <article
             style={{
               padding: "2.5rem 2.25rem 2.75rem",
@@ -621,10 +684,18 @@ function MisionVision() {
           >
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <Compass size={22} strokeWidth={1.4} color="#0891B2" />
-              <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>02 — Visión</div>
+              <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>02 â€” VisiÃ³n</div>
             </div>
-            <h3 style={{ ...heading, fontSize: "clamp(1.75rem, 2.4vw, 2.15rem)", color: "#F5F6F8", marginTop: "1.25rem", lineHeight: 1.15 }}>
-              Ser un referente Fintech en la región.
+            <h3
+              style={{
+                ...heading,
+                fontSize: "clamp(1.75rem, 2.4vw, 2.15rem)",
+                color: "#F5F6F8",
+                marginTop: "1.25rem",
+                lineHeight: 1.15,
+              }}
+            >
+              Ser un referente Fintech en la regiÃ³n.
             </h3>
             <p
               className="mt-6"
@@ -635,7 +706,8 @@ function MisionVision() {
                 lineHeight: 1.7,
               }}
             >
-              Posicionarnos como un referente en el sector Fintech, acompañando la evolución de cobros y pagos digitales con soluciones ágiles y simples.
+              Posicionarnos como un referente en el sector Fintech, acompaÃ±ando la evoluciÃ³n de
+              cobros y pagos digitales con soluciones Ã¡giles y simples.
             </p>
           </article>
         </div>
@@ -644,24 +716,24 @@ function MisionVision() {
   );
 }
 
-/* ---------- ¿Por qué elegirnos? ---------- */
+/* ---------- Â¿Por quÃ© elegirnos? ---------- */
 
 function PorQueElegirnos() {
   const items = [
     {
       icon: Lock,
-      t: "Tecnología Segura",
-      d: "Plataforma diseñada para ser dinámica, escalable y segura, cumpliendo con todas las normativas vigentes.",
+      t: "TecnologÃ­a Segura",
+      d: "Plataforma diseÃ±ada para ser dinÃ¡mica, escalable y segura, cumpliendo con todas las normativas vigentes.",
     },
     {
       icon: HeartHandshake,
-      t: "Atención Personalizada",
-      d: "Acompañamos a nuestros clientes con una atención cercana, atendiendo todas sus necesidades.",
+      t: "AtenciÃ³n Personalizada",
+      d: "AcompaÃ±amos a nuestros clientes con una atenciÃ³n cercana, atendiendo todas sus necesidades.",
     },
     {
       icon: Plane,
       t: "Alcance Internacional",
-      d: "Operaciones en múltiples países de América Latina con alianzas estratégicas sólidas.",
+      d: "Operaciones en mÃºltiples paÃ­ses de AmÃ©rica Latina con alianzas estratÃ©gicas sÃ³lidas.",
     },
   ];
   return (
@@ -684,7 +756,7 @@ function PorQueElegirnos() {
                 marginTop: "1rem",
               }}
             >
-              ¿Por qué elegirnos?
+              Â¿Por quÃ© elegirnos?
             </h2>
           </div>
           <p
@@ -696,7 +768,8 @@ function PorQueElegirnos() {
               lineHeight: 1.65,
             }}
           >
-            Tres pilares que definen la forma en la que trabajamos y nos diferencian del resto del sector.
+            Tres pilares que definen la forma en la que trabajamos y nos diferencian del resto del
+            sector.
           </p>
         </div>
 
@@ -770,7 +843,13 @@ function PorQueElegirnos() {
 
 function RegulatoryStrip() {
   return (
-    <section style={{ background: "#16213E", borderTop: "1px solid rgba(255,255,255,0.1)", color: "#F5F6F8" }}>
+    <section
+      style={{
+        background: "#16213E",
+        borderTop: "1px solid rgba(255,255,255,0.1)",
+        color: "#F5F6F8",
+      }}
+    >
       <div className="max-w-6xl mx-auto px-6 py-8 md:py-10 flex flex-col md:flex-row gap-6 md:items-center md:justify-between">
         <div className="flex items-center gap-5">
           <div
@@ -787,7 +866,9 @@ function RegulatoryStrip() {
             BCRA
           </div>
           <div>
-            <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>Usuarios financieros</div>
+            <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>
+              Usuarios financieros
+            </div>
             <div
               className="mt-1"
               style={{
@@ -796,7 +877,7 @@ function RegulatoryStrip() {
                 color: "rgba(245,246,248,0.85)",
               }}
             >
-              Banco Central de la República Argentina — protección al usuario financiero.
+              Banco Central de la RepÃºblica Argentina â€” protecciÃ³n al usuario financiero.
             </div>
           </div>
         </div>
@@ -806,7 +887,7 @@ function RegulatoryStrip() {
           rel="noreferrer"
           style={{ ...mono, color: "#F5F6F8", borderBottom: "1px solid #0891B2", paddingBottom: 2 }}
         >
-          usuariosfinancieros.gob.ar →
+          usuariosfinancieros.gob.ar â†’
         </a>
       </div>
     </section>
@@ -827,7 +908,14 @@ function SiteFooter() {
     >
       <div className="max-w-6xl mx-auto px-6 py-20 grid gap-12 md:grid-cols-4">
         <div className="md:col-span-1">
-          <div style={{ background: "#F5F6F8", display: "inline-block", padding: "0.75rem 1rem", borderRadius: 4 }}>
+          <div
+            style={{
+              background: "#F5F6F8",
+              display: "inline-block",
+              padding: "0.75rem 1rem",
+              borderRadius: 4,
+            }}
+          >
             <MollyLogo size={32} />
           </div>
           <p
@@ -840,15 +928,15 @@ function SiteFooter() {
               maxWidth: 260,
             }}
           >
-            © 2026 MONEY LIFE S.R.L. Todos los derechos reservados.
+            Â© 2026 MONEY LIFE S.R.L. Todos los derechos reservados.
           </p>
           <p className="mt-4" style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>
-            PSPCP · Marco BCRA
+            PSPCP Â· Marco BCRA
           </p>
         </div>
 
         <div>
-          <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>Enlaces útiles</div>
+          <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>Enlaces Ãºtiles</div>
           <ul
             className="mt-5 space-y-3"
             style={{
@@ -857,15 +945,31 @@ function SiteFooter() {
               color: "rgba(245,246,248,0.72)",
             }}
           >
-            <li><Link to="/legales/privacidad" className="hover:text-white transition-colors">Políticas de privacidad</Link></li>
-            <li><Link to="/legales/terminos" className="hover:text-white transition-colors">Términos y condiciones</Link></li>
-            <li><Link to="/legales/comisiones" className="hover:text-white transition-colors">Comisiones</Link></li>
-            <li><Link to="/legales/arrepentimiento" className="hover:text-white transition-colors">Botón de arrepentimiento</Link></li>
+            <li>
+              <Link to="/legales/privacidad" className="hover:text-white transition-colors">
+                PolÃ­ticas de privacidad
+              </Link>
+            </li>
+            <li>
+              <Link to="/legales/terminos" className="hover:text-white transition-colors">
+                TÃ©rminos y condiciones
+              </Link>
+            </li>
+            <li>
+              <Link to="/legales/comisiones" className="hover:text-white transition-colors">
+                Comisiones
+              </Link>
+            </li>
+            <li>
+              <Link to="/legales/arrepentimiento" className="hover:text-white transition-colors">
+                BotÃ³n de arrepentimiento
+              </Link>
+            </li>
           </ul>
         </div>
 
         <div>
-          <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>Contactános</div>
+          <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>ContactÃ¡nos</div>
           <ul
             className="mt-5 space-y-3"
             style={{
@@ -874,9 +978,27 @@ function SiteFooter() {
               color: "rgba(245,246,248,0.72)",
             }}
           >
-            <li><a href="mailto:contacto@molipay.com.ar" className="hover:text-white transition-colors">contacto@molipay.com.ar</a></li>
-            <li><a href="mailto:admin@molipay.com.ar" className="hover:text-white transition-colors">admin@molipay.com.ar</a></li>
-            <li><a href="mailto:reclamos@molipay.com.ar" className="hover:text-white transition-colors">reclamos@molipay.com.ar</a></li>
+            <li>
+              <a
+                href="mailto:contacto@molipay.com.ar"
+                className="hover:text-white transition-colors"
+              >
+                contacto@molipay.com.ar
+              </a>
+            </li>
+            <li>
+              <a href="mailto:admin@molipay.com.ar" className="hover:text-white transition-colors">
+                admin@molipay.com.ar
+              </a>
+            </li>
+            <li>
+              <a
+                href="mailto:reclamos@molipay.com.ar"
+                className="hover:text-white transition-colors"
+              >
+                reclamos@molipay.com.ar
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -900,7 +1022,7 @@ function SiteFooter() {
                 lineHeight: 1.5,
               }}
             >
-              Banco Central de la República Argentina
+              Banco Central de la RepÃºblica Argentina
             </div>
             <a
               href="https://www.bcra.gob.ar"
@@ -909,7 +1031,7 @@ function SiteFooter() {
               className="mt-2 inline-block"
               style={{ ...mono, color: "#F5F6F8", fontSize: "0.6rem" }}
             >
-              bcra.gob.ar →
+              bcra.gob.ar â†’
             </a>
           </div>
         </div>
@@ -924,9 +1046,10 @@ function SiteFooter() {
             color: "rgba(245,246,248,0.45)",
           }}
         >
-          <div>MONEY LIFE S.R.L. — CUIT 30-71000000-0</div>
+          <div>MONEY LIFE S.R.L. â€” CUIT 30-71000000-0</div>
           <div>
-            Los fondos depositados no constituyen depósitos en una entidad financiera ni cuentan con la garantía de la Ley 24.485.
+            Los fondos depositados no constituyen depÃ³sitos en una entidad financiera ni cuentan
+            con la garantÃ­a de la Ley 24.485.
           </div>
         </div>
       </div>
