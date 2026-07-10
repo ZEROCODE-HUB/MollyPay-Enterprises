@@ -385,6 +385,7 @@ function Servicios() {
         background: "linear-gradient(180deg, #F5F6F8 0%, #EDF0F4 100%)",
         borderTop: "1px solid #D8DCE3",
         position: "relative",
+        overflow: "hidden",
       }}
     >
       {/* Subtle blurred accent for glass depth */}
@@ -401,7 +402,7 @@ function Servicios() {
           pointerEvents: "none",
         }}
       />
-      <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-32">
         <Eyebrow tone="accent">Servicios</Eyebrow>
         <h2
           style={{
@@ -414,9 +415,9 @@ function Servicios() {
         >
           Nuestros Servicios
         </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-12 md:mt-16">
           {items.map(({ icon: Icon, t, d }) => (
-            <GlassCard key={t} className="flex flex-col h-full p-7">
+            <GlassCard key={t} className="flex flex-col h-full p-5 sm:p-7">
               <div style={{ height: 1, background: "#0891B2", width: 32, marginBottom: "1.5rem" }} />
               <Icon size={22} strokeWidth={1.4} color="#0A1628" />
               <h3
@@ -466,6 +467,7 @@ function ContamosCon() {
         background: "linear-gradient(180deg, #EDF0F4 0%, #F5F6F8 100%)",
         borderTop: "1px solid #D8DCE3",
         position: "relative",
+        overflow: "hidden",
       }}
     >
       <div

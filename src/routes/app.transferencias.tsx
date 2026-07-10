@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowUpRight, Calendar, Clock, ShieldCheck, Star, Trash2, Edit3, Play, FileText, Save, Users, X, Plus } from "lucide-react";
+import { useState, useRef } from "react";
+import { ArrowUpRight, Calendar, Clock, ShieldCheck, Star, Trash2, Edit3, Play, FileText, Save, Users, X, Plus, KeyRound } from "lucide-react";
 import { PageHeader, Input, Label, BtnPrimary, BtnOutline, Badge } from "@/components/portal-shell";
 import { toast } from "sonner";
 import { FormDialog } from "@/components/form-dialog";
@@ -40,6 +40,29 @@ function Page() {
   const [plantillaOpen, setPlantillaOpen] = useState(false);
   const [drafts, setDrafts] = useState<Draft[]>(draftsMock);
   const [scheduled, setScheduled] = useState<Scheduled[]>(scheduledMock);
+  const [otpOpen, setOtpOpen] = useState(false);
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  const resetOtp = () => {
+    setOtp(["", "", "", "", "", ""]);
+    otpRefs.current[0]?.focus();
+  };
+
+  const openOtp = () => {
+    resetOtp();
+    setOtpOpen(true);
+  };
+
+  const confirmWithOtp = () => {
+    const code = otp.join("");
+    if (code.length !== 6) return;
+    setOtpOpen(false);
+    setConfirm(false);
+    toast.success("Transferencia enviada");
+    setDestAlias("proveedor.sa");
+    setSaveDestOpen(true);
+  };
 
   const tabs: { key: Tab; label: string }[] = [
     { key: "unica", label: "Transferencia única" },
@@ -48,13 +71,6 @@ function Page() {
     { key: "programadas", label: "Transferencias programadas" },
     { key: "destinatarios", label: "Destinatarios frecuentes" },
   ];
-
-  const enterAs = () => {
-    setConfirm(false);
-    toast.success("Transferencia enviada");
-    setDestAlias("proveedor.sa");
-    setSaveDestOpen(true);
-  };
 
   return (
     <>
@@ -109,7 +125,7 @@ function Page() {
             <Unica
               confirm={confirm}
               setConfirm={setConfirm}
-              onSuccess={enterAs}
+              onOtpRequired={openOtp}
               onSaveDraft={(d) => {
                 setDrafts((prev) => [...prev, d]);
                 toast.success("Borrador guardado");
@@ -223,6 +239,54 @@ function Page() {
         </div>
       </FormDialog>
 
+      {/* OTP dialog */}
+      <FormDialog
+        open={otpOpen}
+        onClose={() => setOtpOpen(false)}
+        title="Verificación de dos factores"
+        description="Ingresá el código de 6 dígitos enviado a tu correo o generado por tu app de autenticación."
+        submitLabel="Verificar y confirmar"
+        onSubmit={confirmWithOtp}
+      >
+        <div className="space-y-4">
+          <div className="flex items-center justify-center gap-2 py-2">
+            <KeyRound size={18} className="text-muted-foreground" />
+            <span className="text-xs text-muted-foreground">Código de verificación</span>
+          </div>
+          <div className="flex justify-center gap-2">
+            {otp.map((d, i) => (
+              <input
+                key={i}
+                ref={(el) => { otpRefs.current[i] = el; }}
+                type="text"
+                inputMode="numeric"
+                maxLength={1}
+                value={d}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, "").slice(0, 1);
+                  const next = [...otp];
+                  next[i] = val;
+                  setOtp(next);
+                  if (val && i < 5) otpRefs.current[i + 1]?.focus();
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Backspace" && !otp[i] && i > 0) otpRefs.current[i - 1]?.focus();
+                }}
+                onFocus={(e) => e.target.select()}
+                className="w-11 h-12 text-center text-lg font-bold rounded-md border bg-card outline-none focus:ring-2 focus:ring-ring/40 focus:border-ring"
+                autoComplete="one-time-code"
+              />
+            ))}
+          </div>
+          <div className="flex justify-between text-xs text-muted-foreground pt-1">
+            <span>¿No recibiste el código?</span>
+            <button type="button" className="text-primary font-semibold hover:underline" onClick={() => { resetOtp(); toast.success("Nuevo código enviado"); }}>
+              Reenviar
+            </button>
+          </div>
+        </div>
+      </FormDialog>
+
       <FormDialog
         open={saveDestOpen}
         onClose={() => setSaveDestOpen(false)}
@@ -248,13 +312,13 @@ function Page() {
 function Unica({
   confirm,
   setConfirm,
-  onSuccess,
+  onOtpRequired,
   onSaveDraft,
   onSaveTemplate,
 }: {
   confirm: boolean;
   setConfirm: (v: boolean) => void;
-  onSuccess: () => void;
+  onOtpRequired: () => void;
   onSaveDraft: (d: Draft) => void;
   onSaveTemplate: () => void;
 }) {
@@ -298,7 +362,7 @@ function Unica({
         </div>
         <div className="flex gap-2">
           <BtnOutline onClick={() => setConfirm(false)} className="flex-1">Volver</BtnOutline>
-          <BtnPrimary onClick={onSuccess} className="flex-1">Confirmar transferencia</BtnPrimary>
+          <BtnPrimary onClick={onOtpRequired} className="flex-1">Confirmar transferencia</BtnPrimary>
         </div>
       </div>
     );
