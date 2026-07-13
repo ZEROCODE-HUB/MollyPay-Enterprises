@@ -315,7 +315,8 @@ function generarRegistros(
 ): RegistroDeLote[] {
   const registros: RegistroDeLote[] = [];
   for (let i = 0; i < cantidad; i++) {
-    const d = deudores[(desde + i) % deudores.length];
+    const idx = ((desde + i) % deudores.length + deudores.length) % deudores.length;
+    const d = deudores[idx];
     const pagoCompleto = Math.random() < 0.65;
     const pagoParcial = !pagoCompleto && Math.random() < 0.2;
     const vencido = !pagoCompleto && !pagoParcial && Math.random() < 0.3;
