@@ -15,6 +15,7 @@ import {
   Shield,
   Package,
   Store,
+  List,
 } from "lucide-react";
 import { PortalShell, type NavItem } from "@/components/portal-shell";
 import { useDemoMode } from "@/contexts/demo-mode";
@@ -43,7 +44,14 @@ const nav: NavItem[] = [
   { to: "/app/qr", label: "Pago QR", icon: QrCode },
   { to: "/app/servicios", label: "Pago de servicios", icon: Receipt },
   { to: "/app/ecommerce", label: "E-commerce", icon: ShoppingCart },
-  { to: "/app/cobros", label: "Cobros masivos", icon: Upload },
+  {
+    label: "Cobros masivos",
+    icon: Upload,
+    items: [
+      { to: "/app/cobros", label: "Dashboard", icon: LayoutDashboard },
+      { to: "/app/cobros/gestion", label: "Gestión de lotes", icon: List },
+    ],
+  },
   { to: "/app/cuenta", label: "Mi cuenta", icon: UserCog },
   { to: "/app/seguridad", label: "Seguridad", icon: Shield },
 ];
