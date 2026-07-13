@@ -13,6 +13,7 @@ import {
   Shield,
   Package,
   List,
+  ShoppingCart,
 } from "lucide-react";
 import { PortalShell, type NavItem } from "@/components/portal-shell";
 import { SupportBot } from "@/components/support-bot";
@@ -35,6 +36,7 @@ const nav: NavItem[] = [
     items: [
       { to: "/app/link-pago", label: "Dashboard", icon: LayoutDashboard },
       { to: "/app/link-pago/productos", label: "Productos", icon: Package },
+      { to: "/app/link-pago/e-commerce", label: "E-commerce", icon: ShoppingCart },
     ],
   },
   { to: "/app/qr", label: "Pago QR", icon: QrCode },
