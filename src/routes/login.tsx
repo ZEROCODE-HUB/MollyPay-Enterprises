@@ -194,7 +194,7 @@ function LoginPage() {
 
   const enterAs = () => {
     setRole("empresa");
-    store.setTipo(store.tipoCuenta ?? "fisica");
+    store.setTipo(store.tipoCuenta ?? "juridica");
     if (!store.emailValidado) {
       navigate({ to: "/registro/exito" });
     } else if (!store.aprobado) {
@@ -221,6 +221,7 @@ function LoginPage() {
   };
 
   const handleRegisterSuccess = (data: { nombre: string; apellido: string; fechaNac: string; email: string }) => {
+    store.reset();
     store.setTipo(tipoCuenta);
     store.setRegistro(data);
     navigate({ to: "/registro/exito" });
