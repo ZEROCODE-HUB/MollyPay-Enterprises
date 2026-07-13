@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { Plus, Eye, FileSpreadsheet, Download, Search, Filter } from "lucide-react";
-import { Card, BtnPrimary, BtnOutline, Input } from "@/components/portal-shell";
+import { Card, BtnPrimary, BtnOutline, Input, Label } from "@/components/portal-shell";
 import {
   getLotesGestion,
   formatARS,
@@ -39,6 +39,8 @@ function GestionLotes() {
   const navigate = useNavigate();
   const [busqueda, setBusqueda] = useState("");
   const [filtroEstado, setFiltroEstado] = useState<LoteEstado | "todos">("todos");
+  const [fechaDesde, setFechaDesde] = useState("");
+  const [fechaHasta, setFechaHasta] = useState("");
 
   const lotes = useMemo(() => {
     let data = getLotesGestion();
@@ -54,8 +56,14 @@ function GestionLotes() {
     if (filtroEstado !== "todos") {
       data = data.filter((l) => l.estado === filtroEstado);
     }
+    if (fechaDesde) {
+      data = data.filter((l) => l.createdAt.slice(0, 10) >= fechaDesde);
+    }
+    if (fechaHasta) {
+      data = data.filter((l) => l.createdAt.slice(0, 10) <= fechaHasta);
+    }
     return data;
-  }, [busqueda, filtroEstado]);
+  }, [busqueda, filtroEstado, fechaDesde, fechaHasta]);
 
   const exportExcel = () => {
     const rows = lotes.map((l) => ({
@@ -149,6 +157,24 @@ function GestionLotes() {
                 </option>
               ))}
             </select>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Label>Desde</Label>
+            <Input
+              type="date"
+              value={fechaDesde}
+              onChange={(e) => setFechaDesde(e.target.value)}
+              className="h-9 w-36 text-xs"
+            />
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Label>Hasta</Label>
+            <Input
+              type="date"
+              value={fechaHasta}
+              onChange={(e) => setFechaHasta(e.target.value)}
+              className="h-9 w-36 text-xs"
+            />
           </div>
         </div>
       </Card>

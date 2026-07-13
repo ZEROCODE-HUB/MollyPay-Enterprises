@@ -16,7 +16,7 @@ import {
   Legend,
 } from "recharts";
 import { Eye, FileSpreadsheet, Download } from "lucide-react";
-import { Card, BtnOutline } from "@/components/portal-shell";
+import { Card, BtnOutline, Input, Label } from "@/components/portal-shell";
 import {
   periodFilter,
   computeDashboardKPI,
@@ -76,6 +76,8 @@ const ESTADO_LABEL: Record<LoteEstado, string> = {
 function Dashboard() {
   const navigate = useNavigate();
   const [filter, setFilter] = useState<PeriodFilter>(periodFilter("30 días", 30));
+  const [customDesde, setCustomDesde] = useState("");
+  const [customHasta, setCustomHasta] = useState("");
 
   const kpi = useMemo(() => computeDashboardKPI(filter), [filter]);
   const porMedio = useMemo(() => computePorMedio(filter), [filter]);
@@ -151,7 +153,36 @@ function Dashboard() {
             {p.label}
           </button>
         ))}
-        <div className="flex-1" />
+        <div className="flex items-center gap-2 ml-auto">
+          <div className="flex items-center gap-1.5">
+            <Label>Desde</Label>
+            <Input
+              type="date"
+              value={customDesde}
+              onChange={(e) => {
+                setCustomDesde(e.target.value);
+                if (e.target.value && customHasta) {
+                  setFilter(periodFilter("Personalizado", undefined, new Date(e.target.value), new Date(customHasta)));
+                }
+              }}
+              className="h-9 w-36 text-xs"
+            />
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Label>Hasta</Label>
+            <Input
+              type="date"
+              value={customHasta}
+              onChange={(e) => {
+                setCustomHasta(e.target.value);
+                if (customDesde && e.target.value) {
+                  setFilter(periodFilter("Personalizado", undefined, new Date(customDesde), new Date(e.target.value)));
+                }
+              }}
+              className="h-9 w-36 text-xs"
+            />
+          </div>
+        </div>
         <BtnOutline className="h-9 px-3 text-xs" onClick={exportExcel}>
           <FileSpreadsheet size={14} /> Excel
         </BtnOutline>
