@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
   Plus, Copy, ArrowDownLeft, ArrowUpRight, Settings2, Eye, Pencil, Trash2, Search,
-  ArrowLeftRight, ShieldCheck, Lock, Users, Zap,
+  ArrowLeftRight, ShieldCheck, Lock, Users, Zap, Download, Filter, X, Key, Pause,
+  Building2, ChevronDown, ChevronUp,
 } from "lucide-react";
 import { PageHeader, Card, BtnPrimary, BtnOutline, Badge, Stat, Input, Label } from "@/components/portal-shell";
 import { toast } from "sonner";
@@ -17,30 +18,42 @@ type Sub = {
   disp: number; ret: number; conc: number;
   ing: string; egr: string;
   resp: string; lim: string; color: string;
+  retirosHab: boolean;
 };
 
 const subs: Sub[] = [
   { n: "Sucursal Centro", apellido: "Solís", email: "msolis@empresa.com", cbu: "0000003 100011112222 01", tipo: "Operativa", e: "Activa",
     disp: 4220000, ret: 180000, conc: 3950000, ing: "$ 1.840.000", egr: "$ 920.000",
-    resp: "M. Solís", lim: "$ 8.000.000 / día", color: "var(--brand-primary)" },
+    resp: "M. Solís", lim: "$ 8.000.000 / día", color: "var(--brand-primary)", retirosHab: true },
   { n: "Sucursal Norte", apellido: "Vega", email: "tvega@empresa.com", cbu: "0000003 100011112222 02", tipo: "Operativa", e: "Activa",
     disp: 1870500, ret: 0, conc: 1870500, ing: "$ 1.220.000", egr: "$ 540.000",
-    resp: "T. Vega", lim: "$ 4.000.000 / día", color: "var(--brand-blue)" },
+    resp: "T. Vega", lim: "$ 4.000.000 / día", color: "var(--brand-blue)", retirosHab: true },
   { n: "Operaciones", apellido: "Díaz", email: "ldiaz@empresa.com", cbu: "0000003 100011112222 03", tipo: "Operativa", e: "Activa",
     disp: 6389830, ret: 420000, conc: 5800000, ing: "$ 4.220.000", egr: "$ 2.180.000",
-    resp: "L. Díaz", lim: "$ 20.000.000 / día", color: "var(--brand-dark)" },
+    resp: "L. Díaz", lim: "$ 20.000.000 / día", color: "var(--brand-dark)", retirosHab: true },
   { n: "Recaudación expensas", apellido: "Sosa", email: "psosa@empresa.com", cbu: "0000003 100011112222 04", tipo: "Recaudación", e: "Activa",
     disp: 2150000, ret: 0, conc: 2150000, ing: "$ 5.840.000", egr: "$ 0",
-    resp: "P. Sosa", lim: "Sin límite", color: "var(--brand-blue)" },
+    resp: "P. Sosa", lim: "Sin límite", color: "var(--brand-blue)", retirosHab: true },
   { n: "Sueldos", apellido: "RRHH", email: "rrhh@empresa.com", cbu: "0000003 100011112222 05", tipo: "Sueldos", e: "Activa",
     disp: 980000, ret: 0, conc: 980000, ing: "$ 980.000", egr: "$ 0",
-    resp: "RRHH", lim: "$ 5.000.000 / día", color: "var(--brand-primary)" },
+    resp: "RRHH", lim: "$ 5.000.000 / día", color: "var(--brand-primary)", retirosHab: false },
   { n: "Fondos en garantía", apellido: "Compliance", email: "compliance@empresa.com", cbu: "0000003 100011112222 06", tipo: "Garantías", e: "Pausada",
     disp: 0, ret: 350000, conc: 350000, ing: "$ 0", egr: "$ 0",
-    resp: "Compliance", lim: "Solo retiro autorizado", color: "var(--muted-foreground)" },
+    resp: "Compliance", lim: "Solo retiro autorizado", color: "var(--muted-foreground)", retirosHab: false },
 ];
 
-const movimientos = [
+type Mov = {
+  tipo: "ingreso" | "egreso";
+  titulo: string;
+  txid: string;
+  cbu: string;
+  entidad: string;
+  fecha: string;
+  hora: string;
+  monto: number;
+};
+
+const movimientosSidebar = [
   { sc: "Sucursal Centro", d: "Cobro QR — Cliente #4821", m: "+ $ 18.400", f: "10:42", t: "Crédito" },
   { sc: "Operaciones", d: "Transferencia a Proveedor SA", m: "- $ 220.000", f: "10:18", t: "Débito" },
   { sc: "Sucursal Norte", d: "Link de pago Factura 0033", m: "+ $ 64.800", f: "09:30", t: "Crédito" },
@@ -51,6 +64,43 @@ const movimientos = [
   { sc: "Sucursal Centro", d: "Conciliación bancaria", m: "+ $ 0", f: "06:00", t: "Sistema" },
 ];
 
+const movimientosPorSub: Record<string, Mov[]> = {
+  "Sucursal Centro": [
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-06-02-8841", cbu: "0000003100054321678901", entidad: "Carlos Méndez S.A.", fecha: "02/06/2026", hora: "14:32", monto: 1840000 },
+    { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-06-02-8842", cbu: "0000003100023456789012", entidad: "Proveedor SA", fecha: "02/06/2026", hora: "11:08", monto: 220000 },
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-06-01-8844", cbu: "0000003100034567890123", entidad: "Cliente #4821", fecha: "01/06/2026", hora: "10:42", monto: 18400 },
+    { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-05-30-8847", cbu: "0000003100056789012345", entidad: "Edesur S.A.", fecha: "30/05/2026", hora: "18:11", monto: 64320 },
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-29-8848", cbu: "0000003100067890123456", entidad: "Link de pago Factura 0033", fecha: "29/05/2026", hora: "09:30", monto: 64800 },
+    { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-05-28-8849", cbu: "0000003100078901234567", entidad: "AFIP", fecha: "28/05/2026", hora: "09:00", monto: 890000 },
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-27-8850", cbu: "0000003100089012345678", entidad: "Conciliación bancaria", fecha: "27/05/2026", hora: "06:00", monto: 0 },
+  ],
+  "Operaciones": [
+    { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-06-02-8851", cbu: "0000003100090123456789", entidad: "Proveedor Logística SA", fecha: "02/06/2026", hora: "10:18", monto: 220000 },
+    { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-06-01-8852", cbu: "0000003100101234567890", entidad: "Edesur S.A.", fecha: "01/06/2026", hora: "18:11", monto: 64320 },
+    { tipo: "egreso", titulo: "Comisión Molly", txid: "TX-2026-05-31-8853", cbu: "0000003100112345678901", entidad: "Moli Financial S.A.", fecha: "31/05/2026", hora: "12:00", monto: 4820 },
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-30-8854", cbu: "0000003100123456789012", entidad: "Inmobiliaria del Plata", fecha: "30/05/2026", hora: "10:30", monto: 2800000 },
+    { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-05-29-8855", cbu: "0000003100134567890123", entidad: "OSECAC", fecha: "29/05/2026", hora: "08:30", monto: 420000 },
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-28-8856", cbu: "0000003100145678901234", entidad: "Alquileres Galería Central", fecha: "28/05/2026", hora: "11:00", monto: 3200000 },
+  ],
+  "Sucursal Norte": [
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-06-02-8857", cbu: "0000003100156789012345", entidad: "Link de pago Factura 0033", fecha: "02/06/2026", hora: "09:30", monto: 64800 },
+    { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-06-01-8858", cbu: "0000003100167890123456", entidad: "Proveedor SA", fecha: "01/06/2026", hora: "17:44", monto: 35000 },
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-30-8859", cbu: "0000003100178901234567", entidad: "Lucía Fernández", fecha: "30/05/2026", hora: "09:05", monto: 8200 },
+    { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-05-29-8860", cbu: "0000003100189012345678", entidad: "Pago QR Proveedor", fecha: "29/05/2026", hora: "16:30", monto: 78000 },
+  ],
+  "Recaudación expensas": [
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-06-01-8861", cbu: "0000003100190123456789", entidad: "Lote expensas Marzo (84/128)", fecha: "01/06/2026", hora: "17:02", monto: 3840000 },
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-25-8862", cbu: "0000003100201234567890", entidad: "Lote expensas Febrero (76/128)", fecha: "25/05/2026", hora: "16:30", monto: 3520000 },
+  ],
+  "Sueldos": [
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-06-01-8863", cbu: "0000003100212345678901", entidad: "Transferencia cuenta madre", fecha: "01/06/2026", hora: "14:30", monto: 980000 },
+    { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-05-25-8864", cbu: "0000003100223456789012", entidad: "Liquidación mayo", fecha: "25/05/2026", hora: "10:00", monto: 950000 },
+  ],
+  "Fondos en garantía": [
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-01-8865", cbu: "0000003100234567890123", entidad: "Aporte inicial", fecha: "01/05/2026", hora: "09:00", monto: 350000 },
+  ],
+};
+
 const reglas = [
   { n: "Auto-distribución cobros expensas", desc: "Recaudación expensas → 80% Operaciones · 20% Garantías", act: true },
   { n: "Barrido fin de día", desc: "Sucursales → Operaciones cuando saldo > $ 3.000.000", act: true },
@@ -59,6 +109,8 @@ const reglas = [
 ];
 
 const fmt = (n: number) => "$ " + n.toLocaleString("es-AR");
+
+const fmtMov = (n: number) => (n >= 0 ? "+" : "") + "$ " + Math.abs(n).toLocaleString("es-AR");
 
 function Page() {
   const [nuevoOpen, setNuevoOpen] = useState(false);
@@ -189,7 +241,7 @@ function Page() {
               <BtnOutline className="h-7 px-2 text-[11px]">Ver todos</BtnOutline>
             </div>
             <div className="divide-y">
-              {movimientos.map((m, i) => (
+              {movimientosSidebar.map((m, i) => (
                 <div key={i} className="py-2.5">
                   <div className="flex justify-between text-sm">
                     <span className="font-semibold truncate pr-2">{m.d}</span>
@@ -244,70 +296,7 @@ function Page() {
         </div>
       </div>
 
-      {detailSub && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setDetailSub(null)} />
-          <div className="relative bg-card rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-xl">
-            <div className="sticky top-0 bg-card border-b px-6 py-4 flex justify-between items-center z-10">
-              <div className="font-semibold">{detailSub.n}</div>
-              <button onClick={() => setDetailSub(null)} className="text-sm text-muted-foreground hover:text-foreground">
-                Cerrar
-              </button>
-            </div>
-            <div className="p-6 space-y-4">
-              <div className="flex items-center gap-2">
-                <Badge tone={detailSub.e === "Activa" ? "success" : "warn"}>{detailSub.e}</Badge>
-                <Badge tone="neutral">{detailSub.tipo}</Badge>
-              </div>
-              <div className="text-xs text-muted-foreground font-mono flex items-center gap-2">
-                <span>{detailSub.cbu}</span>
-                <button className="hover:opacity-70" onClick={() => toast.success("CBU copiado")}>
-                  <Copy size={10} />
-                </button>
-              </div>
-              <div className="text-xs">
-                <span className="text-muted-foreground">Responsable:</span> {detailSub.resp}
-              </div>
-              <div className="border-t pt-4">
-                <div className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Disponible</div>
-                <div className="text-xl font-semibold">{fmt(detailSub.disp)}</div>
-              </div>
-              <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="bg-muted/30 rounded-lg p-3">
-                  <div className="text-muted-foreground flex items-center gap-1"><Lock size={10} /> Retenido</div>
-                  <div className="font-semibold text-sm">{fmt(detailSub.ret)}</div>
-                </div>
-                <div className="bg-muted/30 rounded-lg p-3">
-                  <div className="text-muted-foreground flex items-center gap-1"><ShieldCheck size={10} /> Conciliado</div>
-                  <div className="font-semibold text-sm">{fmt(detailSub.conc)}</div>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="bg-muted/30 rounded-lg p-3">
-                  <div className="text-muted-foreground flex items-center gap-1"><ArrowDownLeft size={10} className="text-emerald-600" /> Ing. mes</div>
-                  <div className="font-semibold text-sm">{detailSub.ing}</div>
-                </div>
-                <div className="bg-muted/30 rounded-lg p-3">
-                  <div className="text-muted-foreground flex items-center gap-1"><ArrowUpRight size={10} className="text-red-600" /> Egr. mes</div>
-                  <div className="font-semibold text-sm">{detailSub.egr}</div>
-                </div>
-              </div>
-              <div className="border-t pt-3 text-xs flex justify-between">
-                <span className="text-muted-foreground">Límite operativo</span>
-                <span className="font-semibold">{detailSub.lim}</span>
-              </div>
-              <div className="flex gap-2 pt-2 border-t">
-                <BtnOutline className="flex-1" onClick={() => setTransfOpen(true)}>
-                  <ArrowLeftRight size={13} /> Mover fondos
-                </BtnOutline>
-                <BtnOutline className="flex-1">
-                  <Settings2 size={13} /> Configurar
-                </BtnOutline>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {detailSub && <SubDetailModal sub={detailSub} onClose={() => setDetailSub(null)} />}
 
       <FormDialog
         open={nuevoOpen}
@@ -400,6 +389,258 @@ function Page() {
         <label className="flex items-center gap-2 text-xs"><input type="checkbox" defaultChecked /> Notificar al ejecutarse</label>
         <label className="flex items-center gap-2 text-xs"><input type="checkbox" /> Requerir aprobación manual</label>
       </FormDialog>
+
+      {detailSub && (
+        <SubDetailModal
+          sub={detailSub}
+          onClose={() => setDetailSub(null)}
+        />
+      )}
     </>
+  );
+}
+
+function SubDetailModal({ sub, onClose }: { sub: Sub; onClose: () => void }) {
+  const [editEmail, setEditEmail] = useState(false);
+  const [emailVal, setEmailVal] = useState(sub.email);
+  const [moveOpen, setMoveOpen] = useState(false);
+  const moves = movimientosPorSub[sub.n] ?? [];
+
+  const totalDepositos = moves.filter(m => m.tipo === "ingreso").reduce((a, m) => a + m.monto, 0);
+  const totalRetiros = moves.filter(m => m.tipo === "egreso").reduce((a, m) => a + m.monto, 0);
+  const totalComisiones = moves.filter(m => m.entidad === "Moli Financial S.A.").reduce((a, m) => a + m.monto, 0);
+
+  const confirmAction = (accion: string, detalle: string): boolean =>
+    window.confirm(`¿Estás seguro de que querés ${accion}?\n\n${detalle}`);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <div
+        className="relative bg-card w-full sm:max-w-2xl lg:max-w-3xl max-h-[90vh] flex flex-col shadow-xl rounded-t-xl sm:rounded-xl overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* ── Header ── */}
+        <div className="sticky top-0 bg-card border-b px-5 sm:px-6 py-4 flex items-center justify-between z-10 shrink-0">
+          <h2 className="text-base font-semibold">Detalles de Subcuenta</h2>
+          <button
+            onClick={onClose}
+            className="h-8 w-8 inline-flex items-center justify-center rounded-md hover:bg-muted transition text-muted-foreground hover:text-foreground"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        {/* ── Scrollable body ── */}
+        <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-5 space-y-7">
+
+          {/* ══════════ BLOQUE: Información general ══════════ */}
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold">Información general</h3>
+              <div className="flex gap-1">
+                <button
+                  onClick={() => { if (confirmAction("cambiar la contraseña de esta subcuenta", "Se enviará un enlace de restablecimiento al email del responsable.")) toast.success("Enlace de restablecimiento enviado"); }}
+                  className="h-7 w-7 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition text-muted-foreground hover:text-foreground"
+                  title="Cambiar contraseña"
+                >
+                  <Key size={13} />
+                </button>
+                <button
+                  onClick={() => { if (confirmAction(sub.e === "Activa" ? "pausar esta subcuenta" : "reactivar esta subcuenta", "Los fondos quedarán " + (sub.e === "Activa" ? "congelados hasta que la reactives." : "disponibles nuevamente."))) toast.success(sub.e === "Activa" ? "Subcuenta pausada" : "Subcuenta reactivada"); }}
+                  className="h-7 w-7 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition text-muted-foreground hover:text-foreground"
+                  title={sub.e === "Activa" ? "Deshabilitar cuenta" : "Reactivar cuenta"}
+                >
+                  <Pause size={13} />
+                </button>
+                <button
+                  onClick={() => { if (confirmAction("eliminar esta subcuenta", "Esta acción es irreversible. Todos los fondos serán transferidos a la cuenta madre.")) toast.success("Subcuenta eliminada"); }}
+                  className="h-7 w-7 inline-flex items-center justify-center rounded-md border bg-card hover:bg-red-50 hover:text-red-600 transition text-muted-foreground"
+                  title="Eliminar subcuenta"
+                >
+                  <Trash2 size={13} />
+                </button>
+              </div>
+            </div>
+            <div className="space-y-3 text-sm">
+              {/* Nombre + Email editable */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <span className="text-[11px] uppercase tracking-wide text-muted-foreground">Nombre</span>
+                  <p className="font-semibold mt-0.5">{sub.n}</p>
+                </div>
+                <div>
+                  <span className="text-[11px] uppercase tracking-wide text-muted-foreground">Email</span>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    {editEmail ? (
+                      <div className="flex items-center gap-1 flex-1">
+                        <Input
+                          value={emailVal}
+                          onChange={(e) => setEmailVal(e.target.value)}
+                          className="h-8 text-sm flex-1 min-w-0"
+                        />
+                        <button
+                          onClick={() => { setEditEmail(false); toast.success("Email actualizado"); }}
+                          className="h-8 px-2 text-xs font-semibold text-emerald-700 hover:bg-emerald-50 rounded border"
+                        >
+                          OK
+                        </button>
+                        <button
+                          onClick={() => { setEditEmail(false); setEmailVal(sub.email); }}
+                          className="h-8 px-2 text-xs text-muted-foreground hover:bg-muted rounded border"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <span className="text-muted-foreground">{emailVal}</span>
+                        <button
+                          onClick={() => setEditEmail(true)}
+                          className="text-muted-foreground hover:text-foreground transition"
+                          title="Editar email"
+                        >
+                          <Pencil size={12} />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+              {/* Badges */}
+              <div className="flex flex-wrap gap-2 pt-1">
+                <Badge tone={sub.e === "Activa" ? "success" : "warn"}>
+                  {sub.e === "Activa" ? "Activo" : "Desactivado"}
+                </Badge>
+                <Badge tone={sub.retirosHab ? "success" : "neutral"}>
+                  <Lock size={11} className="inline mr-0.5" />
+                  Retiros {sub.retirosHab ? "Habilitados" : "Deshabilitados"}
+                </Badge>
+              </div>
+            </div>
+          </section>
+
+          {/* ══════════ BLOQUE: Información financiera ══════════ */}
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold">Información financiera</h3>
+              <button
+                onClick={() => setMoveOpen(true)}
+                className="h-7 w-7 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition text-muted-foreground hover:text-foreground"
+                title="Mover fondos"
+              >
+                <Building2 size={13} />
+              </button>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="bg-muted/30 rounded-lg p-3">
+                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Balance actual</div>
+                <div className="text-base font-semibold mt-1">{fmt(sub.disp)}</div>
+              </div>
+              <div className="bg-muted/30 rounded-lg p-3">
+                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Total depósitos</div>
+                <div className="text-base font-semibold mt-1 text-emerald-700">{fmt(totalDepositos)}</div>
+              </div>
+              <div className="bg-muted/30 rounded-lg p-3">
+                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Total retiros</div>
+                <div className="text-base font-semibold mt-1 text-red-700">{fmt(totalRetiros)}</div>
+              </div>
+              <div className="bg-muted/30 rounded-lg p-3">
+                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Total comisiones</div>
+                <div className="text-base font-semibold mt-1">{fmt(totalComisiones)}</div>
+              </div>
+            </div>
+          </section>
+
+          {/* ══════════ BLOQUE: Historial de movimientos ══════════ */}
+          <section>
+            <div className="flex items-center justify-between mb-4 gap-2 flex-wrap">
+              <h3 className="text-sm font-semibold">Historial de movimientos</h3>
+              <div className="flex gap-2">
+                <BtnOutline className="h-8 px-3 text-[11px]" onClick={() => toast.success("Reporte descargado (demo)")}>
+                  <Download size={12} /> DESCARGAR REPORTE
+                </BtnOutline>
+                <BtnOutline className="h-8 px-3 text-[11px]" onClick={() => toast.success("Filtros abiertos (demo)")}>
+                  <Filter size={12} /> FILTRAR
+                </BtnOutline>
+              </div>
+            </div>
+            <div className="max-h-[280px] overflow-y-auto border rounded-lg divide-y">
+              {moves.length === 0 ? (
+                <p className="p-4 text-sm text-muted-foreground text-center">Sin movimientos registrados</p>
+              ) : (
+                moves.map((m, i) => (
+                  <div key={i} className="flex items-start gap-3 p-3 hover:bg-muted/30 transition">
+                    <span
+                      className="mt-0.5 h-8 w-8 shrink-0 rounded-full inline-flex items-center justify-center text-xs"
+                      style={{ background: m.tipo === "ingreso" ? "rgba(5,150,105,0.12)" : "rgba(220,38,38,0.12)" }}
+                    >
+                      {m.tipo === "ingreso"
+                        ? <ArrowDownLeft size={15} className="text-emerald-700" />
+                        : <ArrowUpRight size={15} className="text-red-700" />
+                      }
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex justify-between items-start gap-2">
+                        <div>
+                          <p className="text-sm font-semibold">{m.titulo}</p>
+                          <p className="text-[11px] font-mono text-muted-foreground mt-0.5">{m.txid}</p>
+                        </div>
+                        <span className={`text-sm font-semibold whitespace-nowrap shrink-0 ${m.tipo === "ingreso" ? "text-emerald-700" : "text-red-700"}`}>
+                          {fmtMov(m.tipo === "ingreso" ? m.monto : -m.monto)}
+                        </span>
+                      </div>
+                      <div className="text-[11px] text-muted-foreground mt-1 flex flex-wrap gap-x-4 gap-y-0.5">
+                        <span>CBU/CVU: {m.cbu}</span>
+                        <span>{m.entidad}</span>
+                        <span>{m.fecha} · {m.hora}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </section>
+        </div>
+
+        {/* ── Mover fondos sub-dialog ── */}
+        {moveOpen && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+            <div className="absolute inset-0 bg-black/40" onClick={() => setMoveOpen(false)} />
+            <div className="relative bg-card rounded-lg max-w-md w-full p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-semibold">Mover fondos</h3>
+                <button onClick={() => setMoveOpen(false)} className="text-muted-foreground hover:text-foreground">
+                  <X size={16} />
+                </button>
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <Label>Dirección</Label>
+                  <select className="w-full h-10 px-3 rounded-md border bg-card text-sm mt-1">
+                    <option>Cuenta madre → {sub.n}</option>
+                    <option>{sub.n} → Cuenta madre</option>
+                  </select>
+                </div>
+                <div>
+                  <Label>Monto (ARS)</Label>
+                  <Input placeholder="0,00" className="mt-1" />
+                </div>
+                <div>
+                  <Label>Concepto</Label>
+                  <Input placeholder="Fondeo, barrido, etc." className="mt-1" />
+                </div>
+                <BtnPrimary
+                  className="w-full mt-2"
+                  onClick={() => { setMoveOpen(false); toast.success("Movimiento interno realizado"); }}
+                >
+                  Transferir
+                </BtnPrimary>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
