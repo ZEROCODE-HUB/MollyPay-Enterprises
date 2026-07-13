@@ -13,9 +13,9 @@ import {
   Shield,
   Package,
   List,
-  HelpCircle,
 } from "lucide-react";
 import { PortalShell, type NavItem } from "@/components/portal-shell";
+import { SupportBot } from "@/components/support-bot";
 import { useDemoMode } from "@/contexts/demo-mode";
 import { RouteSkeleton } from "@/components/route-skeleton";
 
@@ -49,7 +49,6 @@ const nav: NavItem[] = [
   },
   { to: "/app/cuenta", label: "Mi cuenta", icon: UserCog },
   { to: "/app/seguridad", label: "Seguridad", icon: Shield },
-  { to: "/app/ayuda", label: "Ayuda", icon: HelpCircle },
 ];
 
 function AppLayout() {
@@ -62,6 +61,7 @@ function AppLayout() {
   return (
     <PortalShell nav={nav} title="Portal Empresa">
       <Outlet />
+      <SupportBot />
     </PortalShell>
   );
 }
