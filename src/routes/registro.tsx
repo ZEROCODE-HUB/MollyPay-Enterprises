@@ -19,7 +19,7 @@ function RegistroLayout() {
 
   useEffect(() => {
     if (isExactRoute) {
-      navigate({ to: "/login", replace: true });
+      navigate({ to: "/login", search: { register: "pf" }, replace: true });
     }
   }, [isExactRoute, navigate]);
 

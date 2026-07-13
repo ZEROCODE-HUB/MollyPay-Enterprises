@@ -161,6 +161,7 @@ function SiteHeader() {
         <div className="flex items-center gap-2 shrink-0">
           <Link
             to="/login"
+            search={{ register: undefined }}
             className="hidden md:inline-flex h-10 items-center px-4 transition-colors hover:bg-[#0A1628]/5"
             style={{
               border: "1px solid #0A1628",
@@ -174,7 +175,23 @@ function SiteHeader() {
             Inicia sesiÃ³n
           </Link>
           <Link
-            to="/registro/empresa"
+            to="/login"
+            search={{ register: "pf" }}
+            className="hidden sm:inline-flex h-10 items-center px-4 transition-colors hover:bg-[#0A1628]/5"
+            style={{
+              border: "1px solid #0A1628",
+              color: "#0A1628",
+              borderRadius: 8,
+              fontFamily: "Inter, sans-serif",
+              fontSize: "0.9rem",
+              fontWeight: 500,
+            }}
+          >
+            RegÃ­strate
+          </Link>
+          <Link
+            to="/login"
+            search={{ register: "pj" }}
             className="inline-flex h-9 sm:h-10 items-center px-3 sm:px-4 text-white transition-colors hover:opacity-90 whitespace-nowrap"
             style={{
               background: "#C8102E",

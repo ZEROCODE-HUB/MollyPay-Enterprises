@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { AuthShell, PrimaryButton } from "@/components/onboarding";
+import { AuthShell, PrimaryButton, SecondaryButton } from "@/components/onboarding";
 import { useOnboarding } from "@/lib/onboarding-store";
 import { MollyLogo } from "@/components/molly-logo";
 
@@ -44,17 +44,30 @@ function ValidarEmail() {
 
           <div className="text-sm text-[#0A1628]/85 space-y-4 leading-relaxed">
             <p>Hola {nombre || "usuario"},</p>
-            <p>Muchas gracias por registrarte en Molipay. Para poder ingresar a la plataforma primero debés validar tu email.</p>
-            <p>Para hacerlo, hacé clic en el botón de abajo:</p>
+            <p>Muchas gracias por registrarte en Molipay. Para poder ingresar a la plataforma primero debés validar el email. Para realizarlo hacé clic en aquí.</p>
           </div>
 
           <div className="mt-8">
             <PrimaryButton onClick={validar}>Validar desde aquí</PrimaryButton>
           </div>
 
-          <p className="mt-6 text-[11px] text-[#0A1628]/45 leading-relaxed">
-            Si no reconocés esta actividad, ignorá este mensaje. Este es un email simulado como parte del prototipo de onboarding.
+          <p className="mt-6 text-xs text-[#0A1628]/60 leading-relaxed">
+            Si tenés una duda o inconveniente podés contactarnos en{" "}
+            <a href="mailto:soporte@molipay.com.ar" className="underline underline-offset-2 hover:text-[#C41E3A]">
+              soporte@molipay.com.ar
+            </a>
+            .
           </p>
+
+          <p className="mt-4 text-sm font-semibold text-[#0A1628]/80">¡Muchas gracias!</p>
+
+          <div className="mt-8 pt-4 border-t text-[10px] text-[#0A1628]/45 leading-relaxed space-y-1" style={{ borderColor: "rgba(10,22,40,0.1)" }}>
+            <p>Enviado por Money Life S.R.L. — Argentina</p>
+            <div className="flex gap-3">
+              <a href="/" className="underline underline-offset-2 hover:text-[#C41E3A]">Molipay</a>
+              <a href="/legales/terminos" className="underline underline-offset-2 hover:text-[#C41E3A]">Términos y condiciones</a>
+            </div>
+          </div>
         </div>
       </div>
     </AuthShell>

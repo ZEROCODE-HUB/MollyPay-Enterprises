@@ -13,7 +13,7 @@ export const Route = createFileRoute("/registro/validacion-exitosa")({
     return (
       <AuthShell leftEyebrow="Paso 2 · Verificación" leftTitle="Tu correo quedó verificado." step="Cuenta habilitada">
         <SuccessCard title="Validación exitosa" body={<p>Tu correo electrónico ha sido validado con éxito.</p>}>
-          <PrimaryButton onClick={() => nav({ to: "/login" })}>Ir a inicio de sesión</PrimaryButton>
+          <PrimaryButton onClick={() => nav({ to: "/login", search: { register: undefined } })}>Ir a inicio de sesión</PrimaryButton>
         </SuccessCard>
       </AuthShell>
     );

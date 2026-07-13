@@ -20,83 +20,130 @@ export function AuthShell({
 }) {
   return (
     <div className="min-h-screen grid lg:grid-cols-2 overflow-x-hidden" style={{ background: "#F7F5F0" }}>
-      {/* Panel izquierdo */}
+      {/* Panel izquierdo — premium fintech */}
       <aside
-        className="relative hidden lg:flex flex-col justify-between p-10 xl:p-12 overflow-hidden"
-        style={{ background: "#0A1628", color: "#F7F5F0" }}
+        className="relative hidden lg:flex flex-col justify-between p-10 xl:p-12 overflow-hidden select-none"
+        style={{
+          background: "linear-gradient(160deg, #0A1628 0%, #111D35 40%, #162240 70%, #1A2747 100%)",
+          color: "#F7F5F0",
+        }}
       >
-        {/* motif */}
+        {/* Ambient glow orbs */}
+        <div
+          aria-hidden
+          className="absolute -top-32 -right-32 w-96 h-96 rounded-full opacity-[0.08]"
+          style={{
+            background: "radial-gradient(circle, #0891B2 0%, transparent 70%)",
+            filter: "blur(60px)",
+          }}
+        />
+        <div
+          aria-hidden
+          className="absolute -bottom-40 -left-40 w-[30rem] h-[30rem] rounded-full opacity-[0.06]"
+          style={{
+            background: "radial-gradient(circle, #C41E3A 0%, transparent 70%)",
+            filter: "blur(80px)",
+          }}
+        />
+
+        {/* Abstract data-flow motif */}
         <svg
           aria-hidden
-          className="absolute inset-0 w-full h-full opacity-25"
+          className="absolute inset-0 w-full h-full opacity-[0.18]"
           preserveAspectRatio="none"
-          viewBox="0 0 400 800"
+          viewBox="0 0 500 900"
         >
           <defs>
-            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0891B2" strokeWidth="0.4" />
+            <pattern id="dotGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+              <circle cx="1" cy="1" r="0.8" fill="#0891B2" opacity="0.35" />
             </pattern>
+            <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#0891B2" stopOpacity="0" />
+              <stop offset="50%" stopColor="#0891B2" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#0891B2" stopOpacity="0" />
+            </linearGradient>
           </defs>
-          <rect width="400" height="800" fill="url(#grid)" />
-          <g stroke="#0891B2" strokeWidth="0.6" fill="none" opacity="0.7">
-            <path d="M40 120 L200 260 L360 180" />
-            <path d="M60 500 L220 400 L340 560" />
-            <path d="M200 260 L220 400" />
+          <rect width="500" height="900" fill="url(#dotGrid)" />
+          {/* Diagonal data lines */}
+          <g stroke="url(#lineGrad)" strokeWidth="0.8" fill="none">
+            <path d="M80 0 L180 200 L140 380 L260 500 L220 700 L300 900" />
+            <path d="M300 0 L360 150 L320 320 L420 480 L380 650 L450 900" />
+            <path d="M450 0 L480 100 L440 250 L500 400" />
           </g>
-          <g fill="#0891B2">
-            <circle cx="40" cy="120" r="3" />
-            <circle cx="200" cy="260" r="3" />
-            <circle cx="360" cy="180" r="3" />
-            <circle cx="60" cy="500" r="3" />
-            <circle cx="220" cy="400" r="3" />
-            <circle cx="340" cy="560" r="3" />
+          {/* Connection nodes */}
+          <g fill="#0891B2" opacity="0.5">
+            <circle cx="180" cy="200" r="2.5" />
+            <circle cx="140" cy="380" r="2" />
+            <circle cx="260" cy="500" r="2.5" />
+            <circle cx="360" cy="150" r="2" />
+            <circle cx="420" cy="480" r="2.5" />
           </g>
+          {/* Faint horizontal pulse lines */}
+          {[120, 250, 400, 600, 780].map((y, i) => (
+            <line
+              key={i}
+              x1="0" y1={y} x2="500" y2={y}
+              stroke="#0891B2" strokeWidth="0.3" opacity={0.12 + i * 0.02}
+            />
+          ))}
         </svg>
 
-        <div className="relative">
+        {/* Content */}
+        <div className="relative z-10">
           <Link to="/" className="inline-flex">
             <MollyLogo variant="light" size={34} />
           </Link>
-          <p
-            className="mt-10 uppercase tracking-[0.25em]"
-            style={{ fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontSize: "0.7rem", color: "#0891B2" }}
-          >
-            {leftEyebrow}
-          </p>
-          <h2
-            className="mt-4 max-w-[22ch] leading-[1.15]"
-            style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: "clamp(1.6rem, 2vw, 2rem)", fontWeight: 400 }}
-          >
-            {leftTitle}
-          </h2>
-          {leftBody && (
-            <p className="mt-5 max-w-[34ch] text-white/70" style={{ fontSize: "0.9rem", lineHeight: 1.65 }}>
-              {leftBody}
-            </p>
-          )}
+          <div className="mt-12">
+            <div className="flex items-center gap-2 mb-6">
+              <span className="w-6 h-px bg-[#0891B2]/60" />
+              <span
+                className="uppercase tracking-[0.25em]"
+                style={{ fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontSize: "0.65rem", color: "#0891B2", opacity: 0.85 }}
+              >
+                {leftEyebrow}
+              </span>
+            </div>
+            <h2
+              className="max-w-[22ch] leading-[1.12]"
+              style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: "clamp(1.5rem, 2vw, 2rem)", fontWeight: 300, letterSpacing: "-0.01em" }}
+            >
+              {leftTitle}
+            </h2>
+            {leftBody && (
+              <p className="mt-5 max-w-[34ch] text-white/65 leading-relaxed" style={{ fontSize: "0.85rem", lineHeight: 1.7 }}>
+                {leftBody}
+              </p>
+            )}
+          </div>
         </div>
 
-        <div className="relative space-y-6">
+        {/* Footer area */}
+        <div className="relative z-10 space-y-5">
           <div
-            className="inline-flex items-center gap-2 border px-3 py-2"
-            style={{ borderColor: "rgba(8,145,178,0.5)", color: "#0891B2", borderRadius: 2 }}
+            className="inline-flex items-center gap-2.5 px-3 py-2"
+            style={{
+              border: "1px solid rgba(8,145,178,0.3)",
+              borderRadius: 4,
+              background: "rgba(8,145,178,0.06)",
+              backdropFilter: "blur(4px)",
+            }}
           >
-            <ShieldCheck size={14} />
+            <ShieldCheck size={13} strokeWidth={1.5} color="#0891B2" />
             <span
-              style={{ fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase" }}
+              style={{ fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "#0891B2" }}
             >
               Registrado ante BCRA
             </span>
           </div>
           {step && (
             <p
-              className="text-white/50"
-              style={{ fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontSize: "0.7rem", letterSpacing: "0.15em", textTransform: "uppercase" }}
+              className="text-white/45"
+              style={{ fontFamily: "'IBM Plex Mono', ui-monospace, monospace", fontSize: "0.65rem", letterSpacing: "0.15em", textTransform: "uppercase" }}
             >
               {step}
             </p>
           )}
-          <p className="text-white/40 text-xs">© {new Date().getFullYear()} Moli Financial S.A.</p>
+          <p className="text-white/35 text-[11px]">© {new Date().getFullYear()} Moli Financial S.A.</p>
         </div>
       </aside>
 

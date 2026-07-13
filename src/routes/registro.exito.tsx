@@ -43,7 +43,7 @@ function RegistroExito() {
           </>
         }
       >
-        <PrimaryButton onClick={() => nav({ to: "/login" })}>Ir a inicio de sesión</PrimaryButton>
+        <PrimaryButton onClick={() => nav({ to: "/login", search: { register: undefined } })}>Ir a inicio de sesión</PrimaryButton>
         <div className="flex justify-center">
           <SecondaryButton onClick={() => nav({ to: "/registro/validar-email" })}>
             Ver email de validación (demo)

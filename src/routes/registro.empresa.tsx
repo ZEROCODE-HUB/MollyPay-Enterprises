@@ -15,7 +15,7 @@ export const Route = createFileRoute("/registro/empresa")({
 function RedirectToLogin() {
   const navigate = useNavigate();
   useEffect(() => {
-    navigate({ to: "/login", replace: true });
+    navigate({ to: "/login", search: { register: "pj" }, replace: true });
   }, [navigate]);
   return null;
 }
