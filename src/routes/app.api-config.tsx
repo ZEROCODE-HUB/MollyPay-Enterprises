@@ -88,7 +88,7 @@ function Page() {
               <BtnPrimary
                 onClick={() => {
                   window.open(
-                    "https://molipay.com.ar/api-configuration-client-configuration",
+                    "https://www.molipay.com.ar/api-configuration",
                     "_blank",
                     "noopener,noreferrer",
                   );

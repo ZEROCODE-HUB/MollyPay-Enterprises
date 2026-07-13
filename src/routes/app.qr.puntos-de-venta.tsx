@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
-import { Plus, Search, Eye, Edit3, Trash2, Info, X } from "lucide-react";
+import { Plus, Search, Eye, Edit3, Trash2, Info, X, Download, Printer } from "lucide-react";
 import { Card, Input, Label, BtnPrimary, BtnOutline, Badge } from "@/components/portal-shell";
 import { toast } from "sonner";
 import { FormDialog } from "@/components/form-dialog";
+import QRCode from "qrcode";
 
 export const Route = createFileRoute("/app/qr/puntos-de-venta")({ component: Page });
 
@@ -55,6 +56,7 @@ function Page() {
   const [detallePd, setDetallePd] = useState<PuntoVenta | null>(null);
   const [eliminarOpen, setEliminarOpen] = useState(false);
   const [eliminarId, setEliminarId] = useState<string | null>(null);
+  const [qrDataUrl, setQrDataUrl] = useState("");
 
   const filtered = useMemo(() => {
     let list = [...pdvs];
@@ -251,7 +253,13 @@ function Page() {
               <div className="flex gap-1 justify-end">
                 <BtnOutline
                   className="h-8 px-2.5 text-xs"
-                  onClick={() => { setDetallePd(p); setDetalleOpen(true); }}
+                  onClick={async () => {
+                    setDetallePd(p);
+                    setDetalleOpen(true);
+                    const payload = `https://molipay.com.ar/qr/pdv/${p.id}`;
+                    const url = await QRCode.toDataURL(payload, { width: 280, margin: 2 });
+                    setQrDataUrl(url);
+                  }}
                 >
                   <Eye size={13} /> Ver
                 </BtnOutline>
@@ -399,7 +407,7 @@ function Page() {
       {detalleOpen && detallePd && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50" onClick={() => setDetalleOpen(false)} />
-          <div className="relative bg-card rounded-lg max-w-md w-full p-6 shadow-xl">
+          <div className="relative bg-card rounded-lg max-w-lg w-full p-6 shadow-xl">
             <button
               onClick={() => setDetalleOpen(false)}
               className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
@@ -407,40 +415,86 @@ function Page() {
               <X size={16} />
             </button>
             <h3 className="font-semibold text-lg mb-4">{detallePd.nombre}</h3>
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Subcuenta</span>
-                <span className="font-semibold">{detallePd.subcuenta}</span>
+
+            <div className="grid grid-cols-[1fr_auto] gap-6">
+              {/* Info */}
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Subcuenta</span>
+                  <span className="font-semibold">{detallePd.subcuenta}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Tipo QR</span>
+                  <span className="font-semibold">{detallePd.tipo}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Ubicaci&oacute;n</span>
+                  <span className="font-semibold">{detallePd.ubicacion}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Estado</span>
+                  <Badge tone={detallePd.estado === "Activo" ? "success" : "warn"}>{detallePd.estado}</Badge>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Fecha de creaci&oacute;n</span>
+                  <span className="font-semibold">{detallePd.fecha}</span>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Tipo QR</span>
-                <span className="font-semibold">{detallePd.tipo}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Ubicación</span>
-                <span className="font-semibold">{detallePd.ubicacion}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Estado</span>
-                <Badge tone={detallePd.estado === "Activo" ? "success" : "warn"}>{detallePd.estado}</Badge>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Fecha de creación</span>
-                <span className="font-semibold">{detallePd.fecha}</span>
+
+              {/* QR */}
+              <div className="flex flex-col items-center gap-2">
+                <div className="border-2 rounded-xl p-2 bg-white">
+                  {qrDataUrl ? (
+                    <img src={qrDataUrl} alt="QR" className="w-32 h-32" />
+                  ) : (
+                    <div className="w-32 h-32 bg-muted animate-pulse rounded" />
+                  )}
+                </div>
+                <span className="text-[10px] text-muted-foreground text-center leading-tight">
+                  Escaneá para pagar en<br />
+                  {detallePd.nombre}
+                </span>
               </div>
             </div>
-            <div className="mt-6 flex gap-2">
-              <BtnOutline className="flex-1" onClick={() => setDetalleOpen(false)}>
+
+            <div className="flex gap-2 mt-6">
+              <BtnOutline className="flex-1 h-9 text-xs" onClick={() => setDetalleOpen(false)}>
                 Cerrar
               </BtnOutline>
+              <BtnOutline
+                className="h-9 text-xs"
+                onClick={() => {
+                  if (qrDataUrl) {
+                    const a = document.createElement("a");
+                    a.href = qrDataUrl;
+                    a.download = `qr-${detallePd.id}.png`;
+                    a.click();
+                  }
+                }}
+              >
+                <Download size={13} /> QR
+              </BtnOutline>
+              <BtnOutline
+                className="h-9 text-xs"
+                onClick={() => {
+                  if (qrDataUrl) {
+                    const w = window.open();
+                    if (w) {
+                      w.document.write(`<img src="${qrDataUrl}" onload="window.print()" />`);
+                    }
+                  }
+                }}
+              >
+                <Printer size={13} />
+              </BtnOutline>
               <BtnPrimary
-                className="flex-1"
+                className="flex-1 h-9 text-xs"
                 onClick={() => {
                   setDetalleOpen(false);
                   openEditar(detallePd);
                 }}
               >
-                <Edit3 size={14} /> Editar
+                <Edit3 size={13} /> Editar
               </BtnPrimary>
             </div>
           </div>
