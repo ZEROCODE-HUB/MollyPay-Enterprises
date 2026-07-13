@@ -404,11 +404,23 @@ function SubDetailModal({ sub, onClose }: { sub: Sub; onClose: () => void }) {
   const [editEmail, setEditEmail] = useState(false);
   const [emailVal, setEmailVal] = useState(sub.email);
   const [moveOpen, setMoveOpen] = useState(false);
-  const moves = movimientosPorSub[sub.n] ?? [];
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [filterTipo, setFilterTipo] = useState<"todos" | "ingreso" | "egreso">("todos");
+  const [filterSearch, setFilterSearch] = useState("");
 
-  const totalDepositos = moves.filter(m => m.tipo === "ingreso").reduce((a, m) => a + m.monto, 0);
-  const totalRetiros = moves.filter(m => m.tipo === "egreso").reduce((a, m) => a + m.monto, 0);
-  const totalComisiones = moves.filter(m => m.entidad === "Moli Financial S.A.").reduce((a, m) => a + m.monto, 0);
+  const allMoves = movimientosPorSub[sub.n] ?? [];
+  const moves = allMoves.filter((m) => {
+    if (filterTipo !== "todos" && m.tipo !== filterTipo) return false;
+    if (filterSearch) {
+      const q = filterSearch.toLowerCase();
+      if (!m.txid.toLowerCase().includes(q) && !m.entidad.toLowerCase().includes(q) && !m.cbu.includes(q)) return false;
+    }
+    return true;
+  });
+
+  const totalDepositos = allMoves.filter(m => m.tipo === "ingreso").reduce((a, m) => a + m.monto, 0);
+  const totalRetiros = allMoves.filter(m => m.tipo === "egreso").reduce((a, m) => a + m.monto, 0);
+  const totalComisiones = allMoves.filter(m => m.entidad === "Moli Financial S.A.").reduce((a, m) => a + m.monto, 0);
 
   const confirmAction = (accion: string, detalle: string): boolean =>
     window.confirm(`¿Estás seguro de que querés ${accion}?\n\n${detalle}`);
@@ -560,11 +572,45 @@ function SubDetailModal({ sub, onClose }: { sub: Sub; onClose: () => void }) {
                 <BtnOutline className="h-8 px-3 text-[11px]" onClick={() => toast.success("Reporte descargado (demo)")}>
                   <Download size={12} /> DESCARGAR REPORTE
                 </BtnOutline>
-                <BtnOutline className="h-8 px-3 text-[11px]" onClick={() => toast.success("Filtros abiertos (demo)")}>
-                  <Filter size={12} /> FILTRAR
+                <BtnOutline className="h-8 px-3 text-[11px]" onClick={() => setFilterOpen(!filterOpen)}>
+                  <Filter size={12} /> FILTRAR{filterOpen && <ChevronUp size={11} className="ml-1" />}
                 </BtnOutline>
               </div>
             </div>
+
+            {filterOpen && (
+              <div className="mb-3 p-3 bg-muted/30 rounded-lg border space-y-3">
+                <div className="flex flex-wrap gap-3">
+                  <div className="flex-1 min-w-[180px]">
+                    <span className="text-[10px] uppercase tracking-wide text-muted-foreground">Buscar</span>
+                    <Input
+                      value={filterSearch}
+                      onChange={(e) => setFilterSearch(e.target.value)}
+                      placeholder="TXID, CBU o entidad..."
+                      className="h-9 text-sm mt-1"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wide text-muted-foreground">Tipo</span>
+                    <select
+                      value={filterTipo}
+                      onChange={(e) => setFilterTipo(e.target.value as "todos" | "ingreso" | "egreso")}
+                      className="h-9 px-3 rounded-md border bg-card text-sm mt-1 min-w-[140px]"
+                    >
+                      <option value="todos">Todos</option>
+                      <option value="ingreso">Ingresos</option>
+                      <option value="egreso">Egresos</option>
+                    </select>
+                  </div>
+                </div>
+                {moves.length < allMoves.length && (
+                  <p className="text-[11px] text-muted-foreground">
+                    {moves.length} de {allMoves.length} movimientos
+                  </p>
+                )}
+              </div>
+            )}
+
             <div className="max-h-[280px] overflow-y-auto border rounded-lg divide-y">
               {moves.length === 0 ? (
                 <p className="p-4 text-sm text-muted-foreground text-center">Sin movimientos registrados</p>
