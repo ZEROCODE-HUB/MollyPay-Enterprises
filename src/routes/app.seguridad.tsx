@@ -29,6 +29,8 @@ const team = [
 
 function Page() {
   const [twoFa, setTwoFa] = useState<"email" | "totp">("email");
+  const [sesionTiempo, setSesionTiempo] = useState("Nunca");
+  const [customTiempo, setCustomTiempo] = useState("");
 
   return (
     <>
@@ -151,6 +153,70 @@ function Page() {
       <div className="grid lg:grid-cols-[1fr_1fr] gap-6 mb-6">
         <Card>
           <h3 className="font-semibold mb-3 flex items-center gap-2"><Monitor size={16} /> Sesiones activas</h3>
+          <div className="mb-5 pb-5 border-b">
+            <div className="text-xs text-muted-foreground mb-2">
+              Tiempo de sesión activa: la sesión se cerrará automáticamente después del período de inactividad.
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {["Nunca", "30 minutos", "1 hora", "6 horas", "1 día"].map((opt) => (
+                <button
+                  key={opt}
+                  type="button"
+                  onClick={() => { setSesionTiempo(opt === "Nunca" ? "" : opt); setCustomTiempo(""); }}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-md border transition ${
+                    sesionTiempo === opt
+                      ? "border-primary bg-[color:var(--brand-soft)] text-primary"
+                      : "border-border hover:border-primary/50 bg-card text-muted-foreground"
+                  }`}
+                >
+                  {opt}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={() => setSesionTiempo("custom")}
+                className={`px-3 py-1.5 text-xs font-semibold rounded-md border transition flex items-center gap-1 ${
+                  sesionTiempo === "custom"
+                    ? "border-primary bg-[color:var(--brand-soft)] text-primary"
+                    : "border-border hover:border-primary/50 bg-card text-muted-foreground"
+                }`}
+              >
+                Custom
+              </button>
+            </div>
+            {sesionTiempo === "custom" && (
+              <div className="flex items-center gap-2 mt-2">
+                <Input
+                  value={customTiempo}
+                  onChange={(e) => setCustomTiempo(e.target.value)}
+                  placeholder="Minutos"
+                  className="h-9 w-28 text-sm"
+                  type="number"
+                  min={1}
+                />
+                <span className="text-xs text-muted-foreground">minutos</span>
+                <BtnOutline
+                  className="h-9 px-3 text-xs"
+                  onClick={() => {
+                    if (!customTiempo || Number(customTiempo) < 1) { toast.error("Ingresá un tiempo válido"); return; }
+                    toast.success(`Tiempo de sesión: ${customTiempo} minutos`);
+                  }}
+                >
+                  Aplicar
+                </BtnOutline>
+              </div>
+            )}
+            {sesionTiempo && sesionTiempo !== "custom" && sesionTiempo !== "" && (
+              <p className="text-[11px] text-emerald-700 mt-1.5">
+                Tiempo de sesión configurado: {sesionTiempo}
+              </p>
+            )}
+            {sesionTiempo === "" && (
+              <p className="text-[11px] text-muted-foreground mt-1.5">
+                La sesión no expirará por inactividad.
+              </p>
+            )}
+          </div>
           <div className="divide-y">
             {sessions.map((s, i) => (
               <div key={i} className="flex items-center justify-between py-3">

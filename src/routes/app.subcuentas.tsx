@@ -580,22 +580,22 @@ function SubDetailModal({ sub, onClose }: { sub: Sub; onClose: () => void }) {
 
             {filterOpen && (
               <div className="mb-3 p-3 bg-muted/30 rounded-lg border space-y-3">
-                <div className="flex flex-wrap gap-3">
-                  <div className="flex-1 min-w-[180px]">
-                    <span className="text-[10px] uppercase tracking-wide text-muted-foreground">Buscar</span>
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3">
+                  <div>
+                    <label className="block text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Buscar</label>
                     <Input
                       value={filterSearch}
                       onChange={(e) => setFilterSearch(e.target.value)}
                       placeholder="TXID, CBU o entidad..."
-                      className="h-9 text-sm mt-1"
+                      className="h-9 text-sm w-full"
                     />
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase tracking-wide text-muted-foreground">Tipo</span>
+                    <label className="block text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Tipo</label>
                     <select
                       value={filterTipo}
                       onChange={(e) => setFilterTipo(e.target.value as "todos" | "ingreso" | "egreso")}
-                      className="h-9 px-3 rounded-md border bg-card text-sm mt-1 min-w-[140px]"
+                      className="h-9 px-3 rounded-md border bg-card text-sm min-w-[140px] w-full"
                     >
                       <option value="todos">Todos</option>
                       <option value="ingreso">Ingresos</option>
