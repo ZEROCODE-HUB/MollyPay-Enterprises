@@ -12,6 +12,7 @@ import {
   UserCog,
   Shield,
   Package,
+  Store,
   List,
   ShoppingCart,
   Code2,
@@ -40,7 +41,14 @@ const nav: NavItem[] = [
       { to: "/app/link-pago/e-commerce", label: "E-commerce", icon: ShoppingCart },
     ],
   },
-  { to: "/app/qr", label: "Pago QR", icon: QrCode },
+  {
+    label: "Cobros con QR",
+    icon: QrCode,
+    items: [
+      { to: "/app/qr", label: "Dashboard", icon: LayoutDashboard },
+      { to: "/app/qr/puntos-de-venta", label: "Puntos de Venta", icon: Store },
+    ],
+  },
   { to: "/app/servicios", label: "Pago de servicios", icon: Receipt },
   {
     label: "Cobros masivos",
