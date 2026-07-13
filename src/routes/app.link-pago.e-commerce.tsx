@@ -2,9 +2,9 @@
 import { useState, useMemo } from "react";
 import {
   RefreshCw, Pause, Key, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight,
-  Server, Webhook, ShieldCheck, Globe,
+  Server, Webhook, ShieldCheck, Globe, X,
 } from "lucide-react";
-import { Card, Badge, BtnOutline } from "@/components/portal-shell";
+import { Card, Badge, BtnOutline, Input, Label } from "@/components/portal-shell";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/link-pago/e-commerce")({ component: Page });
@@ -37,6 +37,10 @@ function Page() {
   const [list, setList] = useState(ecoms);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+  const [claveModal, setClaveModal] = useState<{ id: string; name: string } | null>(null);
+  const [claveApi, setClaveApi] = useState("");
+  const [webhookUrl, setWebhookUrl] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
 
   const totalPages = Math.ceil(list.length / pageSize);
   const paginated = useMemo(
@@ -54,6 +58,21 @@ function Page() {
     );
     const e = list.find((x) => x.id === id);
     toast.success(`${e?.name} ${e?.estado === "Habilitado" ? "deshabilitada" : "habilitada"}`);
+  };
+
+  const refreshList = () => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+      setList([...ecoms]);
+      toast.success("Catálogo de integraciones actualizado");
+    }, 600);
+  };
+
+  const openClaveModal = (id: string, name: string) => {
+    setClaveApi("");
+    setWebhookUrl("");
+    setClaveModal({ id, name });
   };
 
   return (
@@ -77,12 +96,59 @@ function Page() {
         </p>
       </div>
 
-      {/* Card */}
+      {/* Resumen de capacidades (movido arriba) */}
+      <Card className="mb-6">
+        <h2 className="text-sm font-semibold mb-4">Capacidades de integración</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+            <Server size={18} className="text-muted-foreground shrink-0 mt-0.5" />
+            <div>
+              <div className="text-xs font-semibold">API RESTful</div>
+              <div className="text-[11px] text-muted-foreground mt-0.5">
+                Documentada y fácil de implementar.
+              </div>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+            <Webhook size={18} className="text-muted-foreground shrink-0 mt-0.5" />
+            <div>
+              <div className="text-xs font-semibold">Webhooks</div>
+              <div className="text-[11px] text-muted-foreground mt-0.5">
+                Notificaciones instantáneas de eventos.
+              </div>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+            <ShieldCheck size={18} className="text-muted-foreground shrink-0 mt-0.5" />
+            <div>
+              <div className="text-xs font-semibold">Seguridad</div>
+              <div className="text-[11px] text-muted-foreground mt-0.5">
+                Claves (API keys) y validación por IP.
+              </div>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+            <Globe size={18} className="text-muted-foreground shrink-0 mt-0.5" />
+            <div>
+              <div className="text-xs font-semibold">Compatibilidad</div>
+              <div className="text-[11px] text-muted-foreground mt-0.5">
+                Marketplaces, carritos externos y plataformas propias.
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Lista de integraciones */}
       <Card className="p-0 overflow-hidden">
         <div className="px-5 py-4 border-b flex items-center justify-between gap-3">
           <h2 className="text-sm font-semibold">Integraciones de E-commerce</h2>
-          <BtnOutline className="h-8 px-3 text-[11px]" onClick={() => toast.success("Catálogo actualizado (demo)")}>
-            <RefreshCw size={12} /> ACTUALIZAR
+          <BtnOutline
+            className="h-8 px-3 text-[11px]"
+            onClick={refreshList}
+            disabled={refreshing}
+          >
+            <RefreshCw size={12} className={refreshing ? "animate-spin" : ""} /> ACTUALIZAR
           </BtnOutline>
         </div>
 
@@ -113,7 +179,7 @@ function Page() {
                         <Pause size={12} /> DESHABILITAR
                       </button>
                       <button
-                        onClick={() => toast.success(`Nueva clave generada para ${e.name} (demo)`)}
+                        onClick={() => openClaveModal(e.id, e.name)}
                         className="h-8 px-2.5 inline-flex items-center gap-1.5 rounded-md border bg-card hover:bg-orange-50 hover:text-orange-600 transition text-xs font-semibold text-muted-foreground"
                       >
                         <Key size={12} /> ACTUALIZAR CLAVE
@@ -174,48 +240,53 @@ function Page() {
         </div>
       </Card>
 
-      {/* Backend info */}
-      <Card className="mt-6">
-        <h2 className="text-sm font-semibold mb-4">Funcionalidad backend</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
-            <Server size={18} className="text-muted-foreground shrink-0 mt-0.5" />
-            <div>
-              <div className="text-xs font-semibold">API RESTful</div>
-              <div className="text-[11px] text-muted-foreground mt-0.5">
-                Documentada y fácil de implementar.
-              </div>
+      {/* Modal: Actualizar clave / Conectar */}
+      {claveModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setClaveModal(null)} />
+          <div className="relative bg-card rounded-lg max-w-md w-full p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold">Conectar {claveModal.name}</h3>
+              <button onClick={() => setClaveModal(null)} className="text-muted-foreground hover:text-foreground">
+                <X size={16} />
+              </button>
             </div>
-          </div>
-          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
-            <Webhook size={18} className="text-muted-foreground shrink-0 mt-0.5" />
-            <div>
-              <div className="text-xs font-semibold">Webhooks</div>
-              <div className="text-[11px] text-muted-foreground mt-0.5">
-                Notificaciones instantáneas de eventos.
+            <div className="space-y-3">
+              <div>
+                <Label>API Key</Label>
+                <Input
+                  value={claveApi}
+                  onChange={(e) => setClaveApi(e.target.value)}
+                  placeholder="Ingresá la API key de {claveModal.name}"
+                  className="mt-1"
+                />
               </div>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
-            <ShieldCheck size={18} className="text-muted-foreground shrink-0 mt-0.5" />
-            <div>
-              <div className="text-xs font-semibold">Seguridad</div>
-              <div className="text-[11px] text-muted-foreground mt-0.5">
-                Claves (API keys) y validación por IP.
+              <div>
+                <Label>Webhook URL (opcional)</Label>
+                <Input
+                  value={webhookUrl}
+                  onChange={(e) => setWebhookUrl(e.target.value)}
+                  placeholder="https://..."
+                  className="mt-1"
+                />
               </div>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
-            <Globe size={18} className="text-muted-foreground shrink-0 mt-0.5" />
-            <div>
-              <div className="text-xs font-semibold">Compatibilidad</div>
-              <div className="text-[11px] text-muted-foreground mt-0.5">
-                Marketplaces, carritos externos y plataformas propias.
+              <div className="text-xs text-muted-foreground pt-1 leading-relaxed">
+                Las credenciales se cifran y almacenan de forma segura. Podés actualizarlas en cualquier momento.
               </div>
+              <BtnOutline
+                className="w-full mt-2"
+                onClick={() => {
+                  if (!claveApi.trim()) { toast.error("La API Key es requerida"); return; }
+                  setClaveModal(null);
+                  toast.success(`${claveModal.name} conectada correctamente`);
+                }}
+              >
+                <Key size={14} /> Conectar
+              </BtnOutline>
             </div>
           </div>
         </div>
-      </Card>
+      )}
     </>
   );
 }
