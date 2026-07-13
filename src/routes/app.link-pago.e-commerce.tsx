@@ -1,199 +1,221 @@
-﻿import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+﻿import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useMemo } from "react";
 import {
-  Search,
-  Link2,
-  Unlink,
-  RefreshCw,
-  ShoppingCart,
-  ArrowLeftRight,
-  QrCode,
-  Link as LinkIcon,
+  RefreshCw, Pause, Key, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight,
+  Server, Webhook, ShieldCheck, Globe,
 } from "lucide-react";
-import { PageHeader, Card, Input, BtnPrimary, BtnOutline, Badge } from "@/components/portal-shell";
+import { Card, Badge, BtnOutline } from "@/components/portal-shell";
 import { toast } from "sonner";
-import { FormDialog } from "@/components/form-dialog";
-import { integrationPlatforms, type Product } from "@/data/links-pago";
 
 export const Route = createFileRoute("/app/link-pago/e-commerce")({ component: Page });
 
-const syncedProducts: Product[] = [
-  { id: "sp1", name: "Remera estampada", qty: 50, price: 8900 },
-  { id: "sp2", name: "Taza personalizada", qty: 100, price: 4500 },
-  { id: "sp3", name: "Gorro bordado", qty: 30, price: 6500 },
-  { id: "sp4", name: "Bolso ecol\u00f3gico", qty: 25, price: 12000 },
+type Ecom = {
+  id: string;
+  name: string;
+  estado: "Habilitado" | "Deshabilitado";
+  created: string;
+};
+
+const ecoms: Ecom[] = [
+  { id: "shopify", name: "Shopify", estado: "Habilitado", created: "12 ago 2025, 11:52" },
+  { id: "woocommerce", name: "WooCommerce", estado: "Habilitado", created: "10 jun 2025, 09:14" },
+  { id: "magento", name: "Magento", estado: "Deshabilitado", created: "03 mar 2025, 16:30" },
+  { id: "prestashop", name: "PrestaShop", estado: "Habilitado", created: "20 ene 2025, 08:45" },
+  { id: "vtiger", name: "VTiger", estado: "Deshabilitado", created: "15 dic 2024, 14:00" },
+  { id: "tiendanube", name: "Tiendanube", estado: "Habilitado", created: "05 nov 2024, 10:30" },
+  { id: "mercadoshops", name: "Mercado Shops", estado: "Habilitado", created: "22 oct 2024, 11:20" },
+  { id: "sellix", name: "Sellix", estado: "Deshabilitado", created: "08 sep 2024, 09:00" },
+  { id: "bigcommerce", name: "BigCommerce", estado: "Habilitado", created: "01 ago 2024, 15:10" },
+  { id: "opencart", name: "OpenCart", estado: "Deshabilitado", created: "14 jul 2024, 12:25" },
+  { id: "wixstores", name: "Wix Stores", estado: "Habilitado", created: "30 jun 2024, 18:00" },
+  { id: "ecwid", name: "Ecwid", estado: "Habilitado", created: "12 may 2024, 07:35" },
 ];
 
-function Page() {
-  const [platforms, setPlatforms] = useState(integrationPlatforms);
-  const [chargeOpen, setChargeOpen] = useState(false);
-  const [selectedSync, setSelectedSync] = useState<string[]>([]);
+const PAGE_SIZES = [10, 20, 50];
 
-  const toggleConnect = (id: string) => {
-    setPlatforms((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? {
-              ...p,
-              connected: !p.connected,
-              since: !p.connected ? new Date().toLocaleDateString("es-AR") : undefined,
-              products: p.products || 0,
-            }
-          : p,
+function Page() {
+  const [list, setList] = useState(ecoms);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+
+  const totalPages = Math.ceil(list.length / pageSize);
+  const paginated = useMemo(
+    () => list.slice(page * pageSize, (page + 1) * pageSize),
+    [list, page, pageSize],
+  );
+
+  const toggleEstado = (id: string) => {
+    setList((prev) =>
+      prev.map((e) =>
+        e.id === id
+          ? { ...e, estado: e.estado === "Habilitado" ? "Deshabilitado" : "Habilitado" as const }
+          : e,
       ),
     );
-    const p = platforms.find((x) => x.id === id);
-    toast.success(p ? (p.connected ? p.name + " desconectada" : p.name + " conectada") : "");
+    const e = list.find((x) => x.id === id);
+    toast.success(`${e?.name} ${e?.estado === "Habilitado" ? "deshabilitada" : "habilitada"}`);
   };
 
   return (
     <>
-      <div className="grid md:grid-cols-3 gap-4 mb-6">
-        {platforms.map((p) => (
-          <Card key={p.id}>
-            <div className="flex items-center justify-between mb-3">
-              <div className="w-10 h-10 rounded-md bg-[color:var(--brand-soft)] flex items-center justify-center text-sm font-bold text-[color:var(--brand-dark)]">
-                {p.logo}
-              </div>
-              <Badge tone={p.connected ? "success" : "neutral"}>
-                {p.connected ? "Conectada" : "Desconectada"}
-              </Badge>
-            </div>
-            <div className="font-semibold">{p.name}</div>
-            {p.connected ? (
-              <div className="text-xs text-muted-foreground mt-1">
-                Conectada desde {p.since} \u00b7 {p.products} productos
-              </div>
-            ) : (
-              <div className="text-xs text-muted-foreground mt-1">No conectada</div>
-            )}
-            <div className="flex gap-2 mt-4">
-              {p.connected ? (
-                <>
-                  <BtnOutline className="flex-1 text-xs" onClick={() => setChargeOpen(true)}>
-                    <ShoppingCart size={13} /> Cobrar
-                  </BtnOutline>
-                  <BtnOutline className="h-9 w-9 p-0" onClick={() => toggleConnect(p.id)}>
-                    <Unlink size={14} />
-                  </BtnOutline>
-                </>
-              ) : (
-                <BtnPrimary className="flex-1" onClick={() => toggleConnect(p.id)}>
-                  <Link2 size={14} /> Conectar
-                </BtnPrimary>
-              )}
-            </div>
-          </Card>
-        ))}
+      {/* Breadcrumb */}
+      <nav className="text-xs text-muted-foreground mb-4 flex items-center gap-1.5">
+        <Link to="/app" className="hover:text-foreground transition">Inicio</Link>
+        <span>/</span>
+        <span className="text-muted-foreground/60">Business</span>
+        <span>/</span>
+        <Link to="/app/link-pago" className="hover:text-foreground transition">BLP</Link>
+        <span>/</span>
+        <span className="text-foreground font-semibold">E-commerce</span>
+      </nav>
+
+      {/* Title */}
+      <div className="mb-6">
+        <h1 className="text-xl font-semibold">E-commerce</h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          Gestiona las integraciones de pago para tu tienda online.
+        </p>
       </div>
 
-      {platforms.filter((p) => p.connected).length > 0 && (
-        <Card className="p-0 overflow-hidden">
-          <div className="px-5 py-4 border-b flex items-center justify-between">
-            <h3 className="font-semibold text-sm">Productos sincronizados</h3>
-            <BtnOutline className="h-8 px-3 text-xs">
-              <RefreshCw size={12} /> Sincronizar
-            </BtnOutline>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
-                  <th className="w-10 px-3 py-2.5">
-                    <input
-                      type="checkbox"
-                      onChange={(e) =>
-                        setSelectedSync(e.target.checked ? syncedProducts.map((p) => p.id) : [])
-                      }
-                    />
-                  </th>
-                  <th className="text-left px-3 py-2.5">Producto</th>
-                  <th className="text-right px-3 py-2.5">Stock</th>
-                  <th className="text-right px-3 py-2.5">Precio</th>
-                </tr>
-              </thead>
-              <tbody>
-                {syncedProducts.map((p) => (
-                  <tr key={p.id} className="border-b last:border-0 hover:bg-muted/30">
-                    <td className="px-3 py-3">
-                      <input
-                        type="checkbox"
-                        checked={selectedSync.includes(p.id)}
-                        onChange={() =>
-                          setSelectedSync((prev) =>
-                            prev.includes(p.id) ? prev.filter((x) => x !== p.id) : [...prev, p.id],
-                          )
-                        }
-                      />
-                    </td>
-                    <td className="px-3 py-3 font-semibold">{p.name}</td>
-                    <td className="px-3 py-3 text-right">{p.qty}</td>
-                    <td className="px-3 py-3 text-right font-semibold">
-                      ${p.price.toLocaleString("es-AR")}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="px-5 py-3 border-t flex gap-2">
-            <BtnPrimary
-              className="text-xs"
-              disabled={selectedSync.length === 0}
-              onClick={() => {
-                if (selectedSync.length > 0) setChargeOpen(true);
-              }}
-            >
-              <ShoppingCart size={13} /> Cobrar seleccionados
-            </BtnPrimary>
-          </div>
-        </Card>
-      )}
-
-      <FormDialog
-        open={chargeOpen}
-        onClose={() => setChargeOpen(false)}
-        title="Esquema de cobro"
-        description="Eleg\u00ed c\u00f3mo quer\u00e9s cobrar los productos seleccionados."
-        submitLabel="Generar"
-        onSubmit={() => {
-          setChargeOpen(false);
-          toast.success("Esquema de cobro generado");
-        }}
-      >
-        <div className="space-y-3">
-          <label className="flex items-center gap-3 p-3 border rounded-md cursor-pointer hover:bg-muted transition">
-            <input type="radio" name="scheme" defaultChecked />
-            <ArrowLeftRight size={18} className="text-muted-foreground" />
-            <div>
-              <div className="font-semibold text-sm">Transferencia</div>
-              <div className="text-xs text-muted-foreground">
-                El cliente paga por transferencia bancaria
-              </div>
-            </div>
-          </label>
-          <label className="flex items-center gap-3 p-3 border rounded-md cursor-pointer hover:bg-muted transition">
-            <input type="radio" name="scheme" />
-            <QrCode size={18} className="text-muted-foreground" />
-            <div>
-              <div className="font-semibold text-sm">C\u00f3digo QR</div>
-              <div className="text-xs text-muted-foreground">
-                Gener\u00e1 un QR para que el cliente escanee y pague
-              </div>
-            </div>
-          </label>
-          <label className="flex items-center gap-3 p-3 border rounded-md cursor-pointer hover:bg-muted transition">
-            <input type="radio" name="scheme" />
-            <LinkIcon size={18} className="text-muted-foreground" />
-            <div>
-              <div className="font-semibold text-sm">Link de Pago</div>
-              <div className="text-xs text-muted-foreground">
-                Cre\u00e1 un link de pago con los productos seleccionados
-              </div>
-            </div>
-          </label>
+      {/* Card */}
+      <Card className="p-0 overflow-hidden">
+        <div className="px-5 py-4 border-b flex items-center justify-between gap-3">
+          <h2 className="text-sm font-semibold">Integraciones de E-commerce</h2>
+          <BtnOutline className="h-8 px-3 text-[11px]" onClick={() => toast.success("Catálogo actualizado (demo)")}>
+            <RefreshCw size={12} /> ACTUALIZAR
+          </BtnOutline>
         </div>
-      </FormDialog>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
+                <th className="text-left px-5 py-2.5">E-commerce</th>
+                <th className="text-left px-5 py-2.5">Estado</th>
+                <th className="text-left px-5 py-2.5">Fecha de Creación</th>
+                <th className="text-right px-5 py-2.5">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginated.map((e) => (
+                <tr key={e.id} className="border-b last:border-0 hover:bg-muted/30">
+                  <td className="px-5 py-3 font-semibold">{e.name}</td>
+                  <td className="px-5 py-3">
+                    <Badge tone={e.estado === "Habilitado" ? "success" : "neutral"}>{e.estado}</Badge>
+                  </td>
+                  <td className="px-5 py-3 text-sm text-muted-foreground">{e.created}</td>
+                  <td className="px-5 py-3 text-right">
+                    <div className="flex gap-1 justify-end">
+                      <button
+                        onClick={() => toggleEstado(e.id)}
+                        className="h-8 px-2.5 inline-flex items-center gap-1.5 rounded-md border bg-card hover:bg-red-50 hover:text-red-600 transition text-xs font-semibold text-muted-foreground"
+                      >
+                        <Pause size={12} /> DESHABILITAR
+                      </button>
+                      <button
+                        onClick={() => toast.success(`Nueva clave generada para ${e.name} (demo)`)}
+                        className="h-8 px-2.5 inline-flex items-center gap-1.5 rounded-md border bg-card hover:bg-orange-50 hover:text-orange-600 transition text-xs font-semibold text-muted-foreground"
+                      >
+                        <Key size={12} /> ACTUALIZAR CLAVE
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Pagination */}
+        <div className="px-5 py-3 border-t flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span>Items per page:</span>
+            <select
+              value={pageSize}
+              onChange={(e) => { setPageSize(Number(e.target.value)); setPage(0); }}
+              className="h-8 px-2 rounded border bg-card text-xs"
+            >
+              {PAGE_SIZES.map((s) => <option key={s} value={s}>{s}</option>)}
+            </select>
+            <span>
+              {list.length === 0 ? "0" : page * pageSize + 1}–{Math.min((page + 1) * pageSize, list.length)} of {list.length}
+            </span>
+          </div>
+          <div className="flex gap-1">
+            <button
+              onClick={() => setPage(0)}
+              disabled={page === 0}
+              className="h-8 w-8 inline-flex items-center justify-center rounded border bg-card hover:bg-muted transition disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ChevronsLeft size={14} />
+            </button>
+            <button
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              disabled={page === 0}
+              className="h-8 w-8 inline-flex items-center justify-center rounded border bg-card hover:bg-muted transition disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ChevronLeft size={14} />
+            </button>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              disabled={page >= totalPages - 1}
+              className="h-8 w-8 inline-flex items-center justify-center rounded border bg-card hover:bg-muted transition disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ChevronRight size={14} />
+            </button>
+            <button
+              onClick={() => setPage(totalPages - 1)}
+              disabled={page >= totalPages - 1}
+              className="h-8 w-8 inline-flex items-center justify-center rounded border bg-card hover:bg-muted transition disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <ChevronsRight size={14} />
+            </button>
+          </div>
+        </div>
+      </Card>
+
+      {/* Backend info */}
+      <Card className="mt-6">
+        <h2 className="text-sm font-semibold mb-4">Funcionalidad backend</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+            <Server size={18} className="text-muted-foreground shrink-0 mt-0.5" />
+            <div>
+              <div className="text-xs font-semibold">API RESTful</div>
+              <div className="text-[11px] text-muted-foreground mt-0.5">
+                Documentada y fácil de implementar.
+              </div>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+            <Webhook size={18} className="text-muted-foreground shrink-0 mt-0.5" />
+            <div>
+              <div className="text-xs font-semibold">Webhooks</div>
+              <div className="text-[11px] text-muted-foreground mt-0.5">
+                Notificaciones instantáneas de eventos.
+              </div>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+            <ShieldCheck size={18} className="text-muted-foreground shrink-0 mt-0.5" />
+            <div>
+              <div className="text-xs font-semibold">Seguridad</div>
+              <div className="text-[11px] text-muted-foreground mt-0.5">
+                Claves (API keys) y validación por IP.
+              </div>
+            </div>
+          </div>
+          <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
+            <Globe size={18} className="text-muted-foreground shrink-0 mt-0.5" />
+            <div>
+              <div className="text-xs font-semibold">Compatibilidad</div>
+              <div className="text-[11px] text-muted-foreground mt-0.5">
+                Marketplaces, carritos externos y plataformas propias.
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
     </>
   );
 }
