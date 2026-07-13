@@ -12,8 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RegistroRouteImport } from './routes/registro'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as RegistroValidarEmailRouteImport } from './routes/registro.validar-email'
 import { Route as RegistroValidacionExitosaRouteImport } from './routes/registro.validacion-exitosa'
 import { Route as RegistroExitoRouteImport } from './routes/registro.exito'
@@ -37,7 +39,20 @@ import { Route as AppEcommerceRouteImport } from './routes/app.ecommerce'
 import { Route as AppDestinatariosRouteImport } from './routes/app.destinatarios'
 import { Route as AppCuentaRouteImport } from './routes/app.cuenta'
 import { Route as AppCobrosRouteImport } from './routes/app.cobros'
+import { Route as AppApiConfigRouteImport } from './routes/app.api-config'
 import { Route as AppApiRouteImport } from './routes/app.api'
+import { Route as AdminReporteriaRouteImport } from './routes/admin.reporteria'
+import { Route as AdminRecaudacionRouteImport } from './routes/admin.recaudacion'
+import { Route as AdminMovimientosRouteImport } from './routes/admin.movimientos'
+import { Route as AdminMonitoreoRouteImport } from './routes/admin.monitoreo'
+import { Route as AdminKycRouteImport } from './routes/admin.kyc'
+import { Route as AdminConsorcioRouteImport } from './routes/admin.consorcio'
+import { Route as AdminConfigRouteImport } from './routes/admin.config'
+import { Route as AdminComplianceRouteImport } from './routes/admin.compliance'
+import { Route as AdminComisionesRouteImport } from './routes/admin.comisiones'
+import { Route as AdminClientesRouteImport } from './routes/admin.clientes'
+import { Route as AdminCbuRouteImport } from './routes/admin.cbu'
+import { Route as AdminAlquileresRouteImport } from './routes/admin.alquileres'
 import { Route as AppLinkPagoIndexRouteImport } from './routes/app.link-pago.index'
 import { Route as AppCobrosIndexRouteImport } from './routes/app.cobros.index'
 import { Route as AppLinkPagoProductosRouteImport } from './routes/app.link-pago.productos'
@@ -61,6 +76,11 @@ const AppRoute = AppRouteImport.update({
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -70,6 +90,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const RegistroValidarEmailRoute = RegistroValidarEmailRouteImport.update({
   id: '/validar-email',
@@ -188,10 +213,75 @@ const AppCobrosRoute = AppCobrosRouteImport.update({
   path: '/cobros',
   getParentRoute: () => AppRoute,
 } as any)
+const AppApiConfigRoute = AppApiConfigRouteImport.update({
+  id: '/api-config',
+  path: '/api-config',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppApiRoute = AppApiRouteImport.update({
   id: '/api',
   path: '/api',
   getParentRoute: () => AppRoute,
+} as any)
+const AdminReporteriaRoute = AdminReporteriaRouteImport.update({
+  id: '/reporteria',
+  path: '/reporteria',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRecaudacionRoute = AdminRecaudacionRouteImport.update({
+  id: '/recaudacion',
+  path: '/recaudacion',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMovimientosRoute = AdminMovimientosRouteImport.update({
+  id: '/movimientos',
+  path: '/movimientos',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMonitoreoRoute = AdminMonitoreoRouteImport.update({
+  id: '/monitoreo',
+  path: '/monitoreo',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminKycRoute = AdminKycRouteImport.update({
+  id: '/kyc',
+  path: '/kyc',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminConsorcioRoute = AdminConsorcioRouteImport.update({
+  id: '/consorcio',
+  path: '/consorcio',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminConfigRoute = AdminConfigRouteImport.update({
+  id: '/config',
+  path: '/config',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminComplianceRoute = AdminComplianceRouteImport.update({
+  id: '/compliance',
+  path: '/compliance',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminComisionesRoute = AdminComisionesRouteImport.update({
+  id: '/comisiones',
+  path: '/comisiones',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminClientesRoute = AdminClientesRouteImport.update({
+  id: '/clientes',
+  path: '/clientes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCbuRoute = AdminCbuRouteImport.update({
+  id: '/cbu',
+  path: '/cbu',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAlquileresRoute = AdminAlquileresRouteImport.update({
+  id: '/alquileres',
+  path: '/alquileres',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AppLinkPagoIndexRoute = AppLinkPagoIndexRouteImport.update({
   id: '/',
@@ -231,10 +321,24 @@ const AppCobrosGestionIdRoute = AppCobrosGestionIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/registro': typeof RegistroRouteWithChildren
+  '/admin/alquileres': typeof AdminAlquileresRoute
+  '/admin/cbu': typeof AdminCbuRoute
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/comisiones': typeof AdminComisionesRoute
+  '/admin/compliance': typeof AdminComplianceRoute
+  '/admin/config': typeof AdminConfigRoute
+  '/admin/consorcio': typeof AdminConsorcioRoute
+  '/admin/kyc': typeof AdminKycRoute
+  '/admin/monitoreo': typeof AdminMonitoreoRoute
+  '/admin/movimientos': typeof AdminMovimientosRoute
+  '/admin/recaudacion': typeof AdminRecaudacionRoute
+  '/admin/reporteria': typeof AdminReporteriaRoute
   '/app/api': typeof AppApiRoute
+  '/app/api-config': typeof AppApiConfigRoute
   '/app/cobros': typeof AppCobrosRouteWithChildren
   '/app/cuenta': typeof AppCuentaRoute
   '/app/destinatarios': typeof AppDestinatariosRoute
@@ -258,6 +362,7 @@ export interface FileRoutesByFullPath {
   '/registro/exito': typeof RegistroExitoRoute
   '/registro/validacion-exitosa': typeof RegistroValidacionExitosaRoute
   '/registro/validar-email': typeof RegistroValidarEmailRoute
+  '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/app/cobros/gestion': typeof AppCobrosGestionRouteWithChildren
   '/app/cobros/nuevo': typeof AppCobrosNuevoRoute
@@ -271,7 +376,20 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/registro': typeof RegistroRouteWithChildren
+  '/admin/alquileres': typeof AdminAlquileresRoute
+  '/admin/cbu': typeof AdminCbuRoute
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/comisiones': typeof AdminComisionesRoute
+  '/admin/compliance': typeof AdminComplianceRoute
+  '/admin/config': typeof AdminConfigRoute
+  '/admin/consorcio': typeof AdminConsorcioRoute
+  '/admin/kyc': typeof AdminKycRoute
+  '/admin/monitoreo': typeof AdminMonitoreoRoute
+  '/admin/movimientos': typeof AdminMovimientosRoute
+  '/admin/recaudacion': typeof AdminRecaudacionRoute
+  '/admin/reporteria': typeof AdminReporteriaRoute
   '/app/api': typeof AppApiRoute
+  '/app/api-config': typeof AppApiConfigRoute
   '/app/cuenta': typeof AppCuentaRoute
   '/app/destinatarios': typeof AppDestinatariosRoute
   '/app/ecommerce': typeof AppEcommerceRoute
@@ -293,6 +411,7 @@ export interface FileRoutesByTo {
   '/registro/exito': typeof RegistroExitoRoute
   '/registro/validacion-exitosa': typeof RegistroValidacionExitosaRoute
   '/registro/validar-email': typeof RegistroValidarEmailRoute
+  '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
   '/app/cobros/gestion': typeof AppCobrosGestionRouteWithChildren
   '/app/cobros/nuevo': typeof AppCobrosNuevoRoute
@@ -305,10 +424,24 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/registro': typeof RegistroRouteWithChildren
+  '/admin/alquileres': typeof AdminAlquileresRoute
+  '/admin/cbu': typeof AdminCbuRoute
+  '/admin/clientes': typeof AdminClientesRoute
+  '/admin/comisiones': typeof AdminComisionesRoute
+  '/admin/compliance': typeof AdminComplianceRoute
+  '/admin/config': typeof AdminConfigRoute
+  '/admin/consorcio': typeof AdminConsorcioRoute
+  '/admin/kyc': typeof AdminKycRoute
+  '/admin/monitoreo': typeof AdminMonitoreoRoute
+  '/admin/movimientos': typeof AdminMovimientosRoute
+  '/admin/recaudacion': typeof AdminRecaudacionRoute
+  '/admin/reporteria': typeof AdminReporteriaRoute
   '/app/api': typeof AppApiRoute
+  '/app/api-config': typeof AppApiConfigRoute
   '/app/cobros': typeof AppCobrosRouteWithChildren
   '/app/cuenta': typeof AppCuentaRoute
   '/app/destinatarios': typeof AppDestinatariosRoute
@@ -332,6 +465,7 @@ export interface FileRoutesById {
   '/registro/exito': typeof RegistroExitoRoute
   '/registro/validacion-exitosa': typeof RegistroValidacionExitosaRoute
   '/registro/validar-email': typeof RegistroValidarEmailRoute
+  '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/app/cobros/gestion': typeof AppCobrosGestionRouteWithChildren
   '/app/cobros/nuevo': typeof AppCobrosNuevoRoute
@@ -345,10 +479,24 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/app'
     | '/login'
     | '/registro'
+    | '/admin/alquileres'
+    | '/admin/cbu'
+    | '/admin/clientes'
+    | '/admin/comisiones'
+    | '/admin/compliance'
+    | '/admin/config'
+    | '/admin/consorcio'
+    | '/admin/kyc'
+    | '/admin/monitoreo'
+    | '/admin/movimientos'
+    | '/admin/recaudacion'
+    | '/admin/reporteria'
     | '/app/api'
+    | '/app/api-config'
     | '/app/cobros'
     | '/app/cuenta'
     | '/app/destinatarios'
@@ -372,6 +520,7 @@ export interface FileRouteTypes {
     | '/registro/exito'
     | '/registro/validacion-exitosa'
     | '/registro/validar-email'
+    | '/admin/'
     | '/app/'
     | '/app/cobros/gestion'
     | '/app/cobros/nuevo'
@@ -385,7 +534,20 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/registro'
+    | '/admin/alquileres'
+    | '/admin/cbu'
+    | '/admin/clientes'
+    | '/admin/comisiones'
+    | '/admin/compliance'
+    | '/admin/config'
+    | '/admin/consorcio'
+    | '/admin/kyc'
+    | '/admin/monitoreo'
+    | '/admin/movimientos'
+    | '/admin/recaudacion'
+    | '/admin/reporteria'
     | '/app/api'
+    | '/app/api-config'
     | '/app/cuenta'
     | '/app/destinatarios'
     | '/app/ecommerce'
@@ -407,6 +569,7 @@ export interface FileRouteTypes {
     | '/registro/exito'
     | '/registro/validacion-exitosa'
     | '/registro/validar-email'
+    | '/admin'
     | '/app'
     | '/app/cobros/gestion'
     | '/app/cobros/nuevo'
@@ -418,10 +581,24 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/app'
     | '/login'
     | '/registro'
+    | '/admin/alquileres'
+    | '/admin/cbu'
+    | '/admin/clientes'
+    | '/admin/comisiones'
+    | '/admin/compliance'
+    | '/admin/config'
+    | '/admin/consorcio'
+    | '/admin/kyc'
+    | '/admin/monitoreo'
+    | '/admin/movimientos'
+    | '/admin/recaudacion'
+    | '/admin/reporteria'
     | '/app/api'
+    | '/app/api-config'
     | '/app/cobros'
     | '/app/cuenta'
     | '/app/destinatarios'
@@ -445,6 +622,7 @@ export interface FileRouteTypes {
     | '/registro/exito'
     | '/registro/validacion-exitosa'
     | '/registro/validar-email'
+    | '/admin/'
     | '/app/'
     | '/app/cobros/gestion'
     | '/app/cobros/nuevo'
@@ -457,6 +635,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
   RegistroRoute: typeof RegistroRouteWithChildren
@@ -493,6 +672,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -506,6 +692,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/registro/validar-email': {
       id: '/registro/validar-email'
@@ -668,12 +861,103 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCobrosRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/api-config': {
+      id: '/app/api-config'
+      path: '/api-config'
+      fullPath: '/app/api-config'
+      preLoaderRoute: typeof AppApiConfigRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/api': {
       id: '/app/api'
       path: '/api'
       fullPath: '/app/api'
       preLoaderRoute: typeof AppApiRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/admin/reporteria': {
+      id: '/admin/reporteria'
+      path: '/reporteria'
+      fullPath: '/admin/reporteria'
+      preLoaderRoute: typeof AdminReporteriaRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/recaudacion': {
+      id: '/admin/recaudacion'
+      path: '/recaudacion'
+      fullPath: '/admin/recaudacion'
+      preLoaderRoute: typeof AdminRecaudacionRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/movimientos': {
+      id: '/admin/movimientos'
+      path: '/movimientos'
+      fullPath: '/admin/movimientos'
+      preLoaderRoute: typeof AdminMovimientosRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/monitoreo': {
+      id: '/admin/monitoreo'
+      path: '/monitoreo'
+      fullPath: '/admin/monitoreo'
+      preLoaderRoute: typeof AdminMonitoreoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/kyc': {
+      id: '/admin/kyc'
+      path: '/kyc'
+      fullPath: '/admin/kyc'
+      preLoaderRoute: typeof AdminKycRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/consorcio': {
+      id: '/admin/consorcio'
+      path: '/consorcio'
+      fullPath: '/admin/consorcio'
+      preLoaderRoute: typeof AdminConsorcioRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/config': {
+      id: '/admin/config'
+      path: '/config'
+      fullPath: '/admin/config'
+      preLoaderRoute: typeof AdminConfigRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/compliance': {
+      id: '/admin/compliance'
+      path: '/compliance'
+      fullPath: '/admin/compliance'
+      preLoaderRoute: typeof AdminComplianceRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/comisiones': {
+      id: '/admin/comisiones'
+      path: '/comisiones'
+      fullPath: '/admin/comisiones'
+      preLoaderRoute: typeof AdminComisionesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/clientes': {
+      id: '/admin/clientes'
+      path: '/clientes'
+      fullPath: '/admin/clientes'
+      preLoaderRoute: typeof AdminClientesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/cbu': {
+      id: '/admin/cbu'
+      path: '/cbu'
+      fullPath: '/admin/cbu'
+      preLoaderRoute: typeof AdminCbuRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/alquileres': {
+      id: '/admin/alquileres'
+      path: '/alquileres'
+      fullPath: '/admin/alquileres'
+      preLoaderRoute: typeof AdminAlquileresRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/app/link-pago/': {
       id: '/app/link-pago/'
@@ -727,6 +1011,40 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminAlquileresRoute: typeof AdminAlquileresRoute
+  AdminCbuRoute: typeof AdminCbuRoute
+  AdminClientesRoute: typeof AdminClientesRoute
+  AdminComisionesRoute: typeof AdminComisionesRoute
+  AdminComplianceRoute: typeof AdminComplianceRoute
+  AdminConfigRoute: typeof AdminConfigRoute
+  AdminConsorcioRoute: typeof AdminConsorcioRoute
+  AdminKycRoute: typeof AdminKycRoute
+  AdminMonitoreoRoute: typeof AdminMonitoreoRoute
+  AdminMovimientosRoute: typeof AdminMovimientosRoute
+  AdminRecaudacionRoute: typeof AdminRecaudacionRoute
+  AdminReporteriaRoute: typeof AdminReporteriaRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAlquileresRoute: AdminAlquileresRoute,
+  AdminCbuRoute: AdminCbuRoute,
+  AdminClientesRoute: AdminClientesRoute,
+  AdminComisionesRoute: AdminComisionesRoute,
+  AdminComplianceRoute: AdminComplianceRoute,
+  AdminConfigRoute: AdminConfigRoute,
+  AdminConsorcioRoute: AdminConsorcioRoute,
+  AdminKycRoute: AdminKycRoute,
+  AdminMonitoreoRoute: AdminMonitoreoRoute,
+  AdminMovimientosRoute: AdminMovimientosRoute,
+  AdminRecaudacionRoute: AdminRecaudacionRoute,
+  AdminReporteriaRoute: AdminReporteriaRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 interface AppCobrosGestionRouteChildren {
   AppCobrosGestionIdRoute: typeof AppCobrosGestionIdRoute
 }
@@ -772,6 +1090,7 @@ const AppLinkPagoRouteWithChildren = AppLinkPagoRoute._addFileChildren(
 
 interface AppRouteChildren {
   AppApiRoute: typeof AppApiRoute
+  AppApiConfigRoute: typeof AppApiConfigRoute
   AppCobrosRoute: typeof AppCobrosRouteWithChildren
   AppCuentaRoute: typeof AppCuentaRoute
   AppDestinatariosRoute: typeof AppDestinatariosRoute
@@ -788,6 +1107,7 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppApiRoute: AppApiRoute,
+  AppApiConfigRoute: AppApiConfigRoute,
   AppCobrosRoute: AppCobrosRouteWithChildren,
   AppCuentaRoute: AppCuentaRoute,
   AppDestinatariosRoute: AppDestinatariosRoute,
@@ -824,6 +1144,7 @@ const RegistroRouteWithChildren = RegistroRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
   RegistroRoute: RegistroRouteWithChildren,
@@ -839,13 +1160,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

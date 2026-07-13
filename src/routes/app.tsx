@@ -14,6 +14,7 @@ import {
   Package,
   List,
   ShoppingCart,
+  Code2,
 } from "lucide-react";
 import { PortalShell, type NavItem } from "@/components/portal-shell";
 import { SupportBot } from "@/components/support-bot";
@@ -51,6 +52,7 @@ const nav: NavItem[] = [
   },
   { to: "/app/cuenta", label: "Mi cuenta", icon: UserCog },
   { to: "/app/seguridad", label: "Seguridad", icon: Shield },
+  { to: "/app/api-config", label: "Config. APIs Externas", icon: Code2 },
 ];
 
 function AppLayout() {
