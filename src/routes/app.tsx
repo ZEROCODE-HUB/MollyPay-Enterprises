@@ -3,19 +3,17 @@ import { useEffect } from "react";
 import {
   LayoutDashboard,
   ArrowLeftRight,
-  Users,
   Wallet,
   Link2,
   QrCode,
   Receipt,
-  ShoppingCart,
   Upload,
   History,
   UserCog,
   Shield,
   Package,
-  Store,
   List,
+  HelpCircle,
 } from "lucide-react";
 import { PortalShell, type NavItem } from "@/components/portal-shell";
 import { useDemoMode } from "@/contexts/demo-mode";
@@ -30,7 +28,6 @@ const nav: NavItem[] = [
   { to: "/app", label: "Dashboard", icon: LayoutDashboard },
   { to: "/app/historial", label: "Historial", icon: History },
   { to: "/app/transferencias", label: "Transferir", icon: ArrowLeftRight },
-  { to: "/app/destinatarios", label: "Destinatarios", icon: Users },
   { to: "/app/subcuentas", label: "Subcuentas", icon: Wallet },
   {
     label: "Link de pago",
@@ -38,12 +35,10 @@ const nav: NavItem[] = [
     items: [
       { to: "/app/link-pago", label: "Dashboard", icon: LayoutDashboard },
       { to: "/app/link-pago/productos", label: "Productos", icon: Package },
-      { to: "/app/link-pago/e-commerce", label: "E-commerce", icon: Store },
     ],
   },
   { to: "/app/qr", label: "Pago QR", icon: QrCode },
   { to: "/app/servicios", label: "Pago de servicios", icon: Receipt },
-  { to: "/app/ecommerce", label: "E-commerce", icon: ShoppingCart },
   {
     label: "Cobros masivos",
     icon: Upload,
@@ -54,6 +49,7 @@ const nav: NavItem[] = [
   },
   { to: "/app/cuenta", label: "Mi cuenta", icon: UserCog },
   { to: "/app/seguridad", label: "Seguridad", icon: Shield },
+  { to: "/app/ayuda", label: "Ayuda", icon: HelpCircle },
 ];
 
 function AppLayout() {

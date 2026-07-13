@@ -39,6 +39,7 @@ type Item = {
   icon: LucideIcon;
   cat: string;
   e: "Pendiente" | "Próximo" | "Vencido";
+  debito?: boolean;
 };
 
 const servicios: Item[] = [
@@ -50,6 +51,7 @@ const servicios: Item[] = [
     icon: Zap,
     cat: "Energía",
     e: "Pendiente",
+    debito: true,
   },
   {
     n: "Metrogas",
@@ -59,6 +61,7 @@ const servicios: Item[] = [
     icon: Flame,
     cat: "Gas",
     e: "Pendiente",
+    debito: true,
   },
   {
     n: "AySA",
@@ -68,6 +71,7 @@ const servicios: Item[] = [
     icon: Droplet,
     cat: "Agua",
     e: "Próximo",
+    debito: true,
   },
   {
     n: "ABL CABA",
@@ -95,6 +99,7 @@ const servicios: Item[] = [
     icon: Tv,
     cat: "Internet",
     e: "Vencido",
+    debito: true,
   },
   {
     n: "Telecom",
@@ -104,6 +109,7 @@ const servicios: Item[] = [
     icon: Phone,
     cat: "Telefonía",
     e: "Próximo",
+    debito: true,
   },
   {
     n: "Fibertel Empresas",
@@ -113,6 +119,7 @@ const servicios: Item[] = [
     icon: Wifi,
     cat: "Internet",
     e: "Próximo",
+    debito: true,
   },
 ];
 
@@ -218,6 +225,7 @@ function Page() {
   const [proxAll, setProxAll] = useState(false);
   const [suscAll, setSuscAll] = useState(false);
   const [histAll, setHistAll] = useState(false);
+  const [debitoSet, setDebitoSet] = useState<Set<string>>(new Set());
 
   const sorted = [...servicios].sort((a, b) => {
     if (sort === "vencimiento") return parseDate(a.venc).getTime() - parseDate(b.venc).getTime();
@@ -353,6 +361,27 @@ function Page() {
                         <Badge tone={isVencido ? "danger" : s.e === "Pendiente" ? "warn" : "neutral"}>
                           {isVencido ? "Vencido" : s.e}
                         </Badge>
+                        {s.debito && (
+                          <button
+                            onClick={() =>
+                              setDebitoSet((prev) => {
+                                const next = new Set(prev);
+                                const k = s.n + s.c;
+                                if (next.has(k)) next.delete(k);
+                                else next.add(k);
+                                return next;
+                              })
+                            }
+                            className={`h-9 px-2.5 rounded-md text-[11px] font-semibold border transition ${
+                              debitoSet.has(s.n + s.c)
+                                ? "bg-[color:var(--brand-soft)] text-[color:var(--brand-dark)] border-transparent"
+                                : "bg-card text-muted-foreground border-border hover:bg-muted"
+                            }`}
+                            title="Débito directo"
+                          >
+                            DD
+                          </button>
+                        )}
                         <BtnPrimary className="h-9 px-4" onClick={() => setPagar(s)}>
                           Pagar
                         </BtnPrimary>
@@ -438,6 +467,27 @@ function Page() {
                         >
                           {s.e}
                         </Badge>
+                        {s.debito && (
+                          <button
+                            onClick={() =>
+                              setDebitoSet((prev) => {
+                                const next = new Set(prev);
+                                const k = s.n + s.c;
+                                if (next.has(k)) next.delete(k);
+                                else next.add(k);
+                                return next;
+                              })
+                            }
+                            className={`h-9 px-2.5 rounded-md text-[11px] font-semibold border transition ${
+                              debitoSet.has(s.n + s.c)
+                                ? "bg-[color:var(--brand-soft)] text-[color:var(--brand-dark)] border-transparent"
+                                : "bg-card text-muted-foreground border-border hover:bg-muted"
+                            }`}
+                            title="Débito directo"
+                          >
+                            DD
+                          </button>
+                        )}
                         <BtnPrimary className="h-9 px-4" onClick={() => setPagar(s)}>
                           Pagar
                         </BtnPrimary>

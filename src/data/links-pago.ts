@@ -1,4 +1,4 @@
-﻿import { subDays, format } from "date-fns";
+﻿import { subDays } from "date-fns";
 
 export interface Product {
   id: string;
@@ -6,7 +6,6 @@ export interface Product {
   qty: number;
   price: number;
   desc?: string;
-  expires?: string;
 }
 
 export interface PaymentMethod {
@@ -72,44 +71,13 @@ export const paymentMethods: PaymentMethod[] = [
 const now = new Date();
 
 export const mockProducts: Product[] = [
-  {
-    id: "p1",
-    name: "Suscripción Premium",
-    qty: 1,
-    price: 29900,
-    desc: "Plan mensual premium",
-    expires: format(addMonths(now, 1), "yyyy-MM-dd"),
-  },
+  { id: "p1", name: "Suscripción Premium", qty: 1, price: 29900, desc: "Plan mensual premium" },
   { id: "p2", name: "Consultoría inicial", qty: 1, price: 85000, desc: "Sesión de 2 horas" },
-  {
-    id: "p3",
-    name: "Curso Marketing Digital",
-    qty: 20,
-    price: 4500,
-    desc: "Acceso por 6 meses",
-    expires: format(addMonths(now, 6), "yyyy-MM-dd"),
-  },
+  { id: "p3", name: "Curso Marketing Digital", qty: 20, price: 4500, desc: "Acceso por 6 meses" },
   { id: "p4", name: "Kit bienvenida", qty: 5, price: 12000 },
   { id: "p5", name: "Mantenimiento mensual", qty: 1, price: 18000, desc: "Soporte técnico" },
-  {
-    id: "p6",
-    name: "Licencia Enterprise",
-    qty: 3,
-    price: 120000,
-    expires: format(addYears(now, 1), "yyyy-MM-dd"),
-  },
+  { id: "p6", name: "Licencia Enterprise", qty: 3, price: 120000 },
 ];
-
-function addMonths(d: Date, n: number) {
-  const r = new Date(d);
-  r.setMonth(r.getMonth() + n);
-  return r;
-}
-function addYears(d: Date, n: number) {
-  const r = new Date(d);
-  r.setFullYear(r.getFullYear() + n);
-  return r;
-}
 
 export const mockLinks: PaymentLink[] = [
   {

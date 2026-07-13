@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Building2, Upload, FileText, CheckCircle2, AlertCircle, CreditCard, SlidersHorizontal, Download, Landmark } from "lucide-react";
-import { PageHeader, Card, Input, Label, BtnPrimary, BtnOutline, Badge, Stat } from "@/components/portal-shell";
+import { PageHeader, Card, Input, Label, BtnPrimary, BtnOutline, Badge } from "@/components/portal-shell";
 import { toast } from "sonner";
 import { MollyLogo } from "@/components/molly-logo";
 
@@ -39,22 +39,49 @@ function Page() {
         description="Datos del titular, documentación, facturación y plan."
       />
 
-      <div className="grid md:grid-cols-4 gap-4 mb-6">
-        <Stat label="Estado KYC" value="Validado" sub="Aprobado 20/02/2026" />
-        <Stat label="Antigüedad" value="3 meses" />
-        <Stat label="Plan actual" value="Empresa" sub="$ 48.000/mes" />
-        <Stat label="Ops del mes" value="3.240 / 5.000" />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
+        <div className="bg-card border rounded-lg p-2.5">
+          <div className="text-[9px] uppercase tracking-wider text-muted-foreground">Estado KYC</div>
+          <div className="text-sm font-semibold mt-0.5">Validado</div>
+          <div className="text-[9px] text-muted-foreground">Aprobado 20/02/2026</div>
+        </div>
+        <div className="bg-card border rounded-lg p-2.5">
+          <div className="text-[9px] uppercase tracking-wider text-muted-foreground">Antigüedad</div>
+          <div className="text-sm font-semibold mt-0.5">3 meses</div>
+        </div>
+        <div className="bg-card border rounded-lg p-2.5">
+          <div className="text-[9px] uppercase tracking-wider text-muted-foreground">Plan actual</div>
+          <div className="text-sm font-semibold mt-0.5">Empresa</div>
+          <div className="text-[9px] text-muted-foreground">$ 48.000/mes</div>
+        </div>
+        <div className="bg-card border rounded-lg p-2.5">
+          <div className="text-[9px] uppercase tracking-wider text-muted-foreground">Ops del mes</div>
+          <div className="text-sm font-semibold mt-0.5">3.240 / 5.000</div>
+        </div>
       </div>
 
       <div className="grid lg:grid-cols-[1.4fr_1fr] gap-6">
         <div className="space-y-6">
           <Card>
-            <h3 className="font-semibold mb-4 flex items-center gap-2"><Building2 size={16} /> Datos de la empresa</h3>
+            <h3 className="font-semibold mb-4 flex items-center gap-2"><Building2 size={16} /> Información del Usuario</h3>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div><Label>Nombre</Label><Input defaultValue="Carla" /></div>
+              <div><Label>Apellido</Label><Input defaultValue="Rivas" /></div>
+              <div><Label>Email</Label><Input defaultValue="carla@empresademo.com" /></div>
+              <div>
+                <Label>Estado</Label>
+                <div className="pt-1.5"><Badge tone="success">Activo</Badge></div>
+              </div>
+            </div>
+          </Card>
+
+          <Card>
+            <h3 className="font-semibold mb-4 flex items-center gap-2"><Building2 size={16} /> Información de la Empresa</h3>
             <form className="grid sm:grid-cols-2 gap-4">
-              <div><Label>Razón social</Label><Input defaultValue="Empresa Demo SA" /></div>
-              <div><Label>Nombre de fantasía</Label><Input defaultValue="Empresa Demo" /></div>
-              <div><Label>CUIT</Label><Input defaultValue="30-12345678-9" /></div>
-              <div><Label>Tipo societario</Label>
+              <div><Label>Nombre Legal</Label><Input defaultValue="Empresa Demo SA" /></div>
+              <div><Label>Nombre Comercial</Label><Input defaultValue="Empresa Demo" /></div>
+              <div><Label>CUIT de la empresa</Label><Input defaultValue="30-12345678-9" /></div>
+              <div><Label>Tipo de empresa</Label>
                 <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
                   <option>Sociedad Anónima</option>
                   <option>SRL</option>
@@ -62,15 +89,47 @@ function Page() {
                 </select>
               </div>
               <div><Label>Actividad principal</Label><Input defaultValue="Servicios financieros" /></div>
-              <div><Label>Inicio de actividades</Label><Input type="date" defaultValue="2024-03-15" /></div>
-              <div><Label>Email de contacto</Label><Input defaultValue="hola@empresademo.com" /></div>
+              <div><Label>Fecha de Inscripción</Label><Input type="date" defaultValue="2024-03-15" /></div>
               <div><Label>Teléfono</Label><Input defaultValue="+54 11 4555 0000" /></div>
-              <div className="sm:col-span-2"><Label>Domicilio fiscal</Label><Input defaultValue="Av. Corrientes 1234, CABA" /></div>
+              <div><Label>Dirección</Label><Input defaultValue="Av. Corrientes 1234" /></div>
+              <div><Label>Ciudad</Label><Input defaultValue="CABA" /></div>
+              <div><Label>Provincia</Label><Input defaultValue="Buenos Aires" /></div>
+              <div><Label>Código Postal</Label><Input defaultValue="C1043" /></div>
               <div className="sm:col-span-2 flex gap-2 justify-end">
                 <BtnOutline>Cancelar</BtnOutline>
                 <BtnPrimary>Guardar cambios</BtnPrimary>
               </div>
             </form>
+          </Card>
+
+          <Card>
+            <h3 className="font-semibold mb-4 flex items-center gap-2"><FileText size={16} /> Información de Perfil</h3>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div><Label>CUIL</Label><Input defaultValue="27-30123456-7" /></div>
+              <div><Label>DNI</Label><Input defaultValue="30.123.456" /></div>
+              <div><Label>Género</Label>
+                <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
+                  <option>Femenino</option>
+                  <option>Masculino</option>
+                  <option>No binario</option>
+                  <option>Prefiero no decirlo</option>
+                </select>
+              </div>
+              <div><Label>Nacimiento</Label><Input type="date" defaultValue="1985-06-15" /></div>
+              <div><Label>Ocupación</Label><Input defaultValue="Directora Financiera" /></div>
+              <div><Label>Fuente de Fondos</Label>
+                <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
+                  <option>Actividad comercial</option>
+                  <option>Servicios profesionales</option>
+                  <option>Inversiones</option>
+                  <option>Otros</option>
+                </select>
+              </div>
+              <div>
+                <Label>PEP</Label>
+                <div className="pt-1.5 text-sm">No</div>
+              </div>
+            </div>
           </Card>
 
           <Card>
@@ -98,6 +157,23 @@ function Page() {
         </div>
 
         <div className="space-y-6">
+          <Card>
+            <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
+              <Landmark size={16} className="shrink-0 text-primary" />
+              Información de CVU
+            </h3>
+            <div className="text-xs space-y-2">
+              <div className="flex justify-between gap-2">
+                <span className="text-muted-foreground">CVU</span>
+                <span className="font-mono font-semibold truncate">{empresa.cbu}</span>
+              </div>
+              <div className="flex justify-between gap-2">
+                <span className="text-muted-foreground">Alias</span>
+                <span className="font-mono font-semibold truncate">{empresa.alias}</span>
+              </div>
+            </div>
+          </Card>
+
           <Card className="bg-gradient-to-br from-[color:var(--brand-soft)] to-card">
             <div className="flex items-center justify-between mb-2">
               <h3 className="font-semibold">{plan.nombre}</h3>
@@ -133,16 +209,10 @@ function Page() {
             <p className="text-xs text-muted-foreground mb-3">
               Documento oficial con razón social, CUIT, CBU y alias — útil para acreditar tu cuenta ante terceros.
             </p>
-            <div className="text-xs space-y-1 mb-3">
-              <div className="flex justify-between gap-2"><span className="text-muted-foreground">CBU</span><span className="font-mono font-semibold truncate">{empresa.cbu}</span></div>
-              <div className="flex justify-between gap-2"><span className="text-muted-foreground">Alias</span><span className="font-mono font-semibold truncate">{empresa.alias}</span></div>
-            </div>
             <BtnPrimary className="w-full" onClick={() => setCbuPreview(true)}>
               <Download size={14} /> Descargar constancia (PDF)
             </BtnPrimary>
           </Card>
-
-
 
           <Card>
             <h3 className="font-semibold mb-3 flex items-center gap-2"><CreditCard size={16} /> Facturación</h3>

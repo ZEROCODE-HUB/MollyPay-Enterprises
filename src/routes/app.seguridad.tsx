@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Shield, Smartphone, Key, Monitor, AlertTriangle, CheckCircle2, Plus, Trash2, Mail, QrCode } from "lucide-react";
-import { PageHeader, Card, Input, Label, BtnPrimary, BtnOutline, Badge, Stat } from "@/components/portal-shell";
+import { Smartphone, Key, Monitor, AlertTriangle, CheckCircle2, Plus, Trash2, Mail, QrCode } from "lucide-react";
+import { PageHeader, Card, Input, Label, BtnPrimary, BtnOutline, Badge } from "@/components/portal-shell";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/app/seguridad")({ component: Page });
@@ -36,13 +36,6 @@ function Page() {
         title="Seguridad"
         description="Contraseña, 2FA, sesiones activas, equipo y auditoría."
       />
-
-      <div className="grid md:grid-cols-4 gap-4 mb-6">
-        <Stat label="Nivel de seguridad" value="Alto" sub="2FA activo · IP whitelist" />
-        <Stat label="Sesiones activas" value="3" />
-        <Stat label="Usuarios del equipo" value="3" sub="1 pendiente de aceptar" />
-        <Stat label="Alertas últimos 30d" value="1" sub="Intento fallido bloqueado" />
-      </div>
 
       <div className="grid lg:grid-cols-2 gap-6 mb-6">
         <Card>
@@ -152,18 +145,6 @@ function Page() {
 
 
 
-          <Card>
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="font-semibold flex items-center gap-2"><Shield size={16} /> IP whitelist</h3>
-              <Badge tone="success">Activa</Badge>
-            </div>
-            <p className="text-sm text-muted-foreground mb-3">2 direcciones IP autorizadas para operar la API.</p>
-            <div className="space-y-1.5 text-xs font-mono">
-              <div className="flex justify-between p-2 bg-muted rounded"><span>190.12.44.0/24</span><span className="text-muted-foreground">Oficina Centro</span></div>
-              <div className="flex justify-between p-2 bg-muted rounded"><span>200.40.18.0/24</span><span className="text-muted-foreground">Oficina Córdoba</span></div>
-            </div>
-            <BtnOutline className="mt-3 w-full"><Plus size={13} /> Agregar IP</BtnOutline>
-          </Card>
         </div>
       </div>
 

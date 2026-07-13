@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Plus, Copy, Share2, Edit3, ToggleLeft, RotateCcw, History, Search } from "lucide-react";
 import {
-  PageHeader,
   Card,
   Input,
   Label,
@@ -158,7 +157,6 @@ function Page() {
                 <th className="text-right px-3 py-2.5">Cantidad</th>
                 <th className="text-right px-3 py-2.5">Precio</th>
                 <th className="text-left px-3 py-2.5 hidden md:table-cell">Descripci\u00f3n</th>
-                <th className="text-left px-3 py-2.5 hidden lg:table-cell">Expira</th>
                 <th className="text-right px-3 py-2.5"></th>
               </tr>
             </thead>
@@ -181,9 +179,6 @@ function Page() {
                   <td className="px-3 py-3 text-right font-semibold">{formatARS(p.price)}</td>
                   <td className="px-3 py-3 text-xs text-muted-foreground hidden md:table-cell">
                     {p.desc || "\u2014"}
-                  </td>
-                  <td className="px-3 py-3 text-xs hidden lg:table-cell">
-                    {p.expires || "\u2014"}
                   </td>
                   <td className="px-3 py-3 text-right">
                     <div className="flex gap-1 justify-end">
@@ -503,7 +498,6 @@ function ProductFormDialog({
   const [qty, setQty] = useState(product?.qty.toString() || "1");
   const [price, setPrice] = useState(product?.price.toString() || "");
   const [desc, setDesc] = useState(product?.desc || "");
-  const [expires, setExpires] = useState(product?.expires || "");
 
   return (
     <FormDialog
@@ -523,7 +517,6 @@ function ProductFormDialog({
           qty: parseInt(qty) || 1,
           price: parseFloat(price.replace(/[^0-9,]/g, "").replace(",", ".")) || 0,
           desc: desc || undefined,
-          expires: expires || undefined,
         });
       }}
     >
@@ -552,10 +545,6 @@ function ProductFormDialog({
           onChange={(e) => setDesc(e.target.value)}
           placeholder="Plan mensual premium"
         />
-      </div>
-      <div>
-        <Label>Fecha de expiraci\u00f3n (opcional)</Label>
-        <Input type="date" value={expires} onChange={(e) => setExpires(e.target.value)} />
       </div>
     </FormDialog>
   );

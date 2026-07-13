@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
-  Plus, Copy, ArrowDownLeft, ArrowUpRight, Settings2, Eye, Search,
+  Plus, Copy, ArrowDownLeft, ArrowUpRight, Settings2, Eye, Pencil, Trash2, Search,
   ArrowLeftRight, ShieldCheck, Lock, Users, Zap,
 } from "lucide-react";
 import { PageHeader, Card, BtnPrimary, BtnOutline, Badge, Stat, Input, Label } from "@/components/portal-shell";
@@ -11,7 +11,8 @@ import { FormDialog } from "@/components/form-dialog";
 export const Route = createFileRoute("/app/subcuentas")({ component: Page });
 
 type Sub = {
-  n: string; cbu: string; tipo: "Operativa" | "Recaudación" | "Garantías" | "Sueldos";
+  n: string; apellido: string; email: string; cbu: string;
+  tipo: "Operativa" | "Recaudación" | "Garantías" | "Sueldos";
   e: "Activa" | "Pausada";
   disp: number; ret: number; conc: number;
   ing: string; egr: string;
@@ -19,22 +20,22 @@ type Sub = {
 };
 
 const subs: Sub[] = [
-  { n: "Sucursal Centro", cbu: "0000003 100011112222 01", tipo: "Operativa", e: "Activa",
+  { n: "Sucursal Centro", apellido: "Solís", email: "msolis@empresa.com", cbu: "0000003 100011112222 01", tipo: "Operativa", e: "Activa",
     disp: 4220000, ret: 180000, conc: 3950000, ing: "$ 1.840.000", egr: "$ 920.000",
     resp: "M. Solís", lim: "$ 8.000.000 / día", color: "var(--brand-primary)" },
-  { n: "Sucursal Norte", cbu: "0000003 100011112222 02", tipo: "Operativa", e: "Activa",
+  { n: "Sucursal Norte", apellido: "Vega", email: "tvega@empresa.com", cbu: "0000003 100011112222 02", tipo: "Operativa", e: "Activa",
     disp: 1870500, ret: 0, conc: 1870500, ing: "$ 1.220.000", egr: "$ 540.000",
     resp: "T. Vega", lim: "$ 4.000.000 / día", color: "var(--brand-blue)" },
-  { n: "Operaciones", cbu: "0000003 100011112222 03", tipo: "Operativa", e: "Activa",
+  { n: "Operaciones", apellido: "Díaz", email: "ldiaz@empresa.com", cbu: "0000003 100011112222 03", tipo: "Operativa", e: "Activa",
     disp: 6389830, ret: 420000, conc: 5800000, ing: "$ 4.220.000", egr: "$ 2.180.000",
     resp: "L. Díaz", lim: "$ 20.000.000 / día", color: "var(--brand-dark)" },
-  { n: "Recaudación expensas", cbu: "0000003 100011112222 04", tipo: "Recaudación", e: "Activa",
+  { n: "Recaudación expensas", apellido: "Sosa", email: "psosa@empresa.com", cbu: "0000003 100011112222 04", tipo: "Recaudación", e: "Activa",
     disp: 2150000, ret: 0, conc: 2150000, ing: "$ 5.840.000", egr: "$ 0",
     resp: "P. Sosa", lim: "Sin límite", color: "var(--brand-blue)" },
-  { n: "Sueldos", cbu: "0000003 100011112222 05", tipo: "Sueldos", e: "Activa",
+  { n: "Sueldos", apellido: "RRHH", email: "rrhh@empresa.com", cbu: "0000003 100011112222 05", tipo: "Sueldos", e: "Activa",
     disp: 980000, ret: 0, conc: 980000, ing: "$ 980.000", egr: "$ 0",
     resp: "RRHH", lim: "$ 5.000.000 / día", color: "var(--brand-primary)" },
-  { n: "Fondos en garantía", cbu: "0000003 100011112222 06", tipo: "Garantías", e: "Pausada",
+  { n: "Fondos en garantía", apellido: "Compliance", email: "compliance@empresa.com", cbu: "0000003 100011112222 06", tipo: "Garantías", e: "Pausada",
     disp: 0, ret: 350000, conc: 350000, ing: "$ 0", egr: "$ 0",
     resp: "Compliance", lim: "Solo retiro autorizado", color: "var(--muted-foreground)" },
 ];
@@ -63,17 +64,21 @@ function Page() {
   const [nuevoOpen, setNuevoOpen] = useState(false);
   const [transfOpen, setTransfOpen] = useState(false);
   const [reglaOpen, setReglaOpen] = useState(false);
+  const [detailSub, setDetailSub] = useState<Sub | null>(null);
+  const [editSub, setEditSub] = useState<Sub | null>(null);
+  const [deletedNames, setDeletedNames] = useState<Set<string>>(new Set());
   const [q, setQ] = useState("");
   const [tipo, setTipo] = useState("Todos");
   const [estado, setEstado] = useState("Todos");
 
   const filtradas = useMemo(
     () => subs.filter(s =>
+      !deletedNames.has(s.n) &&
       (q === "" || s.n.toLowerCase().includes(q.toLowerCase()) || s.cbu.includes(q)) &&
       (tipo === "Todos" || s.tipo === tipo) &&
       (estado === "Todos" || s.e === estado)
     ),
-    [q, tipo, estado]
+    [q, tipo, estado, deletedNames]
   );
 
   const total = subs.reduce((a, s) => a + s.disp + s.ret, 0);
@@ -117,62 +122,65 @@ function Page() {
       </Card>
 
       <div className="grid lg:grid-cols-[1.7fr_1fr] gap-6">
-        <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-3">
-          {filtradas.map((s) => (
-            <Card key={s.n} className="p-0 overflow-hidden">
-              <div className="h-1" style={{ background: s.color }} />
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-1">
-                  <div className="font-semibold text-sm truncate">{s.n}</div>
-                  <Badge tone={s.e === "Activa" ? "success" : "warn"}>{s.e}</Badge>
-                </div>
-                <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                  <Badge tone="neutral">{s.tipo}</Badge>
-                  <span className="flex items-center gap-1"><Users size={10} /> {s.resp}</span>
-                </div>
-                <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground font-mono mt-2">
-                  <span className="truncate">{s.cbu}</span>
-                  <button className="hover:opacity-70 shrink-0" onClick={() => toast.success("CBU copiado")}><Copy size={10} /></button>
-                </div>
-
-                <div className="mt-3 pt-3 border-t">
-                  <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Disponible</div>
-                  <div className="text-lg font-semibold">{fmt(s.disp)}</div>
-                </div>
-                <div className="grid grid-cols-2 gap-2 mt-2 text-[11px]">
-                  <div>
-                    <div className="text-muted-foreground flex items-center gap-1"><Lock size={9} /> Retenido</div>
-                    <div className="font-semibold">{fmt(s.ret)}</div>
-                  </div>
-                  <div>
-                    <div className="text-muted-foreground flex items-center gap-1"><ShieldCheck size={9} /> Conciliado</div>
-                    <div className="font-semibold">{fmt(s.conc)}</div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-2 mt-2 pt-2 border-t text-[11px]">
-                  <div>
-                    <div className="text-muted-foreground flex items-center gap-1"><ArrowDownLeft size={9} className="text-emerald-600" /> Ing. mes</div>
-                    <div className="font-semibold">{s.ing}</div>
-                  </div>
-                  <div>
-                    <div className="text-muted-foreground flex items-center gap-1"><ArrowUpRight size={9} className="text-red-600" /> Egr. mes</div>
-                    <div className="font-semibold">{s.egr}</div>
-                  </div>
-                </div>
-                <div className="text-[10px] text-muted-foreground mt-2 pt-2 border-t">
-                  Límite operativo: <strong className="text-foreground">{s.lim}</strong>
-                </div>
-                <div className="flex gap-1 mt-3">
-                  <BtnOutline className="flex-1 h-8 px-2 text-[11px]"><Eye size={11} /> Ver</BtnOutline>
-                  <BtnOutline className="flex-1 h-8 px-2 text-[11px]" onClick={() => setTransfOpen(true)}>
-                    <ArrowLeftRight size={11} /> Mover
-                  </BtnOutline>
-                  <BtnOutline className="h-8 w-8 px-0"><Settings2 size={11} /></BtnOutline>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
+        <Card className="p-0 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
+                  <th className="text-left px-4 py-2.5">Nombre</th>
+                  <th className="text-left px-4 py-2.5">Apellido</th>
+                  <th className="text-left px-4 py-2.5">Email</th>
+                  <th className="text-left px-4 py-2.5">Estado</th>
+                  <th className="text-right px-4 py-2.5">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtradas.map((s) => (
+                  <tr key={s.n} className="border-b last:border-0 hover:bg-muted/30">
+                    <td className="px-4 py-3 font-semibold">{s.n}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{s.apellido}</td>
+                    <td className="px-4 py-3 text-xs text-muted-foreground">{s.email}</td>
+                    <td className="px-4 py-3">
+                      <Badge tone={s.e === "Activa" ? "success" : "warn"}>{s.e}</Badge>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <div className="flex gap-1 justify-end">
+                        <button
+                          onClick={() => setDetailSub(s)}
+                          className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition"
+                          title="Ver detalle"
+                        >
+                          <Eye size={14} />
+                        </button>
+                        <button
+                          onClick={() => { setEditSub(s); setNuevoOpen(true); }}
+                          className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition"
+                          title="Editar"
+                        >
+                          <Pencil size={14} />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setDeletedNames((prev) => {
+                              const next = new Set(prev);
+                              next.add(s.n);
+                              return next;
+                            });
+                            toast.success("Subcuenta eliminada");
+                          }}
+                          className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-red-50 hover:text-red-600 transition"
+                          title="Borrar"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Card>
 
         <div className="space-y-4">
           <Card>
@@ -236,13 +244,78 @@ function Page() {
         </div>
       </div>
 
+      {detailSub && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setDetailSub(null)} />
+          <div className="relative bg-card rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-xl">
+            <div className="sticky top-0 bg-card border-b px-6 py-4 flex justify-between items-center z-10">
+              <div className="font-semibold">{detailSub.n}</div>
+              <button onClick={() => setDetailSub(null)} className="text-sm text-muted-foreground hover:text-foreground">
+                Cerrar
+              </button>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="flex items-center gap-2">
+                <Badge tone={detailSub.e === "Activa" ? "success" : "warn"}>{detailSub.e}</Badge>
+                <Badge tone="neutral">{detailSub.tipo}</Badge>
+              </div>
+              <div className="text-xs text-muted-foreground font-mono flex items-center gap-2">
+                <span>{detailSub.cbu}</span>
+                <button className="hover:opacity-70" onClick={() => toast.success("CBU copiado")}>
+                  <Copy size={10} />
+                </button>
+              </div>
+              <div className="text-xs">
+                <span className="text-muted-foreground">Responsable:</span> {detailSub.resp}
+              </div>
+              <div className="border-t pt-4">
+                <div className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Disponible</div>
+                <div className="text-xl font-semibold">{fmt(detailSub.disp)}</div>
+              </div>
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div className="bg-muted/30 rounded-lg p-3">
+                  <div className="text-muted-foreground flex items-center gap-1"><Lock size={10} /> Retenido</div>
+                  <div className="font-semibold text-sm">{fmt(detailSub.ret)}</div>
+                </div>
+                <div className="bg-muted/30 rounded-lg p-3">
+                  <div className="text-muted-foreground flex items-center gap-1"><ShieldCheck size={10} /> Conciliado</div>
+                  <div className="font-semibold text-sm">{fmt(detailSub.conc)}</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div className="bg-muted/30 rounded-lg p-3">
+                  <div className="text-muted-foreground flex items-center gap-1"><ArrowDownLeft size={10} className="text-emerald-600" /> Ing. mes</div>
+                  <div className="font-semibold text-sm">{detailSub.ing}</div>
+                </div>
+                <div className="bg-muted/30 rounded-lg p-3">
+                  <div className="text-muted-foreground flex items-center gap-1"><ArrowUpRight size={10} className="text-red-600" /> Egr. mes</div>
+                  <div className="font-semibold text-sm">{detailSub.egr}</div>
+                </div>
+              </div>
+              <div className="border-t pt-3 text-xs flex justify-between">
+                <span className="text-muted-foreground">Límite operativo</span>
+                <span className="font-semibold">{detailSub.lim}</span>
+              </div>
+              <div className="flex gap-2 pt-2 border-t">
+                <BtnOutline className="flex-1" onClick={() => setTransfOpen(true)}>
+                  <ArrowLeftRight size={13} /> Mover fondos
+                </BtnOutline>
+                <BtnOutline className="flex-1">
+                  <Settings2 size={13} /> Configurar
+                </BtnOutline>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <FormDialog
         open={nuevoOpen}
-        onClose={() => setNuevoOpen(false)}
-        title="Nueva subcuenta"
-        description="Generá un CBU adicional asociado a tu cuenta madre."
-        submitLabel="Crear subcuenta"
-        onSubmit={() => { setNuevoOpen(false); toast.success("Subcuenta creada correctamente"); }}
+        onClose={() => { setNuevoOpen(false); setEditSub(null); }}
+        title={editSub ? "Editar subcuenta" : "Nueva subcuenta"}
+        description={editSub ? "Modificá los datos de la subcuenta." : "Generá un CBU adicional asociado a tu cuenta madre."}
+        submitLabel={editSub ? "Guardar cambios" : "Crear subcuenta"}
+        onSubmit={() => { setNuevoOpen(false); setEditSub(null); toast.success(editSub ? "Subcuenta actualizada" : "Subcuenta creada correctamente"); }}
       >
         <div><Label>Nombre de la subcuenta</Label><Input placeholder="Ej. Sucursal Sur" /></div>
         <div className="grid grid-cols-2 gap-3">
