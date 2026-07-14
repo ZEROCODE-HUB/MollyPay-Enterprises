@@ -1,4 +1,4 @@
-﻿import { createFileRoute, Link } from "@tanstack/react-router";
+﻿?import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   Wallet,
@@ -23,17 +23,17 @@ import ogImageSrc from "@/assets/miniatura.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "MoliPay â€” Soluciones financieras digitales" },
+      { title: "MoliPay — Soluciones financieras digitales" },
       {
         name: "description",
         content:
-          "MoliPay integra pagos, cobros y remesas para individuos, PyMEs y empresas en AmÃ©rica Latina. Plataforma regulada bajo marco normativo BCRA.",
+          "MoliPay integra pagos, cobros y remesas para individuos, PyMEs y empresas en América Latina. Plataforma regulada bajo marco normativo BCRA.",
       },
-      { property: "og:title", content: "MoliPay â€” Soluciones financieras digitales" },
+      { property: "og:title", content: "MoliPay — Soluciones financieras digitales" },
       {
         property: "og:description",
         content:
-          "Cuenta de pago, Crossborder, CVU Collect y Billetera. Plataforma tecnolÃ³gica escalable y regulada.",
+          "Cuenta de pago, Crossborder, CVU Collect y Billetera. Plataforma tecnológica escalable y regulada.",
       },
       { property: "og:image", content: ogImageSrc },
       { property: "og:image:width", content: "1166" },
@@ -296,7 +296,7 @@ function Hero() {
         <div className="grid lg:grid-cols-2 lg:gap-14 items-center">
           {/* Text column */}
           <div>
-            <Eyebrow tone="accent">Money Life S.R.L. â€” Plataforma financiera digital</Eyebrow>
+            <Eyebrow tone="accent">Money Life S.R.L. — Plataforma financiera digital</Eyebrow>
             <h1
               style={{
                 ...headingHeavy,
@@ -343,7 +343,7 @@ function Hero() {
             </div>
           </div>
 
-          {/* Mockup column â€” hidden on small screens */}
+          {/* Mockup column — hidden on small screens */}
           <div className="hidden lg:block">
             <DashboardMockup />
           </div>
@@ -358,7 +358,7 @@ function Hero() {
 function LedgerStrip() {
   const items = [
     ["Entidad registrada", "Money Life S.R.L."],
-    ["Cobertura", "AmÃ©rica Latina"],
+    ["Cobertura", "América Latina"],
     ["Compliance", "Marco normativo BCRA"],
     ["Plataforma", "100% digital"],
   ];
@@ -405,22 +405,22 @@ function Servicios() {
     {
       icon: Wallet,
       t: "Cuenta de Pago",
-      d: "CVU para enviar y recibir dinero de cuentas bancarias y billeteras virtuales de manera Ã¡gil y segura.",
+      d: "CVU para enviar y recibir dinero de cuentas bancarias y billeteras virtuales de manera ágil y segura.",
     },
     {
       icon: Globe2,
       t: "Crossborder",
-      d: "Servicios de transferencias internacionales y remesas con cobertura en AmÃ©rica Latina.",
+      d: "Servicios de transferencias internacionales y remesas con cobertura en América Latina.",
     },
     {
       icon: Building2,
       t: "CVU Collect",
-      d: "Soluciones de recaudaciÃ³n para desarrolladores inmobiliarios, consorcios e inmobiliarias.",
+      d: "Soluciones de recaudación para desarrolladores inmobiliarios, consorcios e inmobiliarias.",
     },
     {
       icon: Smartphone,
       t: "Billetera",
-      d: "QR, tarjetas prepagas fÃ­sicas y virtuales, pagos NFC, wireless y pagos de servicios para individuos. Para comercios: QR estÃ¡tico y dinÃ¡mico, Smartpos y link de pago.",
+      d: "QR, tarjetas prepagas físicas y virtuales, pagos NFC, wireless y pagos de servicios para individuos. Para comercios: QR estático y dinámico, Smartpos y link de pago.",
     },
   ];
   return (
@@ -503,13 +503,13 @@ function ContamosCon() {
   const items = [
     {
       icon: Cog,
-      t: "Plataforma TecnolÃ³gica",
+      t: "Plataforma Tecnológica",
       d: "Sistema escalable y seguro que garantiza el cumplimiento de normas nacionales y compliance.",
     },
     {
       icon: ShieldCheck,
       t: "Compliance Integral",
-      d: "PolÃ­ticas y procedimientos personalizados garantizando el cumplimiento normativo.",
+      d: "Políticas y procedimientos personalizados garantizando el cumplimiento normativo.",
     },
     {
       icon: FileCheck2,
@@ -518,13 +518,13 @@ function ContamosCon() {
     },
     {
       icon: BarChart3,
-      t: "AdministraciÃ³n",
-      d: "Seguimiento y control de gestiÃ³n de toda la actividad.",
+      t: "Administración",
+      d: "Seguimiento y control de gestión de toda la actividad.",
     },
     {
       icon: Briefcase,
       t: "Management",
-      d: "AcompaÃ±amiento estratÃ©gico para el crecimiento y desarrollo empresarial.",
+      d: "Acompañamiento estratégico para el crecimiento y desarrollo empresarial.",
     },
   ];
   return (
@@ -624,7 +624,7 @@ function CapabilityCard({
   );
 }
 
-/* ---------- MisiÃ³n / VisiÃ³n ---------- */
+/* ---------- Misión / Visión ---------- */
 
 function MisionVision() {
   return (
@@ -647,7 +647,7 @@ function MisionVision() {
       />
       <div className="relative max-w-6xl mx-auto px-6 py-24 md:py-32">
         <div className="grid md:grid-cols-2 gap-8">
-          {/* MisiÃ³n */}
+          {/* Misión */}
           <article
             style={{
               padding: "2.5rem 2.25rem 2.75rem",
@@ -661,7 +661,7 @@ function MisionVision() {
           >
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <Target size={22} strokeWidth={1.4} color="#0891B2" />
-              <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>01 â€” MisiÃ³n</div>
+              <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>01 — Misión</div>
             </div>
             <h3
               style={{
@@ -672,7 +672,7 @@ function MisionVision() {
                 lineHeight: 1.15,
               }}
             >
-              Facilitar la gestiÃ³n digital de cobros y pagos.
+              Facilitar la gestión digital de cobros y pagos.
             </h3>
             <p
               className="mt-6"
@@ -684,12 +684,12 @@ function MisionVision() {
               }}
             >
               Proporcionar soluciones financieras seguras, transparentes y simples que faciliten la
-              gestiÃ³n de cobros y pagos para todos nuestros usuarios en un entorno digital en
-              constante evoluciÃ³n.
+              gestión de cobros y pagos para todos nuestros usuarios en un entorno digital en
+              constante evolución.
             </p>
           </article>
 
-          {/* VisiÃ³n */}
+          {/* Visión */}
           <article
             style={{
               padding: "2.5rem 2.25rem 2.75rem",
@@ -701,7 +701,7 @@ function MisionVision() {
           >
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <Compass size={22} strokeWidth={1.4} color="#0891B2" />
-              <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>02 â€” VisiÃ³n</div>
+              <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>02 — Visión</div>
             </div>
             <h3
               style={{
@@ -712,7 +712,7 @@ function MisionVision() {
                 lineHeight: 1.15,
               }}
             >
-              Ser un referente Fintech en la regiÃ³n.
+              Ser un referente Fintech en la región.
             </h3>
             <p
               className="mt-6"
@@ -723,8 +723,8 @@ function MisionVision() {
                 lineHeight: 1.7,
               }}
             >
-              Posicionarnos como un referente en el sector Fintech, acompaÃ±ando la evoluciÃ³n de
-              cobros y pagos digitales con soluciones Ã¡giles y simples.
+              Posicionarnos como un referente en el sector Fintech, acompañando la evolución de
+              cobros y pagos digitales con soluciones ágiles y simples.
             </p>
           </article>
         </div>
@@ -733,24 +733,24 @@ function MisionVision() {
   );
 }
 
-/* ---------- Â¿Por quÃ© elegirnos? ---------- */
+/* ---------- ¿Por qué elegirnos? ---------- */
 
 function PorQueElegirnos() {
   const items = [
     {
       icon: Lock,
-      t: "TecnologÃ­a Segura",
-      d: "Plataforma diseÃ±ada para ser dinÃ¡mica, escalable y segura, cumpliendo con todas las normativas vigentes.",
+      t: "Tecnología Segura",
+      d: "Plataforma diseñada para ser dinámica, escalable y segura, cumpliendo con todas las normativas vigentes.",
     },
     {
       icon: HeartHandshake,
-      t: "AtenciÃ³n Personalizada",
-      d: "AcompaÃ±amos a nuestros clientes con una atenciÃ³n cercana, atendiendo todas sus necesidades.",
+      t: "Atención Personalizada",
+      d: "Acompañamos a nuestros clientes con una atención cercana, atendiendo todas sus necesidades.",
     },
     {
       icon: Plane,
       t: "Alcance Internacional",
-      d: "Operaciones en mÃºltiples paÃ­ses de AmÃ©rica Latina con alianzas estratÃ©gicas sÃ³lidas.",
+      d: "Operaciones en múltiples países de América Latina con alianzas estratégicas sólidas.",
     },
   ];
   return (
@@ -773,7 +773,7 @@ function PorQueElegirnos() {
                 marginTop: "1rem",
               }}
             >
-              Â¿Por quÃ© elegirnos?
+              ¿Por qué elegirnos?
             </h2>
           </div>
           <p
@@ -894,7 +894,7 @@ function RegulatoryStrip() {
                 color: "rgba(245,246,248,0.85)",
               }}
             >
-              Banco Central de la RepÃºblica Argentina â€” protecciÃ³n al usuario financiero.
+              Banco Central de la República Argentina — protección al usuario financiero.
             </div>
           </div>
         </div>
@@ -904,7 +904,7 @@ function RegulatoryStrip() {
           rel="noreferrer"
           style={{ ...mono, color: "#F5F6F8", borderBottom: "1px solid #0891B2", paddingBottom: 2 }}
         >
-          usuariosfinancieros.gob.ar â†’
+          usuariosfinancieros.gob.ar →
         </a>
       </div>
     </section>
@@ -945,15 +945,15 @@ function SiteFooter() {
               maxWidth: 260,
             }}
           >
-            Â© 2026 MONEY LIFE S.R.L. Todos los derechos reservados.
+            © 2026 MONEY LIFE S.R.L. Todos los derechos reservados.
           </p>
           <p className="mt-4" style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>
-            PSPCP Â· Marco BCRA
+            PSPCP · Marco BCRA
           </p>
         </div>
 
         <div>
-          <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>Enlaces Ãºtiles</div>
+          <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>Enlaces útiles</div>
           <ul
             className="mt-5 space-y-3"
             style={{
@@ -964,12 +964,12 @@ function SiteFooter() {
           >
             <li>
               <Link to="/legales/privacidad" className="hover:text-white transition-colors">
-                PolÃ­ticas de privacidad
+                Políticas de privacidad
               </Link>
             </li>
             <li>
               <Link to="/legales/terminos" className="hover:text-white transition-colors">
-                TÃ©rminos y condiciones
+                Términos y condiciones
               </Link>
             </li>
             <li>
@@ -979,14 +979,14 @@ function SiteFooter() {
             </li>
             <li>
               <Link to="/legales/arrepentimiento" className="hover:text-white transition-colors">
-                BotÃ³n de arrepentimiento
+                Botón de arrepentimiento
               </Link>
             </li>
           </ul>
         </div>
 
         <div>
-          <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>ContactÃ¡nos</div>
+          <div style={{ ...mono, color: "#0891B2", fontSize: "0.65rem" }}>Contactános</div>
           <ul
             className="mt-5 space-y-3"
             style={{
@@ -1039,7 +1039,7 @@ function SiteFooter() {
                 lineHeight: 1.5,
               }}
             >
-              Banco Central de la RepÃºblica Argentina
+              Banco Central de la República Argentina
             </div>
             <a
               href="https://www.bcra.gob.ar"
@@ -1048,7 +1048,7 @@ function SiteFooter() {
               className="mt-2 inline-block"
               style={{ ...mono, color: "#F5F6F8", fontSize: "0.6rem" }}
             >
-              bcra.gob.ar â†’
+              bcra.gob.ar →
             </a>
           </div>
         </div>
@@ -1063,10 +1063,10 @@ function SiteFooter() {
             color: "rgba(245,246,248,0.45)",
           }}
         >
-          <div>MONEY LIFE S.R.L. â€” CUIT 30-71000000-0</div>
+          <div>MONEY LIFE S.R.L. — CUIT 30-71000000-0</div>
           <div>
-            Los fondos depositados no constituyen depÃ³sitos en una entidad financiera ni cuentan
-            con la garantÃ­a de la Ley 24.485.
+            Los fondos depositados no constituyen depósitos en una entidad financiera ni cuentan
+            con la garantía de la Ley 24.485.
           </div>
         </div>
       </div>
