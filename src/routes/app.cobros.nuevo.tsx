@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useRef } from "react";
 import { ArrowLeft, ArrowRight, Check, Upload, FileSpreadsheet, Download, X } from "lucide-react";
 import { Card, BtnPrimary, BtnOutline, Input, Label } from "@/components/portal-shell";
@@ -41,7 +41,7 @@ function NuevoLote() {
   const [csvData, setCsvData] = useState<CSVRow[]>([]);
   const [csvFileName, setCsvFileName] = useState("");
 
-  // Paso 1 - Parámetros generales
+  // Paso 1 - Parametros generales
   const tomorrow = format(new Date(Date.now() + 86400000), "yyyy-MM-dd");
   const [nombre, setNombre] = useState("");
   const [periodo, setPeriodo] = useState(format(new Date(), "yyyy-MM"));
@@ -68,15 +68,15 @@ function NuevoLote() {
       return false;
     }
     if (!periodo.match(/^\d{4}-\d{2}$/)) {
-      toast.error("El período debe estar en formato AAAA-MM");
+      toast.error("El periodo debe estar en formato AAAA-MM");
       return false;
     }
     if (!diaProcesamiento || diaProcesamiento < tomorrow) {
-      toast.error("El día de procesamiento no puede ser anterior a mañana");
+      toast.error("El dia de procesamiento no puede ser anterior a manana");
       return false;
     }
     if (!fechaVenc1 || fechaVenc1 < tomorrow) {
-      toast.error("La primera fecha de vencimiento no puede ser anterior a mañana");
+      toast.error("La primera fecha de vencimiento no puede ser anterior a manana");
       return false;
     }
     if (fechaVenc2 && fechaVenc2 <= fechaVenc1) {
@@ -88,7 +88,7 @@ function NuevoLote() {
       return false;
     }
     if (mediosPago.length === 0) {
-      toast.error("Seleccioná al menos un medio de pago");
+      toast.error("Selecciona al menos un medio de pago");
       return false;
     }
     return true;
@@ -117,7 +117,7 @@ function NuevoLote() {
       "edificio",
       "6",
       "UF 3D",
-      "Pérez, Juan",
+      "Perez, Juan",
       "48200",
       "Expensas mensuales - Edificio 6",
       "juan@email.com",
@@ -168,7 +168,7 @@ function NuevoLote() {
 
           const monto = parseFloat(row["monto"] || "0");
           if (isNaN(monto) || monto <= 0) {
-            toast.error(`Fila ${i}: el monto debe ser un número positivo`);
+            toast.error(`Fila ${i}: el monto debe ser un numero positivo`);
             setSubiendo(false);
             return;
           }
@@ -191,7 +191,7 @@ function NuevoLote() {
             sub_entidad: row["sub_entidad"],
             identificacion_usuario: row["identificacion_usuario"],
             monto,
-            descripcion: row["descripcion"] || row["descripci\u00f3n"] || "",
+            descripcion: row["descripcion"] || row["descripcion"] || "",
             email: row["email"] || undefined,
             periodo_facturacion: row["periodo_facturacion"] || undefined,
             id_unico_beneficiario:
@@ -206,9 +206,9 @@ function NuevoLote() {
         }
 
         setCsvData(rows);
-        toast.success(`${rows.length} registros válidos cargados`);
+        toast.success(`${rows.length} registros validos cargados`);
       } catch {
-        toast.error("Error al procesar el archivo. Verificá el formato CSV.");
+        toast.error("Error al procesar el archivo. Verifica el formato CSV.");
       }
       setSubiendo(false);
     };
@@ -223,7 +223,7 @@ function NuevoLote() {
 
   const handleSubmit = () => {
     toast.success(`Lote "${nombre}" creado con ${csvData.length} registros`, {
-      description: "El lote quedó en estado Pendiente de procesamiento",
+      description: "El lote quedo en estado Pendiente de procesamiento",
     });
     navigate({ to: "/app/cobros/gestion" });
   };
@@ -232,7 +232,7 @@ function NuevoLote() {
     <div className="max-w-4xl">
       {/* Steps indicator */}
       <div className="flex items-center gap-2 mb-8">
-        {["Parámetros generales", "Carga de CSV", "Confirmación"].map((label, i) => (
+        {["Parametros generales", "Carga de CSV", "Confirmacion"].map((label, i) => (
           <div key={label} className="flex items-center gap-2">
             <div
               className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition ${
@@ -251,11 +251,11 @@ function NuevoLote() {
         ))}
       </div>
 
-      {/* Paso 1: Parámetros generales */}
+      {/* Paso 1: Parametros generales */}
       {paso === 0 && (
         <div className="space-y-6">
           <Card>
-            <h3 className="font-semibold mb-4">Parámetros generales</h3>
+            <h3 className="font-semibold mb-4">Parametros generales</h3>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <Label>Nombre del lote</Label>
@@ -266,7 +266,7 @@ function NuevoLote() {
                 />
               </div>
               <div>
-                <Label>Período (AAAA-MM)</Label>
+                <Label>Periodo (AAAA-MM)</Label>
                 <Input
                   placeholder="2026-04"
                   value={periodo}
@@ -274,18 +274,18 @@ function NuevoLote() {
                 />
               </div>
               <div>
-                <Label>Día de procesamiento</Label>
+                <Label>Dia de procesamiento</Label>
                 <Input
                   type="date"
                   value={diaProcesamiento}
                   onChange={(e) => setDiaProcesamiento(e.target.value)}
                 />
                 <p className="text-[11px] text-muted-foreground mt-1">
-                  No puede ser anterior a mañana. El proceso batch corre a las 10:00 AM.
+                  No puede ser anterior a manana. El proceso batch corre a las 10:00 AM.
                 </p>
               </div>
               <div>
-                <Label>Tasa de interés (%)</Label>
+                <Label>Tasa de interes (%)</Label>
                 <Input
                   type="number"
                   min={0}
@@ -330,12 +330,12 @@ function NuevoLote() {
             </div>
             <p className="text-[11px] text-muted-foreground mt-2">
               Cada fecha debe ser estrictamente posterior a la anterior. El 1er vencimiento se cobra
-              por el monto original, el 2do y 3ro aplican la tasa de interés.
+              por el monto original, el 2do y 3ro aplican la tasa de interes.
             </p>
           </Card>
 
           <Card>
-            <h3 className="font-semibold mb-4">Medios de pago y configuración</h3>
+            <h3 className="font-semibold mb-4">Medios de pago y configuracion</h3>
             <div className="space-y-4">
               <div>
                 <Label>Medios de pago habilitados</Label>
@@ -378,7 +378,7 @@ function NuevoLote() {
               </div>
               {notificaciones && (
                 <div className="text-xs text-muted-foreground pl-6">
-                  Canal: Email (SMS y WhatsApp próximamente)
+                  Canal: Email (SMS y WhatsApp proximamente)
                 </div>
               )}
             </div>
@@ -416,7 +416,7 @@ function NuevoLote() {
                 fecha_vencimiento_1/2/3, tasa_interes, medios_de_pago, pagos_parciales_habilitado
               </p>
               <p>
-                Si no se completan los campos opcionales, heredan la configuración general del lote.
+                Si no se completan los campos opcionales, heredan la configuracion general del lote.
               </p>
             </div>
 
@@ -452,9 +452,9 @@ function NuevoLote() {
                   <Upload size={24} className="text-[color:var(--brand-dark)]" />
                 </div>
                 <div className="text-center">
-                  <div className="font-semibold">Subí un archivo CSV</div>
+                  <div className="font-semibold">Subi un archivo CSV</div>
                   <div className="text-xs text-muted-foreground">
-                    Arrastrá el archivo o hacé clic para seleccionar
+                    Arrastra el archivo o hace clic para seleccionar
                   </div>
                 </div>
               </div>
@@ -486,7 +486,7 @@ function NuevoLote() {
                         <th className="text-left px-3 py-2 font-semibold">Entidad</th>
                         <th className="text-left px-3 py-2 font-semibold">Usuario</th>
                         <th className="text-right px-3 py-2 font-semibold">Monto</th>
-                        <th className="text-left px-3 py-2 font-semibold">Descripción</th>
+                        <th className="text-left px-3 py-2 font-semibold">Descripcion</th>
                         <th className="text-left px-3 py-2 font-semibold">Email</th>
                         <th className="text-left px-3 py-2 font-semibold">Venc. 1</th>
                       </tr>
@@ -511,7 +511,7 @@ function NuevoLote() {
                       {csvData.length > 20 && (
                         <tr>
                           <td colSpan={6} className="px-3 py-2 text-center text-muted-foreground">
-                            ... y {csvData.length - 20} registros más
+                            ... y {csvData.length - 20} registros mas
                           </td>
                         </tr>
                       )}
@@ -530,7 +530,7 @@ function NuevoLote() {
               disabled={csvData.length === 0 || subiendo}
               onClick={() => {
                 if (csvData.length === 0) {
-                  toast.error("Debés cargar al menos un registro");
+                  toast.error("Debes cargar al menos un registro");
                   return;
                 }
                 setPaso(2);
@@ -542,7 +542,7 @@ function NuevoLote() {
         </div>
       )}
 
-      {/* Paso 3: Confirmación */}
+      {/* Paso 3: Confirmacion */}
       {paso === 2 && (
         <div className="space-y-6">
           <Card>
@@ -553,7 +553,7 @@ function NuevoLote() {
                 <div className="font-semibold">{nombre}</div>
               </div>
               <div>
-                <span className="text-muted-foreground">Período:</span>
+                <span className="text-muted-foreground">Periodo:</span>
                 <div className="font-semibold">{periodo}</div>
               </div>
               <div>
@@ -561,7 +561,7 @@ function NuevoLote() {
                 <div className="font-semibold">{diaProcesamiento}</div>
               </div>
               <div>
-                <span className="text-muted-foreground">Tasa de interés:</span>
+                <span className="text-muted-foreground">Tasa de interes:</span>
                 <div className="font-semibold">{tasaInteres}% (desde 2º vencimiento)</div>
               </div>
               <div>

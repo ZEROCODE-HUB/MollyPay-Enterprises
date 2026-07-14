@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   AuthShell,
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/onboarding/datos-empresa")({
   component: DatosEmpresa,
 });
 
-const STEPS = ["Datos de la empresa", "Confirmación"];
+const STEPS = ["Datos de la empresa", "Confirmacion"];
 
 function DatosEmpresa() {
   const nav = useNavigate();
@@ -48,20 +48,20 @@ function DatosEmpresa() {
 
   const rows = [
     ["CUIT de la empresa", f.cuit],
-    ["Fecha de inscripción", f.fechaInscripcion],
-    ["Tipo de identificación", f.tipoId],
+    ["Fecha de inscripcion", f.fechaInscripcion],
+    ["Tipo de identificacion", f.tipoId],
     ["Nombre legal", f.nombreLegal],
-    ["Nombre de fantasía", f.nombreFantasia],
+    ["Nombre de fantasia", f.nombreFantasia],
   ];
 
   return (
     <AuthShell
       leftEyebrow="Paso 4 · Empresa"
-      leftTitle="Cargá los datos societarios."
-      leftBody="Reconstituimos tu legajo con la información que consta en el Registro Público de Comercio."
+      leftTitle="Carga los datos societarios."
+      leftBody="Reconstituimos tu legajo con la informacion que consta en el Registro Publico de Comercio."
       step={`Paso ${step + 1} de 2`}
     >
-      <FormTitle eyebrow="KYB · Empresa" title="Validación de datos de la empresa" />
+      <FormTitle eyebrow="KYB · Empresa" title="Validacion de datos de la empresa" />
       <Stepper steps={STEPS} current={step} />
 
       {step === 0 && (
@@ -74,14 +74,14 @@ function DatosEmpresa() {
             error={err.cuit}
           />
           <Field
-            label="Fecha de inscripción"
+            label="Fecha de inscripcion"
             type="date"
             value={f.fechaInscripcion}
             onChange={(e) => setF({ ...f, fechaInscripcion: e.target.value })}
             error={err.fechaInscripcion}
           />
           <SelectField
-            label="Tipo de identificación"
+            label="Tipo de identificacion"
             value={f.tipoId}
             onChange={(v) => setF({ ...f, tipoId: v })}
             options={TIPOS_SOCIEDAD}
@@ -94,7 +94,7 @@ function DatosEmpresa() {
             error={err.nombreLegal}
           />
           <Field
-            label="Nombre de fantasía"
+            label="Nombre de fantasia"
             value={f.nombreFantasia}
             onChange={(e) => setF({ ...f, nombreFantasia: e.target.value })}
             error={err.nombreFantasia}
@@ -126,7 +126,7 @@ function DatosEmpresa() {
             className="mb-6"
             style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: "1.35rem", fontWeight: 500, color: "#0A1628" }}
           >
-            Confirmá los datos ingresados
+            Confirma los datos ingresados
           </h2>
           <dl className="divide-y" style={{ borderTop: "1px solid rgba(10,22,40,0.1)", borderBottom: "1px solid rgba(10,22,40,0.1)" }}>
             {rows.map(([k, v]) => (

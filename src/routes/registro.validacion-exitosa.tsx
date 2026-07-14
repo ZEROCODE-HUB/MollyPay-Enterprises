@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AuthShell, PrimaryButton, SuccessCard } from "@/components/onboarding";
 
 export const Route = createFileRoute("/registro/validacion-exitosa")({
@@ -11,9 +11,9 @@ export const Route = createFileRoute("/registro/validacion-exitosa")({
   component: () => {
     const nav = useNavigate();
     return (
-      <AuthShell leftEyebrow="Paso 2 · Verificación" leftTitle="Tu correo quedó verificado." step="Cuenta habilitada">
-        <SuccessCard title="Validación exitosa" body={<p>Tu correo electrónico ha sido validado con éxito.</p>}>
-          <PrimaryButton onClick={() => nav({ to: "/login", search: { register: undefined } })}>Ir a inicio de sesión</PrimaryButton>
+      <AuthShell leftEyebrow="Paso 2 · Verificacion" leftTitle="Tu correo quedo verificado." step="Cuenta habilitada">
+        <SuccessCard title="Validacion exitosa" body={<p>Tu correo electronico ha sido validado con exito.</p>}>
+          <PrimaryButton onClick={() => nav({ to: "/login", search: { register: undefined } })}>Ir a inicio de sesion</PrimaryButton>
         </SuccessCard>
       </AuthShell>
     );

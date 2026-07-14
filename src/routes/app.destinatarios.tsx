@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Plus, Send, Search, Upload, Star, MoreVertical, Tag } from "lucide-react";
 import { PageHeader, Card, BtnPrimary, BtnOutline, Input, Badge, Stat, Label } from "@/components/portal-shell";
@@ -9,11 +9,11 @@ export const Route = createFileRoute("/app/destinatarios")({ component: Page });
 
 const data = [
   { n: "Proveedor SA", a: "proveedor.sa", cbu: "0000003 100099887766 11", b: "Banco Galicia", cat: "Proveedor", fav: true, ult: "Hoy", ops: 42 },
-  { n: "Estudio Contable Ríos", a: "rios.contable", cbu: "0140017 200044556677 22", b: "Banco Nación", cat: "Servicios", fav: true, ult: "Ayer", ops: 12 },
+  { n: "Estudio Contable Rios", a: "rios.contable", cbu: "0140017 200044556677 22", b: "Banco Nacion", cat: "Servicios", fav: true, ult: "Ayer", ops: 12 },
   { n: "Servicios Generales SRL", a: "serv.generales", cbu: "0070099 300011223344 33", b: "Santander", cat: "Proveedor", fav: false, ult: "30/05", ops: 28 },
-  { n: "Juan Pérez", a: "juanperez.mp", cbu: "0000007 100012345678 90", b: "Mercado Pago", cat: "Empleado", fav: false, ult: "29/05", ops: 6 },
+  { n: "Juan Perez", a: "juanperez.mp", cbu: "0000007 100012345678 90", b: "Mercado Pago", cat: "Empleado", fav: false, ult: "29/05", ops: 6 },
   { n: "Distribuidora Norte", a: "dist.norte", cbu: "0110055 400077889911 55", b: "BBVA", cat: "Proveedor", fav: false, ult: "25/05", ops: 18 },
-  { n: "Laura Méndez", a: "laura.mendez", cbu: "0170099 100099887700 22", b: "Brubank", cat: "Empleado", fav: false, ult: "20/05", ops: 4 },
+  { n: "Laura Mendez", a: "laura.mendez", cbu: "0170099 100099887700 22", b: "Brubank", cat: "Empleado", fav: false, ult: "20/05", ops: 4 },
 ];
 
 const categorias = [
@@ -32,7 +32,7 @@ function Page() {
     <>
       <PageHeader
         title="Mis destinatarios"
-        description="Agenda de contactos frecuentes con etiquetas y validación CBU."
+        description="Agenda de contactos frecuentes con etiquetas y validacion CBU."
         action={
           <div className="flex gap-2">
             <BtnOutline><Upload size={14} /> Importar CSV</BtnOutline>
@@ -50,7 +50,7 @@ function Page() {
 
       <div className="grid lg:grid-cols-[220px_1fr] gap-6">
         <Card className="h-fit">
-          <div className="text-xs uppercase tracking-wide text-muted-foreground mb-3">Categorías</div>
+          <div className="text-xs uppercase tracking-wide text-muted-foreground mb-3">Categorias</div>
           <div className="space-y-1">
             {categorias.map((c) => (
               <button
@@ -68,19 +68,19 @@ function Page() {
 
         <Card className="p-0 overflow-hidden">
           <div className="p-4 border-b flex flex-wrap gap-2 items-center">
-            <div className="relative flex-1 min-w-[240px]">
+            <div className="relative w-full sm:flex-1 sm:min-w-[240px]">
               <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <Input placeholder="Buscar por nombre, alias o CBU..." className="pl-9" />
             </div>
             <select className="h-10 px-3 rounded-md border bg-card text-sm">
-              <option>Ordenar: más usados</option>
-              <option>Alfabético</option>
+              <option>Ordenar: mas usados</option>
+              <option>Alfabetico</option>
               <option>Recientes</option>
             </select>
           </div>
 
           <div className="hidden md:grid grid-cols-[auto_1.2fr_1fr_1.4fr_0.8fr_0.8fr_auto] gap-4 px-5 py-3 border-b text-xs uppercase tracking-wide text-muted-foreground">
-            <div></div><div>Nombre</div><div>Alias</div><div>CBU</div><div>Categoría</div><div>Ops</div><div></div>
+            <div></div><div>Nombre</div><div>Alias</div><div>CBU</div><div>Categoria</div><div>Ops</div><div></div>
           </div>
           {data.map((d) => (
             <div key={d.n} className="md:grid md:grid-cols-[auto_1.2fr_1fr_1.4fr_0.8fr_0.8fr_auto] gap-4 px-5 py-4 border-b last:border-0 items-center">
@@ -116,7 +116,7 @@ function Page() {
         }}
       >
         <div>
-          <Label>Nombre o razón social</Label>
+          <Label>Nombre o razon social</Label>
           <Input placeholder="Ej. Proveedor SA" />
         </div>
         <div className="grid grid-cols-2 gap-3">
@@ -125,7 +125,7 @@ function Page() {
             <Input placeholder="proveedor.sa" />
           </div>
           <div>
-            <Label>Categoría</Label>
+            <Label>Categoria</Label>
             <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
               <option>Proveedor</option>
               <option>Empleado</option>
@@ -136,7 +136,7 @@ function Page() {
         </div>
         <div>
           <Label>CBU / CVU</Label>
-          <Input placeholder="22 dígitos" />
+          <Input placeholder="22 digitos" />
         </div>
         <div>
           <Label>CUIT/CUIL (opcional)</Label>
@@ -151,7 +151,7 @@ function Page() {
         open={!!transferir}
         onClose={() => setTransferir(null)}
         title={`Transferir a ${transferir?.n ?? ""}`}
-        description="Confirmá el monto y la subcuenta de origen para enviar la transferencia."
+        description="Confirma el monto y la subcuenta de origen para enviar la transferencia."
         submitLabel="Enviar transferencia"
         onSubmit={() => {
           const m = monto || "0";

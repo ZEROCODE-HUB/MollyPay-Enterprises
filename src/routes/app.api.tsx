@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { RefreshCw, Copy, Plus, Webhook, BookOpen, CheckCircle2, Circle, Activity, Code2 } from "lucide-react";
 import { PageHeader, Card, BtnPrimary, BtnOutline, Badge, Stat, Input, Label } from "@/components/portal-shell";
 
@@ -9,7 +9,7 @@ const endpoints: [string, string, string][] = [
   ["GET", "/v1/transfers/:id", "Consultar estado"],
   ["GET", "/v1/balances", "Saldo por subcuenta"],
   ["POST", "/v1/payment-links", "Generar link de pago"],
-  ["POST", "/v1/qr/dynamic", "Generar QR dinámico"],
+  ["POST", "/v1/qr/dynamic", "Generar QR dinamico"],
   ["POST", "/v1/batch-collections", "Lote de cobros"],
   ["GET", "/v1/movements", "Listar movimientos"],
   ["POST", "/v1/webhooks", "Registrar webhook"],
@@ -34,13 +34,13 @@ function Page() {
     <>
       <PageHeader
         title="API e integraciones"
-        description="Credenciales, webhooks, sandbox y documentación técnica."
-        action={<BtnPrimary><BookOpen size={14} /> Ver documentación</BtnPrimary>}
+        description="Credenciales, webhooks, sandbox y documentacion tecnica."
+        action={<BtnPrimary><BookOpen size={14} /> Ver documentacion</BtnPrimary>}
       />
 
       <div className="grid md:grid-cols-4 gap-4 mb-6">
-        <Stat label="Requests último mes" value="48.220" sub="↑ 12% vs anterior" />
-        <Stat label="Tasa de éxito" value="99,4%" sub="Últimas 24h" />
+        <Stat label="Requests ultimo mes" value="48.220" sub="↑ 12% vs anterior" />
+        <Stat label="Tasa de exito" value="99,4%" sub="ultimas 24h" />
         <Stat label="Latencia media" value="184 ms" sub="P95: 420 ms" />
         <Stat label="Webhooks activos" value="3" sub="2 OK · 1 reintentando" />
       </div>
@@ -49,7 +49,7 @@ function Page() {
         <Card>
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold flex items-center gap-2"><Code2 size={16} /> Credenciales</h3>
-            <Badge tone="success">Producción</Badge>
+            <Badge tone="success">Produccion</Badge>
           </div>
           <div className="space-y-3">
             <Cred label="API Key" value="mly_live_8a3kf92j3kfj2k3fkj29fk2j9" />
@@ -62,7 +62,7 @@ function Page() {
           </div>
           <div className="mt-4 p-3 bg-muted rounded text-xs text-muted-foreground">
             <CheckCircle2 size={12} className="inline mr-1 text-emerald-600" />
-            Última rotación: hace 28 días. Recomendamos rotar cada 90 días.
+            ultima rotacion: hace 28 dias. Recomendamos rotar cada 90 dias.
           </div>
         </Card>
 
@@ -129,7 +129,7 @@ function Page() {
           </Card>
 
           <Card>
-            <h3 className="font-semibold text-sm mb-3">Últimas requests</h3>
+            <h3 className="font-semibold text-sm mb-3">ultimas requests</h3>
             <div className="divide-y text-xs">
               {requests.map((r, i) => (
                 <div key={i} className="flex items-center gap-2 py-2">

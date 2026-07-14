@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Landmark, Plus, Upload, Download, ChevronRight, X,
@@ -23,7 +23,7 @@ const entidades: Entidad[] = [
   { n: "Consorcio Larrea 1200", tipo: "Consorcio", cvu: "0000003100099912345678", e: "Activo", per: "Marzo 2026", pagadores: 128, cob: "$ 5.840.200" },
   { n: "Edificio Cabildo 3450", tipo: "Consorcio", cvu: "0000003100099987654321", e: "Activo", per: "Marzo 2026", pagadores: 86, cob: "$ 3.220.000" },
   { n: "Administradora Plaza · Cartera", tipo: "Alquiler", cvu: "0000003100099944556677", e: "Activo", per: "Marzo 2026", pagadores: 42, cob: "$ 13.440.000" },
-  { n: "Colegio San Martín", tipo: "Colegio", cvu: "0000003100099911223344", e: "Activo", per: "Marzo 2026", pagadores: 380, cob: "$ 22.800.000" },
+  { n: "Colegio San Martin", tipo: "Colegio", cvu: "0000003100099911223344", e: "Activo", per: "Marzo 2026", pagadores: 380, cob: "$ 22.800.000" },
   { n: "Universidad del Centro", tipo: "Universidad", cvu: "0000003100099955667788", e: "Pausado", per: "Marzo 2026", pagadores: 1240, cob: "$ 92.400.000" },
 ];
 
@@ -35,11 +35,11 @@ const lotes = [
 ];
 
 const unidades = [
-  { u: "UF 4°B", loc: "Juan Pérez", cvu: "…78 0001", m: "$ 48.200", est: "Pagado" },
-  { u: "UF 5°A", loc: "María López", cvu: "…78 0002", m: "$ 48.200", est: "Pagado" },
-  { u: "UF 6°C", loc: "Pedro Gómez", cvu: "…78 0003", m: "$ 52.800", est: "Pendiente" },
+  { u: "UF 4°B", loc: "Juan Perez", cvu: "…78 0001", m: "$ 48.200", est: "Pagado" },
+  { u: "UF 5°A", loc: "Maria Lopez", cvu: "…78 0002", m: "$ 48.200", est: "Pagado" },
+  { u: "UF 6°C", loc: "Pedro Gomez", cvu: "…78 0003", m: "$ 52.800", est: "Pendiente" },
   { u: "UF 7°D", loc: "Ana Sosa", cvu: "…78 0004", m: "$ 48.200", est: "Error" },
-  { u: "UF 8°A", loc: "Tomás Vega", cvu: "…78 0005", m: "$ 52.800", est: "Pagado" },
+  { u: "UF 8°A", loc: "Tomas Vega", cvu: "…78 0005", m: "$ 52.800", est: "Pagado" },
 ];
 
 function Page() {
@@ -53,8 +53,8 @@ function Page() {
   return (
     <>
       <PageHeader
-        title="Recaudación sectorial"
-        description="CVU Collect, links automáticos y distribución por entidad."
+        title="Recaudacion sectorial"
+        description="CVU Collect, links automaticos y distribucion por entidad."
         action={<BtnPrimary><Plus size={14} /> Nueva entidad</BtnPrimary>}
       />
 
@@ -62,7 +62,7 @@ function Page() {
         <Stat label="Entidades activas" value="48" sub="5 segmentos" />
         <Stat label="Pagadores asignados" value="6.842" sub="con CVU individual" />
         <Stat label="Cobrado este mes" value="$ 137,7M" />
-        <Stat label="Lotes con errores" value="2" sub="Requieren revisión" />
+        <Stat label="Lotes con errores" value="2" sub="Requieren revision" />
       </div>
 
       <Card className="p-0 overflow-hidden">
@@ -88,7 +88,7 @@ function Page() {
               <div className="min-w-0">
                 <div className="font-semibold text-sm">{e.n} <span className="text-muted-foreground font-normal">· {e.tipo}</span></div>
                 <div className="text-xs text-muted-foreground font-mono">CVU {e.cvu}</div>
-                <div className="text-[11px] text-muted-foreground mt-0.5">Período activo {e.per} · {e.pagadores} pagadores · {e.cob}</div>
+                <div className="text-[11px] text-muted-foreground mt-0.5">Periodo activo {e.per} · {e.pagadores} pagadores · {e.cob}</div>
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <Badge tone={e.e === "Activo" ? "success" : "warn"}>{e.e}</Badge>
@@ -114,7 +114,7 @@ function Page() {
             </div>
             <div className="p-6 space-y-5">
               <div className="grid md:grid-cols-3 gap-4">
-                <Stat label="Período" value={detalle.per} />
+                <Stat label="Periodo" value={detalle.per} />
                 <Stat label="Cobrado" value={detalle.cob} sub={`${detalle.pagadores} pagadores`} />
                 <Stat label="Pendiente" value="$ 320.400" sub="6 pagadores" />
               </div>
@@ -126,11 +126,11 @@ function Page() {
                     <Upload size={12} /> Cargar archivo
                   </BtnOutline>
                 </div>
-                <p className="text-xs text-muted-foreground">CSV o Excel con CUIT, monto y vencimiento. Genera links de pago automáticos por pagador.</p>
+                <p className="text-xs text-muted-foreground">CSV o Excel con CUIT, monto y vencimiento. Genera links de pago automaticos por pagador.</p>
               </Card>
 
               <Card>
-                <h4 className="font-semibold text-sm mb-3">Lotes del período</h4>
+                <h4 className="font-semibold text-sm mb-3">Lotes del periodo</h4>
                 <div className="space-y-3">
                   {lotes.map((l) => (
                     <div key={l.n}>
@@ -173,19 +173,19 @@ function Page() {
               </Card>
 
               <Card>
-                <h4 className="font-semibold text-sm mb-3">Distribución automática</h4>
+                <h4 className="font-semibold text-sm mb-3">Distribucion automatica</h4>
                 <div className="grid grid-cols-2 gap-3">
                   <div><Label>% Propietario</Label><Input defaultValue="80" /></div>
                   <div><Label>% Consorcio / Entidad</Label><Input defaultValue="20" /></div>
                 </div>
-                <p className="text-[11px] text-muted-foreground mt-2">La distribución se ejecuta al acreditar cada pago.</p>
+                <p className="text-[11px] text-muted-foreground mt-2">La distribucion se ejecuta al acreditar cada pago.</p>
               </Card>
 
               <Card className="bg-muted/30">
                 <div className="flex justify-between items-center">
                   <div>
                     <h4 className="font-semibold text-sm flex items-center gap-2"><FileBarChart2 size={14} /> Reporte de la entidad</h4>
-                    <p className="text-xs text-muted-foreground">PDF firmado con número de serie y logo Molly.</p>
+                    <p className="text-xs text-muted-foreground">PDF firmado con numero de serie y logo Molly.</p>
                   </div>
                   <BtnPrimary onClick={() => toast.success("Reporte RP-…184 generado")}><Download size={14} /> Descargar</BtnPrimary>
                 </div>
@@ -201,12 +201,12 @@ function Page() {
         title="Cargar archivo de deuda"
         description="CSV o Excel · una fila por pagador con CUIT, monto y vencimiento."
         submitLabel="Procesar"
-        onSubmit={() => { setCargaOpen(false); toast.success("Archivo en validación · links generándose"); }}
+        onSubmit={() => { setCargaOpen(false); toast.success("Archivo en validacion · links generandose"); }}
       >
         <div><Label>Archivo</Label><Input type="file" accept=".csv,.xlsx,.xls" /></div>
         <div><Label>Vencimiento general</Label><Input type="date" /></div>
         <label className="flex items-center gap-2 text-xs">
-          <input type="checkbox" defaultChecked /> Emitir links de pago automáticamente
+          <input type="checkbox" defaultChecked /> Emitir links de pago automaticamente
         </label>
         <label className="flex items-center gap-2 text-xs">
           <input type="checkbox" defaultChecked /> Notificar a pagadores por email

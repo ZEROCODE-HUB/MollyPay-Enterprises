@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+﻿import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { MollyLogo } from "@/components/molly-logo";
 
@@ -15,13 +15,13 @@ export const Route = createFileRoute("/legales/comisiones")({
 const filas = [
   { op: "Transferencias entre cuentas Molly", com: "Sin cargo" },
   { op: "Transferencias inmediatas a CBU/CVU (hasta $ 500.000)", com: "Sin cargo" },
-  { op: "Transferencias inmediatas a CBU/CVU (más de $ 500.000)", com: "0,30% + IVA" },
-  { op: "Cobros con QR", com: "0,80% + IVA por operación" },
-  { op: "Link de pago (débito / crédito)", com: "1,90% + IVA por operación" },
-  { op: "Cobros masivos por lote", com: "$ 45 + IVA por acreditación" },
+  { op: "Transferencias inmediatas a CBU/CVU (mas de $ 500.000)", com: "0,30% + IVA" },
+  { op: "Cobros con QR", com: "0,80% + IVA por operacion" },
+  { op: "Link de pago (debito / credito)", com: "1,90% + IVA por operacion" },
+  { op: "Cobros masivos por lote", com: "$ 45 + IVA por acreditacion" },
   { op: "Pago de servicios", com: "Sin cargo" },
   { op: "Alta de subcuenta con CBU propio", com: "Sin cargo" },
-  { op: "Emisión de constancia de CBU", com: "Sin cargo" },
+  { op: "Emision de constancia de CBU", com: "Sin cargo" },
 ];
 
 function Page() {
@@ -43,8 +43,8 @@ function Page() {
           <table className="w-full text-sm">
             <thead className="bg-muted/40 text-xs uppercase tracking-wide text-muted-foreground">
               <tr>
-                <th className="text-left px-4 py-3">Operación</th>
-                <th className="text-right px-4 py-3">Comisión</th>
+                <th className="text-left px-4 py-3">Operacion</th>
+                <th className="text-right px-4 py-3">Comision</th>
               </tr>
             </thead>
             <tbody>
@@ -59,7 +59,7 @@ function Page() {
         </div>
 
         <p className="mt-6 text-xs text-muted-foreground">
-          Todas las comisiones están expresadas en pesos argentinos. IVA no incluido salvo indicación contraria. Los aranceles pueden modificarse con un preaviso mínimo de 60 días conforme normativa BCRA.
+          Todas las comisiones estan expresadas en pesos argentinos. IVA no incluido salvo indicacion contraria. Los aranceles pueden modificarse con un preaviso minimo de 60 dias conforme normativa BCRA.
         </p>
       </article>
     </div>

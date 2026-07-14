@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Smartphone, Key, Monitor, AlertTriangle, CheckCircle2, Plus, Trash2, Mail, QrCode } from "lucide-react";
 import { PageHeader, Card, Input, Label, BtnPrimary, BtnOutline, Badge } from "@/components/portal-shell";
@@ -10,12 +10,12 @@ export const Route = createFileRoute("/app/seguridad")({ component: Page });
 const sessions = [
   { d: "Chrome · MacBook Pro", l: "Buenos Aires, AR", ip: "190.12.44.21", f: "Activa ahora", curr: true },
   { d: "Safari · iPhone 14", l: "Buenos Aires, AR", ip: "190.12.44.21", f: "Hace 2 horas", curr: false },
-  { d: "Firefox · Windows", l: "Córdoba, AR", ip: "200.40.18.92", f: "Hace 3 días", curr: false },
+  { d: "Firefox · Windows", l: "Cordoba, AR", ip: "200.40.18.92", f: "Hace 3 dias", curr: false },
 ];
 
 const log = [
-  { d: "Inicio de sesión exitoso", ip: "190.12.44.21", f: "Hoy 09:12", ok: true },
-  { d: "Cambio de contraseña", ip: "190.12.44.21", f: "12/05/2026", ok: true },
+  { d: "Inicio de sesion exitoso", ip: "190.12.44.21", f: "Hoy 09:12", ok: true },
+  { d: "Cambio de contrasena", ip: "190.12.44.21", f: "12/05/2026", ok: true },
   { d: "Intento fallido de login", ip: "45.220.88.10", f: "08/05/2026", ok: false },
   { d: "Nuevo dispositivo autorizado", ip: "190.12.44.21", f: "01/05/2026", ok: true },
   { d: "API Key rotada", ip: "190.12.44.21", f: "28/04/2026", ok: true },
@@ -23,8 +23,8 @@ const log = [
 
 const team = [
   { n: "Carla Rivas", e: "carla@empresademo.com", r: "Owner", a: "Activa" },
-  { n: "Diego Méndez", e: "diego@empresademo.com", r: "Operador", a: "Activa" },
-  { n: "Sofía López", e: "sofia@empresademo.com", r: "Solo lectura", a: "Pendiente" },
+  { n: "Diego Mendez", e: "diego@empresademo.com", r: "Operador", a: "Activa" },
+  { n: "Sofia Lopez", e: "sofia@empresademo.com", r: "Solo lectura", a: "Pendiente" },
 ];
 
 function Page() {
@@ -36,22 +36,22 @@ function Page() {
     <>
       <PageHeader
         title="Seguridad"
-        description="Contraseña, 2FA, sesiones activas, equipo y auditoría."
+        description="Contrasena, 2FA, sesiones activas, equipo y auditoria."
       />
 
       <div className="grid lg:grid-cols-2 gap-6 mb-6">
         <Card>
-          <h3 className="font-semibold mb-4 flex items-center gap-2"><Key size={16} /> Cambiar contraseña</h3>
+          <h3 className="font-semibold mb-4 flex items-center gap-2"><Key size={16} /> Cambiar contrasena</h3>
           <form className="space-y-3">
-            <div><Label>Contraseña actual</Label><Input type="password" /></div>
-            <div><Label>Nueva contraseña</Label><Input type="password" /></div>
-            <div><Label>Repetir contraseña</Label><Input type="password" /></div>
+            <div><Label>Contrasena actual</Label><Input type="password" /></div>
+            <div><Label>Nueva contrasena</Label><Input type="password" /></div>
+            <div><Label>Repetir contrasena</Label><Input type="password" /></div>
             <div className="text-xs text-muted-foreground space-y-1">
-              <div className="flex items-center gap-1.5"><CheckCircle2 size={11} className="text-emerald-600" /> Mínimo 12 caracteres</div>
-              <div className="flex items-center gap-1.5"><CheckCircle2 size={11} className="text-emerald-600" /> Mayúsculas, números y símbolos</div>
-              <div className="flex items-center gap-1.5"><CheckCircle2 size={11} className="text-muted-foreground" /> Distinta a las últimas 5 usadas</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 size={11} className="text-emerald-600" /> Minimo 12 caracteres</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 size={11} className="text-emerald-600" /> Mayusculas, numeros y simbolos</div>
+              <div className="flex items-center gap-1.5"><CheckCircle2 size={11} className="text-muted-foreground" /> Distinta a las ultimas 5 usadas</div>
             </div>
-            <BtnPrimary>Actualizar contraseña</BtnPrimary>
+            <BtnPrimary>Actualizar contrasena</BtnPrimary>
           </form>
         </Card>
 
@@ -64,7 +64,7 @@ function Page() {
               <Badge tone="success">Activo</Badge>
             </div>
             <p className="text-sm text-muted-foreground">
-              Elegí el método de verificación en dos pasos que preferís usar al iniciar sesión desde un dispositivo nuevo.
+              Elegi el metodo de verificacion en dos pasos que preferis usar al iniciar sesion desde un dispositivo nuevo.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-2 mt-4">
@@ -79,11 +79,11 @@ function Page() {
               >
                 <div className="flex items-center gap-2">
                   <Mail size={16} className="text-primary shrink-0" />
-                  <span className="font-semibold text-sm">Código por email</span>
+                  <span className="font-semibold text-sm">Codigo por email</span>
                   {twoFa === "email" && <Badge tone="success">Activo</Badge>}
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Enviamos un código de 8 dígitos a tu correo corporativo.
+                  Enviamos un codigo de 8 digitos a tu correo corporativo.
                 </p>
               </button>
 
@@ -102,7 +102,7 @@ function Page() {
                   {twoFa === "totp" && <Badge tone="success">Activo</Badge>}
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Código TOTP de 6 dígitos generado en tu app (Google / 1Password / Authy).
+                  Codigo TOTP de 6 digitos generado en tu app (Google / 1Password / Authy).
                 </p>
               </button>
             </div>
@@ -114,13 +114,13 @@ function Page() {
                     <QrCode size={96} strokeWidth={1} className="text-foreground" />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-xs text-muted-foreground">Escaneá el QR con Google Authenticator</div>
-                    <div className="text-[11px] text-muted-foreground mt-1">O ingresá manualmente la clave:</div>
+                    <div className="text-xs text-muted-foreground">Escanea el QR con Google Authenticator</div>
+                    <div className="text-[11px] text-muted-foreground mt-1">O ingresa manualmente la clave:</div>
                     <div className="font-mono text-xs mt-1 p-2 bg-card border rounded break-all">
                       JBSWY3DPEHPK3PXP-MOLLY-EMPRESA-DEMO
                     </div>
                     <div className="mt-3">
-                      <Label>Código de verificación</Label>
+                      <Label>Codigo de verificacion</Label>
                       <Input placeholder="123 456" inputMode="numeric" maxLength={6} />
                     </div>
                   </div>
@@ -134,14 +134,14 @@ function Page() {
                 onClick={() =>
                   toast.success(
                     twoFa === "totp"
-                      ? "Google Authenticator configurado como método 2FA"
-                      : "Código por email configurado como método 2FA",
+                      ? "Google Authenticator configurado como metodo 2FA"
+                      : "Codigo por email configurado como metodo 2FA",
                   )
                 }
               >
-                Guardar método 2FA
+                Guardar metodo 2FA
               </BtnPrimary>
-              <BtnOutline>Códigos de respaldo</BtnOutline>
+              <BtnOutline>Codigos de respaldo</BtnOutline>
             </div>
           </Card>
 
@@ -155,10 +155,10 @@ function Page() {
           <h3 className="font-semibold mb-3 flex items-center gap-2"><Monitor size={16} /> Sesiones activas</h3>
           <div className="mb-5 pb-5 border-b">
             <div className="text-xs text-muted-foreground mb-2">
-              Tiempo de sesión activa: la sesión se cerrará automáticamente después del período de inactividad.
+              Tiempo de sesion activa: la sesion se cerrara automaticamente despues del periodo de inactividad.
             </div>
             <div className="flex flex-wrap gap-1.5">
-              {["Nunca", "30 minutos", "1 hora", "6 horas", "1 día"].map((opt) => (
+              {["Nunca", "30 minutos", "1 hora", "6 horas", "1 dia"].map((opt) => (
                 <button
                   key={opt}
                   type="button"
@@ -198,8 +198,8 @@ function Page() {
                 <BtnOutline
                   className="h-9 px-3 text-xs"
                   onClick={() => {
-                    if (!customTiempo || Number(customTiempo) < 1) { toast.error("Ingresá un tiempo válido"); return; }
-                    toast.success(`Tiempo de sesión: ${customTiempo} minutos`);
+                    if (!customTiempo || Number(customTiempo) < 1) { toast.error("Ingresa un tiempo valido"); return; }
+                    toast.success(`Tiempo de sesion: ${customTiempo} minutos`);
                   }}
                 >
                   Aplicar
@@ -208,12 +208,12 @@ function Page() {
             )}
             {sesionTiempo && sesionTiempo !== "custom" && sesionTiempo !== "" && (
               <p className="text-[11px] text-emerald-700 mt-1.5">
-                Tiempo de sesión configurado: {sesionTiempo}
+                Tiempo de sesion configurado: {sesionTiempo}
               </p>
             )}
             {sesionTiempo === "" && (
               <p className="text-[11px] text-muted-foreground mt-1.5">
-                La sesión no expirará por inactividad.
+                La sesion no expirara por inactividad.
               </p>
             )}
           </div>

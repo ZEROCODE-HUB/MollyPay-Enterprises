@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+﻿import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
   Wallet, ArrowDownLeft, ArrowUpRight, Users, Link2, QrCode,
@@ -21,10 +21,10 @@ type PeriodKey = "today" | "15d" | "30d" | "60d" | "90d" | "day" | "range";
 
 const QUICK: Array<{ k: PeriodKey; l: string; days: number }> = [
   { k: "today", l: "Hoy", days: 1 },
-  { k: "15d", l: "15 días", days: 15 },
-  { k: "30d", l: "30 días", days: 30 },
-  { k: "60d", l: "60 días", days: 60 },
-  { k: "90d", l: "90 días", days: 90 },
+  { k: "15d", l: "15 dias", days: 15 },
+  { k: "30d", l: "30 dias", days: 30 },
+  { k: "60d", l: "60 dias", days: 60 },
+  { k: "90d", l: "90 dias", days: 90 },
 ];
 
 function seriesFor(days: number): Array<{
@@ -73,7 +73,7 @@ function Dashboard() {
   const periodLabel = useMemo(() => {
     if (period === "day") return day;
     if (period === "range") return `${desde || "?"} – ${hasta || "?"}`;
-    return QUICK.find((p) => p.k === period)?.l ?? "30 días";
+    return QUICK.find((p) => p.k === period)?.l ?? "30 dias";
   }, [period, day, desde, hasta]);
 
   const kpis = useMemo(() => {
@@ -98,7 +98,7 @@ function Dashboard() {
     <>
       <PageHeader
         title="Dashboard"
-        description="Panel ejecutivo — estado de tu operación financiera."
+        description="Panel ejecutivo — estado de tu operacion financiera."
         action={
           <div className="hidden md:flex items-center gap-2 text-xs text-muted-foreground">
             <Clock size={14} /> Actualizado hace 2 min
@@ -110,7 +110,7 @@ function Dashboard() {
       <Card className="mb-8">
         <div className="flex flex-wrap items-center gap-2 mb-3">
           <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide shrink-0">
-            Período
+            Periodo
           </span>
           {QUICK.map((p) => (
             <button
@@ -133,7 +133,7 @@ function Dashboard() {
                 : "bg-card hover:bg-muted"
             }`}
           >
-            Día específico
+            Dia especifico
           </button>
           <button
             onClick={() => setPeriod("range")}
@@ -148,7 +148,7 @@ function Dashboard() {
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground">Día</span>
+            <span className="text-xs text-muted-foreground">Dia</span>
             <input
               type="date"
               value={day}
@@ -203,9 +203,9 @@ function Dashboard() {
         <Card>
           <div className="flex items-start justify-between">
             <div>
-              <div className="text-xs text-muted-foreground mb-1">Depósitos del período</div>
+              <div className="text-xs text-muted-foreground mb-1">Depositos del periodo</div>
               <div className="text-xl md:text-2xl font-bold text-foreground">{formatARS(kpis.depositos)}</div>
-              <div className="text-xs text-muted-foreground mt-0.5">{data.length} días</div>
+              <div className="text-xs text-muted-foreground mt-0.5">{data.length} dias</div>
             </div>
             <div className="w-9 h-9 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
               <ArrowDownLeft size={18} />
@@ -215,7 +215,7 @@ function Dashboard() {
         <Card>
           <div className="flex items-start justify-between">
             <div>
-              <div className="text-xs text-muted-foreground mb-1">Retiros del período</div>
+              <div className="text-xs text-muted-foreground mb-1">Retiros del periodo</div>
               <div className="text-xl md:text-2xl font-bold text-foreground">{formatARS(kpis.retiros)}</div>
               <div className="text-xs text-muted-foreground mt-0.5">48 operaciones</div>
             </div>
@@ -253,7 +253,7 @@ function Dashboard() {
         <Card>
           <div className="flex items-start justify-between">
             <div>
-              <div className="text-xs text-muted-foreground mb-1">Cobros mediante Código QR</div>
+              <div className="text-xs text-muted-foreground mb-1">Cobros mediante Codigo QR</div>
               <div className="text-xl md:text-2xl font-bold text-foreground">{formatARS(kpis.cobrosQR)}</div>
               <div className="text-xs text-muted-foreground mt-0.5">{Math.round(kpis.cobrosQR / 32000)} transacciones</div>
             </div>
@@ -276,7 +276,7 @@ function Dashboard() {
         </Card>
       </div>
 
-      {/* Gráfico */}
+      {/* Grafico */}
       <Card>
         <div className="flex items-center justify-between mb-4 gap-3">
           <div className="min-w-0">
@@ -289,7 +289,7 @@ function Dashboard() {
         </div>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs mb-4">
           <span className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-sm" style={{ background: "#C8102E" }} /> Depósitos
+            <span className="w-2.5 h-2.5 rounded-sm" style={{ background: "#C8102E" }} /> Depositos
           </span>
           <span className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-sm" style={{ background: "#16213E" }} /> Cobros QR
@@ -298,7 +298,7 @@ function Dashboard() {
             <span className="w-2.5 h-2.5 rounded-sm" style={{ background: "#0891B2" }} /> Link de Pago
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-sm" style={{ background: "#FBBF24" }} /> Total del día
+            <span className="w-2.5 h-2.5 rounded-sm" style={{ background: "#FBBF24" }} /> Total del dia
           </span>
         </div>
         <div className="w-full" style={{ height: Math.max(200, Math.min(360, 40 * data.length)) }}>
@@ -323,10 +323,10 @@ function Dashboard() {
                 <Tooltip
                   formatter={(value: number, name: string) => {
                     const labels: Record<string, string> = {
-                      depositos: "Depósitos",
+                      depositos: "Depositos",
                       cobrosQR: "Cobros QR",
                       linkPago: "Link de Pago",
-                      total: "Total del día",
+                      total: "Total del dia",
                     };
                     return [formatARS(value), labels[name] || name];
                   }}
@@ -346,7 +346,7 @@ function Dashboard() {
             </ResponsiveContainer>
           ) : (
             <div className="flex items-center justify-center h-40 text-sm text-muted-foreground">
-              No hay datos para el período seleccionado.
+              No hay datos para el periodo seleccionado.
             </div>
           )}
         </div>

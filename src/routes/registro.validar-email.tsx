@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AuthShell, PrimaryButton, SecondaryButton } from "@/components/onboarding";
 import { useOnboarding } from "@/lib/onboarding-store";
 import { MollyLogo } from "@/components/molly-logo";
@@ -24,7 +24,7 @@ function ValidarEmail() {
   };
 
   return (
-    <AuthShell leftEyebrow="Simulación · Correo" leftTitle="Este es el email que recibirías en tu bandeja." step="Email de validación">
+    <AuthShell leftEyebrow="Simulacion · Correo" leftTitle="Este es el email que recibirias en tu bandeja." step="Email de validacion">
       <div
         className="bg-white overflow-hidden"
         style={{ border: "1px solid rgba(10,22,40,0.1)", borderRadius: 2 }}
@@ -40,19 +40,19 @@ function ValidarEmail() {
         </div>
         <div className="p-6 sm:p-8">
           <p className="text-xs text-[#0A1628]/55">Asunto</p>
-          <p className="mt-1 mb-6 text-sm font-semibold text-[#0A1628]">Validá tu cuenta Molipay</p>
+          <p className="mt-1 mb-6 text-sm font-semibold text-[#0A1628]">Valida tu cuenta Molipay</p>
 
           <div className="text-sm text-[#0A1628]/85 space-y-4 leading-relaxed">
             <p>Hola {nombre || "usuario"},</p>
-            <p>Muchas gracias por registrarte en Molipay. Para poder ingresar a la plataforma primero debés validar el email. Para realizarlo hacé clic en aquí.</p>
+            <p>Muchas gracias por registrarte en Molipay. Para poder ingresar a la plataforma primero debes validar el email. Para realizarlo hace clic en aqui.</p>
           </div>
 
           <div className="mt-8">
-            <PrimaryButton onClick={validar}>Validar desde aquí</PrimaryButton>
+            <PrimaryButton onClick={validar}>Validar desde aqui</PrimaryButton>
           </div>
 
           <p className="mt-6 text-xs text-[#0A1628]/60 leading-relaxed">
-            Si tenés una duda o inconveniente podés contactarnos en{" "}
+            Si tenes una duda o inconveniente podes contactarnos en{" "}
             <a href="mailto:soporte@molipay.com.ar" className="underline underline-offset-2 hover:text-[#C41E3A]">
               soporte@molipay.com.ar
             </a>
@@ -65,7 +65,7 @@ function ValidarEmail() {
             <p>Enviado por Money Life S.R.L. — Argentina</p>
             <div className="flex gap-3">
               <a href="/" className="underline underline-offset-2 hover:text-[#C41E3A]">Molipay</a>
-              <a href="/legales/terminos" className="underline underline-offset-2 hover:text-[#C41E3A]">Términos y condiciones</a>
+              <a href="/legales/terminos" className="underline underline-offset-2 hover:text-[#C41E3A]">Terminos y condiciones</a>
             </div>
           </div>
         </div>

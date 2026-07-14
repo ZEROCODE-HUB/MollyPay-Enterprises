@@ -55,7 +55,7 @@ const nav: NavItem[] = [
     icon: Upload,
     items: [
       { to: "/app/cobros", label: "Dashboard", icon: LayoutDashboard },
-      { to: "/app/cobros/gestion", label: "Gestión de lotes", icon: List },
+      { to: "/app/cobros/gestion", label: "Gestion de lotes", icon: List },
     ],
   },
   { to: "/app/cuenta", label: "Mi cuenta", icon: UserCog },

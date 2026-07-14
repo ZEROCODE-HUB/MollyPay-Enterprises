@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Plus, Search, Building2, ChevronRight, X, AlertCircle,
@@ -33,10 +33,10 @@ const lotes = [
 ];
 
 const errores = [
-  { ud: "UF 4°B", loc: "Juan Pérez", m: "$ 48.200", motivo: "CBU informado inválido" },
-  { ud: "UF 7°D", loc: "Ana Sosa", m: "$ 52.800", motivo: "Saldo insuficiente al débito" },
-  { ud: "UF 9°A", loc: "Pedro Gómez", m: "$ 48.200", motivo: "Cuenta de destino bloqueada" },
-  { ud: "UF 12°C", loc: "Laura Díaz", m: "$ 52.800", motivo: "CUIT inexistente" },
+  { ud: "UF 4°B", loc: "Juan Perez", m: "$ 48.200", motivo: "CBU informado invalido" },
+  { ud: "UF 7°D", loc: "Ana Sosa", m: "$ 52.800", motivo: "Saldo insuficiente al debito" },
+  { ud: "UF 9°A", loc: "Pedro Gomez", m: "$ 48.200", motivo: "Cuenta de destino bloqueada" },
+  { ud: "UF 12°C", loc: "Laura Diaz", m: "$ 52.800", motivo: "CUIT inexistente" },
 ];
 
 const tonoLote = (e: string): "success" | "warn" | "neutral" | "danger" =>
@@ -49,7 +49,7 @@ function Page() {
   return (
     <>
       <PageHeader
-        title="Módulo de consorcios"
+        title="Modulo de consorcios"
         description="Administradoras, consorcios y procesamiento masivo de expensas."
         action={<BtnPrimary onClick={() => setNuevoOpen(true)}><Plus size={16} /> Nuevo consorcio</BtnPrimary>}
       />
@@ -57,8 +57,8 @@ function Page() {
       <div className="grid md:grid-cols-4 gap-4 mb-6">
         <Stat label="Consorcios activos" value="42" />
         <Stat label="Unidades gestionadas" value="3.840" />
-        <Stat label="Recaudación del mes" value="$ 84,5M" sub="+8 % vs mes anterior" />
-        <Stat label="Lotes con errores" value="2" sub="22 ítems a reintentar" />
+        <Stat label="Recaudacion del mes" value="$ 84,5M" sub="+8 % vs mes anterior" />
+        <Stat label="Lotes con errores" value="2" sub="22 items a reintentar" />
       </div>
 
       <div className="grid lg:grid-cols-[1.4fr_1fr] gap-6">
@@ -127,7 +127,7 @@ function Page() {
         open={nuevoOpen}
         onClose={() => setNuevoOpen(false)}
         title="Nuevo consorcio"
-        description="Datos básicos para empezar a operar expensas y unidades funcionales."
+        description="Datos basicos para empezar a operar expensas y unidades funcionales."
         submitLabel="Crear consorcio"
         onSubmit={() => {
           setNuevoOpen(false);
@@ -139,8 +139,8 @@ function Page() {
           <Input placeholder="Ej. Larrea 1200" />
         </div>
         <div>
-          <Label>Dirección</Label>
-          <Input placeholder="Calle y número, ciudad" />
+          <Label>Direccion</Label>
+          <Input placeholder="Calle y numero, ciudad" />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
@@ -181,7 +181,7 @@ function ConsorcioDrawer({ c, onClose }: { c: Consorcio; onClose: () => void }) 
         <div className="p-6 space-y-5">
           <Card>
             <dl className="grid grid-cols-2 gap-y-2.5 text-sm">
-              <dt className="text-muted-foreground text-xs">Dirección</dt><dd>{c.dir}</dd>
+              <dt className="text-muted-foreground text-xs">Direccion</dt><dd>{c.dir}</dd>
               <dt className="text-muted-foreground text-xs">Administradora</dt><dd>{c.admin}</dd>
               <dt className="text-muted-foreground text-xs">Unidades funcionales</dt><dd>{c.uds}</dd>
               <dt className="text-muted-foreground text-xs">Estado</dt><dd><Badge tone={c.e === "Activo" ? "success" : "warn"}>{c.e}</Badge></dd>
@@ -201,11 +201,11 @@ function ConsorcioDrawer({ c, onClose }: { c: Consorcio; onClose: () => void }) 
             </div>
             <div className="divide-y text-sm">
               {[
-                ["UF 1°A", "García, Juan", "$ 48.200", "Al día"],
-                ["UF 1°B", "Méndez, Laura", "$ 48.200", "Al día"],
+                ["UF 1°A", "Garcia, Juan", "$ 48.200", "Al dia"],
+                ["UF 1°B", "Mendez, Laura", "$ 48.200", "Al dia"],
                 ["UF 2°C", "Sosa, Pedro", "$ 52.800", "Atrasado"],
-                ["UF 3°A", "Pérez, Ana", "$ 48.200", "Al día"],
-                ["UF 3°B", "Vega, Tomás", "$ 52.800", "Al día"],
+                ["UF 3°A", "Perez, Ana", "$ 48.200", "Al dia"],
+                ["UF 3°B", "Vega, Tomas", "$ 52.800", "Al dia"],
               ].map(([u, l, m, e]) => (
                 <div key={u} className="flex justify-between items-center py-2.5">
                   <div>
@@ -214,7 +214,7 @@ function ConsorcioDrawer({ c, onClose }: { c: Consorcio; onClose: () => void }) 
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="font-semibold">{m}</span>
-                    <Badge tone={e === "Al día" ? "success" : "danger"}>{e}</Badge>
+                    <Badge tone={e === "Al dia" ? "success" : "danger"}>{e}</Badge>
                   </div>
                 </div>
               ))}
@@ -222,7 +222,7 @@ function ConsorcioDrawer({ c, onClose }: { c: Consorcio; onClose: () => void }) 
           </Card>
 
           <Card>
-            <h4 className="font-semibold text-sm mb-3 flex items-center gap-2"><AlertCircle size={14} className="text-red-600" /> Errores del último lote</h4>
+            <h4 className="font-semibold text-sm mb-3 flex items-center gap-2"><AlertCircle size={14} className="text-red-600" /> Errores del ultimo lote</h4>
             <div className="divide-y">
               {errores.map((e, i) => (
                 <div key={i} className="py-2.5 text-sm flex justify-between items-center">

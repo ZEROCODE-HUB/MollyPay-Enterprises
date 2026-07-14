@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   AuthShell,
@@ -14,7 +14,7 @@ import { PROVINCIAS, useOnboarding, type FileRef } from "@/lib/onboarding-store"
 export const Route = createFileRoute("/onboarding/kyc")({
   head: () => ({
     meta: [
-      { title: "Validación KYC — Molipay" },
+      { title: "Validacion KYC — Molipay" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -62,17 +62,17 @@ function KycWizard() {
 
   return (
     <AuthShell
-      leftEyebrow="Paso 5 · Verificación de identidad"
+      leftEyebrow="Paso 5 · Verificacion de identidad"
       leftTitle="Validamos tu identidad de forma segura."
-      leftBody="Tus documentos se procesan en un entorno cifrado y se conservan según normativa BCRA y Ley 25.246."
+      leftBody="Tus documentos se procesan en un entorno cifrado y se conservan segun normativa BCRA y Ley 25.246."
       step={`Paso ${step + 1} de 4`}
     >
-      <FormTitle eyebrow="KYC · Documentación" title="Validación KYC" />
+      <FormTitle eyebrow="KYC · Documentacion" title="Validacion KYC" />
       <Stepper steps={STEPS} current={step} />
 
       {step === 0 && (
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-[#0A1628]">Cargá el DNI frente y dorso</h2>
+          <h2 className="text-lg font-semibold text-[#0A1628]">Carga el DNI frente y dorso</h2>
           <FileUpload
             label="DNI frente"
             value={files.dniFrente}
@@ -89,10 +89,10 @@ function KycWizard() {
 
       {step === 1 && (
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-[#0A1628]">Cargá un servicio a tu nombre</h2>
+          <h2 className="text-lg font-semibold text-[#0A1628]">Carga un servicio a tu nombre</h2>
           <FileUpload
             label="Factura de servicio"
-            hint="Debe contener tu dirección y no debe tener más de 3 meses de antigüedad."
+            hint="Debe contener tu direccion y no debe tener mas de 3 meses de antigüedad."
             value={files.servicio}
             onChange={(v) => setFiles({ ...files, servicio: v })}
           />
@@ -102,7 +102,7 @@ function KycWizard() {
 
       {step === 2 && (
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-[#0A1628]">Cargá una selfie</h2>
+          <h2 className="text-lg font-semibold text-[#0A1628]">Carga una selfie</h2>
           <FileUpload
             label="Selfie"
             hint="De frente, en un lugar bien iluminado, sin anteojos ni sombreros."
@@ -118,13 +118,13 @@ function KycWizard() {
         <div className="space-y-4">
           <h2 className="text-lg font-semibold text-[#0A1628]">Domicilio de residencia</h2>
           <Field
-            label="Dirección"
+            label="Direccion"
             value={addr.direccion}
             onChange={(e) => setAddr({ ...addr, direccion: e.target.value })}
             error={err.direccion}
           />
           <Field
-            label="Dirección (opcional)"
+            label="Direccion (opcional)"
             value={addr.direccion2}
             onChange={(e) => setAddr({ ...addr, direccion2: e.target.value })}
             placeholder="Piso, departamento, referencia"
@@ -145,7 +145,7 @@ function KycWizard() {
             />
           </div>
           <Field
-            label="Código postal"
+            label="Codigo postal"
             value={addr.cp}
             onChange={(e) => setAddr({ ...addr, cp: e.target.value })}
             error={err.cp}

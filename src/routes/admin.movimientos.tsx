@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Download, Filter, Search, ArrowDownLeft, ArrowUpRight, ChevronRight,
@@ -20,13 +20,13 @@ type Mov = {
 };
 
 const rows: Mov[] = [
-  { f: "02/06/2026 10:42", cli: "Microcréditos del Sur", cuit: "30-71239988-0", t: "Transferencia saliente", m: "- 2.480.000,00", e: "OK", ref: "TR-99821", orig: "Operativa", dest: "Proveedor SA · Galicia" },
+  { f: "02/06/2026 10:42", cli: "Microcreditos del Sur", cuit: "30-71239988-0", t: "Transferencia saliente", m: "- 2.480.000,00", e: "OK", ref: "TR-99821", orig: "Operativa", dest: "Proveedor SA · Galicia" },
   { f: "02/06/2026 10:18", cli: "Consorcio Larrea 1200", cuit: "30-71235678-2", t: "Lote cobros", m: "+ 5.840.200,00", e: "OK", ref: "LT-00342", orig: "Expensas", dest: "128 unidades" },
-  { f: "02/06/2026 09:55", cli: "Administradora Plaza", cuit: "30-71244455-1", t: "Link de pago", m: "+ 92.800,00", e: "OK", ref: "LP-9k2x7", orig: "Locatario", dest: "Garantías" },
+  { f: "02/06/2026 09:55", cli: "Administradora Plaza", cuit: "30-71244455-1", t: "Link de pago", m: "+ 92.800,00", e: "OK", ref: "LP-9k2x7", orig: "Locatario", dest: "Garantias" },
   { f: "02/06/2026 09:32", cli: "Pagos Express SRL", cuit: "30-71300011-4", t: "Transferencia saliente", m: "- 6.200.000,00", e: "Alerta", ref: "TR-99784", orig: "Operativa", dest: "Cuenta no validada · BBVA" },
-  { f: "02/06/2026 08:11", cli: "Municipalidad de Chivilcoy", cuit: "30-99876543-2", t: "Cobro QR", m: "+ 18.400,00", e: "OK", ref: "QR-88210", orig: "Caja municipal", dest: "Recaudación" },
-  { f: "02/06/2026 07:42", cli: "Microcréditos del Sur", cuit: "30-71239988-0", t: "Pago servicio", m: "- 64.320,00", e: "OK", ref: "SV-11020", orig: "Operativa", dest: "Edesur" },
-  { f: "01/06/2026 22:01", cli: "Cooperativa Norte", cuit: "30-71411223-7", t: "Transferencia entrante", m: "+ 1.240.000,00", e: "Pendiente", ref: "TR-99710", orig: "Banco Nación", dest: "Operativa" },
+  { f: "02/06/2026 08:11", cli: "Municipalidad de Chivilcoy", cuit: "30-99876543-2", t: "Cobro QR", m: "+ 18.400,00", e: "OK", ref: "QR-88210", orig: "Caja municipal", dest: "Recaudacion" },
+  { f: "02/06/2026 07:42", cli: "Microcreditos del Sur", cuit: "30-71239988-0", t: "Pago servicio", m: "- 64.320,00", e: "OK", ref: "SV-11020", orig: "Operativa", dest: "Edesur" },
+  { f: "01/06/2026 22:01", cli: "Cooperativa Norte", cuit: "30-71411223-7", t: "Transferencia entrante", m: "+ 1.240.000,00", e: "Pendiente", ref: "TR-99710", orig: "Banco Nacion", dest: "Operativa" },
   { f: "01/06/2026 18:33", cli: "Consorcio Larrea 1200", cuit: "30-71235678-2", t: "Link de pago", m: "+ 18.400,00", e: "Rechazado", ref: "LP-77x21", orig: "—", dest: "Expensas" },
 ];
 
@@ -48,9 +48,9 @@ function Page() {
       />
 
       <div className="grid md:grid-cols-4 gap-4 mb-6">
-        <Stat label="Volumen del día" value="$ 184,2M" sub="12.480 operaciones" />
+        <Stat label="Volumen del dia" value="$ 184,2M" sub="12.480 operaciones" />
         <Stat label="Operaciones por minuto" value="48" sub="Pico 11:00" />
-        <Stat label="Tasa de éxito" value="99,2 %" />
+        <Stat label="Tasa de exito" value="99,2 %" />
         <Stat label="Operaciones con alerta" value="7" sub="Revisar compliance" />
       </div>
 
@@ -73,8 +73,8 @@ function Page() {
             <BtnPrimary>Aplicar</BtnPrimary>
           </div>
           <div className="grid sm:grid-cols-4 gap-2 mt-2">
-            <Input placeholder="Monto mínimo" />
-            <Input placeholder="Monto máximo" />
+            <Input placeholder="Monto minimo" />
+            <Input placeholder="Monto maximo" />
             <select className="h-10 px-3 rounded-md border bg-card text-sm">
               <option>Estado: todos</option>
               <option>OK</option><option>Pendiente</option>
@@ -82,7 +82,7 @@ function Page() {
             </select>
             <select className="h-10 px-3 rounded-md border bg-card text-sm">
               <option>Cliente: todos</option>
-              <option>Microcréditos del Sur</option>
+              <option>Microcreditos del Sur</option>
               <option>Consorcio Larrea 1200</option>
               <option>Administradora Plaza</option>
             </select>
@@ -95,7 +95,7 @@ function Page() {
               <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
                 <th className="text-left px-5 py-2.5">Fecha</th>
                 <th className="text-left px-5 py-2.5">Cliente</th>
-                <th className="text-left px-5 py-2.5">Operación</th>
+                <th className="text-left px-5 py-2.5">Operacion</th>
                 <th className="text-left px-5 py-2.5">Referencia</th>
                 <th className="text-right px-5 py-2.5">Monto</th>
                 <th className="text-right px-5 py-2.5">Estado</th>
@@ -152,7 +152,7 @@ function Page() {
         open={filtrosOpen}
         onClose={() => setFiltrosOpen(false)}
         title="Filtros avanzados"
-        description="Refiná la búsqueda combinando múltiples criterios."
+        description="Refina la busqueda combinando multiples criterios."
         submitLabel="Aplicar filtros"
         size="lg"
         onSubmit={() => {
@@ -166,7 +166,7 @@ function Page() {
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <Label>Tipo de operación</Label>
+            <Label>Tipo de operacion</Label>
             <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
               <option>Todas</option>
               <option>Transferencias</option>
@@ -188,12 +188,12 @@ function Page() {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-3">
-          <div><Label>Monto mínimo</Label><Input placeholder="$ 0" /></div>
-          <div><Label>Monto máximo</Label><Input placeholder="$ 0" /></div>
+          <div><Label>Monto minimo</Label><Input placeholder="$ 0" /></div>
+          <div><Label>Monto maximo</Label><Input placeholder="$ 0" /></div>
         </div>
         <div>
           <Label>Cliente / CUIT</Label>
-          <Input placeholder="Razón social, CUIT o ID" />
+          <Input placeholder="Razon social, CUIT o ID" />
         </div>
         <div>
           <Label>Referencia</Label>
@@ -216,7 +216,7 @@ function MovDrawer({ m, onClose }: { m: Mov; onClose: () => void }) {
       <div className="relative w-full max-w-lg bg-background h-full overflow-y-auto shadow-xl">
         <div className="sticky top-0 bg-card border-b px-6 py-4 flex justify-between items-center z-10">
           <div>
-            <div className="text-xs text-muted-foreground">Detalle de operación</div>
+            <div className="text-xs text-muted-foreground">Detalle de operacion</div>
             <div className="font-semibold font-mono">{m.ref}</div>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-muted rounded-md"><X size={18} /></button>
@@ -238,7 +238,7 @@ function MovDrawer({ m, onClose }: { m: Mov; onClose: () => void }) {
               <dt className="text-muted-foreground text-xs">Origen</dt><dd className="text-xs">{m.orig}</dd>
               <dt className="text-muted-foreground text-xs">Destino</dt><dd className="text-xs">{m.dest}</dd>
               <dt className="text-muted-foreground text-xs">Referencia</dt><dd className="font-mono text-xs">{m.ref}</dd>
-              <dt className="text-muted-foreground text-xs">Comisión Molly</dt><dd className="text-xs">$ 2.480,00 (0,10 %)</dd>
+              <dt className="text-muted-foreground text-xs">Comision Molly</dt><dd className="text-xs">$ 2.480,00 (0,10 %)</dd>
             </dl>
           </Card>
 
@@ -248,7 +248,7 @@ function MovDrawer({ m, onClose }: { m: Mov; onClose: () => void }) {
                 <AlertCircle size={16} className="text-amber-600 mt-0.5" />
                 <div className="text-xs">
                   <div className="font-semibold text-amber-900">Alerta de compliance disparada</div>
-                  <div className="text-amber-800 mt-1">Monto superior a umbral configurado de $ 5.000.000. Pendiente de revisión.</div>
+                  <div className="text-amber-800 mt-1">Monto superior a umbral configurado de $ 5.000.000. Pendiente de revision.</div>
                 </div>
               </div>
             </Card>

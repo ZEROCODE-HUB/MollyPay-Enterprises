@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Search, History, Save, Plus, Percent, ChevronDown, ChevronRight } from "lucide-react";
 import {
@@ -21,7 +21,7 @@ type Conceptos = {
 
 const clientes: Array<{ n: string; cuit: string; plan: string; c: Conceptos }> = [
   {
-    n: "Microcréditos del Sur", cuit: "30-71239988-0", plan: "Empresa",
+    n: "Microcreditos del Sur", cuit: "30-71239988-0", plan: "Empresa",
     c: {
       trf_in: { p: "0,30", f: "50" }, trf_out: { p: "0,45", f: "80" },
       cobro_qr: { p: "0,50", f: "0" }, link_pago: { p: "0,80", f: "30" },
@@ -45,7 +45,7 @@ const clientes: Array<{ n: string; cuit: string; plan: string; c: Conceptos }> =
     },
   },
   {
-    n: "Municipalidad de Chivilcoy", cuit: "30-99876543-2", plan: "Sector público",
+    n: "Municipalidad de Chivilcoy", cuit: "30-99876543-2", plan: "Sector publico",
     c: {
       trf_in: { p: "0,10", f: "0" }, trf_out: { p: "0,20", f: "20" },
       cobro_qr: { p: "0,30", f: "0" }, link_pago: { p: "0,50", f: "20" },
@@ -55,10 +55,10 @@ const clientes: Array<{ n: string; cuit: string; plan: string; c: Conceptos }> =
 ];
 
 const historial = [
-  { f: "02/06/2026 11:14", cli: "Microcréditos del Sur", u: "T. Vega", t: "Cobro masivo: % 0,18 → 0,15" },
-  { f: "31/05/2026 09:42", cli: "Administradora Plaza", u: "M. Solís", t: "Link de pago: fijo $ 30 → $ 50" },
+  { f: "02/06/2026 11:14", cli: "Microcreditos del Sur", u: "T. Vega", t: "Cobro masivo: % 0,18 → 0,15" },
+  { f: "31/05/2026 09:42", cli: "Administradora Plaza", u: "M. Solis", t: "Link de pago: fijo $ 30 → $ 50" },
   { f: "28/05/2026 16:08", cli: "Consorcio Larrea 1200", u: "T. Vega", t: "Transferencia in: bonificada al 0%" },
-  { f: "20/05/2026 13:21", cli: "Municipalidad de Chivilcoy", u: "M. Solís", t: "Plan asignado: Sector público" },
+  { f: "20/05/2026 13:21", cli: "Municipalidad de Chivilcoy", u: "M. Solis", t: "Plan asignado: Sector publico" },
 ];
 
 const conceptosMeta: Array<{ k: keyof Conceptos; label: string }> = [
@@ -66,7 +66,7 @@ const conceptosMeta: Array<{ k: keyof Conceptos; label: string }> = [
   { k: "trf_out", label: "Transferencia enviada" },
   { k: "cobro_qr", label: "Cobro QR" },
   { k: "link_pago", label: "Link de pago" },
-  { k: "cobro_masivo", label: "Cobro masivo (por ítem)" },
+  { k: "cobro_masivo", label: "Cobro masivo (por item)" },
   { k: "pago_servicio", label: "Pago de servicios" },
 ];
 
@@ -86,8 +86,8 @@ function Page() {
       <div className="grid md:grid-cols-4 gap-4 mb-6">
         <Stat label="Clientes con tarifa custom" value="34" />
         <Stat label="Planes activos" value="6" sub="Empresa, Consorcios, …" />
-        <Stat label="Comisión promedio out" value="0,42 %" />
-        <Stat label="Cambios últimos 30d" value="18" />
+        <Stat label="Comision promedio out" value="0,42 %" />
+        <Stat label="Cambios ultimos 30d" value="18" />
       </div>
 
       <div className="grid lg:grid-cols-[1.6fr_1fr] gap-6">
@@ -100,7 +100,7 @@ function Page() {
             <select className="h-10 px-3 rounded-md border bg-card text-sm">
               <option>Plan: todos</option>
               <option>Empresa</option><option>Consorcios</option>
-              <option>Alquileres</option><option>Sector público</option>
+              <option>Alquileres</option><option>Sector publico</option>
             </select>
           </div>
 
@@ -135,8 +135,8 @@ function Page() {
                             <th className="text-left py-2">Concepto</th>
                             <th className="text-left py-2 w-32">% Variable</th>
                             <th className="text-left py-2 w-32">Monto fijo (ARS)</th>
-                            <th className="text-left py-2 w-32">Mínimo</th>
-                            <th className="text-left py-2 w-32">Máximo</th>
+                            <th className="text-left py-2 w-32">Minimo</th>
+                            <th className="text-left py-2 w-32">Maximo</th>
                             <th className="py-2"></th>
                           </tr>
                         </thead>
@@ -186,7 +186,7 @@ function Page() {
         open={nuevoOpen}
         onClose={() => setNuevoOpen(false)}
         title="Nuevo plan tarifario"
-        description="Definí un plan reutilizable para asignar a varios clientes."
+        description="Defini un plan reutilizable para asignar a varios clientes."
         submitLabel="Crear plan"
         size="lg"
         onSubmit={() => {
@@ -202,17 +202,17 @@ function Page() {
           <div>
             <Label>Plan base</Label>
             <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
-              <option>Vacío</option>
+              <option>Vacio</option>
               <option>Empresa</option>
               <option>Consorcios</option>
               <option>Alquileres</option>
-              <option>Sector público</option>
+              <option>Sector publico</option>
             </select>
           </div>
         </div>
         <div>
-          <Label>Descripción</Label>
-          <Input placeholder="Para qué segmento aplica este plan" />
+          <Label>Descripcion</Label>
+          <Input placeholder="Para que segmento aplica este plan" />
         </div>
         <div className="border rounded-md divide-y">
           {conceptosMeta.map(({ k, label }) => (
@@ -248,7 +248,7 @@ function Page() {
                 <Input placeholder="Cliente, concepto o usuario..." className="pl-9" />
               </div>
               <select className="h-10 px-3 rounded-md border bg-card text-sm">
-                <option>Últimos 90 días</option><option>Últimos 30 días</option><option>Año actual</option>
+                <option>ultimos 90 dias</option><option>ultimos 30 dias</option><option>Ano actual</option>
               </select>
               <select className="h-10 px-3 rounded-md border bg-card text-sm">
                 <option>Todos los conceptos</option>
@@ -270,11 +270,11 @@ function Page() {
                 <tbody>
                   {[
                     ...historial,
-                    { f: "18/05/2026 10:33", cli: "Microcréditos del Sur", u: "L. Díaz", t: "Trf out: 0,50 → 0,45" },
+                    { f: "18/05/2026 10:33", cli: "Microcreditos del Sur", u: "L. Diaz", t: "Trf out: 0,50 → 0,45" },
                     { f: "12/05/2026 15:02", cli: "Administradora Plaza", u: "T. Vega", t: "QR: 0,70 → 0,80" },
-                    { f: "05/05/2026 09:18", cli: "Consorcio Larrea 1200", u: "M. Solís", t: "Servicios: bonificado" },
-                    { f: "28/04/2026 14:44", cli: "Municipalidad de Chivilcoy", u: "T. Vega", t: "Plan: Empresa → Sector público" },
-                    { f: "20/04/2026 11:21", cli: "Microcréditos del Sur", u: "L. Díaz", t: "Link de pago: $ 50 → $ 30" },
+                    { f: "05/05/2026 09:18", cli: "Consorcio Larrea 1200", u: "M. Solis", t: "Servicios: bonificado" },
+                    { f: "28/04/2026 14:44", cli: "Municipalidad de Chivilcoy", u: "T. Vega", t: "Plan: Empresa → Sector publico" },
+                    { f: "20/04/2026 11:21", cli: "Microcreditos del Sur", u: "L. Diaz", t: "Link de pago: $ 50 → $ 30" },
                   ].map((h, i) => {
                     const [concepto, cambio] = h.t.split(":");
                     const [ant, nuevo] = (cambio ?? "").split("→").map(s => s?.trim());

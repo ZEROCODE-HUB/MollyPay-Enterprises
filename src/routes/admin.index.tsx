@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+﻿import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Building2,
   ShieldAlert,
@@ -34,9 +34,9 @@ function Page() {
       {/* KPI row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <Stat label="Clientes activos" value="312" sub="+8 esta semana" />
-        <Stat label="Volumen del día" value="$ 184,2M" sub="ARS · 12.480 ops" />
-        <Stat label="Alertas pendientes" value="7" sub="3 críticas" />
-        <Stat label="Altas en revisión" value="12" sub="Validación de legajo" />
+        <Stat label="Volumen del dia" value="$ 184,2M" sub="ARS · 12.480 ops" />
+        <Stat label="Alertas pendientes" value="7" sub="3 criticas" />
+        <Stat label="Altas en revision" value="12" sub="Validacion de legajo" />
       </div>
 
       {/* Volume chart + system health */}
@@ -45,7 +45,7 @@ function Page() {
           <div className="flex items-end justify-between mb-4">
             <div>
               <h3 className="font-semibold">Volumen transaccional</h3>
-              <p className="text-xs text-muted-foreground">Últimos 14 días — ARS</p>
+              <p className="text-xs text-muted-foreground">ultimos 14 dias — ARS</p>
             </div>
             <div className="text-xs text-primary font-semibold inline-flex items-center gap-1">
               <TrendingUp size={14} /> +24,6%
@@ -68,11 +68,11 @@ function Page() {
           <h3 className="font-semibold mb-4">Estado del sistema</h3>
           <ul className="space-y-3 text-sm">
             {[
-              ["API pública", "operativo", "120 ms"],
+              ["API publica", "operativo", "120 ms"],
               ["Procesador CVU", "operativo", "210 ms"],
               ["QR realtime", "operativo", "85 ms"],
               ["Webhooks", "degradado", "640 ms"],
-              ["Conciliación batch", "operativo", "—"],
+              ["Conciliacion batch", "operativo", "—"],
             ].map(([n, e, l]) => (
               <li key={n} className="flex items-center justify-between">
                 <span className="flex items-center gap-2">
@@ -95,7 +95,7 @@ function Page() {
         <Card className="lg:col-span-2">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-semibold flex items-center gap-2">
-              <Building2 size={16} className="text-[color:var(--brand-blue)]" /> Últimos registros
+              <Building2 size={16} className="text-[color:var(--brand-blue)]" /> ultimos registros
             </h3>
             <Link to="/admin/clientes" className="text-xs text-primary font-semibold">
               Ver todos →
@@ -105,7 +105,7 @@ function Page() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b">
-                  <th className="text-left font-semibold py-2 px-5">Razón social</th>
+                  <th className="text-left font-semibold py-2 px-5">Razon social</th>
                   <th className="text-left font-semibold py-2">CUIT</th>
                   <th className="text-left font-semibold py-2">Segmento</th>
                   <th className="text-left font-semibold py-2">Estado</th>
@@ -114,9 +114,9 @@ function Page() {
               </thead>
               <tbody className="divide-y">
                 {[
-                  ["Consorcio Larrea 1200", "30-71235678-2", "Consorcio", "warn", "Pendiente validación", "—"],
-                  ["Microcréditos del Sur", "30-71239988-0", "Microcrédito", "success", "Activo", "$ 8,4M"],
-                  ["Administradora Plaza", "30-71244455-1", "Alquileres", "warn", "Documentación", "—"],
+                  ["Consorcio Larrea 1200", "30-71235678-2", "Consorcio", "warn", "Pendiente validacion", "—"],
+                  ["Microcreditos del Sur", "30-71239988-0", "Microcredito", "success", "Activo", "$ 8,4M"],
+                  ["Administradora Plaza", "30-71244455-1", "Alquileres", "warn", "Documentacion", "—"],
                   ["Municipalidad de Chivilcoy", "30-99876543-2", "Municipio", "success", "Activo", "$ 21,2M"],
                   ["Pagos Express SRL", "30-71300011-4", "Empresa", "danger", "Bloqueado", "—"],
                 ].map(([n, c, seg, tone, e, v]) => (
@@ -146,8 +146,8 @@ function Page() {
           </div>
           <div className="divide-y">
             {[
-              ["Movimiento superior a $5M", "Microcréditos del Sur", "danger", "Hace 12 min"],
-              ["Frecuencia anómala – 48 ops/h", "Pagos Express SRL", "warn", "Hace 1 h"],
+              ["Movimiento superior a $5M", "Microcreditos del Sur", "danger", "Hace 12 min"],
+              ["Frecuencia anomala – 48 ops/h", "Pagos Express SRL", "warn", "Hace 1 h"],
               ["CUIT en lista de control", "Comercializadora ABC", "danger", "Hace 3 h"],
               ["KYC vencido", "Consorcio Belgrano", "warn", "Hoy 09:00"],
             ].map(([a, c, tone, t]) => (

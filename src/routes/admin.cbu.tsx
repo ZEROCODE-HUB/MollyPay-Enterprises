@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Plus, Copy, Wallet, Search, ChevronRight, X, Ban,
@@ -19,7 +19,7 @@ type Cuenta = {
 };
 
 const cuentas: Cuenta[] = [
-  { cli: "Microcréditos del Sur", cuit: "30-71239988-0", cbu: "0000003 100099887766 11", alias: "microsur.operativa", saldo: "$ 18.420.000", alta: "03/04/2026", e: "Activa", subs: 3 },
+  { cli: "Microcreditos del Sur", cuit: "30-71239988-0", cbu: "0000003 100099887766 11", alias: "microsur.operativa", saldo: "$ 18.420.000", alta: "03/04/2026", e: "Activa", subs: 3 },
   { cli: "Consorcio Larrea 1200", cuit: "30-71235678-2", cbu: "0000003 100022334455 01", alias: "larrea1200.expensas", saldo: "$ 5.840.200", alta: "12/05/2026", e: "Activa", subs: 2 },
   { cli: "Administradora Plaza", cuit: "30-71244455-1", cbu: "0000003 100044556677 04", alias: "plaza.garantias", saldo: "$ 2.140.000", alta: "01/05/2026", e: "Pausada", subs: 1 },
   { cli: "Municipalidad de Chivilcoy", cuit: "30-99876543-2", cbu: "0000003 100088990011 02", alias: "chivilcoy.recauda", saldo: "$ 84.200.000", alta: "20/02/2026", e: "Activa", subs: 8 },
@@ -43,15 +43,15 @@ function Page() {
     <>
       <PageHeader
         title="CBU y subcuentas"
-        description="Asignación de CVU/CBU a clientes y administración de subcuentas operativas."
+        description="Asignacion de CVU/CBU a clientes y administracion de subcuentas operativas."
         action={<BtnPrimary onClick={() => setNuevoOpen(true)}><Plus size={16} /> Asignar nuevo CBU</BtnPrimary>}
       />
 
       <div className="grid md:grid-cols-4 gap-4 mb-6">
         <Stat label="Cuentas activas" value="287" sub="14 nuevas este mes" />
         <Stat label="Subcuentas asignadas" value="1.842" />
-        <Stat label="Saldo total bajo gestión" value="$ 2,18B" sub="ARS · cuentas operativas" />
-        <Stat label="CBU bloqueados" value="6" sub="Acción de compliance" />
+        <Stat label="Saldo total bajo gestion" value="$ 2,18B" sub="ARS · cuentas operativas" />
+        <Stat label="CBU bloqueados" value="6" sub="Accion de compliance" />
       </div>
 
       <Card className="p-0 overflow-hidden">
@@ -74,7 +74,7 @@ function Page() {
           <div className="flex flex-col items-center text-center py-14">
             <Wallet size={28} className="text-muted-foreground mb-2" />
             <div className="font-semibold">No hay cuentas que coincidan</div>
-            <div className="text-sm text-muted-foreground mt-1">Ajustá tu búsqueda o asigná un nuevo CBU.</div>
+            <div className="text-sm text-muted-foreground mt-1">Ajusta tu busqueda o asigna un nuevo CBU.</div>
           </div>
         ) : list.map((r) => (
           <div key={r.cbu} className="md:grid md:grid-cols-[1.4fr_1fr_1.6fr_1fr_0.8fr_0.8fr_auto] gap-4 px-5 py-4 border-b last:border-0 items-center">
@@ -107,7 +107,7 @@ function Page() {
         open={nuevoOpen}
         onClose={() => setNuevoOpen(false)}
         title="Asignar nuevo CBU"
-        description="Generá un CVU/CBU para asociarlo a un cliente existente o nuevo."
+        description="Genera un CVU/CBU para asociarlo a un cliente existente o nuevo."
         submitLabel="Asignar CBU"
         onSubmit={() => {
           setNuevoOpen(false);
@@ -133,8 +133,8 @@ function Page() {
           <Label>Tipo de cuenta</Label>
           <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
             <option>CVU operativa</option>
-            <option>CBU recaudación</option>
-            <option>CVU garantías</option>
+            <option>CBU recaudacion</option>
+            <option>CVU garantias</option>
           </select>
         </div>
         <label className="flex items-center gap-2 text-xs">
@@ -194,7 +194,7 @@ function CuentaDrawer({ c, onClose }: { c: Cuenta; onClose: () => void }) {
               ))}
               {c.subs === 0 && (
                 <div className="py-6 text-center text-sm text-muted-foreground">
-                  Sin subcuentas. Asigná una para segmentar la operatoria del cliente.
+                  Sin subcuentas. Asigna una para segmentar la operatoria del cliente.
                 </div>
               )}
             </div>
@@ -233,7 +233,7 @@ function CuentaDrawer({ c, onClose }: { c: Cuenta; onClose: () => void }) {
                   {confirmar === "bloquear" ? "Bloquear cuenta" : "Reactivar cuenta"}
                 </h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Esta acción {confirmar === "bloquear" ? "impedirá toda operación" : "permitirá operar nuevamente"} para {c.cli}. Quedará registro auditable.
+                  Esta accion {confirmar === "bloquear" ? "impedira toda operacion" : "permitira operar nuevamente"} para {c.cli}. Quedara registro auditable.
                 </p>
               </div>
             </div>

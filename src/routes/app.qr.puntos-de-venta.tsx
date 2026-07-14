@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { Plus, Search, Eye, Edit3, Trash2, Info, X, Download, Printer } from "lucide-react";
 import { Card, Input, Label, BtnPrimary, BtnOutline, Badge } from "@/components/portal-shell";
@@ -12,21 +12,21 @@ interface PuntoVenta {
   id: string;
   nombre: string;
   subcuenta: string;
-  tipo: "Est\u00e1tico" | "Din\u00e1mico";
+  tipo: "Estatico" | "Dinamico";
   ubicacion: string;
   estado: "Activo" | "Pausado";
   fecha: string;
 }
 
 const mockPDVs: PuntoVenta[] = [
-  { id: "1", nombre: "Caja principal", subcuenta: "Sucursal Centro", tipo: "Estático", ubicacion: "Av. Corrientes 1234", estado: "Activo", fecha: "2025-11-10" },
-  { id: "2", nombre: "Caja secundaria", subcuenta: "Sucursal Centro", tipo: "Dinámico", ubicacion: "Av. Corrientes 1234", estado: "Activo", fecha: "2025-12-01" },
-  { id: "3", nombre: "Sucursal Norte", subcuenta: "Sucursal Norte", tipo: "Estático", ubicacion: "Av. Cabildo 3400", estado: "Activo", fecha: "2026-01-15" },
-  { id: "4", nombre: "Evento Mayo", subcuenta: "Operaciones", tipo: "Dinámico", ubicacion: "Predio Ferial", estado: "Pausado", fecha: "2026-02-20" },
-  { id: "5", nombre: "Kiosco Demo", subcuenta: "Operaciones", tipo: "Estático", ubicacion: "Lavalle 789", estado: "Activo", fecha: "2026-03-05" },
-  { id: "6", nombre: "Expreso Norte", subcuenta: "Sucursal Norte", tipo: "Dinámico", ubicacion: "Panamericana Km 38", estado: "Activo", fecha: "2026-04-12" },
-  { id: "7", nombre: "Food Truck", subcuenta: "Operaciones", tipo: "Dinámico", ubicacion: "Parque Central", estado: "Pausado", fecha: "2026-05-01" },
-  { id: "8", nombre: "Local Once", subcuenta: "Sucursal Centro", tipo: "Estático", ubicacion: "Av. Rivadavia 2200", estado: "Activo", fecha: "2026-05-20" },
+  { id: "1", nombre: "Caja principal", subcuenta: "Sucursal Centro", tipo: "Estatico", ubicacion: "Av. Corrientes 1234", estado: "Activo", fecha: "2025-11-10" },
+  { id: "2", nombre: "Caja secundaria", subcuenta: "Sucursal Centro", tipo: "Dinamico", ubicacion: "Av. Corrientes 1234", estado: "Activo", fecha: "2025-12-01" },
+  { id: "3", nombre: "Sucursal Norte", subcuenta: "Sucursal Norte", tipo: "Estatico", ubicacion: "Av. Cabildo 3400", estado: "Activo", fecha: "2026-01-15" },
+  { id: "4", nombre: "Evento Mayo", subcuenta: "Operaciones", tipo: "Dinamico", ubicacion: "Predio Ferial", estado: "Pausado", fecha: "2026-02-20" },
+  { id: "5", nombre: "Kiosco Demo", subcuenta: "Operaciones", tipo: "Estatico", ubicacion: "Lavalle 789", estado: "Activo", fecha: "2026-03-05" },
+  { id: "6", nombre: "Expreso Norte", subcuenta: "Sucursal Norte", tipo: "Dinamico", ubicacion: "Panamericana Km 38", estado: "Activo", fecha: "2026-04-12" },
+  { id: "7", nombre: "Food Truck", subcuenta: "Operaciones", tipo: "Dinamico", ubicacion: "Parque Central", estado: "Pausado", fecha: "2026-05-01" },
+  { id: "8", nombre: "Local Once", subcuenta: "Sucursal Centro", tipo: "Estatico", ubicacion: "Av. Rivadavia 2200", estado: "Activo", fecha: "2026-05-20" },
 ];
 
 const ROWS_OPTIONS = [10, 20, 50];
@@ -34,7 +34,7 @@ const ROWS_OPTIONS = [10, 20, 50];
 const initialForm = {
   nombre: "",
   subcuenta: "Sucursal Centro",
-  tipo: "Estático" as PuntoVenta["tipo"],
+  tipo: "Estatico" as PuntoVenta["tipo"],
   ubicacion: "",
   concepto: "",
   montoFijo: "",
@@ -166,12 +166,12 @@ function Page() {
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 flex items-start gap-3">
         <Info size={18} className="text-blue-600 shrink-0 mt-0.5" />
         <div>
-          <p className="text-sm font-semibold text-blue-800">Información sobre Puntos de Venta</p>
+          <p className="text-sm font-semibold text-blue-800">InformaciOn sobre Puntos de Venta</p>
           <p className="text-xs text-blue-700 mt-1 leading-relaxed">
             Los puntos de venta permiten identificar y gestionar los cobros realizados dentro de una misma entidad.
           </p>
           <p className="text-xs text-blue-700 mt-1 leading-relaxed">
-            Si necesita separar la operación por una unidad de negocio distinta, se recomienda crear una subcuenta y
+            Si necesita separar la operaciOn por una unidad de negocio distinta, se recomienda crear una subcuenta y
             habilitar el cobro con QR en dicha subcuenta.
           </p>
         </div>
@@ -229,7 +229,7 @@ function Page() {
           <div>Nombre</div>
           <div>Subcuenta</div>
           <div>Tipo QR</div>
-          <div>Ubicación</div>
+          <div>UbicaciOn</div>
           <div>Estado</div>
           <div className="text-right">Acciones</div>
         </div>
@@ -278,10 +278,10 @@ function Page() {
         )}
       </Card>
 
-      {/* Paginación */}
+      {/* PaginaciOn */}
       <div className="flex flex-wrap items-center justify-between gap-4 mt-4">
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <span>Filas por página:</span>
+          <span>Filas por pAgina:</span>
           <select
             className="h-8 px-2 rounded border bg-card text-xs"
             value={pageSize}
@@ -327,7 +327,7 @@ function Page() {
             disabled={page >= totalPages}
             onClick={() => setPage(totalPages)}
           >
-            Último
+            ultimo
           </BtnOutline>
         </div>
       </div>
@@ -337,7 +337,7 @@ function Page() {
         open={crearOpen}
         onClose={() => setCrearOpen(false)}
         title={editingId ? "Editar Punto de Venta" : "Crear Punto de Venta"}
-        description="Complete la información para habilitar el cobro mediante QR."
+        description="Complete la informaciOn para habilitar el cobro mediante QR."
         submitLabel={editingId ? "Guardar cambios" : "Crear Punto de Venta"}
         size="lg"
         onSubmit={guardar}
@@ -370,14 +370,14 @@ function Page() {
               value={form.tipo}
               onChange={(e) => setForm((f) => ({ ...f, tipo: e.target.value as PuntoVenta["tipo"] }))}
             >
-              <option value="Estático">Estático (monto libre)</option>
-              <option value="Dinámico">Dinámico (monto fijo)</option>
+              <option value="Estatico">Estatico (monto libre)</option>
+              <option value="Dinamico">Dinamico (monto fijo)</option>
             </select>
           </div>
           <div>
-            <Label>Ubicación</Label>
+            <Label>UbicaciOn</Label>
             <Input
-              placeholder="Dirección o referencia"
+              placeholder="DirecciOn o referencia"
               value={form.ubicacion}
               onChange={(e) => setForm((f) => ({ ...f, ubicacion: e.target.value }))}
             />
@@ -390,7 +390,7 @@ function Page() {
               onChange={(e) => setForm((f) => ({ ...f, concepto: e.target.value }))}
             />
           </div>
-          {form.tipo === "Dinámico" && (
+          {form.tipo === "Dinamico" && (
             <div>
               <Label>Monto fijo</Label>
               <Input
@@ -451,7 +451,7 @@ function Page() {
                   )}
                 </div>
                 <span className="text-[10px] text-muted-foreground text-center leading-tight">
-                  Escaneá para pagar en<br />
+                  EscaneA para pagar en<br />
                   {detallePd.nombre}
                 </span>
               </div>
@@ -501,14 +501,14 @@ function Page() {
         </div>
       )}
 
-      {/* Modal: Confirmar eliminación */}
+      {/* Modal: Confirmar eliminaciOn */}
       {eliminarOpen && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/50" onClick={() => setEliminarOpen(false)} />
           <div className="relative bg-card rounded-lg max-w-sm w-full p-6 shadow-xl text-center">
             <Trash2 size={28} className="mx-auto text-red-500 mb-3" />
             <h3 className="font-semibold text-base mb-2">¿Eliminar punto de venta?</h3>
-            <p className="text-sm text-muted-foreground mb-6">Esta acción no se puede deshacer.</p>
+            <p className="text-sm text-muted-foreground mb-6">Esta acciOn no se puede deshacer.</p>
             <div className="flex gap-3 justify-center">
               <BtnOutline onClick={() => setEliminarOpen(false)}>Cancelar</BtnOutline>
               <BtnPrimary

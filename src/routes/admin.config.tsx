@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Plus, UserCog, Settings, Bell, Save, X, Trash2, ShieldCheck,
@@ -15,10 +15,10 @@ type Rol = "Super Admin" | "Operaciones" | "Compliance" | "Comercial" | "Solo le
 const users: Array<{
   n: string; e: string; r: Rol; activo: boolean; ult: string;
 }> = [
-  { n: "María Solís", e: "maria@molly.com.ar", r: "Super Admin", activo: true, ult: "Hace 5 min" },
-  { n: "Tomás Vega", e: "tomas@molly.com.ar", r: "Operaciones", activo: true, ult: "Hace 2 horas" },
-  { n: "Laura Díaz", e: "laura@molly.com.ar", r: "Compliance", activo: true, ult: "Ayer" },
-  { n: "Pablo Sosa", e: "pablo@molly.com.ar", r: "Comercial", activo: true, ult: "Hace 3 días" },
+  { n: "Maria Solis", e: "maria@molly.com.ar", r: "Super Admin", activo: true, ult: "Hace 5 min" },
+  { n: "Tomas Vega", e: "tomas@molly.com.ar", r: "Operaciones", activo: true, ult: "Hace 2 horas" },
+  { n: "Laura Diaz", e: "laura@molly.com.ar", r: "Compliance", activo: true, ult: "Ayer" },
+  { n: "Pablo Sosa", e: "pablo@molly.com.ar", r: "Comercial", activo: true, ult: "Hace 3 dias" },
   { n: "Ana Pinto", e: "ana@molly.com.ar", r: "Solo lectura", activo: false, ult: "20/05/2026" },
 ];
 
@@ -30,7 +30,7 @@ const modulos = [
   "Compliance",
   "Consorcios",
   "Alquileres",
-  "Configuración del sistema",
+  "Configuracion del sistema",
 ];
 
 function Page() {
@@ -40,15 +40,15 @@ function Page() {
   return (
     <>
       <PageHeader
-        title="Configuración del sistema"
-        description="Usuarios internos, permisos por módulo y parámetros generales."
+        title="Configuracion del sistema"
+        description="Usuarios internos, permisos por modulo y parametros generales."
       />
 
       <div className="grid md:grid-cols-4 gap-4 mb-6">
         <Stat label="Usuarios internos" value="12" sub="4 activos ahora" />
         <Stat label="Roles configurados" value="5" />
-        <Stat label="Última auditoría" value="01/06" sub="Sin observaciones" />
-        <Stat label="Versión" value="2.4.1" sub="Build 2026.06.01" />
+        <Stat label="ultima auditoria" value="01/06" sub="Sin observaciones" />
+        <Stat label="Version" value="2.4.1" sub="Build 2026.06.01" />
       </div>
 
       <div className="grid lg:grid-cols-[1.4fr_1fr] gap-6 mb-6">
@@ -67,7 +67,7 @@ function Page() {
                   </div>
                   <div className="min-w-0">
                     <div className="font-semibold text-sm">{u.n}</div>
-                    <div className="text-xs text-muted-foreground">{u.e} · Últ. acceso {u.ult}</div>
+                    <div className="text-xs text-muted-foreground">{u.e} · ult. acceso {u.ult}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
@@ -84,9 +84,9 @@ function Page() {
           <h3 className="font-semibold mb-4 flex items-center gap-2"><ShieldCheck size={16} /> Roles disponibles</h3>
           <div className="space-y-3 text-sm">
             {[
-              ["Super Admin", "Acceso total, gestión de usuarios", "danger"],
+              ["Super Admin", "Acceso total, gestion de usuarios", "danger"],
               ["Operaciones", "Onboarding, CBU, movimientos", "success"],
-              ["Compliance", "Alertas, bloqueos, parámetros", "success"],
+              ["Compliance", "Alertas, bloqueos, parametros", "success"],
               ["Comercial", "Clientes, comisiones, sin operatoria", "success"],
               ["Solo lectura", "Consulta global, sin acciones", "neutral"],
             ].map(([r, d, t]) => (
@@ -105,27 +105,27 @@ function Page() {
       <div className="grid lg:grid-cols-2 gap-6">
         <Card className="lg:col-span-2">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="font-semibold flex items-center gap-2"><SlidersHorizontal size={16} /> Límites operativos por cliente</h3>
-            <BtnOutline className="h-9 px-3 text-xs"><History size={12} /> Ver auditoría de cambios</BtnOutline>
+            <h3 className="font-semibold flex items-center gap-2"><SlidersHorizontal size={16} /> Limites operativos por cliente</h3>
+            <BtnOutline className="h-9 px-3 text-xs"><History size={12} /> Ver auditoria de cambios</BtnOutline>
           </div>
-          <p className="text-xs text-muted-foreground mb-3">Configurá monto máximo por transferencia y cantidad máxima de operaciones diarias por cliente. Cada cambio queda registrado con valor anterior, nuevo y usuario.</p>
+          <p className="text-xs text-muted-foreground mb-3">Configura monto maximo por transferencia y cantidad maxima de operaciones diarias por cliente. Cada cambio queda registrado con valor anterior, nuevo y usuario.</p>
           <div className="overflow-x-auto -mx-5">
             <table className="w-full text-sm">
               <thead>
                 <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
                   <th className="text-left px-5 py-2.5">Cliente</th>
-                  <th className="text-left px-5 py-2.5">Monto máximo / transferencia</th>
+                  <th className="text-left px-5 py-2.5">Monto maximo / transferencia</th>
                   <th className="text-left px-5 py-2.5">Operaciones diarias</th>
-                  <th className="text-left px-5 py-2.5">Último cambio</th>
+                  <th className="text-left px-5 py-2.5">ultimo cambio</th>
                   <th className="px-5 py-2.5"></th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  { c: "Microcréditos del Sur SA", m: "5.000.000", o: "200", ult: "01/06 · L. Díaz" },
-                  { c: "Consorcio Larrea 1200", m: "8.000.000", o: "500", ult: "28/05 · M. Solís" },
+                  { c: "Microcreditos del Sur SA", m: "5.000.000", o: "200", ult: "01/06 · L. Diaz" },
+                  { c: "Consorcio Larrea 1200", m: "8.000.000", o: "500", ult: "28/05 · M. Solis" },
                   { c: "Administradora Plaza SRL", m: "3.000.000", o: "150", ult: "15/05 · T. Vega" },
-                  { c: "Municipalidad de Chivilcoy", m: "25.000.000", o: "100", ult: "20/02 · M. Solís" },
+                  { c: "Municipalidad de Chivilcoy", m: "25.000.000", o: "100", ult: "20/02 · M. Solis" },
                 ].map((r) => (
                   <tr key={r.c} className="border-b last:border-0">
                     <td className="px-5 py-3 font-semibold">{r.c}</td>
@@ -143,15 +143,15 @@ function Page() {
         <Card>
           <h3 className="font-semibold mb-4 flex items-center gap-2"><Building size={16} /> Datos de la empresa</h3>
           <form className="space-y-3">
-            <div><Label>Razón social</Label><Input defaultValue="Molly Money Life SA" /></div>
+            <div><Label>Razon social</Label><Input defaultValue="Molly Money Life SA" /></div>
             <div><Label>CUIT</Label><Input defaultValue="30-71299988-0" /></div>
             <div><Label>Domicilio comercial</Label><Input defaultValue="Av. Corrientes 800, CABA" /></div>
             <div className="grid grid-cols-2 gap-3">
               <div><Label>Email de soporte</Label><Input defaultValue="soporte@molly.com.ar" /></div>
-              <div><Label>Teléfono</Label><Input defaultValue="+54 11 4000 0000" /></div>
+              <div><Label>Telefono</Label><Input defaultValue="+54 11 4000 0000" /></div>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <div><Label>Sitio público</Label><Input defaultValue="molly.com.ar" /></div>
+              <div><Label>Sitio publico</Label><Input defaultValue="molly.com.ar" /></div>
               <div><Label>Horario operativo</Label><Input defaultValue="24/7" /></div>
             </div>
             <BtnPrimary><Save size={14} /> Guardar cambios</BtnPrimary>
@@ -163,8 +163,8 @@ function Page() {
           <div className="space-y-3 text-sm">
             {[
               ["Nueva alta de cliente", "Email a operaciones"],
-              ["Alerta de compliance crítica", "Email + Slack a compliance"],
-              ["Lote masivo finalizado", "Email al usuario que lo lanzó"],
+              ["Alerta de compliance critica", "Email + Slack a compliance"],
+              ["Lote masivo finalizado", "Email al usuario que lo lanzo"],
               ["Cuenta bloqueada", "Email a super admins"],
               ["Error en webhook saliente", "Email + Slack a operaciones"],
             ].map(([n, c], i) => (
@@ -224,7 +224,7 @@ function UserDrawer({ user, onClose }: { user: typeof users[number] | null; onCl
             </select>
           </div>
           <Card className="bg-muted/30">
-            <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">Permisos por módulo</h4>
+            <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">Permisos por modulo</h4>
             <div className="space-y-2 text-sm">
               {modulos.map(m => (
                 <div key={m} className="flex items-center justify-between">

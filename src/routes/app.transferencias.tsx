@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef } from "react";
 import { ArrowUpRight, Calendar, Clock, ShieldCheck, Star, Trash2, Edit3, Play, FileText, Save, Users, X, Plus, KeyRound } from "lucide-react";
 import { PageHeader, Input, Label, BtnPrimary, BtnOutline, Badge } from "@/components/portal-shell";
@@ -15,21 +15,21 @@ type Destinatario = { nombre: string; alias: string; banco: string };
 
 const draftsMock: Draft[] = [
   { id: "d1", destinatario: "Proveedor SA", alias: "proveedor.sa", monto: "$ 220.000", concepto: "Pago a proveedor", ref: "Factura 0034", fecha: "08/07/2026" },
-  { id: "d2", destinatario: "Estudio Ríos", alias: "rios.contable", monto: "$ 145.000", concepto: "Honorarios", ref: "Abril 2026", fecha: "07/07/2026" },
+  { id: "d2", destinatario: "Estudio Rios", alias: "rios.contable", monto: "$ 145.000", concepto: "Honorarios", ref: "Abril 2026", fecha: "07/07/2026" },
 ];
 
 const scheduledMock: Scheduled[] = [
   { id: "s1", destinatario: "Sueldos Mayo", alias: "sueldos.empresa", monto: "$ 4.820.000", fecha: "10/07/2026", hora: "09:00", estado: "Programada", concepto: "Sueldos" },
   { id: "s2", destinatario: "Proveedor SA", alias: "proveedor.sa", monto: "$ 220.000", fecha: "15/07/2026", hora: "14:30", estado: "Programada", concepto: "Pago a proveedor" },
-  { id: "s3", destinatario: "Estudio Ríos", alias: "rios.contable", monto: "$ 145.000", fecha: "12/07/2026", hora: "10:00", estado: "Recurrente", concepto: "Honorarios" },
+  { id: "s3", destinatario: "Estudio Rios", alias: "rios.contable", monto: "$ 145.000", fecha: "12/07/2026", hora: "10:00", estado: "Recurrente", concepto: "Honorarios" },
 ];
 
 const destinatariosMock: Destinatario[] = [
   { nombre: "Proveedor SA", alias: "proveedor.sa", banco: "Banco Galicia" },
-  { nombre: "Estudio Ríos", alias: "rios.contable", banco: "Banco Nación" },
+  { nombre: "Estudio Rios", alias: "rios.contable", banco: "Banco Nacion" },
   { nombre: "Servicios Generales", alias: "serv.generales", banco: "Banco Macro" },
-  { nombre: "Juan Pérez", alias: "juanperez.mp", banco: "Mercado Pago" },
-  { nombre: "María López", alias: "mlopez.cv", banco: "Banco Santander" },
+  { nombre: "Juan Perez", alias: "juanperez.mp", banco: "Mercado Pago" },
+  { nombre: "Maria Lopez", alias: "mlopez.cv", banco: "Banco Santander" },
 ];
 
 function Page() {
@@ -65,7 +65,7 @@ function Page() {
   };
 
   const tabs: { key: Tab; label: string }[] = [
-    { key: "unica", label: "Transferencia única" },
+    { key: "unica", label: "Transferencia unica" },
     { key: "programar", label: "Programar" },
     { key: "borradores", label: "Borradores" },
     { key: "programadas", label: "Transferencias programadas" },
@@ -76,7 +76,7 @@ function Page() {
     <>
       <PageHeader
         title="Transferir"
-        description="Envíos inmediatos, programados y a CBU, CVU o alias."
+        description="Envios inmediatos, programados y a CBU, CVU o alias."
         action={<BtnOutline onClick={() => setPlantillaOpen(true)}><FileText size={14} /> Plantillas</BtnOutline>}
       />
 
@@ -95,10 +95,10 @@ function Page() {
         <div className="bg-card border rounded-lg p-3">
           <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Programadas</div>
           <div className="text-base md:text-lg font-semibold mt-0.5">3</div>
-          <div className="text-[10px] text-muted-foreground mt-0.5">$ 5.185.000 próximos</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">$ 5.185.000 proximos</div>
         </div>
         <div className="bg-card border rounded-lg p-3">
-          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Límite diario</div>
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Limite diario</div>
           <div className="text-base md:text-lg font-semibold mt-0.5">$ 25M</div>
           <div className="text-[10px] text-muted-foreground mt-0.5">73% utilizado</div>
         </div>
@@ -195,7 +195,7 @@ function Page() {
         open={plantillaOpen}
         onClose={() => setPlantillaOpen(false)}
         title="Plantillas de transferencia"
-        description="Seleccioná una plantilla para precargar el formulario."
+        description="Selecciona una plantilla para precargar el formulario."
         submitLabel="Crear nueva plantilla"
         size="lg"
         onSubmit={() => {
@@ -206,9 +206,9 @@ function Page() {
         <div className="divide-y border rounded-md max-h-64 overflow-y-auto">
           {[
             { n: "Sueldos mensuales", d: "18 empleados", m: "$ 4.820.000", t: "unica" as const },
-            { n: "Pago proveedor SA", d: "Mensual · día 10", m: "$ 220.000", t: "unica" as const },
-            { n: "Honorarios estudio Ríos", d: "Mensual · día 12", m: "$ 145.000", t: "unica" as const },
-            { n: "Alquiler oficina", d: "Mensual · día 5", m: "$ 380.000", t: "programar" as const },
+            { n: "Pago proveedor SA", d: "Mensual · dia 10", m: "$ 220.000", t: "unica" as const },
+            { n: "Honorarios estudio Rios", d: "Mensual · dia 12", m: "$ 145.000", t: "unica" as const },
+            { n: "Alquiler oficina", d: "Mensual · dia 5", m: "$ 380.000", t: "programar" as const },
           ].map((p) => (
             <div key={p.n} className="flex items-center justify-between p-3 hover:bg-muted/50 cursor-pointer"
               onClick={() => {
@@ -243,15 +243,15 @@ function Page() {
       <FormDialog
         open={otpOpen}
         onClose={() => setOtpOpen(false)}
-        title="Verificación de dos factores"
-        description="Ingresá el código de 6 dígitos enviado a tu correo o generado por tu app de autenticación."
+        title="Verificacion de dos factores"
+        description="Ingresa el codigo de 6 digitos enviado a tu correo o generado por tu app de autenticacion."
         submitLabel="Verificar y confirmar"
         onSubmit={confirmWithOtp}
       >
         <div className="space-y-4">
           <div className="flex items-center justify-center gap-2 py-2">
             <KeyRound size={18} className="text-muted-foreground" />
-            <span className="text-xs text-muted-foreground">Código de verificación</span>
+            <span className="text-xs text-muted-foreground">Codigo de verificacion</span>
           </div>
           <div className="flex justify-center gap-2">
             {otp.map((d, i) => (
@@ -279,8 +279,8 @@ function Page() {
             ))}
           </div>
           <div className="flex justify-between text-xs text-muted-foreground pt-1">
-            <span>¿No recibiste el código?</span>
-            <button type="button" className="text-primary font-semibold hover:underline" onClick={() => { resetOtp(); toast.success("Nuevo código enviado"); }}>
+            <span>¿No recibiste el codigo?</span>
+            <button type="button" className="text-primary font-semibold hover:underline" onClick={() => { resetOtp(); toast.success("Nuevo codigo enviado"); }}>
               Reenviar
             </button>
           </div>
@@ -291,23 +291,23 @@ function Page() {
         open={saveDestOpen}
         onClose={() => setSaveDestOpen(false)}
         title="¿Deseas guardar este destinatario como frecuente?"
-        description={`Podés agendar a @${destAlias} en tu lista de destinatarios frecuentes para reutilizarlo.`}
-        submitLabel="Sí, guardar destinatario"
+        description={`Podes agendar a @${destAlias} en tu lista de destinatarios frecuentes para reutilizarlo.`}
+        submitLabel="Si, guardar destinatario"
         onSubmit={() => {
           setSaveDestOpen(false);
           toast.success(`@${destAlias} agregado a destinatarios frecuentes`);
         }}
       >
         <div className="text-xs text-muted-foreground">
-          Los destinatarios ya no se guardan automáticamente. Solo se agendan si confirmás aquí.
-          Si presionás "Cancelar" no se guardará.
+          Los destinatarios ya no se guardan automaticamente. Solo se agendan si confirmas aqui.
+          Si presionas "Cancelar" no se guardara.
         </div>
       </FormDialog>
     </>
   );
 }
 
-/* ===== Transferencia única ===== */
+/* ===== Transferencia unica ===== */
 
 function Unica({
   confirm,
@@ -340,7 +340,7 @@ function Unica({
   if (confirm) {
     return (
       <div className="space-y-4">
-        <div className="text-sm text-muted-foreground">Revisá los datos antes de confirmar.</div>
+        <div className="text-sm text-muted-foreground">Revisa los datos antes de confirmar.</div>
         <div className="border rounded-md divide-y">
           {[
             ["Origen", "Cuenta operativa"],
@@ -348,8 +348,8 @@ function Unica({
             ["CBU", "0000003 100099887766 11"],
             ["Banco", "Banco Galicia"],
             ["Monto", "$ 220.000,00"],
-            ["Comisión estimada", "$ 80,00 (0,30%)"],
-            ["Total débito", "$ 220.080,00"],
+            ["Comision estimada", "$ 80,00 (0,30%)"],
+            ["Total debito", "$ 220.080,00"],
           ].map(([k, v]) => (
             <div key={k} className="flex justify-between py-2.5 px-3 text-sm">
               <span className="text-muted-foreground">{k}</span>
@@ -358,7 +358,7 @@ function Unica({
           ))}
         </div>
         <div className="flex items-center gap-2 text-xs text-muted-foreground p-3 bg-muted rounded">
-          <ShieldCheck size={14} /> Se solicitará 2FA al confirmar.
+          <ShieldCheck size={14} /> Se solicitara 2FA al confirmar.
         </div>
         <div className="flex gap-2">
           <BtnOutline onClick={() => setConfirm(false)} className="flex-1">Volver</BtnOutline>
@@ -407,7 +407,7 @@ function Unica({
             <option>Sueldos</option>
             <option>Honorarios</option>
             <option>Servicios</option>
-            <option>Devolución</option>
+            <option>Devolucion</option>
           </select>
         </div>
         <div>
@@ -436,7 +436,7 @@ function Programar({ onSuccess }: { onSuccess: () => void }) {
   if (confirm) {
     return (
       <div className="space-y-4">
-        <div className="text-sm text-muted-foreground">Revisá los datos antes de programar.</div>
+        <div className="text-sm text-muted-foreground">Revisa los datos antes de programar.</div>
         <div className="border rounded-md divide-y">
           {[
             ["Origen", "Cuenta operativa"],
@@ -445,7 +445,7 @@ function Programar({ onSuccess }: { onSuccess: () => void }) {
             ["Monto", "$ 220.000,00"],
             ["Fecha", "15/07/2026"],
             ["Hora", "14:30"],
-            ["Comisión estimada", "$ 80,00 (0,30%)"],
+            ["Comision estimada", "$ 80,00 (0,30%)"],
           ].map(([k, v]) => (
             <div key={k} className="flex justify-between py-2.5 px-3 text-sm">
               <span className="text-muted-foreground">{k}</span>
@@ -491,11 +491,11 @@ function Programar({ onSuccess }: { onSuccess: () => void }) {
         </div>
         <div className="grid grid-cols-2 gap-3 sm:col-span-2">
           <div>
-            <Label>Fecha de envío</Label>
+            <Label>Fecha de envio</Label>
             <Input type="date" />
           </div>
           <div>
-            <Label>Hora de envío</Label>
+            <Label>Hora de envio</Label>
             <Input type="time" defaultValue="14:30" />
           </div>
         </div>
@@ -506,7 +506,7 @@ function Programar({ onSuccess }: { onSuccess: () => void }) {
             <option>Sueldos</option>
             <option>Honorarios</option>
             <option>Servicios</option>
-            <option>Devolución</option>
+            <option>Devolucion</option>
           </select>
         </div>
         <div>
@@ -535,8 +535,8 @@ function Borradores({ drafts, onDelete, onEdit, onExecute }: {
     return (
       <div className="text-center py-12 text-muted-foreground">
         <FileText size={32} className="mx-auto mb-3 opacity-50" />
-        <p className="font-semibold">No tenés borradores</p>
-        <p className="text-sm mt-1">Las transferencias que guardes como borrador aparecerán acá.</p>
+        <p className="font-semibold">No tenes borradores</p>
+        <p className="text-sm mt-1">Las transferencias que guardes como borrador apareceran aca.</p>
       </div>
     );
   }
@@ -578,8 +578,8 @@ function Programadas({ items, onCancel, onEdit, onExecute }: {
     return (
       <div className="text-center py-12 text-muted-foreground">
         <Calendar size={32} className="mx-auto mb-3 opacity-50" />
-        <p className="font-semibold">No tenés transferencias programadas</p>
-        <p className="text-sm mt-1">Usá la pestaña "Programar" para agendar una transferencia.</p>
+        <p className="font-semibold">No tenes transferencias programadas</p>
+        <p className="text-sm mt-1">Usa la pestana "Programar" para agendar una transferencia.</p>
       </div>
     );
   }
@@ -640,7 +640,7 @@ function DestinatariosList({ onSelect }: { onSelect: (d: Destinatario) => void }
         <div className="text-center py-12 text-muted-foreground">
           <Users size={32} className="mx-auto mb-3 opacity-50" />
           <p className="font-semibold">No se encontraron destinatarios</p>
-          <p className="text-sm mt-1">Agregá destinatarios desde la pantalla de Destinatarios en el menú.</p>
+          <p className="text-sm mt-1">Agrega destinatarios desde la pantalla de Destinatarios en el menu.</p>
         </div>
       ) : (
         <div className="divide-y">

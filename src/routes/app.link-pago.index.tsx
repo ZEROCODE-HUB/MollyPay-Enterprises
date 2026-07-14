@@ -30,10 +30,10 @@ export const Route = createFileRoute("/app/link-pago/")({ component: Dashboard }
 
 const presets = [
   { label: "Hoy", days: 0 },
-  { label: "15 d\u00edas", days: 15 },
-  { label: "30 d\u00edas", days: 30 },
-  { label: "60 d\u00edas", days: 60 },
-  { label: "90 d\u00edas", days: 90 },
+  { label: "15 dias", days: 15 },
+  { label: "30 dias", days: 30 },
+  { label: "60 dias", days: 60 },
+  { label: "90 dias", days: 90 },
 ];
 
 const COLORS: Record<string, string> = {
@@ -56,7 +56,7 @@ const METHOD_COLORS = [
 ];
 
 function Dashboard() {
-  const [filter, setFilter] = useState<PeriodFilter>(periodFilter("30 d\u00edas", 30));
+  const [filter, setFilter] = useState<PeriodFilter>(periodFilter("30 dias", 30));
   const metrics = computeMetrics(filter);
   const statusData = Object.entries(byStatus(filter)).map(([name, value]) => ({ name, value }));
   const methodData = Object.entries(byMethod(filter)).map(([name, { amount }]) => ({
@@ -71,7 +71,7 @@ function Dashboard() {
     { label: "Pendientes", value: metrics.pending.toString() },
     { label: "Rechazadas", value: metrics.rejected.toString() },
     { label: "Reembolsos", value: metrics.refunds.toString() },
-    { label: "Tasa de conversi\u00f3n", value: metrics.conversionRate + "%" },
+    { label: "Tasa de conversion", value: metrics.conversionRate + "%" },
     { label: "Ticket promedio", value: formatARS(metrics.avgTicket) },
   ];
 
@@ -82,7 +82,7 @@ function Dashboard() {
       { Metrica: "Pendientes", Valor: metrics.pending },
       { Metrica: "Rechazadas", Valor: metrics.rejected },
       { Metrica: "Reembolsos", Valor: metrics.refunds },
-      { Metrica: "Tasa de conversi\u00f3n", Valor: metrics.conversionRate + "%" },
+      { Metrica: "Tasa de conversion", Valor: metrics.conversionRate + "%" },
       { Metrica: "Ticket promedio", Valor: formatARS(metrics.avgTicket) },
       ...methodData.map((d) => ({ Metrica: "Monto " + d.name, Valor: formatARS(d.amount) })),
     ]);
@@ -94,9 +94,9 @@ function Dashboard() {
   const exportPDF = () => {
     const doc = new jsPDF();
     doc.text("Dashboard - Links de Pago", 14, 20);
-    doc.text("Per\u00edodo: " + filter.label, 14, 30);
+    doc.text("Periodo: " + filter.label, 14, 30);
     const body = kpis.map((k) => [k.label, k.value]);
-    (doc as any).autoTable({ startY: 38, head: [["M\u00e9trica", "Valor"]], body });
+    (doc as any).autoTable({ startY: 38, head: [["Metrica", "Valor"]], body });
     doc.save("links-pago-dashboard-" + filter.label + ".pdf");
   };
 
@@ -164,7 +164,7 @@ function Dashboard() {
 
         <Card>
           <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
-            Montos por m\u00e9todo de pago
+            Montos por metodo de pago
           </h4>
           <ResponsiveContainer width="100%" height={240}>
             <PieChart>
@@ -188,7 +188,7 @@ function Dashboard() {
 
         <Card className="md:col-span-2 xl:col-span-1">
           <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
-            Volumen por m\u00e9todo (millones ARS)
+            Volumen por metodo (millones ARS)
           </h4>
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={volData}>

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Plus, Search, Filter, Building2, FileText, CheckCircle2, Clock,
@@ -11,39 +11,39 @@ import {
 
 export const Route = createFileRoute("/admin/clientes")({ component: Page });
 
-type Estado = "Aprobado" | "En revisión" | "Documentación" | "Incompleto" | "Rechazado" | "Bloqueado";
+type Estado = "Aprobado" | "En revision" | "Documentacion" | "Incompleto" | "Rechazado" | "Bloqueado";
 
 const clientes: Array<{
   n: string; c: string; e: Estado; f: string; rep: string; seg: string; vol: string;
 }> = [
-  { n: "Consorcio Larrea 1200", c: "30-71235678-2", e: "En revisión", f: "12/05/2026", rep: "L. Fernández", seg: "Consorcio", vol: "—" },
-  { n: "Microcréditos del Sur SA", c: "30-71239988-0", e: "Aprobado", f: "03/04/2026", rep: "M. Acosta", seg: "Microcrédito", vol: "$ 8,4M" },
-  { n: "Administradora Plaza SRL", c: "30-71244455-1", e: "Documentación", f: "01/05/2026", rep: "P. Suárez", seg: "Alquileres", vol: "—" },
-  { n: "Municipalidad de Chivilcoy", c: "30-99876543-2", e: "Aprobado", f: "20/02/2026", rep: "J. Roldán", seg: "Sector público", vol: "$ 21,2M" },
+  { n: "Consorcio Larrea 1200", c: "30-71235678-2", e: "En revision", f: "12/05/2026", rep: "L. Fernandez", seg: "Consorcio", vol: "—" },
+  { n: "Microcreditos del Sur SA", c: "30-71239988-0", e: "Aprobado", f: "03/04/2026", rep: "M. Acosta", seg: "Microcredito", vol: "$ 8,4M" },
+  { n: "Administradora Plaza SRL", c: "30-71244455-1", e: "Documentacion", f: "01/05/2026", rep: "P. Suarez", seg: "Alquileres", vol: "—" },
+  { n: "Municipalidad de Chivilcoy", c: "30-99876543-2", e: "Aprobado", f: "20/02/2026", rep: "J. Roldan", seg: "Sector publico", vol: "$ 21,2M" },
   { n: "Pagos Express SRL", c: "30-71300011-4", e: "Bloqueado", f: "15/03/2026", rep: "R. Vidal", seg: "Empresa", vol: "—" },
   { n: "Cooperativa Norte", c: "30-71411223-7", e: "Incompleto", f: "28/05/2026", rep: "E. Pinto", seg: "Cooperativa", vol: "—" },
   { n: "Comercializadora ABC", c: "30-70988877-5", e: "Rechazado", f: "10/04/2026", rep: "A. Vega", seg: "Empresa", vol: "—" },
 ];
 
-const estados: Array<Estado | "Todos"> = ["Todos", "Aprobado", "En revisión", "Documentación", "Incompleto", "Rechazado", "Bloqueado"];
+const estados: Array<Estado | "Todos"> = ["Todos", "Aprobado", "En revision", "Documentacion", "Incompleto", "Rechazado", "Bloqueado"];
 
 const tono = (e: Estado): "success" | "warn" | "danger" | "neutral" => ({
-  "Aprobado": "success", "En revisión": "warn", "Documentación": "warn",
+  "Aprobado": "success", "En revision": "warn", "Documentacion": "warn",
   "Incompleto": "neutral", "Rechazado": "danger", "Bloqueado": "danger",
 }[e] as "success" | "warn" | "danger" | "neutral");
 
 const detalleHistorial = [
-  { f: "12/05/2026 14:22", u: "L. Díaz (Compliance)", t: "Marcó como 'En revisión'. Falta acta de designación." },
-  { f: "12/05/2026 10:08", u: "T. Vega (Operaciones)", t: "Validó CUIT contra AFIP. OK." },
-  { f: "10/05/2026 09:14", u: "Sistema", t: "Legajo iniciado por M. Solís." },
+  { f: "12/05/2026 14:22", u: "L. Diaz (Compliance)", t: "Marco como 'En revision'. Falta acta de designacion." },
+  { f: "12/05/2026 10:08", u: "T. Vega (Operaciones)", t: "Valido CUIT contra AFIP. OK." },
+  { f: "10/05/2026 09:14", u: "Sistema", t: "Legajo iniciado por M. Solis." },
 ];
 
 const documentos = [
   { n: "Estatuto social", e: "Validado", f: "10/05/2026" },
-  { n: "Acta de designación de autoridades", e: "Pendiente", f: "—" },
+  { n: "Acta de designacion de autoridades", e: "Pendiente", f: "—" },
   { n: "DNI representante legal", e: "Validado", f: "10/05/2026" },
   { n: "DNI segundo firmante", e: "Validado", f: "11/05/2026" },
-  { n: "Constancia de inscripción AFIP", e: "Validado", f: "10/05/2026" },
+  { n: "Constancia de inscripcion AFIP", e: "Validado", f: "10/05/2026" },
 ];
 
 function Page() {
@@ -57,32 +57,32 @@ function Page() {
     <>
       <PageHeader
         title="Clientes"
-        description="Onboarding y gestión de personas jurídicas operando en Molly."
+        description="Onboarding y gestion de personas juridicas operando en Molly."
         action={<BtnPrimary onClick={() => setNuevo(true)}><Plus size={16} /> Nuevo cliente</BtnPrimary>}
       />
 
       <div className="grid md:grid-cols-4 gap-4 mb-6">
         <Stat label="Clientes activos" value="312" sub="+8 esta semana" />
-        <Stat label="Legajos en revisión" value="12" sub="3 con documentación pendiente" />
-        <Stat label="Aprobados últimos 30d" value="24" />
-        <Stat label="Rechazados últimos 30d" value="3" />
+        <Stat label="Legajos en revision" value="12" sub="3 con documentacion pendiente" />
+        <Stat label="Aprobados ultimos 30d" value="24" />
+        <Stat label="Rechazados ultimos 30d" value="3" />
       </div>
 
       <Card className="p-0 overflow-hidden">
         <div className="p-4 border-b flex flex-wrap gap-2 items-center">
           <div className="relative flex-1 min-w-[260px]">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Buscar por razón social o CUIT..." className="pl-9" />
+            <Input placeholder="Buscar por razon social o CUIT..." className="pl-9" />
           </div>
           <select className="h-10 px-3 rounded-md border bg-card text-sm">
             <option>Segmento: todos</option>
             <option>Consorcio</option>
             <option>Alquileres</option>
-            <option>Microcrédito</option>
+            <option>Microcredito</option>
             <option>Empresa</option>
-            <option>Sector público</option>
+            <option>Sector publico</option>
           </select>
-          <BtnOutline className="h-10"><Filter size={14} /> Más filtros</BtnOutline>
+          <BtnOutline className="h-10"><Filter size={14} /> Mas filtros</BtnOutline>
         </div>
 
         <div className="px-4 pt-3 flex flex-wrap gap-1.5">
@@ -105,7 +105,7 @@ function Page() {
           <table className="w-full text-sm">
             <thead>
               <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b">
-                <th className="text-left px-5 py-2.5">Razón social</th>
+                <th className="text-left px-5 py-2.5">Razon social</th>
                 <th className="text-left px-5 py-2.5">CUIT</th>
                 <th className="text-left px-5 py-2.5">Segmento</th>
                 <th className="text-left px-5 py-2.5">Representante</th>
@@ -123,7 +123,7 @@ function Page() {
                       <Building2 size={22} className="text-muted-foreground" />
                     </div>
                     <div className="font-semibold">No hay clientes con este estado</div>
-                    <div className="text-sm text-muted-foreground mt-1">Probá con otro filtro o iniciá un nuevo onboarding.</div>
+                    <div className="text-sm text-muted-foreground mt-1">Proba con otro filtro o inicia un nuevo onboarding.</div>
                     <BtnPrimary onClick={() => setNuevo(true)} className="mt-4"><Plus size={16} /> Nuevo cliente</BtnPrimary>
                   </div>
                 </td></tr>
@@ -184,7 +184,7 @@ function DetalleDrawer({ cliente, onClose }: { cliente: typeof clientes[number];
           <Card>
             <h4 className="font-semibold text-sm mb-3 flex items-center gap-2"><Building2 size={14} /> Datos societarios</h4>
             <dl className="grid grid-cols-2 gap-y-2.5 text-sm">
-              <dt className="text-muted-foreground text-xs">Razón social</dt><dd className="font-semibold">{cliente.n}</dd>
+              <dt className="text-muted-foreground text-xs">Razon social</dt><dd className="font-semibold">{cliente.n}</dd>
               <dt className="text-muted-foreground text-xs">CUIT</dt><dd className="font-mono text-xs">{cliente.c}</dd>
               <dt className="text-muted-foreground text-xs">Segmento</dt><dd>{cliente.seg}</dd>
               <dt className="text-muted-foreground text-xs">Actividad</dt><dd className="text-xs">Servicios financieros</dd>
@@ -205,7 +205,7 @@ function DetalleDrawer({ cliente, onClose }: { cliente: typeof clientes[number];
               </div>
               <div className="flex justify-between text-sm">
                 <div>
-                  <div className="font-semibold">Diego Méndez</div>
+                  <div className="font-semibold">Diego Mendez</div>
                   <div className="text-xs text-muted-foreground">DNI 29.888.777 · Apoderado</div>
                 </div>
                 <Badge tone="success">Validado</Badge>
@@ -215,7 +215,7 @@ function DetalleDrawer({ cliente, onClose }: { cliente: typeof clientes[number];
 
           <Card>
             <div className="flex justify-between items-center mb-3">
-              <h4 className="font-semibold text-sm flex items-center gap-2"><FileText size={14} /> Documentación</h4>
+              <h4 className="font-semibold text-sm flex items-center gap-2"><FileText size={14} /> Documentacion</h4>
               <BtnOutline className="h-8 px-3 text-xs"><Upload size={12} /> Adjuntar</BtnOutline>
             </div>
             <div className="divide-y">
@@ -254,7 +254,7 @@ function DetalleDrawer({ cliente, onClose }: { cliente: typeof clientes[number];
 
           <div className="flex gap-2 sticky bottom-0 bg-background py-3 border-t">
             <BtnOutline className="flex-1"><XCircle size={14} /> Rechazar</BtnOutline>
-            <BtnOutline className="flex-1"><AlertCircle size={14} /> Pedir documentación</BtnOutline>
+            <BtnOutline className="flex-1"><AlertCircle size={14} /> Pedir documentacion</BtnOutline>
             <BtnPrimary className="flex-1"><ShieldCheck size={14} /> Aprobar legajo</BtnPrimary>
           </div>
         </div>
@@ -274,15 +274,15 @@ function NuevoClienteDrawer({ onClose }: { onClose: () => void }) {
         </div>
         <form className="p-6 space-y-5">
           <Card>
-            <h4 className="font-semibold text-sm mb-3">Datos de la persona jurídica</h4>
+            <h4 className="font-semibold text-sm mb-3">Datos de la persona juridica</h4>
             <div className="grid sm:grid-cols-2 gap-3">
-              <div className="sm:col-span-2"><Label>Razón social *</Label><Input placeholder="SA / SRL / SAS / Asociación" /></div>
+              <div className="sm:col-span-2"><Label>Razon social *</Label><Input placeholder="SA / SRL / SAS / Asociacion" /></div>
               <div><Label>CUIT *</Label><Input placeholder="30-XXXXXXXX-X" /></div>
               <div><Label>Segmento</Label>
                 <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
                   <option>Consorcio</option><option>Alquileres</option>
-                  <option>Microcrédito</option><option>Empresa</option>
-                  <option>Sector público</option><option>Cooperativa</option>
+                  <option>Microcredito</option><option>Empresa</option>
+                  <option>Sector publico</option><option>Cooperativa</option>
                 </select>
               </div>
               <div><Label>Actividad principal</Label><Input /></div>
@@ -307,8 +307,8 @@ function NuevoClienteDrawer({ onClose }: { onClose: () => void }) {
             </div>
           </Card>
           <Card className="border-dashed">
-            <h4 className="font-semibold text-sm mb-2">Documentación inicial</h4>
-            <p className="text-xs text-muted-foreground mb-3">Estatuto, acta de designación, DNI de representantes. Podés subirlos luego.</p>
+            <h4 className="font-semibold text-sm mb-2">Documentacion inicial</h4>
+            <p className="text-xs text-muted-foreground mb-3">Estatuto, acta de designacion, DNI de representantes. Podes subirlos luego.</p>
             <BtnOutline><Upload size={14} /> Adjuntar archivos</BtnOutline>
           </Card>
           <div className="flex gap-2 sticky bottom-0 bg-background py-3 border-t">

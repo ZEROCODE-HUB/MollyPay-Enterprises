@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Building2, Upload, FileText, CheckCircle2, AlertCircle, CreditCard, SlidersHorizontal,
-  Download, Landmark, User, Shield, Activity, TrendingUp,
+  Download, Landmark, User, Shield, Activity, TrendingUp, Eye, X,
 } from "lucide-react";
 import { PageHeader, Card, Input, Label, BtnPrimary, BtnOutline, Badge } from "@/components/portal-shell";
 import { toast } from "sonner";
@@ -14,8 +14,8 @@ export const Route = createFileRoute("/app/cuenta")({ component: Page });
 const docsPJ = [
   { n: "Estatuto social", e: "Validado", f: "15/02/2026" },
   { n: "Constancia de CUIT", e: "Validado", f: "15/02/2026" },
-  { n: "Acta de designaci\u00f3n de autoridades", e: "Validado", f: "20/02/2026" },
-  { n: "Balance \u00faltimo ejercicio", e: "Pendiente", f: "-" },
+  { n: "Acta de designacion de autoridades", e: "Validado", f: "20/02/2026" },
+  { n: "Balance ultimo ejercicio", e: "Pendiente", f: "-" },
 ];
 
 const docsPF = [
@@ -43,6 +43,7 @@ const planPersona = {
 
 function Page() {
   const [cbuPreview, setCbuPreview] = useState(false);
+  const [docPreview, setDocPreview] = useState<{ name: string; date: string; status: string } | null>(null);
   const {
     tipoCuenta,
     registro,
@@ -56,15 +57,15 @@ function Page() {
   const isPJ = tipoCuenta === "juridica";
   const plan = isPJ ? planEmpresa : planPersona;
 
-  const userNombre = registro.nombre || (isPJ ? "Carla" : "Luc\u00eda");
-  const userApellido = registro.apellido || (isPJ ? "Rivas" : "M\u00e9ndez");
+  const userNombre = registro.nombre || (isPJ ? "Carla" : "Lucia");
+  const userApellido = registro.apellido || (isPJ ? "Rivas" : "Mendez");
   const userEmail = registro.email || (isPJ ? "carla@empresademo.com" : "lucia@example.com");
   const userNac = registro.fechaNac || (isPJ ? "1985-06-15" : "1991-09-22");
 
   const dp = {
     genero: datosPersonales.genero || (isPJ ? "Femenino" : "Femenino"),
     cuitCuil: datosPersonales.cuitCuil || (isPJ ? "27-30123456-7" : "27-32123456-6"),
-    ocupacion: datosPersonales.ocupacion || (isPJ ? "Directora Financiera" : "Aut\u00f3nomo / Monotributista"),
+    ocupacion: datosPersonales.ocupacion || (isPJ ? "Directora Financiera" : "Autonomo / Monotributista"),
     origenFondos: datosPersonales.origenFondos || "Actividad comercial",
     esPEP: datosPersonales.esPEP || false,
   };
@@ -73,7 +74,7 @@ function Page() {
     nombreLegal: datosEmpresa.nombreLegal || "Empresa Demo SA",
     nombreFantasia: datosEmpresa.nombreFantasia || "Empresa Demo",
     cuit: datosEmpresa.cuit || "30-12345678-9",
-    tipoId: datosEmpresa.tipoId || "Sociedad An\u00f3nima (SA)",
+    tipoId: datosEmpresa.tipoId || "Sociedad Anonima (SA)",
     fechaInscripcion: datosEmpresa.fechaInscripcion || "2024-03-15",
   };
 
@@ -89,9 +90,9 @@ function Page() {
     : { cbu: "0000003 100098765432 10", alias: "molly.lucia.mendez" };
 
   const stats = [
-    { icon: Shield, label: "Estado KYC", value: aprobado ? "Validado" : "Pendiente", sub: aprobado ? "Aprobado 20/02/2026" : "En revisi\u00f3n" },
+    { icon: Shield, label: "Estado KYC", value: aprobado ? "Validado" : "Pendiente", sub: aprobado ? "Aprobado 20/02/2026" : "En revision" },
     { icon: Activity, label: "Transacciones mes", value: plan.used.toLocaleString() + " / " + plan.total.toLocaleString() },
-    { icon: User, label: isPJ ? "Antig\u00fcedad" : "Antig\u00fcedad", value: "4 meses" },
+    { icon: User, label: isPJ ? "Antiguedad" : "Antiguedad", value: "4 meses" },
     { icon: TrendingUp, label: "Score de seguridad", value: "86 / 100", sub: "Recomendado: 80+" },
   ];
 
@@ -100,8 +101,8 @@ function Page() {
       <PageHeader
         title="Mi cuenta"
         description={isPJ
-          ? "Datos del titular, documentaci\u00f3n societaria, facturaci\u00f3n y plan."
-          : "Datos personales, documentaci\u00f3n KYC, facturaci\u00f3n y plan."}
+          ? "Datos del titular, documentacion societaria, facturacion y plan."
+          : "Datos personales, documentacion KYC, facturacion y plan."}
       />
 
       {/* Stats */}
@@ -120,10 +121,10 @@ function Page() {
 
       <div className="grid lg:grid-cols-[1.4fr_1fr] gap-6">
         <div className="space-y-6">
-          {/* Información del Usuario */}
+          {/* InformaciOn del Usuario */}
           <Card>
             <h3 className="font-semibold mb-4 flex items-center gap-2">
-              <User size={16} /> Informaci\u00f3n del Usuario
+              <User size={16} /> Informacion del Usuario
             </h3>
             <div className="grid sm:grid-cols-2 gap-4">
               <div><Label>Nombre</Label><Input defaultValue={userNombre} /></div>
@@ -136,11 +137,11 @@ function Page() {
             </div>
           </Card>
 
-          {/* Información de la Empresa (solo PJ) */}
+          {/* InformaciOn de la Empresa (solo PJ) */}
           {isPJ && (
             <Card>
               <h3 className="font-semibold mb-4 flex items-center gap-2">
-                <Building2 size={16} /> Informaci\u00f3n de la Empresa
+                <Building2 size={16} /> Informacion de la Empresa
               </h3>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div><Label>Nombre Legal</Label><Input defaultValue={empresaInfo.nombreLegal} /></div>
@@ -153,12 +154,12 @@ function Page() {
                   </select>
                 </div>
                 <div><Label>Actividad principal</Label><Input defaultValue="Servicios financieros" /></div>
-                <div><Label>Fecha de inscripci\u00f3n</Label><Input type="date" defaultValue={empresaInfo.fechaInscripcion} /></div>
-                <div><Label>Tel\u00e9fono</Label><Input defaultValue="+54 11 4555 0000" /></div>
-                <div><Label>Direcci\u00f3n</Label><Input defaultValue={dir.direccion} /></div>
+                <div><Label>Fecha de inscripcion</Label><Input type="date" defaultValue={empresaInfo.fechaInscripcion} /></div>
+                <div><Label>Telefono</Label><Input defaultValue="+54 11 4555 0000" /></div>
+                <div><Label>Direccion</Label><Input defaultValue={dir.direccion} /></div>
                 <div><Label>Ciudad</Label><Input defaultValue={dir.ciudad} /></div>
                 <div><Label>Provincia</Label><Input defaultValue={dir.provincia} /></div>
-                <div><Label>C\u00f3digo Postal</Label><Input defaultValue={dir.cp} /></div>
+                <div><Label>Codigo Postal</Label><Input defaultValue={dir.cp} /></div>
                 <div className="sm:col-span-2 flex gap-2 justify-end">
                   <BtnOutline>Cancelar</BtnOutline>
                   <BtnPrimary>Guardar cambios</BtnPrimary>
@@ -167,22 +168,22 @@ function Page() {
             </Card>
           )}
 
-          {/* Información de Perfil (PF y PJ) */}
+          {/* InformaciOn de Perfil (PF y PJ) */}
           <Card>
             <h3 className="font-semibold mb-4 flex items-center gap-2">
-              <FileText size={16} /> Informaci\u00f3n de Perfil
+              <FileText size={16} /> Informacion de Perfil
             </h3>
             <div className="grid sm:grid-cols-2 gap-4">
               <div><Label>CUIL / CUIT</Label><Input defaultValue={dp.cuitCuil} /></div>
               <div><Label>DNI</Label><Input defaultValue={isPJ ? "30.123.456" : "32.123.456"} /></div>
               <div>
-                <Label>G\u00e9nero</Label>
+                <Label>Genero</Label>
                 <select className="w-full h-10 px-3 rounded-md border bg-card text-sm" defaultValue={dp.genero}>
                   <option>{dp.genero}</option>
                 </select>
               </div>
               <div><Label>Nacimiento</Label><Input type="date" defaultValue={userNac} /></div>
-              <div><Label>Ocupaci\u00f3n</Label><Input defaultValue={dp.ocupacion} /></div>
+              <div><Label>Ocupacion</Label><Input defaultValue={dp.ocupacion} /></div>
               <div>
                 <Label>Fuente de Fondos</Label>
                 <select className="w-full h-10 px-3 rounded-md border bg-card text-sm" defaultValue={dp.origenFondos}>
@@ -191,15 +192,15 @@ function Page() {
               </div>
               <div>
                 <Label>PEP</Label>
-                <div className="pt-1.5 text-sm">{dp.esPEP ? "S\u00ed" : "No"}</div>
+                <div className="pt-1.5 text-sm">{dp.esPEP ? "Si" : "No"}</div>
               </div>
             </div>
           </Card>
 
-          {/* Documentación KYC/KYB */}
+          {/* DocumentaciOn KYC/KYB */}
           <Card>
             <h3 className="font-semibold mb-4 flex items-center gap-2">
-              <FileText size={16} /> Documentaci\u00f3n {isPJ ? "KYC / KYB" : "KYC"}
+              <FileText size={16} /> Documentacion {isPJ ? "KYC / KYB" : "KYC"}
             </h3>
             <div className="divide-y">
               {(isPJ ? docsPJ : docsPF).map((d) => (
@@ -215,6 +216,7 @@ function Page() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge tone={d.e === "Validado" ? "success" : "warn"}>{d.e}</Badge>
+                    <BtnOutline className="h-9 px-2.5 text-xs" onClick={() => setDocPreview({ name: d.n, date: d.f, status: d.e })}><Eye size={13} /></BtnOutline>
                     <BtnOutline className="h-9 px-3 text-xs"><Upload size={12} /> Reemplazar</BtnOutline>
                   </div>
                 </div>
@@ -229,7 +231,7 @@ function Page() {
           <Card>
             <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
               <Landmark size={16} className="shrink-0 text-primary" />
-              Informaci\u00f3n de CVU
+              Informacion de CVU
             </h3>
             <div className="text-xs space-y-2">
               <div className="flex justify-between gap-2">
@@ -276,25 +278,25 @@ function Page() {
               <Badge tone="success">Oficial</Badge>
             </div>
             <p className="text-xs text-muted-foreground mb-3">
-              Documento oficial con raz\u00f3n social{isPJ ? ", CUIT" : ""}, CBU y alias.
+              Documento oficial con razon social{isPJ ? ", CUIT" : ""}, CBU y alias.
             </p>
             <BtnPrimary className="w-full" onClick={() => setCbuPreview(true)}>
               <Download size={14} /> Descargar constancia (PDF)
             </BtnPrimary>
           </Card>
 
-          {/* Facturación */}
+          {/* FacturaciOn */}
           <Card>
             <h3 className="font-semibold mb-3 flex items-center gap-2">
-              <CreditCard size={16} /> Facturaci\u00f3n
+              <CreditCard size={16} /> Facturacion
             </h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">M\u00e9todo de pago</span>
-                <span className="font-semibold">D\u00e9bito CVU</span>
+                <span className="text-muted-foreground">Metodo de pago</span>
+                <span className="font-semibold">Debito CVU</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Pr\u00f3xima factura</span>
+                <span className="text-muted-foreground">Proxima factura</span>
                 <span className="font-semibold">01/07/2026</span>
               </div>
               <div className="flex justify-between">
@@ -315,24 +317,24 @@ function Page() {
                   <div className="text-xs text-muted-foreground">{dp.cuitCuil} &middot; Presidenta</div>
                 </div>
                 <div>
-                  <div className="font-semibold">Diego M\u00e9ndez</div>
+                  <div className="font-semibold">Diego Mendez</div>
                   <div className="text-xs text-muted-foreground">20-29888777-3 &middot; Apoderado</div>
                 </div>
               </div>
             </Card>
           )}
 
-          {/* Límites operativos */}
+          {/* LImites operativos */}
           <Card>
             <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
-              <SlidersHorizontal size={14} /> L\u00edmites operativos
+              <SlidersHorizontal size={14} /> Limites operativos
             </h3>
             <p className="text-[11px] text-muted-foreground mb-3">
-              Configurados por Molly. Para modificarlos contact\u00e1 a tu ejecutivo.
+              Configurados por Molly. Para modificarlos contacta a tu ejecutivo.
             </p>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Monto m\u00e1x. por transferencia</span>
+                <span className="text-muted-foreground">Monto max. por transferencia</span>
                 <span className="font-semibold">{isPJ ? "$ 5.000.000" : "$ 500.000"}</span>
               </div>
               <div className="flex justify-between">
@@ -349,7 +351,7 @@ function Page() {
               </div>
             </div>
             <div className="mt-3 text-[11px] text-muted-foreground border-t pt-2">
-              \u00daltima actualizaci\u00f3n: 01/06/2026 por equipo Molly
+              Ultima actualizacion: 01/06/2026 por equipo Molly
             </div>
           </Card>
         </div>
@@ -374,12 +376,12 @@ function Page() {
               </div>
               <h2 className="text-xl font-semibold">Constancia de CBU</h2>
               <p className="text-xs text-muted-foreground">
-                Molly Money Life SA certifica que la siguiente cuenta est\u00e1 activa:
+                Molly Money Life SA certifica que la siguiente cuenta esta activa:
               </p>
               <Card className="bg-muted/30">
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between gap-3">
-                    <span className="text-muted-foreground">{isPJ ? "Raz\u00f3n social" : "Titular"}</span>
+                    <span className="text-muted-foreground">{isPJ ? "Razon social" : "Titular"}</span>
                     <span className="font-semibold text-right">
                       {isPJ ? empresaInfo.nombreLegal : `${userNombre} ${userApellido}`}
                     </span>
@@ -399,7 +401,7 @@ function Page() {
                 </div>
               </Card>
               <div className="text-[11px] text-muted-foreground border-t pt-3">
-                Documento firmado digitalmente por Molly Money Life SA. V\u00e1lido como constancia oficial de cuenta.
+                Documento firmado digitalmente por Molly Money Life SA. Valido como constancia oficial de cuenta.
               </div>
               <div className="flex gap-2 pt-1">
                 <BtnOutline className="flex-1" onClick={() => setCbuPreview(false)}>Cancelar</BtnOutline>
@@ -407,6 +409,41 @@ function Page() {
                   <Download size={14} /> Descargar PDF
                 </BtnPrimary>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Vista previa de documento */}
+      {docPreview && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setDocPreview(null)} />
+          <div className="relative bg-card rounded-lg max-w-lg w-full p-6 shadow-xl">
+            <button
+              onClick={() => setDocPreview(null)}
+              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
+            >
+              <X size={16} />
+            </button>
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center">
+                <FileText size={24} className="text-muted-foreground" />
+              </div>
+              <div>
+                <h3 className="font-semibold">{docPreview.name}</h3>
+                <p className="text-xs text-muted-foreground">Subido el {docPreview.date}</p>
+              </div>
+            </div>
+            <div className="bg-muted/40 rounded-lg border-2 border-dashed p-8 flex flex-col items-center justify-center gap-3 text-muted-foreground">
+              <FileText size={40} className="opacity-40" />
+              <p className="text-sm font-medium">{docPreview.name}.pdf</p>
+              <p className="text-xs">256 KB &middot; Documento {docPreview.status.toLowerCase()}</p>
+            </div>
+            <div className="flex gap-2 mt-5">
+              <BtnPrimary className="flex-1" onClick={() => { toast.success("Documento descargado: " + docPreview.name); }}>
+                <Download size={14} /> Descargar
+              </BtnPrimary>
+              <BtnOutline onClick={() => setDocPreview(null)}>Cerrar</BtnOutline>
             </div>
           </div>
         </div>

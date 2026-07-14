@@ -22,7 +22,7 @@ function Layout() {
     <>
       <PageHeader
         title="Links de Pago"
-        description="Generá y administrá links de cobro, productos e integraciones con tu tienda."
+        description="Genera y administra links de cobro, productos e integraciones con tu tienda."
       />
       <div className="flex gap-1 mb-6 border-b overflow-x-auto">
         {tabs.map((t) => (

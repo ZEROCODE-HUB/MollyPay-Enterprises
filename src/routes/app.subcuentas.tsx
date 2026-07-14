@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
   Plus, Copy, ArrowDownLeft, ArrowUpRight, Settings2, Eye, Pencil, Trash2, Search,
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/app/subcuentas")({ component: Page });
 
 type Sub = {
   n: string; apellido: string; email: string; cbu: string;
-  tipo: "Operativa" | "Recaudación" | "Garantías" | "Sueldos";
+  tipo: "Operativa" | "Recaudacion" | "Garantias" | "Sueldos";
   e: "Activa" | "Pausada";
   disp: number; ret: number; conc: number;
   ing: string; egr: string;
@@ -22,22 +22,22 @@ type Sub = {
 };
 
 const subs: Sub[] = [
-  { n: "Sucursal Centro", apellido: "Solís", email: "msolis@empresa.com", cbu: "0000003 100011112222 01", tipo: "Operativa", e: "Activa",
+  { n: "Sucursal Centro", apellido: "Solis", email: "msolis@empresa.com", cbu: "0000003 100011112222 01", tipo: "Operativa", e: "Activa",
     disp: 4220000, ret: 180000, conc: 3950000, ing: "$ 1.840.000", egr: "$ 920.000",
-    resp: "M. Solís", lim: "$ 8.000.000 / día", color: "var(--brand-primary)", retirosHab: true },
+    resp: "M. Solis", lim: "$ 8.000.000 / dia", color: "var(--brand-primary)", retirosHab: true },
   { n: "Sucursal Norte", apellido: "Vega", email: "tvega@empresa.com", cbu: "0000003 100011112222 02", tipo: "Operativa", e: "Activa",
     disp: 1870500, ret: 0, conc: 1870500, ing: "$ 1.220.000", egr: "$ 540.000",
-    resp: "T. Vega", lim: "$ 4.000.000 / día", color: "var(--brand-blue)", retirosHab: true },
-  { n: "Operaciones", apellido: "Díaz", email: "ldiaz@empresa.com", cbu: "0000003 100011112222 03", tipo: "Operativa", e: "Activa",
+    resp: "T. Vega", lim: "$ 4.000.000 / dia", color: "var(--brand-blue)", retirosHab: true },
+  { n: "Operaciones", apellido: "Diaz", email: "ldiaz@empresa.com", cbu: "0000003 100011112222 03", tipo: "Operativa", e: "Activa",
     disp: 6389830, ret: 420000, conc: 5800000, ing: "$ 4.220.000", egr: "$ 2.180.000",
-    resp: "L. Díaz", lim: "$ 20.000.000 / día", color: "var(--brand-dark)", retirosHab: true },
-  { n: "Recaudación expensas", apellido: "Sosa", email: "psosa@empresa.com", cbu: "0000003 100011112222 04", tipo: "Recaudación", e: "Activa",
+    resp: "L. Diaz", lim: "$ 20.000.000 / dia", color: "var(--brand-dark)", retirosHab: true },
+  { n: "Recaudacion expensas", apellido: "Sosa", email: "psosa@empresa.com", cbu: "0000003 100011112222 04", tipo: "Recaudacion", e: "Activa",
     disp: 2150000, ret: 0, conc: 2150000, ing: "$ 5.840.000", egr: "$ 0",
-    resp: "P. Sosa", lim: "Sin límite", color: "var(--brand-blue)", retirosHab: true },
+    resp: "P. Sosa", lim: "Sin limite", color: "var(--brand-blue)", retirosHab: true },
   { n: "Sueldos", apellido: "RRHH", email: "rrhh@empresa.com", cbu: "0000003 100011112222 05", tipo: "Sueldos", e: "Activa",
     disp: 980000, ret: 0, conc: 980000, ing: "$ 980.000", egr: "$ 0",
-    resp: "RRHH", lim: "$ 5.000.000 / día", color: "var(--brand-primary)", retirosHab: false },
-  { n: "Fondos en garantía", apellido: "Compliance", email: "compliance@empresa.com", cbu: "0000003 100011112222 06", tipo: "Garantías", e: "Pausada",
+    resp: "RRHH", lim: "$ 5.000.000 / dia", color: "var(--brand-primary)", retirosHab: false },
+  { n: "Fondos en garantia", apellido: "Compliance", email: "compliance@empresa.com", cbu: "0000003 100011112222 06", tipo: "Garantias", e: "Pausada",
     disp: 0, ret: 350000, conc: 350000, ing: "$ 0", egr: "$ 0",
     resp: "Compliance", lim: "Solo retiro autorizado", color: "var(--muted-foreground)", retirosHab: false },
 ];
@@ -54,57 +54,57 @@ type Mov = {
 };
 
 const movimientosSidebar = [
-  { sc: "Sucursal Centro", d: "Cobro QR — Cliente #4821", m: "+ $ 18.400", f: "10:42", t: "Crédito" },
-  { sc: "Operaciones", d: "Transferencia a Proveedor SA", m: "- $ 220.000", f: "10:18", t: "Débito" },
-  { sc: "Sucursal Norte", d: "Link de pago Factura 0033", m: "+ $ 64.800", f: "09:30", t: "Crédito" },
-  { sc: "Operaciones", d: "Pago Edesur", m: "- $ 64.320", f: "Ayer 18:11", t: "Débito" },
-  { sc: "Recaudación expensas", d: "Lote expensas Marzo (84/128)", m: "+ $ 3.840.000", f: "Ayer 17:02", t: "Crédito" },
-  { sc: "Sueldos", d: "Transferencia recibida cuenta madre", m: "+ $ 980.000", f: "Ayer 14:30", t: "Crédito" },
-  { sc: "Operaciones", d: "Comisión Molly", m: "- $ 4.820", f: "Ayer 12:00", t: "Débito" },
-  { sc: "Sucursal Centro", d: "Conciliación bancaria", m: "+ $ 0", f: "06:00", t: "Sistema" },
+  { sc: "Sucursal Centro", d: "Cobro QR — Cliente #4821", m: "+ $ 18.400", f: "10:42", t: "Credito" },
+  { sc: "Operaciones", d: "Transferencia a Proveedor SA", m: "- $ 220.000", f: "10:18", t: "Debito" },
+  { sc: "Sucursal Norte", d: "Link de pago Factura 0033", m: "+ $ 64.800", f: "09:30", t: "Credito" },
+  { sc: "Operaciones", d: "Pago Edesur", m: "- $ 64.320", f: "Ayer 18:11", t: "Debito" },
+  { sc: "Recaudacion expensas", d: "Lote expensas Marzo (84/128)", m: "+ $ 3.840.000", f: "Ayer 17:02", t: "Credito" },
+  { sc: "Sueldos", d: "Transferencia recibida cuenta madre", m: "+ $ 980.000", f: "Ayer 14:30", t: "Credito" },
+  { sc: "Operaciones", d: "Comision Molly", m: "- $ 4.820", f: "Ayer 12:00", t: "Debito" },
+  { sc: "Sucursal Centro", d: "Conciliacion bancaria", m: "+ $ 0", f: "06:00", t: "Sistema" },
 ];
 
 const movimientosPorSub: Record<string, Mov[]> = {
   "Sucursal Centro": [
-    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-06-02-8841", cbu: "0000003100054321678901", entidad: "Carlos Méndez S.A.", fecha: "02/06/2026", hora: "14:32", monto: 1840000 },
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-06-02-8841", cbu: "0000003100054321678901", entidad: "Carlos Mendez S.A.", fecha: "02/06/2026", hora: "14:32", monto: 1840000 },
     { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-06-02-8842", cbu: "0000003100023456789012", entidad: "Proveedor SA", fecha: "02/06/2026", hora: "11:08", monto: 220000 },
     { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-06-01-8844", cbu: "0000003100034567890123", entidad: "Cliente #4821", fecha: "01/06/2026", hora: "10:42", monto: 18400 },
     { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-05-30-8847", cbu: "0000003100056789012345", entidad: "Edesur S.A.", fecha: "30/05/2026", hora: "18:11", monto: 64320 },
     { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-29-8848", cbu: "0000003100067890123456", entidad: "Link de pago Factura 0033", fecha: "29/05/2026", hora: "09:30", monto: 64800 },
     { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-05-28-8849", cbu: "0000003100078901234567", entidad: "AFIP", fecha: "28/05/2026", hora: "09:00", monto: 890000 },
-    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-27-8850", cbu: "0000003100089012345678", entidad: "Conciliación bancaria", fecha: "27/05/2026", hora: "06:00", monto: 0 },
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-27-8850", cbu: "0000003100089012345678", entidad: "Conciliacion bancaria", fecha: "27/05/2026", hora: "06:00", monto: 0 },
   ],
   "Operaciones": [
-    { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-06-02-8851", cbu: "0000003100090123456789", entidad: "Proveedor Logística SA", fecha: "02/06/2026", hora: "10:18", monto: 220000 },
+    { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-06-02-8851", cbu: "0000003100090123456789", entidad: "Proveedor Logistica SA", fecha: "02/06/2026", hora: "10:18", monto: 220000 },
     { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-06-01-8852", cbu: "0000003100101234567890", entidad: "Edesur S.A.", fecha: "01/06/2026", hora: "18:11", monto: 64320 },
-    { tipo: "egreso", titulo: "Comisión Molly", txid: "TX-2026-05-31-8853", cbu: "0000003100112345678901", entidad: "Moli Financial S.A.", fecha: "31/05/2026", hora: "12:00", monto: 4820 },
+    { tipo: "egreso", titulo: "Comision Molly", txid: "TX-2026-05-31-8853", cbu: "0000003100112345678901", entidad: "Moli Financial S.A.", fecha: "31/05/2026", hora: "12:00", monto: 4820 },
     { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-30-8854", cbu: "0000003100123456789012", entidad: "Inmobiliaria del Plata", fecha: "30/05/2026", hora: "10:30", monto: 2800000 },
     { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-05-29-8855", cbu: "0000003100134567890123", entidad: "OSECAC", fecha: "29/05/2026", hora: "08:30", monto: 420000 },
-    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-28-8856", cbu: "0000003100145678901234", entidad: "Alquileres Galería Central", fecha: "28/05/2026", hora: "11:00", monto: 3200000 },
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-28-8856", cbu: "0000003100145678901234", entidad: "Alquileres Galeria Central", fecha: "28/05/2026", hora: "11:00", monto: 3200000 },
   ],
   "Sucursal Norte": [
     { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-06-02-8857", cbu: "0000003100156789012345", entidad: "Link de pago Factura 0033", fecha: "02/06/2026", hora: "09:30", monto: 64800 },
     { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-06-01-8858", cbu: "0000003100167890123456", entidad: "Proveedor SA", fecha: "01/06/2026", hora: "17:44", monto: 35000 },
-    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-30-8859", cbu: "0000003100178901234567", entidad: "Lucía Fernández", fecha: "30/05/2026", hora: "09:05", monto: 8200 },
+    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-30-8859", cbu: "0000003100178901234567", entidad: "Lucia Fernandez", fecha: "30/05/2026", hora: "09:05", monto: 8200 },
     { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-05-29-8860", cbu: "0000003100189012345678", entidad: "Pago QR Proveedor", fecha: "29/05/2026", hora: "16:30", monto: 78000 },
   ],
-  "Recaudación expensas": [
+  "Recaudacion expensas": [
     { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-06-01-8861", cbu: "0000003100190123456789", entidad: "Lote expensas Marzo (84/128)", fecha: "01/06/2026", hora: "17:02", monto: 3840000 },
     { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-25-8862", cbu: "0000003100201234567890", entidad: "Lote expensas Febrero (76/128)", fecha: "25/05/2026", hora: "16:30", monto: 3520000 },
   ],
   "Sueldos": [
     { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-06-01-8863", cbu: "0000003100212345678901", entidad: "Transferencia cuenta madre", fecha: "01/06/2026", hora: "14:30", monto: 980000 },
-    { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-05-25-8864", cbu: "0000003100223456789012", entidad: "Liquidación mayo", fecha: "25/05/2026", hora: "10:00", monto: 950000 },
+    { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-05-25-8864", cbu: "0000003100223456789012", entidad: "Liquidacion mayo", fecha: "25/05/2026", hora: "10:00", monto: 950000 },
   ],
-  "Fondos en garantía": [
+  "Fondos en garantia": [
     { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-01-8865", cbu: "0000003100234567890123", entidad: "Aporte inicial", fecha: "01/05/2026", hora: "09:00", monto: 350000 },
   ],
 };
 
 const reglas = [
-  { n: "Auto-distribución cobros expensas", desc: "Recaudación expensas → 80% Operaciones · 20% Garantías", act: true },
-  { n: "Barrido fin de día", desc: "Sucursales → Operaciones cuando saldo > $ 3.000.000", act: true },
-  { n: "Fondeo sueldos", desc: "Operaciones → Sueldos · día 25 de cada mes", act: true },
+  { n: "Auto-distribucion cobros expensas", desc: "Recaudacion expensas → 80% Operaciones · 20% Garantias", act: true },
+  { n: "Barrido fin de dia", desc: "Sucursales → Operaciones cuando saldo > $ 3.000.000", act: true },
+  { n: "Fondeo sueldos", desc: "Operaciones → Sueldos · dia 25 de cada mes", act: true },
   { n: "Tope alerta", desc: "Notificar cuando subcuenta < $ 100.000", act: false },
 ];
 
@@ -141,7 +141,7 @@ function Page() {
     <>
       <PageHeader
         title="Subcuentas"
-        description="Una cuenta madre, múltiples CBU. Gestioná fondos, responsables, límites y reglas automáticas."
+        description="Una cuenta madre, multiples CBU. Gestiona fondos, responsables, limites y reglas automaticas."
         action={
           <div className="flex gap-2">
             <BtnOutline onClick={() => setTransfOpen(true)}><ArrowLeftRight size={14} /> Transferir entre subcuentas</BtnOutline>
@@ -154,22 +154,22 @@ function Page() {
         <Stat label="Saldo total" value={fmt(total)} sub={`${subs.length} subcuentas`} />
         <Stat label="Disponible" value={fmt(totalDisp)} sub="Listo para operar" />
         <Stat label="Retenido" value={fmt(totalRet)} sub="Pendiente de liberar" />
-        <Stat label="Reglas activas" value={`${reglas.filter(r => r.act).length} / ${reglas.length}`} sub="Distribución automática" />
+        <Stat label="Reglas activas" value={`${reglas.filter(r => r.act).length} / ${reglas.length}`} sub="Distribucion automatica" />
       </div>
 
       <Card className="mb-4 p-3">
         <div className="flex flex-wrap gap-2">
-          <div className="relative flex-1 min-w-[220px]">
+          <div className="relative w-full sm:flex-1 sm:min-w-[220px]">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar por nombre o CBU..." className="pl-9" />
           </div>
           <select value={tipo} onChange={(e) => setTipo(e.target.value)} className="h-10 px-3 rounded-md border bg-card text-sm">
-            <option>Todos</option><option>Operativa</option><option>Recaudación</option><option>Garantías</option><option>Sueldos</option>
+            <option>Todos</option><option>Operativa</option><option>Recaudacion</option><option>Garantias</option><option>Sueldos</option>
           </select>
           <select value={estado} onChange={(e) => setEstado(e.target.value)} className="h-10 px-3 rounded-md border bg-card text-sm">
             <option>Todos</option><option>Activa</option><option>Pausada</option>
           </select>
-          <BtnOutline className="h-10" onClick={() => setReglaOpen(true)}><Zap size={14} /> Reglas de distribución</BtnOutline>
+          <BtnOutline className="h-10" onClick={() => setReglaOpen(true)}><Zap size={14} /> Reglas de distribucion</BtnOutline>
         </div>
       </Card>
 
@@ -257,7 +257,7 @@ function Page() {
           </Card>
 
           <Card>
-            <h3 className="font-semibold text-sm mb-3">Distribución del saldo</h3>
+            <h3 className="font-semibold text-sm mb-3">Distribucion del saldo</h3>
             <div className="space-y-2">
               {subs.map((s) => {
                 const pct = (s.disp + s.ret) / total * 100;
@@ -278,7 +278,7 @@ function Page() {
 
           <Card>
             <div className="flex justify-between items-center mb-3">
-              <h3 className="font-semibold text-sm flex items-center gap-2"><Zap size={13} /> Reglas automáticas</h3>
+              <h3 className="font-semibold text-sm flex items-center gap-2"><Zap size={13} /> Reglas automaticas</h3>
               <BtnOutline className="h-7 px-2 text-[11px]" onClick={() => setReglaOpen(true)}>Gestionar</BtnOutline>
             </div>
             <div className="divide-y">
@@ -302,7 +302,7 @@ function Page() {
         open={nuevoOpen}
         onClose={() => { setNuevoOpen(false); setEditSub(null); }}
         title={editSub ? "Editar subcuenta" : "Nueva subcuenta"}
-        description={editSub ? "Modificá los datos de la subcuenta." : "Generá un CBU adicional asociado a tu cuenta madre."}
+        description={editSub ? "Modifica los datos de la subcuenta." : "Genera un CBU adicional asociado a tu cuenta madre."}
         submitLabel={editSub ? "Guardar cambios" : "Crear subcuenta"}
         onSubmit={() => { setNuevoOpen(false); setEditSub(null); toast.success(editSub ? "Subcuenta actualizada" : "Subcuenta creada correctamente"); }}
       >
@@ -310,13 +310,13 @@ function Page() {
         <div className="grid grid-cols-2 gap-3">
           <div><Label>Tipo</Label>
             <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
-              <option>Operativa</option><option>Recaudación</option><option>Garantías</option><option>Sueldos</option>
+              <option>Operativa</option><option>Recaudacion</option><option>Garantias</option><option>Sueldos</option>
             </select>
           </div>
-          <div><Label>Responsable</Label><Input placeholder="Usuario o área" /></div>
+          <div><Label>Responsable</Label><Input placeholder="Usuario o area" /></div>
         </div>
         <div className="grid grid-cols-2 gap-3">
-          <div><Label>Límite diario (ARS)</Label><Input placeholder="0,00" /></div>
+          <div><Label>Limite diario (ARS)</Label><Input placeholder="0,00" /></div>
           <div><Label>Saldo inicial</Label><Input placeholder="$ 0,00" /></div>
         </div>
         <label className="flex items-center gap-2 text-xs">
@@ -328,7 +328,7 @@ function Page() {
         open={transfOpen}
         onClose={() => setTransfOpen(false)}
         title="Transferir entre subcuentas"
-        description="Movimiento interno · acreditación inmediata, sin comisión."
+        description="Movimiento interno · acreditacion inmediata, sin comision."
         submitLabel="Transferir"
         onSubmit={() => { setTransfOpen(false); toast.success("Transferencia interna realizada"); }}
       >
@@ -345,14 +345,14 @@ function Page() {
           </div>
         </div>
         <div><Label>Monto (ARS)</Label><Input placeholder="0,00" /></div>
-        <div><Label>Concepto</Label><Input placeholder="Barrido fin de día, fondeo, etc." /></div>
+        <div><Label>Concepto</Label><Input placeholder="Barrido fin de dia, fondeo, etc." /></div>
       </FormDialog>
 
       <FormDialog
         open={reglaOpen}
         onClose={() => setReglaOpen(false)}
-        title="Reglas de distribución automática"
-        description="Aplicá movimientos automáticos entre subcuentas según condiciones."
+        title="Reglas de distribucion automatica"
+        description="Aplica movimientos automaticos entre subcuentas segun condiciones."
         submitLabel="Guardar regla"
         size="lg"
         onSubmit={() => { setReglaOpen(false); toast.success("Regla guardada"); }}
@@ -363,15 +363,15 @@ function Page() {
           </div>
           <div><Label>Tipo de regla</Label>
             <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
-              <option>Distribución por porcentaje</option>
-              <option>Barrido a destino único</option>
+              <option>Distribucion por porcentaje</option>
+              <option>Barrido a destino unico</option>
               <option>Fondeo programado</option>
-              <option>Alerta de saldo mínimo</option>
+              <option>Alerta de saldo minimo</option>
             </select>
           </div>
         </div>
         <div>
-          <Label>Distribución</Label>
+          <Label>Distribucion</Label>
           <div className="space-y-2">
             {subs.slice(0, 3).map((s, i) => (
               <div key={s.n} className="grid grid-cols-[1fr_120px] gap-2 items-center">
@@ -387,7 +387,7 @@ function Page() {
           </div>
         </div>
         <label className="flex items-center gap-2 text-xs"><input type="checkbox" defaultChecked /> Notificar al ejecutarse</label>
-        <label className="flex items-center gap-2 text-xs"><input type="checkbox" /> Requerir aprobación manual</label>
+        <label className="flex items-center gap-2 text-xs"><input type="checkbox" /> Requerir aprobacion manual</label>
       </FormDialog>
 
       {detailSub && (
@@ -423,7 +423,7 @@ function SubDetailModal({ sub, onClose }: { sub: Sub; onClose: () => void }) {
   const totalComisiones = allMoves.filter(m => m.entidad === "Moli Financial S.A.").reduce((a, m) => a + m.monto, 0);
 
   const confirmAction = (accion: string, detalle: string): boolean =>
-    window.confirm(`¿Estás seguro de que querés ${accion}?\n\n${detalle}`);
+    window.confirm(`¿Estas seguro de que queres ${accion}?\n\n${detalle}`);
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
@@ -446,27 +446,27 @@ function SubDetailModal({ sub, onClose }: { sub: Sub; onClose: () => void }) {
         {/* ── Scrollable body ── */}
         <div className="flex-1 overflow-y-auto px-5 sm:px-6 py-5 space-y-7">
 
-          {/* ══════════ BLOQUE: Información general ══════════ */}
+          {/* ══════════ BLOQUE: Informacion general ══════════ */}
           <section>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold">Información general</h3>
+              <h3 className="text-sm font-semibold">Informacion general</h3>
               <div className="flex gap-1">
                 <button
-                  onClick={() => { if (confirmAction("cambiar la contraseña de esta subcuenta", "Se enviará un enlace de restablecimiento al email del responsable.")) toast.success("Enlace de restablecimiento enviado"); }}
+                  onClick={() => { if (confirmAction("cambiar la contrasena de esta subcuenta", "Se enviara un enlace de restablecimiento al email del responsable.")) toast.success("Enlace de restablecimiento enviado"); }}
                   className="h-7 w-7 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition text-muted-foreground hover:text-foreground"
-                  title="Cambiar contraseña"
+                  title="Cambiar contrasena"
                 >
                   <Key size={13} />
                 </button>
                 <button
-                  onClick={() => { if (confirmAction(sub.e === "Activa" ? "pausar esta subcuenta" : "reactivar esta subcuenta", "Los fondos quedarán " + (sub.e === "Activa" ? "congelados hasta que la reactives." : "disponibles nuevamente."))) toast.success(sub.e === "Activa" ? "Subcuenta pausada" : "Subcuenta reactivada"); }}
+                  onClick={() => { if (confirmAction(sub.e === "Activa" ? "pausar esta subcuenta" : "reactivar esta subcuenta", "Los fondos quedaran " + (sub.e === "Activa" ? "congelados hasta que la reactives." : "disponibles nuevamente."))) toast.success(sub.e === "Activa" ? "Subcuenta pausada" : "Subcuenta reactivada"); }}
                   className="h-7 w-7 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition text-muted-foreground hover:text-foreground"
                   title={sub.e === "Activa" ? "Deshabilitar cuenta" : "Reactivar cuenta"}
                 >
                   <Pause size={13} />
                 </button>
                 <button
-                  onClick={() => { if (confirmAction("eliminar esta subcuenta", "Esta acción es irreversible. Todos los fondos serán transferidos a la cuenta madre.")) toast.success("Subcuenta eliminada"); }}
+                  onClick={() => { if (confirmAction("eliminar esta subcuenta", "Esta accion es irreversible. Todos los fondos seran transferidos a la cuenta madre.")) toast.success("Subcuenta eliminada"); }}
                   className="h-7 w-7 inline-flex items-center justify-center rounded-md border bg-card hover:bg-red-50 hover:text-red-600 transition text-muted-foreground"
                   title="Eliminar subcuenta"
                 >
@@ -532,10 +532,10 @@ function SubDetailModal({ sub, onClose }: { sub: Sub; onClose: () => void }) {
             </div>
           </section>
 
-          {/* ══════════ BLOQUE: Información financiera ══════════ */}
+          {/* ══════════ BLOQUE: Informacion financiera ══════════ */}
           <section>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold">Información financiera</h3>
+              <h3 className="text-sm font-semibold">Informacion financiera</h3>
               <button
                 onClick={() => setMoveOpen(true)}
                 className="h-7 w-7 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition text-muted-foreground hover:text-foreground"
@@ -550,7 +550,7 @@ function SubDetailModal({ sub, onClose }: { sub: Sub; onClose: () => void }) {
                 <div className="text-base font-semibold mt-1">{fmt(sub.disp)}</div>
               </div>
               <div className="bg-muted/30 rounded-lg p-3">
-                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Total depósitos</div>
+                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Total depositos</div>
                 <div className="text-base font-semibold mt-1 text-emerald-700">{fmt(totalDepositos)}</div>
               </div>
               <div className="bg-muted/30 rounded-lg p-3">
@@ -595,7 +595,7 @@ function SubDetailModal({ sub, onClose }: { sub: Sub; onClose: () => void }) {
                     <select
                       value={filterTipo}
                       onChange={(e) => setFilterTipo(e.target.value as "todos" | "ingreso" | "egreso")}
-                      className="h-9 px-3 rounded-md border bg-card text-sm min-w-[140px] w-full"
+                      className="h-9 px-3 rounded-md border bg-card text-sm w-full"
                     >
                       <option value="todos">Todos</option>
                       <option value="ingreso">Ingresos</option>
@@ -662,7 +662,7 @@ function SubDetailModal({ sub, onClose }: { sub: Sub; onClose: () => void }) {
               </div>
               <div className="space-y-3">
                 <div>
-                  <Label>Dirección</Label>
+                  <Label>Direccion</Label>
                   <select className="w-full h-10 px-3 rounded-md border bg-card text-sm mt-1">
                     <option>Cuenta madre → {sub.n}</option>
                     <option>{sub.n} → Cuenta madre</option>

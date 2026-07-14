@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   AuthShell,
@@ -15,14 +15,14 @@ import { OCUPACIONES, ORIGEN_FONDOS, useOnboarding } from "@/lib/onboarding-stor
 export const Route = createFileRoute("/onboarding/datos-personales")({
   head: () => ({
     meta: [
-      { title: "Validación de datos personales — Molipay" },
+      { title: "Validacion de datos personales — Molipay" },
       { name: "robots", content: "noindex" },
     ],
   }),
   component: DatosPersonales,
 });
 
-const STEPS = ["Datos personales", "Información financiera", "Validación final"];
+const STEPS = ["Datos personales", "Informacion financiera", "Validacion final"];
 
 function DatosPersonales() {
   const nav = useNavigate();
@@ -39,16 +39,16 @@ function DatosPersonales() {
 
   const validateStep0 = () => {
     const e: Record<string, string> = {};
-    if (!f.genero) e.genero = "El género es requerido";
-    if (!f.cuitCuil.trim()) e.cuitCuil = "Ingresá tu CUIT/CUIL";
-    if (!f.ocupacion) e.ocupacion = "Seleccioná una ocupación";
+    if (!f.genero) e.genero = "El genero es requerido";
+    if (!f.cuitCuil.trim()) e.cuitCuil = "Ingresa tu CUIT/CUIL";
+    if (!f.ocupacion) e.ocupacion = "Selecciona una ocupacion";
     setErr(e);
     return Object.keys(e).length === 0;
   };
 
   const validateStep1 = () => {
     const e: Record<string, string> = {};
-    if (!f.origenFondos) e.origenFondos = "Seleccioná el origen de fondos";
+    if (!f.origenFondos) e.origenFondos = "Selecciona el origen de fondos";
     setErr(e);
     return Object.keys(e).length === 0;
   };
@@ -67,17 +67,17 @@ function DatosPersonales() {
   return (
     <AuthShell
       leftEyebrow="Paso 3 · Datos personales"
-      leftTitle={tipoCuenta === "juridica" ? "Datos del representante legal." : "Completá tu perfil regulatorio."}
+      leftTitle={tipoCuenta === "juridica" ? "Datos del representante legal." : "Completa tu perfil regulatorio."}
       leftBody="Estos datos son requeridos por normativa antilavado (UIF) y solo se comparten con las autoridades competentes."
       step={`Paso ${step + 1} de 3`}
     >
-      <FormTitle eyebrow="KYC · Datos personales" title="Validación de datos personales" />
+      <FormTitle eyebrow="KYC · Datos personales" title="Validacion de datos personales" />
       <Stepper steps={STEPS} current={step} />
 
       {step === 0 && (
         <div className="space-y-4">
           <SelectField
-            label="Género"
+            label="Genero"
             value={f.genero}
             onChange={(v) => setF({ ...f, genero: v })}
             options={["Femenino", "Masculino", "No binario", "Prefiero no responder"]}
@@ -91,7 +91,7 @@ function DatosPersonales() {
             error={err.cuitCuil}
           />
           <SelectField
-            label="Ocupación"
+            label="Ocupacion"
             value={f.ocupacion}
             onChange={(v) => setF({ ...f, ocupacion: v })}
             options={OCUPACIONES}
@@ -120,14 +120,14 @@ function DatosPersonales() {
             className="p-5 text-xs leading-relaxed text-[#0A1628]/75"
             style={{ background: "rgba(10,22,40,0.04)", border: "1px solid rgba(10,22,40,0.08)", borderRadius: 2 }}
           >
-            Se consideran <strong>PEPs</strong> a los Funcionarios Públicos Nacionales, Provinciales y Municipales (tanto
+            Se consideran <strong>PEPs</strong> a los Funcionarios Publicos Nacionales, Provinciales y Municipales (tanto
             Nacionales como Extranjeros) de los Poderes Ejecutivo, Legislativo y Judicial, que ocupan o que ocuparon
-            altos cargos jerárquicos, así como también a sus familiares hasta el segundo grado de consanguinidad. Los
-            funcionarios calificados como PEPs continúan siéndolo hasta dos años después de haber cesado en sus
+            altos cargos jerarquicos, asi como tambien a sus familiares hasta el segundo grado de consanguinidad. Los
+            funcionarios calificados como PEPs continuan siendolo hasta dos anos despues de haber cesado en sus
             funciones.
           </div>
           <label className="flex items-center justify-between gap-4 py-2">
-            <span className="text-sm font-semibold text-[#0A1628]">¿Es persona políticamente expuesta?</span>
+            <span className="text-sm font-semibold text-[#0A1628]">¿Es persona politicamente expuesta?</span>
             <button
               type="button"
               onClick={() => setF({ ...f, esPEP: !f.esPEP })}
@@ -142,7 +142,7 @@ function DatosPersonales() {
             </button>
           </label>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <SecondaryButton onClick={() => setStep(1)}>Atrás</SecondaryButton>
+            <SecondaryButton onClick={() => setStep(1)}>Atras</SecondaryButton>
             <div className="flex-1">
               <PrimaryButton onClick={next}>Siguiente paso</PrimaryButton>
             </div>

@@ -1,11 +1,11 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AuthShell, PrimaryButton, SecondaryButton, SuccessCard } from "@/components/onboarding";
 import { useOnboarding } from "@/lib/onboarding-store";
 
 export const Route = createFileRoute("/onboarding/en-proceso")({
   head: () => ({
     meta: [
-      { title: "Validación en proceso — Molipay" },
+      { title: "Validacion en proceso — Molipay" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -17,22 +17,22 @@ function EnProceso() {
   const { markAprobado } = useOnboarding();
   return (
     <AuthShell
-      leftEyebrow="Paso 6 · Revisión"
-      leftTitle="Tu legajo está en revisión."
-      leftBody="Nuestro equipo de compliance revisará tu información y te notificará al correo altas@molipay.com.ar cuando la cuenta quede habilitada."
+      leftEyebrow="Paso 6 · Revision"
+      leftTitle="Tu legajo esta en revision."
+      leftBody="Nuestro equipo de compliance revisara tu informacion y te notificara al correo altas@molipay.com.ar cuando la cuenta quede habilitada."
       step="En proceso"
     >
       <SuccessCard
         variant="info"
-        title="Validación en proceso"
+        title="Validacion en proceso"
         body={
           <>
             <p>
-              Tu información está siendo validada por nuestro equipo. Este proceso puede demorar hasta{" "}
-              <strong>24 horas hábiles</strong>. Te avisaremos por correo cuando el proceso finalice.
+              Tu informacion esta siendo validada por nuestro equipo. Este proceso puede demorar hasta{" "}
+              <strong>24 horas habiles</strong>. Te avisaremos por correo cuando el proceso finalice.
             </p>
             <p className="mt-3 text-xs text-[#0A1628]/55">
-              Si tenés algún problema,{" "}
+              Si tenes algun problema,{" "}
               <a href="mailto:soporte@molipay.com.ar" className="underline underline-offset-2 hover:text-[#C41E3A]">
                 contactanos
               </a>
@@ -49,7 +49,7 @@ function EnProceso() {
               nav({ to: "/app" });
             }}
           >
-            Simular aprobación (demo)
+            Simular aprobacion (demo)
           </SecondaryButton>
         </div>
       </SuccessCard>

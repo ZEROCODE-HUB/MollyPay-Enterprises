@@ -65,7 +65,7 @@ function Page() {
     setTimeout(() => {
       setRefreshing(false);
       setList([...ecoms]);
-      toast.success("Catálogo de integraciones actualizado");
+      toast.success("Catalogo de integraciones actualizado");
     }, 600);
   };
 
@@ -98,14 +98,14 @@ function Page() {
 
       {/* Resumen de capacidades (movido arriba) */}
       <Card className="mb-6">
-        <h2 className="text-sm font-semibold mb-4">Capacidades de integración</h2>
+        <h2 className="text-sm font-semibold mb-4">Capacidades de integracion</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30">
             <Server size={18} className="text-muted-foreground shrink-0 mt-0.5" />
             <div>
               <div className="text-xs font-semibold">API RESTful</div>
               <div className="text-[11px] text-muted-foreground mt-0.5">
-                Documentada y fácil de implementar.
+                Documentada y facil de implementar.
               </div>
             </div>
           </div>
@@ -114,7 +114,7 @@ function Page() {
             <div>
               <div className="text-xs font-semibold">Webhooks</div>
               <div className="text-[11px] text-muted-foreground mt-0.5">
-                Notificaciones instantáneas de eventos.
+                Notificaciones instantaneas de eventos.
               </div>
             </div>
           </div>
@@ -123,7 +123,7 @@ function Page() {
             <div>
               <div className="text-xs font-semibold">Seguridad</div>
               <div className="text-[11px] text-muted-foreground mt-0.5">
-                Claves (API keys) y validación por IP.
+                Claves (API keys) y validacion por IP.
               </div>
             </div>
           </div>
@@ -158,7 +158,7 @@ function Page() {
               <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
                 <th className="text-left px-5 py-2.5">E-commerce</th>
                 <th className="text-left px-5 py-2.5">Estado</th>
-                <th className="text-left px-5 py-2.5">Fecha de Creación</th>
+                <th className="text-left px-5 py-2.5">Fecha de Creacion</th>
                 <th className="text-right px-5 py-2.5">Acciones</th>
               </tr>
             </thead>
@@ -257,7 +257,7 @@ function Page() {
                 <Input
                   value={claveApi}
                   onChange={(e) => setClaveApi(e.target.value)}
-                  placeholder="Ingresá la API key de {claveModal.name}"
+                  placeholder="Ingresa la API key de {claveModal.name}"
                   className="mt-1"
                 />
               </div>
@@ -271,7 +271,7 @@ function Page() {
                 />
               </div>
               <div className="text-xs text-muted-foreground pt-1 leading-relaxed">
-                Las credenciales se cifran y almacenan de forma segura. Podés actualizarlas en cualquier momento.
+                Las credenciales se cifran y almacenan de forma segura. Podes actualizarlas en cualquier momento.
               </div>
               <BtnOutline
                 className="w-full mt-2"

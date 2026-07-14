@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Search,
@@ -38,7 +38,7 @@ type Item = {
   venc: string;
   icon: LucideIcon;
   cat: string;
-  e: "Pendiente" | "Próximo" | "Vencido";
+  e: "Pendiente" | "Proximo" | "Vencido";
   debito?: boolean;
 };
 
@@ -49,7 +49,7 @@ const servicios: Item[] = [
     v: "$ 64.320,00",
     venc: "05/06/2026",
     icon: Zap,
-    cat: "Energía",
+    cat: "Energia",
     e: "Pendiente",
     debito: true,
   },
@@ -70,7 +70,7 @@ const servicios: Item[] = [
     venc: "12/06/2026",
     icon: Droplet,
     cat: "Agua",
-    e: "Próximo",
+    e: "Proximo",
     debito: true,
   },
   {
@@ -80,7 +80,7 @@ const servicios: Item[] = [
     venc: "15/06/2026",
     icon: Building2,
     cat: "Impuesto",
-    e: "Próximo",
+    e: "Proximo",
   },
   {
     n: "ARBA",
@@ -89,10 +89,10 @@ const servicios: Item[] = [
     venc: "20/06/2026",
     icon: FileText,
     cat: "Impuesto",
-    e: "Próximo",
+    e: "Proximo",
   },
   {
-    n: "Cablevisión",
+    n: "Cablevision",
     c: "Cuenta 7728-339",
     v: "$ 32.100,00",
     venc: "03/06/2026",
@@ -103,12 +103,12 @@ const servicios: Item[] = [
   },
   {
     n: "Telecom",
-    c: "Línea 011-4444-5555",
+    c: "Linea 011-4444-5555",
     v: "$ 14.800,00",
     venc: "10/06/2026",
     icon: Phone,
-    cat: "Telefonía",
-    e: "Próximo",
+    cat: "Telefonia",
+    e: "Proximo",
     debito: true,
   },
   {
@@ -118,12 +118,12 @@ const servicios: Item[] = [
     venc: "14/06/2026",
     icon: Wifi,
     cat: "Internet",
-    e: "Próximo",
+    e: "Proximo",
     debito: true,
   },
 ];
 
-const cats = ["Todos", "Energía", "Gas", "Agua", "Impuesto", "Internet", "Telefonía"];
+const cats = ["Todos", "Energia", "Gas", "Agua", "Impuesto", "Internet", "Telefonia"];
 
 type TxHist = {
   f: string;
@@ -133,18 +133,18 @@ type TxHist = {
   e: "Pagado" | "Vencido" | "Cancelado";
 };
 const historial: TxHist[] = [
-  { f: "03/06/2026", s: "Cablevisión", cat: "Internet", m: "$ 32.100", e: "Pagado" },
-  { f: "01/06/2026", s: "Edesur", cat: "Energía", m: "$ 58.200", e: "Pagado" },
+  { f: "03/06/2026", s: "Cablevision", cat: "Internet", m: "$ 32.100", e: "Pagado" },
+  { f: "01/06/2026", s: "Edesur", cat: "Energia", m: "$ 58.200", e: "Pagado" },
   { f: "28/05/2026", s: "AySA", cat: "Agua", m: "$ 17.900", e: "Pagado" },
   { f: "25/05/2026", s: "ABL CABA", cat: "Impuesto", m: "$ 44.200", e: "Pagado" },
-  { f: "22/05/2026", s: "Telecom", cat: "Telefonía", m: "$ 14.800", e: "Pagado" },
+  { f: "22/05/2026", s: "Telecom", cat: "Telefonia", m: "$ 14.800", e: "Pagado" },
   { f: "20/05/2026", s: "Metrogas", cat: "Gas", m: "$ 22.180", e: "Pagado" },
   { f: "18/05/2026", s: "ARBA", cat: "Impuesto", m: "$ 88.230", e: "Pagado" },
   { f: "15/05/2026", s: "Fibertel Empresas", cat: "Internet", m: "$ 88.500", e: "Pagado" },
-  { f: "12/05/2026", s: "Edesur", cat: "Energía", m: "$ 58.200", e: "Pagado" },
+  { f: "12/05/2026", s: "Edesur", cat: "Energia", m: "$ 58.200", e: "Pagado" },
   { f: "10/05/2026", s: "AySA", cat: "Agua", m: "$ 17.900", e: "Cancelado" },
   { f: "08/05/2026", s: "ABL CABA", cat: "Impuesto", m: "$ 44.200", e: "Vencido" },
-  { f: "05/05/2026", s: "Telecom", cat: "Telefonía", m: "$ 14.800", e: "Pagado" },
+  { f: "05/05/2026", s: "Telecom", cat: "Telefonia", m: "$ 14.800", e: "Pagado" },
 ];
 
 const remesas: Array<{
@@ -167,8 +167,8 @@ const remesas: Array<{
   },
   {
     f: "28/05/2026",
-    pais: "México",
-    banco: "BBVA México",
+    pais: "Mexico",
+    banco: "BBVA Mexico",
     mARS: "$ 1.200.000",
     mDest: "MXN 20.400",
     tc: "Cripto USDT",
@@ -176,7 +176,7 @@ const remesas: Array<{
   },
   {
     f: "20/05/2026",
-    pais: "España",
+    pais: "Espana",
     banco: "Santander ES",
     mARS: "$ 2.400.000",
     mDest: "EUR 1.860",
@@ -186,7 +186,7 @@ const remesas: Array<{
   {
     f: "15/05/2026",
     pais: "Brasil",
-    banco: "Itaú",
+    banco: "Itau",
     mARS: "$ 680.000",
     mDest: "BRL 3.180",
     tc: "P2P",
@@ -273,7 +273,7 @@ function Page() {
         <div className="bg-card border rounded-lg p-3">
           <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Vencidos</div>
           <div className="text-base md:text-lg font-semibold mt-0.5">1</div>
-          <div className="text-[10px] text-muted-foreground mt-0.5">Cablevisión - $ 32.100</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">Cablevision - $ 32.100</div>
         </div>
         <div className="bg-card border rounded-lg p-3">
           <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
@@ -308,7 +308,7 @@ function Page() {
         <>
           <div className="flex gap-1 mb-5 bg-muted/50 p-1 rounded-lg">
             {([
-              ["proximos", `Próximos pagos (${prox.length})`],
+              ["proximos", `Proximos pagos (${prox.length})`],
               ["suscritos", `Servicios suscritos (${filtrados.length})`],
               ["historial", `Historial (${hFiltrados.length})`],
             ] as Array<[SectionTab, string]>).map(([k, l]) => (
@@ -330,7 +330,7 @@ function Page() {
             <Card className="mb-6">
               <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
                 <Calendar size={14} className="text-muted-foreground" />
-                Próximos pagos y vencimientos
+                Proximos pagos y vencimientos
               </h3>
               <div className="divide-y">
                 {(proxAll ? prox : prox.slice(0, PREVIEW_LIMIT)).map((s) => {
@@ -355,7 +355,7 @@ function Page() {
                           <div className="text-sm font-semibold">{s.v}</div>
                           <div className="text-[11px] text-muted-foreground flex items-center gap-1 justify-end">
                             <Clock size={10} />
-                            {isVencido ? `Vencido hace ${Math.abs(dd)} días` : `Vence en ${dd} días`}
+                            {isVencido ? `Vencido hace ${Math.abs(dd)} dias` : `Vence en ${dd} dias`}
                           </div>
                         </div>
                         <Badge tone={isVencido ? "danger" : s.e === "Pendiente" ? "warn" : "neutral"}>
@@ -363,21 +363,26 @@ function Page() {
                         </Badge>
                         {s.debito && (
                           <button
-                            onClick={() =>
+                            onClick={() => {
                               setDebitoSet((prev) => {
                                 const next = new Set(prev);
                                 const k = s.n + s.c;
                                 if (next.has(k)) next.delete(k);
                                 else next.add(k);
                                 return next;
-                              })
-                            }
+                              });
+                              toast.success(
+                                debitoSet.has(s.n + s.c)
+                                  ? "Debito directo desactivado de " + s.n
+                                  : "Debito directo activado para " + s.n,
+                              );
+                            }}
                             className={`h-9 px-2.5 rounded-md text-[11px] font-semibold border transition ${
                               debitoSet.has(s.n + s.c)
                                 ? "bg-[color:var(--brand-soft)] text-[color:var(--brand-dark)] border-transparent"
                                 : "bg-card text-muted-foreground border-border hover:bg-muted"
                             }`}
-                            title="Débito directo"
+                            title="Debito directo"
                           >
                             DD
                           </button>
@@ -403,14 +408,19 @@ function Page() {
 
           {sectionTab === "suscritos" && (
             <Card className="mb-6">
-              <h3 className="font-semibold text-sm mb-3">Servicios suscritos</h3>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-semibold text-sm">Servicios suscritos</h3>
+                <BtnPrimary className="h-9 px-3 text-xs" onClick={() => toast.success("Formulario de suscripcion abierto")}>
+                  Suscribir nuevo servicio
+                </BtnPrimary>
+              </div>
               <div className="flex flex-wrap gap-2 mb-4">
-                <div className="relative flex-1 min-w-[200px]">
+                <div className="relative w-full sm:flex-1 sm:min-w-[200px]">
                   <Search
                     size={14}
                     className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                   />
-                  <Input placeholder="Buscar servicio o número de cuenta..." className="pl-9" />
+                  <Input placeholder="Buscar servicio o numero de cuenta..." className="pl-9" />
                 </div>
                 <select
                   className="h-10 px-3 rounded-md border bg-card text-sm"
@@ -419,7 +429,7 @@ function Page() {
                 >
                   <option value="vencimiento">Orden: vencimiento</option>
                   <option value="monto">Monto</option>
-                  <option value="alfabetico">Alfabético</option>
+                  <option value="alfabetico">Alfabetico</option>
                 </select>
               </div>
               <div className="flex flex-wrap gap-1.5 mb-4">
@@ -469,25 +479,36 @@ function Page() {
                         </Badge>
                         {s.debito && (
                           <button
-                            onClick={() =>
+                            onClick={() => {
                               setDebitoSet((prev) => {
                                 const next = new Set(prev);
                                 const k = s.n + s.c;
                                 if (next.has(k)) next.delete(k);
                                 else next.add(k);
                                 return next;
-                              })
-                            }
+                              });
+                              toast.success(
+                                debitoSet.has(s.n + s.c)
+                                  ? "Debito directo desactivado de " + s.n
+                                  : "Debito directo activado para " + s.n,
+                              );
+                            }}
                             className={`h-9 px-2.5 rounded-md text-[11px] font-semibold border transition ${
                               debitoSet.has(s.n + s.c)
                                 ? "bg-[color:var(--brand-soft)] text-[color:var(--brand-dark)] border-transparent"
                                 : "bg-card text-muted-foreground border-border hover:bg-muted"
                             }`}
-                            title="Débito directo"
+                            title="Debito directo"
                           >
                             DD
                           </button>
                         )}
+                        <BtnOutline
+                          className="h-9 px-2.5 text-xs"
+                          onClick={() => toast.success("Editando " + s.n)}
+                        >
+                          Editar
+                        </BtnOutline>
                         <BtnPrimary className="h-9 px-4" onClick={() => setPagar(s)}>
                           Pagar
                         </BtnPrimary>
@@ -530,7 +551,7 @@ function Page() {
                     value={hCat}
                     onChange={(e) => setHCat(e.target.value)}
                   >
-                    <option value="Todas">Categoría: todas</option>
+                    <option value="Todas">Categoria: todas</option>
                     {cats
                       .filter((c) => c !== "Todos")
                       .map((c) => (
@@ -566,7 +587,7 @@ function Page() {
                     <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
                       <th className="text-left px-5 py-2.5">Fecha</th>
                       <th className="text-left px-5 py-2.5">Servicio</th>
-                      <th className="text-left px-5 py-2.5">Categoría</th>
+                      <th className="text-left px-5 py-2.5">Categoria</th>
                       <th className="text-right px-5 py-2.5">Monto</th>
                       <th className="text-right px-5 py-2.5">Estado</th>
                     </tr>
@@ -621,7 +642,7 @@ function Page() {
             </div>
             <div className="bg-card border rounded-lg p-3">
               <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                Países destino
+                Paises destino
               </div>
               <div className="text-base md:text-lg font-semibold mt-0.5">6</div>
             </div>
@@ -645,7 +666,7 @@ function Page() {
                 <Globe size={16} /> Nueva remesa internacional
               </h3>
               <p className="text-xs text-muted-foreground mb-4">
-                Procesada vía MORE con la mejor cotización disponible (bonos, cripto o P2P).
+                Procesada via MORE con la mejor cotizacion disponible (bonos, cripto o P2P).
               </p>
               <BtnPrimary className="w-full" onClick={() => setRemesaOpen(true)}>
                 <Send size={14} /> Enviar remesa
@@ -656,10 +677,10 @@ function Page() {
                 <h3 className="font-semibold">Historial de remesas</h3>
                 <div className="flex gap-2">
                   <select className="h-9 px-2 rounded-md border bg-card text-xs">
-                    <option>País: todos</option>
+                    <option>Pais: todos</option>
                     <option>Colombia</option>
-                    <option>México</option>
-                    <option>España</option>
+                    <option>Mexico</option>
+                    <option>Espana</option>
                     <option>Brasil</option>
                   </select>
                   <Input type="date" className="h-9 max-w-[140px]" />
@@ -738,7 +759,7 @@ function Page() {
           <Input type="date" />
         </div>
         <label className="flex items-center gap-2 text-xs">
-          <input type="checkbox" /> Adherir al débito automático mensual
+          <input type="checkbox" /> Adherir al debito automatico mensual
         </label>
       </FormDialog>
 
@@ -746,12 +767,12 @@ function Page() {
         open={remesaOpen}
         onClose={() => setRemesaOpen(false)}
         title="Enviar remesa internacional"
-        description="Procesada vía MORE · cotización aplicada al confirmar."
+        description="Procesada via MORE · cotizacion aplicada al confirmar."
         submitLabel="Enviar remesa"
         size="lg"
         onSubmit={() => {
           setRemesaOpen(false);
-          toast.success("Remesa enviada · en proceso de liquidación");
+          toast.success("Remesa enviada · en proceso de liquidacion");
         }}
       >
         <div className="grid grid-cols-2 gap-3">
@@ -760,11 +781,11 @@ function Page() {
             <Input placeholder="$ 0,00" />
           </div>
           <div>
-            <Label>País destino</Label>
+            <Label>Pais destino</Label>
             <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
               <option>Colombia</option>
-              <option>México</option>
-              <option>España</option>
+              <option>Mexico</option>
+              <option>Espana</option>
               <option>Brasil</option>
               <option>Chile</option>
               <option>Uruguay</option>
@@ -780,16 +801,16 @@ function Page() {
           <Input placeholder="Nombre completo y documento" />
         </div>
         <div>
-          <Label>Tipo de conversión</Label>
+          <Label>Tipo de conversion</Label>
           <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
-            <option>Automático (mejor cotización disponible)</option>
+            <option>Automatico (mejor cotizacion disponible)</option>
             <option>Bonos (AL30/AL30D)</option>
             <option>Cripto (USDT)</option>
             <option>P2P</option>
           </select>
         </div>
         <Card className="bg-muted/30">
-          <div className="text-xs text-muted-foreground">Estimación al confirmar</div>
+          <div className="text-xs text-muted-foreground">Estimacion al confirmar</div>
           <div className="flex justify-between mt-1">
             <span className="font-semibold">1 ARS = 4,02 COP</span>
             <span className="font-semibold">≈ COP 4.020.000</span>

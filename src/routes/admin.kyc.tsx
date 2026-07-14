@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   UserCheck, CheckCircle2, Clock, XCircle, AlertCircle, Search,
@@ -12,7 +12,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/kyc")({ component: Page });
 
-type EstadoKYC = "Pendiente" | "En validación" | "Aprobado" | "Rechazado";
+type EstadoKYC = "Pendiente" | "En validacion" | "Aprobado" | "Rechazado";
 
 type Persona = {
   n: string; dni: string; e: EstadoKYC; prov: "Truora" | "RENAPER"; f: string;
@@ -21,23 +21,23 @@ type Persona = {
 
 const auto: Persona[] = [
   { n: "Carla Rivas",    dni: "30.123.456", e: "Aprobado",      prov: "RENAPER", f: "02/06 09:14", score: 98, liveness: 99, match: 97 },
-  { n: "Diego Méndez",   dni: "29.888.777", e: "Aprobado",      prov: "Truora",  f: "01/06 17:32", score: 94, liveness: 96, match: 95 },
-  { n: "Sofía Caro",     dni: "32.554.211", e: "En validación", prov: "Truora",  f: "Hoy 10:02",   score: 72, liveness: 80, match: 70, obs: "Esperando segundo intento de selfie" },
+  { n: "Diego Mendez",   dni: "29.888.777", e: "Aprobado",      prov: "Truora",  f: "01/06 17:32", score: 94, liveness: 96, match: 95 },
+  { n: "Sofia Caro",     dni: "32.554.211", e: "En validacion", prov: "Truora",  f: "Hoy 10:02",   score: 72, liveness: 80, match: 70, obs: "Esperando segundo intento de selfie" },
   { n: "Esteban Pinto",  dni: "28.991.034", e: "Pendiente",     prov: "RENAPER", f: "—",           score: 0,  liveness: 0,  match: 0 },
-  { n: "Marina López",   dni: "35.221.998", e: "Rechazado",     prov: "Truora",  f: "31/05 14:48", score: 41, liveness: 30, match: 55, obs: "DNI ilegible, foto fuera de foco" },
+  { n: "Marina Lopez",   dni: "35.221.998", e: "Rechazado",     prov: "Truora",  f: "31/05 14:48", score: 41, liveness: 30, match: 55, obs: "DNI ilegible, foto fuera de foco" },
 ];
 
 type Manual = {
-  n: string; dni: string; presentado: string; tipo: "DNI" | "Pasaporte" | "Cédula";
-  estado: "Pendiente revisión" | "Documentos faltantes" | "Aprobado" | "Rechazado";
+  n: string; dni: string; presentado: string; tipo: "DNI" | "Pasaporte" | "Cedula";
+  estado: "Pendiente revision" | "Documentos faltantes" | "Aprobado" | "Rechazado";
   domicilio: string; ocupacion: string;
   docs: { tipo: string; archivo: string; bg: string; icon: typeof FileText }[];
 };
 
 const manuales: Manual[] = [
   {
-    n: "Hernán Quiroga", dni: "27.554.882", presentado: "Hoy 11:20", tipo: "DNI",
-    estado: "Pendiente revisión",
+    n: "Hernan Quiroga", dni: "27.554.882", presentado: "Hoy 11:20", tipo: "DNI",
+    estado: "Pendiente revision",
     domicilio: "Av. Corrientes 1234, CABA", ocupacion: "Comerciante",
     docs: [
       { tipo: "DNI Frente",  archivo: "dni-frente.jpg",  bg: "linear-gradient(135deg,#1e3a8a,#3b82f6)", icon: FileText },
@@ -47,7 +47,7 @@ const manuales: Manual[] = [
     ],
   },
   {
-    n: "Lucía Mansilla", dni: "33.221.110", presentado: "Hoy 09:48", tipo: "DNI",
+    n: "Lucia Mansilla", dni: "33.221.110", presentado: "Hoy 09:48", tipo: "DNI",
     estado: "Documentos faltantes",
     domicilio: "Calle 47 N° 882, La Plata", ocupacion: "Independiente",
     docs: [
@@ -57,8 +57,8 @@ const manuales: Manual[] = [
   },
   {
     n: "Federico Brun",  dni: "31.998.412", presentado: "Ayer 16:12", tipo: "Pasaporte",
-    estado: "Pendiente revisión",
-    domicilio: "Bv. Oroño 1100, Rosario", ocupacion: "Profesional",
+    estado: "Pendiente revision",
+    domicilio: "Bv. Orono 1100, Rosario", ocupacion: "Profesional",
     docs: [
       { tipo: "Pasaporte",    archivo: "pasaporte.jpg", bg: "linear-gradient(135deg,#14532d,#22c55e)", icon: FileText },
       { tipo: "Selfie",       archivo: "selfie.jpg",    bg: "linear-gradient(135deg,#475569,#94a3b8)", icon: Camera },
@@ -73,9 +73,9 @@ const checklist = [
 ];
 
 const juridicas = [
-  { n: "Consorcio Larrea 1200",     cuit: "30-71235678-2", e: "En revisión" as const },
-  { n: "Microcréditos del Sur SA",  cuit: "30-71239988-0", e: "Aprobado" as const },
-  { n: "Administradora Plaza SRL",  cuit: "30-71244455-1", e: "Documentación" as const },
+  { n: "Consorcio Larrea 1200",     cuit: "30-71235678-2", e: "En revision" as const },
+  { n: "Microcreditos del Sur SA",  cuit: "30-71239988-0", e: "Aprobado" as const },
+  { n: "Administradora Plaza SRL",  cuit: "30-71244455-1", e: "Documentacion" as const },
 ];
 
 const tonoKYC = (e: EstadoKYC): "warn" | "success" | "danger" | "neutral" =>
@@ -92,22 +92,22 @@ function Page() {
   return (
     <>
       <PageHeader
-        title="Validación de identidad (KYC)"
-        description="Aprobación manual de legajos presentados y seguimiento de validaciones automáticas (RENAPER + Truora)."
+        title="Validacion de identidad (KYC)"
+        description="Aprobacion manual de legajos presentados y seguimiento de validaciones automaticas (RENAPER + Truora)."
       />
 
       <div className="grid md:grid-cols-4 gap-4 mb-6">
-        <Stat label="KYC manuales pendientes" value={String(manuales.filter(m => m.estado === "Pendiente revisión").length)} sub="Esperando aprobación" />
-        <Stat label="KYC automáticos hoy" value="86" sub="94% aprobación" />
-        <Stat label="Rechazados últimos 7d" value="4" />
-        <Stat label="Legajos jurídicos pendientes" value="9" sub="Checklist manual" />
+        <Stat label="KYC manuales pendientes" value={String(manuales.filter(m => m.estado === "Pendiente revision").length)} sub="Esperando aprobacion" />
+        <Stat label="KYC automaticos hoy" value="86" sub="94% aprobacion" />
+        <Stat label="Rechazados ultimos 7d" value="4" />
+        <Stat label="Legajos juridicos pendientes" value="9" sub="Checklist manual" />
       </div>
 
       <div className="flex gap-1 border-b mb-5">
         {[
-          { k: "manual",     l: "Aprobación manual (físicas)", i: UserCheck },
-          { k: "auto",       l: "Validación automática",       i: ScanLine },
-          { k: "juridicas",  l: "Personas jurídicas",          i: Building2 },
+          { k: "manual",     l: "Aprobacion manual (fisicas)", i: UserCheck },
+          { k: "auto",       l: "Validacion automatica",       i: ScanLine },
+          { k: "juridicas",  l: "Personas juridicas",          i: Building2 },
         ].map((t) => {
           const Icon = t.i;
           return (
@@ -132,11 +132,11 @@ function Page() {
               <Input placeholder="DNI, nombre o tipo de documento..." className="pl-9" />
             </div>
             <select className="h-10 px-3 rounded-md border bg-card text-sm">
-              <option>Todos los estados</option><option>Pendiente revisión</option>
+              <option>Todos los estados</option><option>Pendiente revision</option>
               <option>Documentos faltantes</option><option>Aprobado</option><option>Rechazado</option>
             </select>
             <select className="h-10 px-3 rounded-md border bg-card text-sm">
-              <option>Todos los documentos</option><option>DNI</option><option>Pasaporte</option><option>Cédula</option>
+              <option>Todos los documentos</option><option>DNI</option><option>Pasaporte</option><option>Cedula</option>
             </select>
           </Card>
 
@@ -211,7 +211,7 @@ function Page() {
       {tab === "auto" && (
         <Card className="p-0 overflow-hidden">
           <div className="px-5 py-4 border-b flex items-center justify-between">
-            <h3 className="font-semibold flex items-center gap-2"><Activity size={16} /> Pipeline automático · RENAPER + Truora</h3>
+            <h3 className="font-semibold flex items-center gap-2"><Activity size={16} /> Pipeline automatico · RENAPER + Truora</h3>
             <div className="relative">
               <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <Input placeholder="DNI o nombre..." className="h-9 pl-8 max-w-[220px]" />
@@ -226,7 +226,7 @@ function Page() {
                 <th className="text-left px-5 py-2.5">Liveness</th>
                 <th className="text-left px-5 py-2.5">Match facial</th>
                 <th className="text-left px-5 py-2.5">Estado</th>
-                <th className="text-left px-5 py-2.5">Última corrida</th>
+                <th className="text-left px-5 py-2.5">ultima corrida</th>
                 <th></th>
               </tr>
             </thead>
@@ -255,8 +255,8 @@ function Page() {
 
       {tab === "juridicas" && (
         <Card>
-          <h3 className="font-semibold mb-3 flex items-center gap-2"><Building2 size={16} /> Legajos jurídicos</h3>
-          <p className="text-xs text-muted-foreground mb-3">Checklist manual con aprobación ítem por ítem.</p>
+          <h3 className="font-semibold mb-3 flex items-center gap-2"><Building2 size={16} /> Legajos juridicos</h3>
+          <p className="text-xs text-muted-foreground mb-3">Checklist manual con aprobacion item por item.</p>
           <div className="divide-y">
             {juridicas.map((j) => (
               <button key={j.cuit} onClick={() => setJuridica(j)} className="w-full flex justify-between items-center py-3 text-left hover:bg-muted/30 -mx-2 px-2 rounded">
@@ -277,7 +277,7 @@ function Page() {
           <div className="relative w-full max-w-2xl bg-background h-full overflow-y-auto shadow-xl">
             <div className="sticky top-0 bg-card border-b px-6 py-4 flex justify-between items-center z-10">
               <div>
-                <div className="text-xs text-muted-foreground">Revisión manual de legajo</div>
+                <div className="text-xs text-muted-foreground">Revision manual de legajo</div>
                 <div className="font-semibold text-lg">{manualSel.n}</div>
               </div>
               <button onClick={() => setManualSel(null)} className="p-2 hover:bg-muted rounded-md"><X size={18} /></button>
@@ -285,7 +285,7 @@ function Page() {
             <div className="p-6 space-y-4">
               <Card className="grid grid-cols-2 gap-3 text-sm">
                 <div><div className="text-xs text-muted-foreground">Documento</div><div className="font-semibold">{manualSel.tipo} {manualSel.dni}</div></div>
-                <div><div className="text-xs text-muted-foreground">Ocupación</div><div className="font-semibold">{manualSel.ocupacion}</div></div>
+                <div><div className="text-xs text-muted-foreground">Ocupacion</div><div className="font-semibold">{manualSel.ocupacion}</div></div>
                 <div className="col-span-2"><div className="text-xs text-muted-foreground">Domicilio</div><div className="font-semibold">{manualSel.domicilio}</div></div>
               </Card>
 
@@ -316,7 +316,7 @@ function Page() {
               </Card>
 
               <Card>
-                <h4 className="font-semibold text-sm mb-3 flex items-center gap-2"><ShieldCheck size={14} /> Checklist de validación</h4>
+                <h4 className="font-semibold text-sm mb-3 flex items-center gap-2"><ShieldCheck size={14} /> Checklist de validacion</h4>
                 <div className="space-y-2">
                   {checklist.map((c) => (
                     <div key={c} className="flex items-center justify-between py-2 border-b last:border-0">
@@ -337,7 +337,7 @@ function Page() {
 
               <Card>
                 <h4 className="font-semibold text-sm mb-2 flex items-center gap-2"><MessageSquare size={14} /> Comentario interno</h4>
-                <textarea className="w-full min-h-[80px] p-3 rounded-md border bg-card text-sm" placeholder="Observación visible solo para compliance..." />
+                <textarea className="w-full min-h-[80px] p-3 rounded-md border bg-card text-sm" placeholder="Observacion visible solo para compliance..." />
               </Card>
 
               <div className="flex gap-2 sticky bottom-0 bg-background py-3 border-t">
@@ -405,7 +405,7 @@ function Page() {
                 <AlertCircle size={14} className="shrink-0 mt-0.5" /> {autoSel.obs}
               </div>
             )}
-            <div className="text-xs text-muted-foreground border-t pt-3">Última corrida: {autoSel.f}</div>
+            <div className="text-xs text-muted-foreground border-t pt-3">ultima corrida: {autoSel.f}</div>
             <div className="flex gap-2">
               <BtnOutline className="flex-1" onClick={() => { setAutoSel(null); toast.success("Reintento encolado"); }}>Reintentar</BtnOutline>
               <BtnPrimary className="flex-1" onClick={() => setAutoSel(null)}>Cerrar</BtnPrimary>
@@ -420,16 +420,16 @@ function Page() {
           <div className="relative w-full max-w-xl bg-background h-full overflow-y-auto shadow-xl">
             <div className="sticky top-0 bg-card border-b px-6 py-4 flex justify-between items-center z-10">
               <div>
-                <div className="text-xs text-muted-foreground">Validación manual</div>
+                <div className="text-xs text-muted-foreground">Validacion manual</div>
                 <div className="font-semibold text-lg">{juridica.n}</div>
               </div>
               <button onClick={() => setJuridica(null)} className="p-2 hover:bg-muted rounded-md"><X size={18} /></button>
             </div>
             <div className="p-6 space-y-5">
               <Card>
-                <h4 className="font-semibold text-sm mb-3">Checklist de validación</h4>
+                <h4 className="font-semibold text-sm mb-3">Checklist de validacion</h4>
                 <div className="space-y-2">
-                  {["Representante legal validado", "Segundo firmante validado", "Documentación societaria completa", "Estado PEP verificado", "Estado SDN verificado"].map((c) => (
+                  {["Representante legal validado", "Segundo firmante validado", "Documentacion societaria completa", "Estado PEP verificado", "Estado SDN verificado"].map((c) => (
                     <div key={c} className="flex items-center justify-between py-2 border-b last:border-0">
                       <div className="text-sm flex items-center gap-2">
                         {estados[c] === "ok" && <CheckCircle2 size={14} className="text-emerald-600" />}
@@ -447,10 +447,10 @@ function Page() {
               </Card>
               <Card>
                 <h4 className="font-semibold text-sm mb-3 flex items-center gap-2"><MessageSquare size={14} /> Comentario interno</h4>
-                <textarea className="w-full min-h-[80px] p-3 rounded-md border bg-card text-sm" placeholder="Observación visible solo para el equipo de compliance..." />
+                <textarea className="w-full min-h-[80px] p-3 rounded-md border bg-card text-sm" placeholder="Observacion visible solo para el equipo de compliance..." />
               </Card>
               <div className="flex gap-2 sticky bottom-0 bg-background py-3 border-t">
-                <BtnOutline className="flex-1" onClick={() => { setJuridica(null); toast.success("Validación guardada en borrador"); }}>Guardar borrador</BtnOutline>
+                <BtnOutline className="flex-1" onClick={() => { setJuridica(null); toast.success("Validacion guardada en borrador"); }}>Guardar borrador</BtnOutline>
                 <BtnPrimary className="flex-1" onClick={() => { setJuridica(null); toast.success(`Legajo ${juridica.n} aprobado`); }}>
                   <CheckCircle2 size={14} /> Aprobar legajo
                 </BtnPrimary>

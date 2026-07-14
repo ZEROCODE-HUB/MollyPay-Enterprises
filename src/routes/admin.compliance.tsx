@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   ShieldAlert, ShieldCheck, Ban, History, AlertCircle, CheckCircle2,
@@ -18,21 +18,21 @@ const alertas: Array<{
   d: string; cli: string; m: string; tipo: string; f: string; e: AlertaEstado;
 }> = [
   { d: "Movimiento mayor a $ 5.000.000", cli: "Pagos Express SRL", m: "$ 6.200.000", tipo: "Umbral monto", f: "Hoy 09:32", e: "Pendiente" },
-  { d: "48 operaciones en 1 hora", cli: "Microcréditos del Sur", m: "—", tipo: "Frecuencia", f: "Hoy 08:11", e: "Revisada" },
+  { d: "48 operaciones en 1 hora", cli: "Microcreditos del Sur", m: "—", tipo: "Frecuencia", f: "Hoy 08:11", e: "Revisada" },
   { d: "CUIT en lista de control", cli: "Comercializadora ABC", m: "—", tipo: "Lista control", f: "Ayer 17:42", e: "Bloqueada" },
-  { d: "Acumulado diario sobre umbral", cli: "Microcréditos del Sur", m: "$ 24,8M", tipo: "Umbral acumulado", f: "Ayer 16:08", e: "Pendiente" },
+  { d: "Acumulado diario sobre umbral", cli: "Microcreditos del Sur", m: "$ 24,8M", tipo: "Umbral acumulado", f: "Ayer 16:08", e: "Pendiente" },
   { d: "Destinatario menor de edad", cli: "Cooperativa Norte", m: "$ 180.000", tipo: "Edad destinatario", f: "31/05 14:20", e: "Revisada" },
-  { d: "Operación en horario inusual", cli: "Administradora Plaza", m: "$ 980.000", tipo: "Horario", f: "31/05 02:14", e: "Revisada" },
+  { d: "Operacion en horario inusual", cli: "Administradora Plaza", m: "$ 980.000", tipo: "Horario", f: "31/05 02:14", e: "Revisada" },
 ];
 
 const bloqueos = [
-  { cli: "Pagos Express SRL", cuit: "30-71300011-4", motivo: "Operatoria atípica · pendiente declaración jurada", f: "15/03/2026", por: "L. Díaz" },
-  { cli: "Comercializadora ABC", cuit: "30-70988877-5", motivo: "CUIT en lista de control oficial", f: "10/04/2026", por: "M. Solís" },
+  { cli: "Pagos Express SRL", cuit: "30-71300011-4", motivo: "Operatoria atipica · pendiente declaracion jurada", f: "15/03/2026", por: "L. Diaz" },
+  { cli: "Comercializadora ABC", cuit: "30-70988877-5", motivo: "CUIT en lista de control oficial", f: "10/04/2026", por: "M. Solis" },
 ];
 
 type EstadoLista = "Validado" | "Observado" | "Bloqueado";
 const listas: Array<{ cli: string; cuit: string; pep: EstadoLista; sdn: EstadoLista; ult: string }> = [
-  { cli: "Microcréditos del Sur SA", cuit: "30-71239988-0", pep: "Validado", sdn: "Validado", ult: "01/06/2026" },
+  { cli: "Microcreditos del Sur SA", cuit: "30-71239988-0", pep: "Validado", sdn: "Validado", ult: "01/06/2026" },
   { cli: "Pagos Express SRL", cuit: "30-71300011-4", pep: "Observado", sdn: "Validado", ult: "15/03/2026" },
   { cli: "Comercializadora ABC", cuit: "30-70988877-5", pep: "Bloqueado", sdn: "Bloqueado", ult: "10/04/2026" },
   { cli: "Administradora Plaza SRL", cuit: "30-71244455-1", pep: "Validado", sdn: "Validado", ult: "28/05/2026" },
@@ -58,27 +58,27 @@ function Page() {
     <>
       <PageHeader
         title="Compliance y alertas"
-        description="Reglas paramétricas, alertas activas y bloqueos operativos."
-        action={<BtnOutline onClick={() => setAuditOpen(true)}><History size={14} /> Auditoría completa</BtnOutline>}
+        description="Reglas parametricas, alertas activas y bloqueos operativos."
+        action={<BtnOutline onClick={() => setAuditOpen(true)}><History size={14} /> Auditoria completa</BtnOutline>}
       />
 
       <div className="grid md:grid-cols-4 gap-4 mb-6">
-        <Stat label="Alertas pendientes" value="3" sub="2 críticas" />
-        <Stat label="Alertas últimos 7d" value="42" sub="+18 % vs semana anterior" />
+        <Stat label="Alertas pendientes" value="3" sub="2 criticas" />
+        <Stat label="Alertas ultimos 7d" value="42" sub="+18 % vs semana anterior" />
         <Stat label="Clientes bloqueados" value="6" />
         <Stat label="Reglas activas" value="14" sub="3 personalizadas" />
       </div>
 
       <div className="grid lg:grid-cols-[1fr_1.6fr] gap-6 mb-6">
         <Card>
-          <h3 className="font-semibold mb-4 flex items-center gap-2"><ShieldCheck size={16} /> Parámetros del motor</h3>
+          <h3 className="font-semibold mb-4 flex items-center gap-2"><ShieldCheck size={16} /> Parametros del motor</h3>
           <form className="space-y-3">
             <div>
-              <Label>Monto máximo por operación (ARS)</Label>
+              <Label>Monto maximo por operacion (ARS)</Label>
               <Input defaultValue="5.000.000" />
             </div>
             <div>
-              <Label>Cantidad máxima de operaciones por hora</Label>
+              <Label>Cantidad maxima de operaciones por hora</Label>
               <Input defaultValue="40" />
             </div>
             <div>
@@ -86,7 +86,7 @@ function Page() {
               <Input defaultValue="20.000.000" />
             </div>
             <div>
-              <Label>Edad mínima del destinatario</Label>
+              <Label>Edad minima del destinatario</Label>
               <Input defaultValue="18" />
             </div>
             <div>
@@ -97,12 +97,12 @@ function Page() {
               </div>
             </div>
             <div className="flex items-center gap-2 text-xs pt-2">
-              <label className="flex items-center gap-2"><input type="checkbox" defaultChecked /> Bloquear automáticamente al disparar</label>
+              <label className="flex items-center gap-2"><input type="checkbox" defaultChecked /> Bloquear automaticamente al disparar</label>
             </div>
             <div className="flex items-center gap-2 text-xs">
               <label className="flex items-center gap-2"><input type="checkbox" defaultChecked /> Notificar a compliance por email</label>
             </div>
-            <BtnPrimary className="w-full"><Save size={14} /> Guardar parámetros</BtnPrimary>
+            <BtnPrimary className="w-full"><Save size={14} /> Guardar parametros</BtnPrimary>
           </form>
         </Card>
 
@@ -188,7 +188,7 @@ function Page() {
       <Card className="mb-6 p-0 overflow-hidden">
         <div className="px-5 py-4 border-b flex justify-between items-center">
           <h3 className="font-semibold flex items-center gap-2"><ListChecks size={16} /> Listas de control PEP / SDN</h3>
-          <span className="text-xs text-muted-foreground">Última corrida: hoy 06:00</span>
+          <span className="text-xs text-muted-foreground">ultima corrida: hoy 06:00</span>
         </div>
         <table className="w-full text-sm">
           <thead>
@@ -197,7 +197,7 @@ function Page() {
               <th className="text-left px-5 py-2.5">CUIT</th>
               <th className="text-left px-5 py-2.5">PEP</th>
               <th className="text-left px-5 py-2.5">SDN</th>
-              <th className="text-left px-5 py-2.5">Última validación</th>
+              <th className="text-left px-5 py-2.5">ultima validacion</th>
               <th className="px-5 py-2.5"></th>
             </tr>
           </thead>
@@ -223,9 +223,9 @@ function Page() {
         <div className="space-y-3 text-sm">
           {[
             { f: "02/06 09:32", t: "Alerta disparada", cli: "Pagos Express SRL", det: "Monto > $ 5M · $ 6.200.000" },
-            { f: "15/03 14:21", t: "Cuenta bloqueada", cli: "Pagos Express SRL", det: "Operatoria atípica — por L. Díaz" },
+            { f: "15/03 14:21", t: "Cuenta bloqueada", cli: "Pagos Express SRL", det: "Operatoria atipica — por L. Diaz" },
             { f: "10/04 11:08", t: "Cuenta bloqueada", cli: "Comercializadora ABC", det: "CUIT en lista control" },
-            { f: "12/03 16:48", t: "Bloqueo levantado", cli: "Cooperativa Norte", det: "Documentación regularizada — por M. Solís" },
+            { f: "12/03 16:48", t: "Bloqueo levantado", cli: "Cooperativa Norte", det: "Documentacion regularizada — por M. Solis" },
           ].map((h, i) => (
             <div key={i} className="flex gap-3 border-l-2 border-primary/30 pl-3">
               <div className="text-xs text-muted-foreground w-20 shrink-0">{h.f}</div>
@@ -249,7 +249,7 @@ function Page() {
               <div>
                 <h3 className="font-semibold">Levantar bloqueo</h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Vas a habilitar nuevamente la operatoria de <strong>{bloqueoOpen.cli}</strong>. Esta acción queda auditada.
+                  Vas a habilitar nuevamente la operatoria de <strong>{bloqueoOpen.cli}</strong>. Esta accion queda auditada.
                 </p>
               </div>
             </div>
@@ -259,7 +259,7 @@ function Page() {
                 <Input value={motivoLev} onChange={(e) => setMotivoLev(e.target.value)} placeholder="Detallar..." />
               </div>
               <div>
-                <Label>Adjuntar documentación de respaldo</Label>
+                <Label>Adjuntar documentacion de respaldo</Label>
                 <BtnOutline className="w-full"><Plus size={14} /> Subir archivo</BtnOutline>
               </div>
             </div>
@@ -294,19 +294,19 @@ function Page() {
               </div>
             </div>
             <Card className="bg-muted/30 space-y-2 text-sm">
-              <div><span className="text-muted-foreground text-xs">Descripción:</span> <strong>{verAlerta.d}</strong></div>
+              <div><span className="text-muted-foreground text-xs">Descripcion:</span> <strong>{verAlerta.d}</strong></div>
               <div><span className="text-muted-foreground text-xs">Cliente:</span> {verAlerta.cli}</div>
               {verAlerta.m !== "—" && <div><span className="text-muted-foreground text-xs">Monto:</span> {verAlerta.m}</div>}
               <div><span className="text-muted-foreground text-xs">Regla disparada:</span> {verAlerta.tipo}</div>
               <div><span className="text-muted-foreground text-xs">Estado:</span> <Badge tone={tonoAlerta(verAlerta.e)}>{verAlerta.e}</Badge></div>
             </Card>
             <div className="text-xs text-muted-foreground border-t pt-3">
-              Esta alerta fue generada automáticamente por el motor de compliance. La revisión queda auditada con tu usuario.
+              Esta alerta fue generada automaticamente por el motor de compliance. La revision queda auditada con tu usuario.
             </div>
             <div className="flex gap-2">
               <BtnOutline className="flex-1" onClick={() => setVerAlerta(null)}>Cerrar</BtnOutline>
               <BtnPrimary className="flex-1" onClick={() => { setRevisarAlerta(verAlerta); setVerAlerta(null); setMotivoRev(""); }}>
-                <CheckCircle2 size={14} /> Pasar a revisión
+                <CheckCircle2 size={14} /> Pasar a revision
               </BtnPrimary>
             </div>
           </div>
@@ -320,10 +320,10 @@ function Page() {
             <h3 className="font-semibold">Marcar alerta como revisada</h3>
             <p className="text-xs text-muted-foreground">{revisarAlerta.d} · {revisarAlerta.cli}</p>
             <div>
-              <Label>Resolución *</Label>
+              <Label>Resolucion *</Label>
               <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
-                <option>Operación legítima — sin acción</option>
-                <option>Operación legítima — notificar al cliente</option>
+                <option>Operacion legitima — sin accion</option>
+                <option>Operacion legitima — notificar al cliente</option>
                 <option>Reportar como sospechosa (ROS)</option>
                 <option>Escalar a UIF</option>
               </select>
@@ -334,7 +334,7 @@ function Page() {
                 value={motivoRev}
                 onChange={(e) => setMotivoRev(e.target.value)}
                 className="w-full min-h-[80px] p-3 rounded-md border bg-card text-sm"
-                placeholder="Justificación visible solo para compliance..."
+                placeholder="Justificacion visible solo para compliance..."
               />
             </div>
             <div className="flex gap-2 pt-2">
@@ -347,7 +347,7 @@ function Page() {
                   setRevisarAlerta(null);
                 }}
               >
-                <CheckCircle2 size={14} /> Confirmar revisión
+                <CheckCircle2 size={14} /> Confirmar revision
               </BtnPrimary>
             </div>
           </div>
@@ -367,7 +367,7 @@ function Page() {
                 <p className="text-xs text-muted-foreground">{bloquearAlerta.cli}</p>
               </div>
             </div>
-            <p className="text-sm">Se bloqueará toda la operatoria del cliente hasta que se levante manualmente.</p>
+            <p className="text-sm">Se bloqueara toda la operatoria del cliente hasta que se levante manualmente.</p>
             <div>
               <Label>Motivo del bloqueo *</Label>
               <Input placeholder="Detallar..." />
@@ -403,10 +403,10 @@ function Page() {
               </div>
               <div className="space-y-3 text-sm">
                 {[
-                  { f: histLista.ult, t: "Validación automática", det: `PEP: ${histLista.pep} · SDN: ${histLista.sdn}`, u: "Sistema" },
-                  { f: "15/04/2026", t: "Validación automática", det: "PEP: Validado · SDN: Validado", u: "Sistema" },
-                  { f: "10/03/2026", t: "Revisión manual", det: "Documentación societaria verificada", u: "M. Solís" },
-                  { f: "12/02/2026", t: "Alta del cliente", det: "Validación inicial PEP/SDN", u: "L. Díaz" },
+                  { f: histLista.ult, t: "Validacion automatica", det: `PEP: ${histLista.pep} · SDN: ${histLista.sdn}`, u: "Sistema" },
+                  { f: "15/04/2026", t: "Validacion automatica", det: "PEP: Validado · SDN: Validado", u: "Sistema" },
+                  { f: "10/03/2026", t: "Revision manual", det: "Documentacion societaria verificada", u: "M. Solis" },
+                  { f: "12/02/2026", t: "Alta del cliente", det: "Validacion inicial PEP/SDN", u: "L. Diaz" },
                 ].map((h, i) => (
                   <div key={i} className="flex gap-3 border-l-2 border-primary/30 pl-3">
                     <div className="text-xs text-muted-foreground w-24 shrink-0">{h.f}</div>
@@ -425,13 +425,13 @@ function Page() {
       <FormDialog
         open={auditOpen}
         onClose={() => setAuditOpen(false)}
-        title="Generar auditoría completa"
+        title="Generar auditoria completa"
         description="Reporte exhaustivo de alertas, bloqueos y operaciones revisadas."
         submitLabel="Generar reporte"
         size="lg"
         onSubmit={() => {
           setAuditOpen(false);
-          toast.success("Reporte de auditoría en preparación · te avisaremos por email");
+          toast.success("Reporte de auditoria en preparacion · te avisaremos por email");
         }}
       >
         <div className="grid grid-cols-2 gap-3">
@@ -443,7 +443,7 @@ function Page() {
           <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
             <option>Todos los clientes</option>
             <option>Pagos Express SRL</option>
-            <option>Microcréditos del Sur</option>
+            <option>Microcreditos del Sur</option>
             <option>Consorcio Larrea 1200</option>
           </select>
         </div>
@@ -453,7 +453,7 @@ function Page() {
             <label className="flex items-center gap-2"><input type="checkbox" defaultChecked /> Alertas disparadas</label>
             <label className="flex items-center gap-2"><input type="checkbox" defaultChecked /> Bloqueos y levantamientos</label>
             <label className="flex items-center gap-2"><input type="checkbox" defaultChecked /> Operaciones revisadas manualmente</label>
-            <label className="flex items-center gap-2"><input type="checkbox" /> Cambios en parámetros del motor</label>
+            <label className="flex items-center gap-2"><input type="checkbox" /> Cambios en parametros del motor</label>
             <label className="flex items-center gap-2"><input type="checkbox" /> Accesos y acciones de usuarios admin</label>
           </div>
         </div>

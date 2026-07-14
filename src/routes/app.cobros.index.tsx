@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import {
   PieChart,
@@ -38,11 +38,11 @@ import "jspdf-autotable";
 export const Route = createFileRoute("/app/cobros/")({ component: Dashboard });
 
 const presets = [
-  { label: "7 días", days: 7 },
-  { label: "15 días", days: 15 },
-  { label: "30 días", days: 30 },
-  { label: "60 días", days: 60 },
-  { label: "90 días", days: 90 },
+  { label: "7 dias", days: 7 },
+  { label: "15 dias", days: 15 },
+  { label: "30 dias", days: 30 },
+  { label: "60 dias", days: 60 },
+  { label: "90 dias", days: 90 },
   { label: "Todos", days: 9999 },
 ];
 
@@ -75,7 +75,7 @@ const ESTADO_LABEL: Record<LoteEstado, string> = {
 
 function Dashboard() {
   const navigate = useNavigate();
-  const [filter, setFilter] = useState<PeriodFilter>(periodFilter("30 días", 30));
+  const [filter, setFilter] = useState<PeriodFilter>(periodFilter("30 dias", 30));
   const [customDesde, setCustomDesde] = useState("");
   const [customHasta, setCustomHasta] = useState("");
 
@@ -116,7 +116,7 @@ function Dashboard() {
   const exportPDF = () => {
     const doc = new jsPDF();
     doc.text("Dashboard - Cobros Masivos", 14, 20);
-    doc.text(`Período: ${filter.label}`, 14, 30);
+    doc.text(`Periodo: ${filter.label}`, 14, 30);
     const body = [
       ["Total de lotes", String(kpi.totalLotes)],
       ["En proceso", String(kpi.enProceso)],
@@ -131,7 +131,7 @@ function Dashboard() {
       ],
     ];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (doc as any).autoTable({ startY: 38, head: [["Métrica", "Valor"]], body });
+    (doc as any).autoTable({ startY: 38, head: [["Metrica", "Valor"]], body });
     doc.save(`cobros-masivos-dashboard-${filter.label}.pdf`);
   };
 
@@ -247,7 +247,7 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* Gráficos */}
+      {/* Graficos */}
       <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
         {/* Cobros por medio de pago */}
         <Card>
@@ -321,7 +321,7 @@ function Dashboard() {
                 style={{ width: `${noCobradas.porcentajeNoCobrado}%` }}
               />
             </div>
-            <div className="grid grid-cols-3 gap-2 text-center pt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center pt-2">
               <div>
                 <div className="text-lg font-semibold">{noCobradas.totalOperaciones}</div>
                 <div className="text-[10px] text-muted-foreground">Total ops</div>
@@ -342,10 +342,10 @@ function Dashboard() {
         </Card>
       </div>
 
-      {/* Evolución de pagos */}
+      {/* Evolucion de pagos */}
       <Card className="mb-6">
         <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
-          Evolución de pagos
+          Evolucion de pagos
         </h4>
         <ResponsiveContainer width="100%" height={240}>
           <LineChart data={evolucion}>
@@ -372,7 +372,7 @@ function Dashboard() {
           <div>
             <div className="font-semibold">Lotes recientes</div>
             <div className="text-xs text-muted-foreground">
-              {lotesRecientes.length} lotes en el período seleccionado
+              {lotesRecientes.length} lotes en el periodo seleccionado
             </div>
           </div>
           <BtnOutline
@@ -405,7 +405,7 @@ function Dashboard() {
                   Pendiente
                 </th>
                 <th className="text-center px-5 py-3 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
-                  Acción
+                  Accion
                 </th>
               </tr>
             </thead>
@@ -461,7 +461,7 @@ function Dashboard() {
               {lotesRecientes.length === 0 && (
                 <tr>
                   <td colSpan={7} className="px-5 py-8 text-center text-sm text-muted-foreground">
-                    No hay lotes en el período seleccionado.
+                    No hay lotes en el periodo seleccionado.
                   </td>
                 </tr>
               )}

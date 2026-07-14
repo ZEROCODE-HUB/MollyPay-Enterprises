@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
+﻿import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { MollyLogo } from "@/components/molly-logo";
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
       { title: "Ingresar — Molly Money Life" },
-      { name: "description", content: "Accedé al portal de Molly Money Life. Modo demo disponible." },
+      { name: "description", content: "Accede al portal de Molly Money Life. Modo demo disponible." },
     ],
   }),
   component: LoginPage,
@@ -31,25 +31,25 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         onSuccess();
       }}
     >
-      <Field label="Correo Electrónico" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="hola@empresa.com" />
-      <PasswordField label="Contraseña" value={pw} onChange={setPw} />
+      <Field label="Correo Electronico" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="hola@empresa.com" />
+      <PasswordField label="Contrasena" value={pw} onChange={setPw} />
       <div className="flex justify-end">
         <button
           type="button"
-          onClick={() => alert("Flujo de recuperación de contraseña (demo)")}
+          onClick={() => alert("Flujo de recuperacion de contrasena (demo)")}
           className="text-xs text-[#0A1628]/60 hover:text-[#C41E3A] underline underline-offset-2 transition-colors"
         >
-          ¿Olvidaste tu contraseña?
+          ¿Olvidaste tu contrasena?
         </button>
       </div>
       <div className="pt-1">
-        <PrimaryButton type="submit">Iniciar sesión</PrimaryButton>
+        <PrimaryButton type="submit">Iniciar sesion</PrimaryButton>
       </div>
       <div className="text-center text-xs text-[#0A1628]/60 space-y-2 pt-2">
         <p>
           ¿No tienes una cuenta?{" "}
           <Link to="/login" search={{ register: "pf" }} className="text-[#C41E3A] underline underline-offset-2 hover:opacity-80">
-            Regístrate
+            Registrate
           </Link>
         </p>
         <p>
@@ -58,7 +58,7 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
             onClick={() => alert("Correo reenviado (demo)")}
             className="text-[#0A1628]/60 hover:text-[#C41E3A] underline underline-offset-2 transition-colors"
           >
-            ¿No te llegó el email de verificación?
+            ¿No te llego el email de verificacion?
           </button>
         </p>
       </div>
@@ -117,25 +117,25 @@ function RegisterForm({
         error={touched && !f.fechaNac ? "Requerido" : undefined}
       />
       <Field
-        label="Correo Electrónico"
+        label="Correo Electronico"
         type="email"
         value={f.email}
         onChange={(e) => setF({ ...f, email: e.target.value })}
         placeholder="nombre@dominio.com"
-        error={touched && !emailOk ? "Ingresá un email válido" : undefined}
+        error={touched && !emailOk ? "Ingresa un email valido" : undefined}
       />
       <PasswordField
-        label="Contraseña"
+        label="Contrasena"
         value={f.pw}
         onChange={(v) => setF({ ...f, pw: v })}
         showRules
-        error={touched && !pwOk ? "La contraseña no cumple los requisitos" : undefined}
+        error={touched && !pwOk ? "La contrasena no cumple los requisitos" : undefined}
       />
       <PasswordField
-        label="Confirmar Contraseña"
+        label="Confirmar Contrasena"
         value={f.pw2}
         onChange={(v) => setF({ ...f, pw2: v })}
-        error={touched && !pwMatch ? "Las contraseñas no coinciden" : undefined}
+        error={touched && !pwMatch ? "Las contrasenas no coinciden" : undefined}
       />
 
       <label className="flex items-start gap-2.5 text-xs text-[#0A1628]/75 pt-1">
@@ -146,9 +146,9 @@ function RegisterForm({
           className="mt-0.5 accent-[#C41E3A]"
         />
         <span>
-          He leído y acepto los{" "}
+          He leido y acepto los{" "}
           <a href="/legales/terminos" className="underline underline-offset-2 hover:text-[#C41E3A]">
-            Términos y Condiciones
+            Terminos y Condiciones
           </a>
           .
         </span>
@@ -164,13 +164,13 @@ function RegisterForm({
         <p>
           ¿Ya tienes una cuenta?{" "}
           <button type="button" onClick={onSwitchToLogin} className="text-[#C41E3A] underline underline-offset-2 hover:opacity-80">
-            Inicia Sesión
+            Inicia Sesion
           </button>
         </p>
         <p>
             {tipo === "juridica" ? (
             <Link to="/login" search={{ register: "pf" }} className="text-[#0A1628]/60 hover:text-[#C41E3A] underline underline-offset-2 transition-colors">
-              ¿Eres una persona física? Registrarse como persona física
+              ¿Eres una persona fisica? Registrarse como persona fisica
             </Link>
           ) : (
             <Link to="/login" search={{ register: "pj" }} className="text-[#0A1628]/60 hover:text-[#C41E3A] underline underline-offset-2 transition-colors">
@@ -231,7 +231,7 @@ function LoginPage() {
     <AuthShell
       leftEyebrow="Molipay · Acceso"
       leftTitle="Tu plataforma de pagos, sin intermediarios."
-      leftBody="Molipay opera bajo normativa BCRA. Tus datos viajan cifrados y se almacenan bajo los estándares del sistema financiero argentino."
+      leftBody="Molipay opera bajo normativa BCRA. Tus datos viajan cifrados y se almacenan bajo los estandares del sistema financiero argentino."
     >
       {/* Tabs */}
       <div className="grid grid-cols-2 border-b mb-8" style={{ borderColor: "rgba(10,22,40,0.15)" }}>
@@ -246,7 +246,7 @@ function LoginPage() {
             borderBottomColor: tab === "login" ? "#C41E3A" : "transparent",
           }}
         >
-          Iniciar sesión
+          Iniciar sesion
         </button>
         <button
           onClick={() => setTab("register")}
@@ -276,7 +276,7 @@ function LoginPage() {
             }`}
             style={{ borderRadius: 2, textTransform: "uppercase", letterSpacing: "0.06em" }}
           >
-            Persona Física
+            Persona Fisica
           </button>
           <button
             type="button"
@@ -288,7 +288,7 @@ function LoginPage() {
             }`}
             style={{ borderRadius: 2, textTransform: "uppercase", letterSpacing: "0.06em" }}
           >
-            Persona Jurídica
+            Persona Juridica
           </button>
         </div>
       )}

@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+﻿import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { useEffect } from "react";
 import {
   LayoutDashboard,
@@ -34,7 +34,7 @@ const nav: NavItem[] = [
     icon: Users,
     items: [
       { to: "/admin/clientes", label: "Clientes", icon: Building2 },
-      { to: "/admin/kyc", label: "Validación de identidad", icon: UserCheck },
+      { to: "/admin/kyc", label: "Validacion de identidad", icon: UserCheck },
     ],
   },
   {
@@ -48,17 +48,17 @@ const nav: NavItem[] = [
     ],
   },
   {
-    label: "Recaudación",
+    label: "Recaudacion",
     icon: HandCoins,
     items: [
-      { to: "/admin/recaudacion", label: "Recaudación sectorial", icon: Landmark },
+      { to: "/admin/recaudacion", label: "Recaudacion sectorial", icon: Landmark },
       { to: "/admin/consorcio", label: "Consorcio", icon: KeySquare },
       { to: "/admin/alquileres", label: "Alquileres", icon: Home },
     ],
   },
   { to: "/admin/compliance", label: "Compliance", icon: ShieldAlert },
-  { to: "/admin/reporteria", label: "Reportería", icon: FileBarChart2 },
-  { to: "/admin/config", label: "Configuración", icon: Settings },
+  { to: "/admin/reporteria", label: "Reporteria", icon: FileBarChart2 },
+  { to: "/admin/config", label: "Configuracion", icon: Settings },
 ];
 
 function AdminLayout() {

@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import {
   ShoppingCart,
   Power,
@@ -33,7 +33,7 @@ const txGateway = [
   { f: "01/06/2026", id: "PAY-9k2x1g", m: "$ 5.600", e: "Rechazado" },
 ];
 
-const meses = ["Todos", "Hoy", "Ayer", "Últimos 7 días", "Últimos 30 días", "Este mes"];
+const meses = ["Todos", "Hoy", "Ayer", "ultimos 7 dias", "ultimos 30 dias", "Este mes"];
 
 function Page() {
   const copy = (txt: string, label: string) => {
@@ -75,10 +75,10 @@ function Page() {
         </div>
         <div className="bg-card border rounded-lg p-3">
           <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-            Aprobación
+            Aprobacion
           </div>
           <div className="text-base md:text-lg font-semibold mt-0.5">96.2%</div>
-          <div className="text-[10px] text-muted-foreground mt-0.5">Tasa de conversión</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">Tasa de conversion</div>
         </div>
       </div>
 
@@ -93,8 +93,8 @@ function Page() {
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground">
-            API RESTful para integrar cobros desde tu e-commerce: links de pago, QR, tokenización de
-            tarjetas y webhooks de notificación. SDKs para Node, PHP y Python.
+            API RESTful para integrar cobros desde tu e-commerce: links de pago, QR, tokenizacion de
+            tarjetas y webhooks de notificacion. SDKs para Node, PHP y Python.
           </p>
           <ul className="text-xs text-muted-foreground mt-3 space-y-1">
             <li>
@@ -104,16 +104,16 @@ function Page() {
               · <strong className="text-foreground">GET /v2/payments/:id</strong> — consultar estado
             </li>
             <li>
-              · <strong className="text-foreground">POST /v2/refunds</strong> — devolución total o
+              · <strong className="text-foreground">POST /v2/refunds</strong> — devolucion total o
               parcial
             </li>
             <li>
-              · <strong className="text-foreground">Webhook</strong> — notificación push de cada
+              · <strong className="text-foreground">Webhook</strong> — notificacion push de cada
               evento
             </li>
           </ul>
           <BtnOutline className="mt-4">
-            <FileText size={14} /> Ver documentación <ArrowRight size={12} />
+            <FileText size={14} /> Ver documentacion <ArrowRight size={12} />
           </BtnOutline>
         </Card>
 
@@ -121,7 +121,7 @@ function Page() {
           <h3 className="font-semibold mb-3">Credenciales</h3>
           <div className="space-y-3">
             <div>
-              <Label>API key (producción)</Label>
+              <Label>API key (produccion)</Label>
               <div className="flex gap-2">
                 <Input
                   readOnly
@@ -155,7 +155,7 @@ function Page() {
               </div>
             </div>
             <div className="text-[11px] text-muted-foreground border-t pt-2">
-              Rotá la API key periódicamente desde Seguridad. Las llamadas requieren firma
+              Rota la API key periodicamente desde Seguridad. Las llamadas requieren firma
               HMAC-SHA256.
             </div>
           </div>

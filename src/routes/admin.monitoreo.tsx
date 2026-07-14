@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Radar, Activity, ShieldAlert, AlertCircle, CheckCircle2, ChevronRight } from "lucide-react";
 import {
@@ -9,7 +9,7 @@ export const Route = createFileRoute("/admin/monitoreo")({ component: Page });
 
 const txs = [
   { f: "10:42:18", cli: "Pagos Express SRL", op: "Transferencia", m: "$ 6.200.000", e: "Alertada" },
-  { f: "10:41:55", cli: "Microcréditos del Sur", op: "Cobro QR", m: "$ 18.400", e: "OK" },
+  { f: "10:41:55", cli: "Microcreditos del Sur", op: "Cobro QR", m: "$ 18.400", e: "OK" },
   { f: "10:41:32", cli: "Consorcio Larrea 1200", op: "Lote expensas", m: "$ 5.840.200", e: "OK" },
   { f: "10:40:11", cli: "Administradora Plaza", op: "Pago servicio", m: "$ 64.320", e: "OK" },
   { f: "10:39:48", cli: "Pagos Express SRL", op: "Transferencia", m: "$ 1.200.000", e: "Demorada" },
@@ -19,8 +19,8 @@ const txs = [
 ];
 
 const alertas = [
-  { cli: "Pagos Express SRL", d: "Operación > umbral · $ 6.200.000", t: "Hace 2 min" },
-  { cli: "Microcréditos del Sur", d: "Frecuencia inusual · 48 ops/h", t: "Hace 11 min" },
+  { cli: "Pagos Express SRL", d: "Operacion > umbral · $ 6.200.000", t: "Hace 2 min" },
+  { cli: "Microcreditos del Sur", d: "Frecuencia inusual · 48 ops/h", t: "Hace 11 min" },
   { cli: "Comercializadora ABC", d: "CUIT en lista de control", t: "Hace 28 min" },
 ];
 
@@ -41,7 +41,7 @@ function Page() {
     <>
       <PageHeader
         title="Monitoreo en tiempo real"
-        description="Métricas operativas y alertas con actualización automática."
+        description="Metricas operativas y alertas con actualizacion automatica."
         action={
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -53,16 +53,16 @@ function Page() {
       />
 
       <div className="grid md:grid-cols-4 gap-4 mb-6">
-        <Stat label="Volumen últimas 24h" value="$ 184,2M" sub="+12% vs ayer" />
+        <Stat label="Volumen ultimas 24h" value="$ 184,2M" sub="+12% vs ayer" />
         <Stat label="Transacciones activas" value="1.482" sub="324 en curso" />
-        <Stat label="Alertas pendientes" value="3" sub="2 críticas" />
-        <Stat label="Clientes con actividad inusual" value="2" sub="Pagos Express, Microcréditos" />
+        <Stat label="Alertas pendientes" value="3" sub="2 criticas" />
+        <Stat label="Clientes con actividad inusual" value="2" sub="Pagos Express, Microcreditos" />
       </div>
 
       <div className="grid lg:grid-cols-[1.6fr_1fr] gap-6">
         <Card className="p-0 overflow-hidden">
           <div className="px-5 py-4 border-b flex items-center justify-between">
-            <h3 className="font-semibold flex items-center gap-2"><Activity size={16} /> Transacciones · últimos 30 min</h3>
+            <h3 className="font-semibold flex items-center gap-2"><Activity size={16} /> Transacciones · ultimos 30 min</h3>
             <span className="text-xs text-muted-foreground">Actualizado hace {tick === 0 ? "0" : tick * 60} s</span>
           </div>
           <table className="w-full text-sm">
@@ -70,7 +70,7 @@ function Page() {
               <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
                 <th className="text-left px-5 py-2.5">Hora</th>
                 <th className="text-left px-5 py-2.5">Cliente</th>
-                <th className="text-left px-5 py-2.5">Operación</th>
+                <th className="text-left px-5 py-2.5">Operacion</th>
                 <th className="text-right px-5 py-2.5">Monto</th>
                 <th className="text-right px-5 py-2.5">Estado</th>
               </tr>
@@ -119,7 +119,7 @@ function Page() {
               <div className="flex justify-between"><span className="text-muted-foreground">Pasarela QR/Link</span><Badge tone="success">OK</Badge></div>
               <div className="flex justify-between"><span className="text-muted-foreground">Procesamiento de lotes</span><Badge tone="warn"><AlertCircle size={10} className="mr-1" /> Lento</Badge></div>
               <div className="flex justify-between"><span className="text-muted-foreground">Compliance engine</span><Badge tone="success">OK</Badge></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Conexión COELSA</span><Badge tone="success">OK</Badge></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Conexion COELSA</span><Badge tone="success">OK</Badge></div>
             </div>
           </Card>
         </div>

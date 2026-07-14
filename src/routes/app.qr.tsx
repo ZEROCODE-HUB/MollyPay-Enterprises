@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useRouterState, useNavigate } from "@tanstack/react-router";
+﻿import { createFileRoute, Outlet, useRouterState, useNavigate } from "@tanstack/react-router";
 import { PageHeader } from "@/components/portal-shell";
 import { LayoutDashboard, Store } from "lucide-react";
 import { RouteSkeleton } from "@/components/route-skeleton";
@@ -21,7 +21,7 @@ function Layout() {
     <>
       <PageHeader
         title="Cobros con QR"
-        description="Cobrá presencialmente con QR interoperables compatibles con cualquier billetera."
+        description="Cobra presencialmente con QR interoperables compatibles con cualquier billetera."
       />
       <div className="flex gap-1 mb-6 border-b overflow-x-auto">
         {tabs.map((t) => (

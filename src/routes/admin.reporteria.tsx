@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
   FileBarChart2, Download, Eye, FileText, Filter, Star, Calendar,
@@ -15,12 +15,12 @@ export const Route = createFileRoute("/admin/reporteria")({ component: Page });
 type Reporte = { s: string; t: string; f: string; u: string; per: string; fmt: string; cat: "Operativo" | "Regulatorio" | "Comercial"; fav?: boolean };
 
 const historialBase: Reporte[] = [
-  { s: "RP-2026-000182", t: "Por cuenta madre",     f: "02/06/2026 10:14", u: "M. Solís", per: "May 2026", fmt: "PDF", cat: "Operativo", fav: true },
+  { s: "RP-2026-000182", t: "Por cuenta madre",     f: "02/06/2026 10:14", u: "M. Solis", per: "May 2026", fmt: "PDF", cat: "Operativo", fav: true },
   { s: "RP-2026-000181", t: "Por subcuenta",        f: "01/06/2026 18:02", u: "T. Vega",  per: "May 2026", fmt: "CSV", cat: "Operativo" },
-  { s: "RP-2026-000180", t: "Reporte AML mensual",  f: "01/06/2026 09:48", u: "L. Díaz",  per: "May 2026", fmt: "PDF", cat: "Regulatorio", fav: true },
-  { s: "RP-2026-000179", t: "Por tipo de operación", f: "31/05/2026 16:30", u: "M. Solís", per: "May 2026", fmt: "PDF", cat: "Operativo" },
+  { s: "RP-2026-000180", t: "Reporte AML mensual",  f: "01/06/2026 09:48", u: "L. Diaz",  per: "May 2026", fmt: "PDF", cat: "Regulatorio", fav: true },
+  { s: "RP-2026-000179", t: "Por tipo de operacion", f: "31/05/2026 16:30", u: "M. Solis", per: "May 2026", fmt: "PDF", cat: "Operativo" },
   { s: "RP-2026-000178", t: "PEP/SDN validaciones", f: "30/05/2026 11:12", u: "P. Sosa",  per: "Abr 2026", fmt: "CSV", cat: "Regulatorio" },
-  { s: "RP-2026-000177", t: "Remesas internacionales", f: "29/05/2026 14:22", u: "L. Díaz",  per: "May 2026", fmt: "PDF", cat: "Regulatorio" },
+  { s: "RP-2026-000177", t: "Remesas internacionales", f: "29/05/2026 14:22", u: "L. Diaz",  per: "May 2026", fmt: "PDF", cat: "Regulatorio" },
   { s: "RP-2026-000176", t: "Comisiones por cliente", f: "28/05/2026 09:10", u: "T. Vega",  per: "May 2026", fmt: "Excel", cat: "Comercial" },
 ];
 
@@ -30,10 +30,10 @@ type TipoReporte = {
 
 const tipos: TipoReporte[] = [
   { v: "madre",   l: "Por cuenta madre",            d: "Consolidado a nivel cliente",                cat: "Operativo",   icon: FileBarChart2 },
-  { v: "sub",     l: "Por subcuenta específica",    d: "Movimientos de una subcuenta CVU",           cat: "Operativo",   icon: FileText },
-  { v: "periodo", l: "Por período",                 d: "Cortes mensuales, trimestrales o custom",    cat: "Operativo",   icon: Calendar },
-  { v: "op",      l: "Por tipo de operación",       d: "Transferencias, cobros, links, QR, servicios", cat: "Operativo", icon: TrendingUp },
-  { v: "kyc",     l: "Reporte KYC",                 d: "Validaciones automáticas y manuales",        cat: "Regulatorio", icon: ShieldCheck },
+  { v: "sub",     l: "Por subcuenta especifica",    d: "Movimientos de una subcuenta CVU",           cat: "Operativo",   icon: FileText },
+  { v: "periodo", l: "Por periodo",                 d: "Cortes mensuales, trimestrales o custom",    cat: "Operativo",   icon: Calendar },
+  { v: "op",      l: "Por tipo de operacion",       d: "Transferencias, cobros, links, QR, servicios", cat: "Operativo", icon: TrendingUp },
+  { v: "kyc",     l: "Reporte KYC",                 d: "Validaciones automaticas y manuales",        cat: "Regulatorio", icon: ShieldCheck },
   { v: "aml",    l: "Reporte AML",                  d: "Alertas, ROS y operaciones revisadas",       cat: "Regulatorio", icon: ShieldCheck },
   { v: "pep",     l: "Reporte PEP / SDN",           d: "Validaciones contra listas oficiales",       cat: "Regulatorio", icon: ShieldCheck },
   { v: "remesas", l: "Reporte de remesas",          d: "Transferencias internacionales (MORE)",      cat: "Regulatorio", icon: TrendingUp },
@@ -43,19 +43,19 @@ const tipos: TipoReporte[] = [
 type Programado = { n: string; tipo: string; freq: "Diario" | "Semanal" | "Mensual"; dest: string; prox: string; act: boolean };
 
 const programados: Programado[] = [
-  { n: "Cierre diario Operaciones", tipo: "Por cuenta madre", freq: "Diario",  dest: "ops@molly.com",      prox: "Mañana 08:00", act: true },
+  { n: "Cierre diario Operaciones", tipo: "Por cuenta madre", freq: "Diario",  dest: "ops@molly.com",      prox: "Manana 08:00", act: true },
   { n: "Reporte AML semanal",       tipo: "Reporte AML",      freq: "Semanal", dest: "compliance@molly.com", prox: "Lun 09:00",    act: true },
   { n: "Comisiones mensuales",      tipo: "Comisiones cobradas", freq: "Mensual", dest: "finanzas@molly.com",  prox: "01/07 07:00",  act: true },
   { n: "PEP/SDN trimestral",        tipo: "Reporte PEP / SDN", freq: "Mensual", dest: "compliance@molly.com", prox: "01/07 06:30",  act: false },
 ];
 
 const auditoria = [
-  { f: "02/06 14:22", u: "M. Solís", a: "Descargó",   r: "RP-2026-000182" },
-  { f: "02/06 10:14", u: "M. Solís", a: "Generó",     r: "RP-2026-000182" },
-  { f: "01/06 18:30", u: "T. Vega",  a: "Compartió",  r: "RP-2026-000181 (compliance@molly.com)" },
-  { f: "01/06 18:02", u: "T. Vega",  a: "Generó",     r: "RP-2026-000181" },
-  { f: "01/06 11:08", u: "L. Díaz",  a: "Descargó",   r: "RP-2026-000180" },
-  { f: "01/06 09:48", u: "L. Díaz",  a: "Generó",     r: "RP-2026-000180 (AML)" },
+  { f: "02/06 14:22", u: "M. Solis", a: "Descargo",   r: "RP-2026-000182" },
+  { f: "02/06 10:14", u: "M. Solis", a: "Genero",     r: "RP-2026-000182" },
+  { f: "01/06 18:30", u: "T. Vega",  a: "Compartio",  r: "RP-2026-000181 (compliance@molly.com)" },
+  { f: "01/06 18:02", u: "T. Vega",  a: "Genero",     r: "RP-2026-000181" },
+  { f: "01/06 11:08", u: "L. Diaz",  a: "Descargo",   r: "RP-2026-000180" },
+  { f: "01/06 09:48", u: "L. Diaz",  a: "Genero",     r: "RP-2026-000180 (AML)" },
 ];
 
 function Page() {
@@ -84,12 +84,12 @@ function Page() {
   return (
     <>
       <PageHeader
-        title="Reportería"
-        description="Dashboard ejecutivo, generación con número de serie, programación automática y auditoría completa."
+        title="Reporteria"
+        description="Dashboard ejecutivo, generacion con numero de serie, programacion automatica y auditoria completa."
         action={
           <div className="flex gap-2">
             <BtnOutline onClick={() => setTab("programados")}><Calendar size={14} /> Programados</BtnOutline>
-            <BtnOutline onClick={() => setTab("auditoria")}><History size={14} /> Auditoría</BtnOutline>
+            <BtnOutline onClick={() => setTab("auditoria")}><History size={14} /> Auditoria</BtnOutline>
           </div>
         }
       />
@@ -106,7 +106,7 @@ function Page() {
         <div className="flex justify-between items-center mb-3">
           <h3 className="font-semibold text-sm flex items-center gap-2"><TrendingUp size={14} /> Tendencia mensual de operaciones</h3>
           <select className="h-8 px-2 rounded-md border bg-card text-xs">
-            <option>Últimos 6 meses</option><option>Último año</option><option>YTD</option>
+            <option>ultimos 6 meses</option><option>ultimo ano</option><option>YTD</option>
           </select>
         </div>
         <div className="flex items-end gap-2 h-32">
@@ -123,7 +123,7 @@ function Page() {
         {[
           { k: "generar",     l: "Generar reporte",  i: FileBarChart2 },
           { k: "programados", l: "Programados",      i: Calendar },
-          { k: "auditoria",   l: "Auditoría",        i: History },
+          { k: "auditoria",   l: "Auditoria",        i: History },
         ].map((t) => {
           const Icon = t.i;
           return (
@@ -174,7 +174,7 @@ function Page() {
                 <Label>Cliente</Label>
                 <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
                   <option>Todos los clientes</option><option>Pagos Express SRL</option>
-                  <option>Microcréditos del Sur</option><option>Consorcio Larrea 1200</option>
+                  <option>Microcreditos del Sur</option><option>Consorcio Larrea 1200</option>
                 </select>
               </div>
               <details className="rounded-md border p-3">
@@ -191,14 +191,14 @@ function Page() {
                   </div>
                   <div><Label>Canal</Label>
                     <select className="w-full h-9 px-3 rounded-md border bg-card text-xs">
-                      <option>Todos</option><option>Web</option><option>API</option><option>App móvil</option>
+                      <option>Todos</option><option>Web</option><option>API</option><option>App movil</option>
                     </select>
                   </div>
                   <label className="flex items-center gap-2 text-xs"><input type="checkbox" /> Solo operaciones revisadas por compliance</label>
                 </div>
               </details>
               <div>
-                <Label>Formato de exportación</Label>
+                <Label>Formato de exportacion</Label>
                 <div className="grid grid-cols-3 gap-2">
                   {[
                     { v: "PDF",   l: "PDF firmado",   i: FileText },
@@ -282,7 +282,7 @@ function Page() {
           <div className="px-5 py-4 border-b flex justify-between items-center">
             <div>
               <h3 className="font-semibold flex items-center gap-2"><Calendar size={16} /> Reportes programados</h3>
-              <p className="text-xs text-muted-foreground">Envío automático por correo según frecuencia.</p>
+              <p className="text-xs text-muted-foreground">Envio automatico por correo segun frecuencia.</p>
             </div>
             <BtnPrimary onClick={() => toast.success("Nuevo programado creado")}><Calendar size={14} /> Nuevo programado</BtnPrimary>
           </div>
@@ -293,7 +293,7 @@ function Page() {
                 <th className="text-left px-5 py-2.5">Tipo</th>
                 <th className="text-left px-5 py-2.5">Frecuencia</th>
                 <th className="text-left px-5 py-2.5">Destinatarios</th>
-                <th className="text-left px-5 py-2.5">Próxima ejecución</th>
+                <th className="text-left px-5 py-2.5">Proxima ejecucion</th>
                 <th className="text-left px-5 py-2.5">Estado</th>
                 <th></th>
               </tr>
@@ -323,7 +323,7 @@ function Page() {
         <Card className="p-0 overflow-hidden">
           <div className="px-5 py-4 border-b">
             <h3 className="font-semibold flex items-center gap-2"><History size={16} /> Trazabilidad de descargas y accesos</h3>
-            <p className="text-xs text-muted-foreground">Registro inmutable · cada acción queda auditada con usuario, fecha y reporte.</p>
+            <p className="text-xs text-muted-foreground">Registro inmutable · cada accion queda auditada con usuario, fecha y reporte.</p>
           </div>
           <div className="divide-y">
             {auditoria.map((a, i) => (
@@ -337,7 +337,7 @@ function Page() {
                     <div className="text-xs text-muted-foreground">{a.f}</div>
                   </div>
                 </div>
-                <Badge tone={a.a === "Descargó" ? "neutral" : a.a === "Compartió" ? "warn" : "success"}>{a.a}</Badge>
+                <Badge tone={a.a === "Descargo" ? "neutral" : a.a === "Compartio" ? "warn" : "success"}>{a.a}</Badge>
               </div>
             ))}
           </div>
@@ -362,7 +362,7 @@ function Page() {
               </div>
               <h2 className="text-xl font-semibold">Reporte institucional Molly</h2>
               <div className="text-sm text-muted-foreground">
-                {tipoSel.l} · <Badge tone={tipoSel.cat === "Regulatorio" ? "warn" : "neutral"}>{tipoSel.cat}</Badge> · Período mayo 2026
+                {tipoSel.l} · <Badge tone={tipoSel.cat === "Regulatorio" ? "warn" : "neutral"}>{tipoSel.cat}</Badge> · Periodo mayo 2026
               </div>
               <div className="grid grid-cols-3 gap-3">
                 <Card className="bg-muted/30"><div className="text-xs text-muted-foreground">Ingresos</div><div className="font-semibold text-lg">$ 12.420.300</div></Card>

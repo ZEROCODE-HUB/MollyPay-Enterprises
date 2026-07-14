@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Plus, Search, Home, ChevronRight, X, FileText, Calendar,
@@ -12,17 +12,17 @@ export const Route = createFileRoute("/admin/alquileres")({ component: Page });
 
 type Prop = {
   u: string; loc: string; prop: string; m: string;
-  venc: string; e: "Al día" | "Atrasado" | "Pendiente cobro";
+  venc: string; e: "Al dia" | "Atrasado" | "Pendiente cobro";
   ult: string;
 };
 
 const props: Prop[] = [
-  { u: "Belgrano 1234 4°B", loc: "Juan Pérez", prop: "Inv. del Plata", m: "$ 320.000", venc: "05/06/2026", e: "Al día", ult: "Mayo: cobrado" },
-  { u: "Palermo 567 2°A", loc: "María López", prop: "Inv. del Plata", m: "$ 410.000", venc: "05/06/2026", e: "Pendiente cobro", ult: "Mayo: cobrado" },
-  { u: "Caballito 880 6°C", loc: "Pedro Gómez", prop: "Estudio Ríos", m: "$ 280.000", venc: "05/06/2026", e: "Atrasado", ult: "Abril: cobrado" },
-  { u: "Recoleta 2100 3°D", loc: "Ana Torres", prop: "Inv. Norte", m: "$ 520.000", venc: "05/06/2026", e: "Al día", ult: "Mayo: cobrado" },
-  { u: "Villa Crespo 4500 PB", loc: "Laura Méndez", prop: "Estudio Ríos", m: "$ 290.000", venc: "10/06/2026", e: "Pendiente cobro", ult: "Mayo: cobrado" },
-  { u: "Núñez 3300 5°A", loc: "Tomás Vega", prop: "Inv. Norte", m: "$ 480.000", venc: "10/06/2026", e: "Atrasado", ult: "Abril: cobrado" },
+  { u: "Belgrano 1234 4°B", loc: "Juan Perez", prop: "Inv. del Plata", m: "$ 320.000", venc: "05/06/2026", e: "Al dia", ult: "Mayo: cobrado" },
+  { u: "Palermo 567 2°A", loc: "Maria Lopez", prop: "Inv. del Plata", m: "$ 410.000", venc: "05/06/2026", e: "Pendiente cobro", ult: "Mayo: cobrado" },
+  { u: "Caballito 880 6°C", loc: "Pedro Gomez", prop: "Estudio Rios", m: "$ 280.000", venc: "05/06/2026", e: "Atrasado", ult: "Abril: cobrado" },
+  { u: "Recoleta 2100 3°D", loc: "Ana Torres", prop: "Inv. Norte", m: "$ 520.000", venc: "05/06/2026", e: "Al dia", ult: "Mayo: cobrado" },
+  { u: "Villa Crespo 4500 PB", loc: "Laura Mendez", prop: "Estudio Rios", m: "$ 290.000", venc: "10/06/2026", e: "Pendiente cobro", ult: "Mayo: cobrado" },
+  { u: "Nunez 3300 5°A", loc: "Tomas Vega", prop: "Inv. Norte", m: "$ 480.000", venc: "10/06/2026", e: "Atrasado", ult: "Abril: cobrado" },
 ];
 
 const pagos = [
@@ -33,7 +33,7 @@ const pagos = [
 ];
 
 const tono = (e: string): "success" | "warn" | "danger" =>
-  e === "Al día" ? "success" : e === "Pendiente cobro" ? "warn" : "danger";
+  e === "Al dia" ? "success" : e === "Pendiente cobro" ? "warn" : "danger";
 
 function Page() {
   const [detalle, setDetalle] = useState<Prop | null>(null);
@@ -42,7 +42,7 @@ function Page() {
   return (
     <>
       <PageHeader
-        title="Módulo de alquileres"
+        title="Modulo de alquileres"
         description="Propiedades administradas, locatarios y cobros programados."
         action={<BtnPrimary onClick={() => setNuevo(true)}><Plus size={16} /> Nueva propiedad</BtnPrimary>}
       />
@@ -58,15 +58,15 @@ function Page() {
         <div className="p-4 border-b flex flex-wrap gap-2">
           <div className="relative flex-1 min-w-[260px]">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Buscar dirección, locatario o propietario..." className="pl-9" />
+            <Input placeholder="Buscar direccion, locatario o propietario..." className="pl-9" />
           </div>
           <select className="h-10 px-3 rounded-md border bg-card text-sm">
-            <option>Estado: todos</option><option>Al día</option>
+            <option>Estado: todos</option><option>Al dia</option>
             <option>Pendiente cobro</option><option>Atrasado</option>
           </select>
           <select className="h-10 px-3 rounded-md border bg-card text-sm">
             <option>Administradora: todas</option>
-            <option>Inv. del Plata</option><option>Estudio Ríos</option>
+            <option>Inv. del Plata</option><option>Estudio Rios</option>
             <option>Inv. Norte</option>
           </select>
         </div>
@@ -113,7 +113,7 @@ function PropDrawer({ p, onClose }: { p: Prop; onClose: () => void }) {
           <Card>
             <h4 className="font-semibold text-sm mb-3 flex items-center gap-2"><Home size={14} /> Datos</h4>
             <dl className="grid grid-cols-2 gap-y-2.5 text-sm">
-              <dt className="text-muted-foreground text-xs">Dirección</dt><dd>{p.u}</dd>
+              <dt className="text-muted-foreground text-xs">Direccion</dt><dd>{p.u}</dd>
               <dt className="text-muted-foreground text-xs">Locatario</dt><dd>{p.loc}</dd>
               <dt className="text-muted-foreground text-xs">Propietario</dt><dd>{p.prop}</dd>
               <dt className="text-muted-foreground text-xs">Alquiler mensual</dt><dd className="font-semibold">{p.m}</dd>
@@ -124,7 +124,7 @@ function PropDrawer({ p, onClose }: { p: Prop; onClose: () => void }) {
 
           <Card>
             <div className="flex justify-between items-center mb-3">
-              <h4 className="font-semibold text-sm">Cobro del período actual</h4>
+              <h4 className="font-semibold text-sm">Cobro del periodo actual</h4>
               <Badge tone={tono(p.e)}>{p.e}</Badge>
             </div>
             <div className="grid grid-cols-2 gap-3 text-sm">
@@ -179,7 +179,7 @@ function NuevaPropDrawer({ onClose }: { onClose: () => void }) {
           <Card>
             <h4 className="font-semibold text-sm mb-3">Datos del inmueble</h4>
             <div className="grid sm:grid-cols-2 gap-3">
-              <div className="sm:col-span-2"><Label>Dirección *</Label><Input /></div>
+              <div className="sm:col-span-2"><Label>Direccion *</Label><Input /></div>
               <div><Label>Unidad funcional</Label><Input placeholder="4°B" /></div>
               <div><Label>Ciudad</Label><Input defaultValue="CABA" /></div>
               <div><Label>Tipo</Label>
@@ -196,16 +196,16 @@ function NuevaPropDrawer({ onClose }: { onClose: () => void }) {
               <div><Label>Nombre *</Label><Input /></div>
               <div><Label>DNI *</Label><Input /></div>
               <div><Label>Email</Label><Input type="email" /></div>
-              <div><Label>Teléfono</Label><Input /></div>
+              <div><Label>Telefono</Label><Input /></div>
             </div>
           </Card>
           <Card>
             <h4 className="font-semibold text-sm mb-3">Contrato</h4>
             <div className="grid sm:grid-cols-2 gap-3">
               <div><Label>Alquiler mensual *</Label><Input /></div>
-              <div><Label>Día de vencimiento</Label><Input defaultValue="05" /></div>
+              <div><Label>Dia de vencimiento</Label><Input defaultValue="05" /></div>
               <div><Label>Inicio</Label><Input type="date" /></div>
-              <div><Label>Duración (meses)</Label><Input defaultValue="24" /></div>
+              <div><Label>Duracion (meses)</Label><Input defaultValue="24" /></div>
             </div>
           </Card>
           <div className="flex gap-2 sticky bottom-0 bg-background py-3 border-t">

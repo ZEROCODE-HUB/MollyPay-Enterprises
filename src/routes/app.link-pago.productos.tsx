@@ -51,7 +51,7 @@ function Page() {
   const generateLink = async () => {
     const selProducts = products.filter((p) => selected.includes(p.id));
     if (selProducts.length === 0) {
-      toast.error("Seleccion\u00e1 al menos un producto");
+      toast.error("Selecciona al menos un producto");
       return;
     }
     const id = generateId();
@@ -103,7 +103,7 @@ function Page() {
   return (
     <>
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-        <div className="relative flex-1 min-w-[200px]">
+        <div className="relative w-full sm:flex-1 sm:min-w-[200px]">
           <Search
             size={14}
             className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
@@ -124,7 +124,7 @@ function Page() {
             className="h-10"
             onClick={() => {
               if (selected.length === 0) {
-                toast.error("Seleccion\u00e1 productos primero");
+                toast.error("Selecciona productos primero");
                 return;
               }
               setLinkPartial(false);
@@ -156,7 +156,7 @@ function Page() {
                 <th className="text-left px-3 py-2.5">Producto</th>
                 <th className="text-right px-3 py-2.5">Cantidad</th>
                 <th className="text-right px-3 py-2.5">Precio</th>
-                <th className="text-left px-3 py-2.5 hidden md:table-cell">Descripci\u00f3n</th>
+                <th className="text-left px-3 py-2.5 hidden md:table-cell">Descripcion</th>
                 <th className="text-right px-3 py-2.5"></th>
               </tr>
             </thead>
@@ -178,7 +178,7 @@ function Page() {
                   <td className="px-3 py-3 text-right">{p.qty}</td>
                   <td className="px-3 py-3 text-right font-semibold">{formatARS(p.price)}</td>
                   <td className="px-3 py-3 text-xs text-muted-foreground hidden md:table-cell">
-                    {p.desc || "\u2014"}
+                    {p.desc || "-"}
                   </td>
                   <td className="px-3 py-3 text-right">
                     <div className="flex gap-1 justify-end">
@@ -220,7 +220,7 @@ function Page() {
         open={showLinkForm}
         onClose={() => setShowLinkForm(false)}
         title="Generar link de pago"
-        description="Configur\u00e1 los m\u00e9todos de pago y opciones del enlace."
+        description="Configura los metodos de pago y opciones del enlace."
         submitLabel="Generar link"
         size="lg"
         onSubmit={generateLink}
@@ -228,7 +228,7 @@ function Page() {
         <div className="p-3 rounded-md bg-muted text-xs">
           <span className="text-muted-foreground">Productos seleccionados: </span>
           <span className="font-semibold">{selected.length}</span>
-          {" \u2014 "}
+          {" - "}
           <span className="font-semibold">
             {formatARS(
               products
@@ -249,11 +249,11 @@ function Page() {
         </label>
 
         <div>
-          <Label>M\u00e9todos de pago permitidos</Label>
+          <Label>Metodos de pago permitidos</Label>
           {(["credit", "debit"] as const).map((cat) => (
             <div key={cat} className="mb-3">
               <div className="text-xs font-semibold text-muted-foreground uppercase mb-1.5">
-                {cat === "credit" ? "Tarjetas de Cr\u00e9dito" : "Tarjetas de D\u00e9bito"}
+                {cat === "credit" ? "Tarjetas de Credito" : "Tarjetas de Debito"}
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
                 {paymentMethods
@@ -287,7 +287,7 @@ function Page() {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <Label>Fecha de expiraci\u00f3n</Label>
+            <Label>Fecha de expiracion</Label>
             <Input
               type="date"
               value={linkExpires}
@@ -331,7 +331,7 @@ function Page() {
           setQrDataUrl("");
         }}
         title="Link de pago generado"
-        description="Compart\u00ed el enlace con tu cliente para que realice el pago."
+        description="Comparti el enlace con tu cliente para que realice el pago."
         submitLabel="Cerrar"
         size="lg"
         onSubmit={() => {
@@ -391,7 +391,7 @@ function Page() {
               </div>
               <div>
                 <span className="text-muted-foreground text-xs">Pagos parciales</span>
-                <div>{generatedLink.partialPayments ? "S\u00ed" : "No"}</div>
+                <div>{generatedLink.partialPayments ? "Si" : "No"}</div>
               </div>
               <div>
                 <span className="text-muted-foreground text-xs">Creado</span>
@@ -504,7 +504,7 @@ function ProductFormDialog({
       open={open}
       onClose={onClose}
       title={product ? "Editar producto" : "Nuevo producto"}
-      description="Registr\u00e1 un producto para asociarlo a un link de pago."
+      description="Registra un producto para asociarlo a un link de pago."
       submitLabel={product ? "Guardar cambios" : "Crear producto"}
       onSubmit={() => {
         if (!name || !price) {
@@ -525,7 +525,7 @@ function ProductFormDialog({
         <Input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Suscripci\u00f3n Premium"
+          placeholder="Suscripcion Premium"
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
@@ -539,7 +539,7 @@ function ProductFormDialog({
         </div>
       </div>
       <div>
-        <Label>Descripci\u00f3n (opcional)</Label>
+        <Label>Descripcion (opcional)</Label>
         <Input
           value={desc}
           onChange={(e) => setDesc(e.target.value)}

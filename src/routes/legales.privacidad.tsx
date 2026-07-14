@@ -1,12 +1,12 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+﻿import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { MollyLogo } from "@/components/molly-logo";
 
 export const Route = createFileRoute("/legales/privacidad")({
   head: () => ({
     meta: [
-      { title: "Política de Privacidad — Molly Money Life" },
-      { name: "description", content: "Política de privacidad y tratamiento de datos personales." },
+      { title: "Politica de Privacidad — Molly Money Life" },
+      { name: "description", content: "Politica de privacidad y tratamiento de datos personales." },
     ],
   }),
   component: Page,
@@ -24,8 +24,8 @@ function Page() {
         </div>
       </header>
       <article className="max-w-3xl mx-auto px-6 py-16">
-        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">Política de Privacidad</h1>
-        <p className="text-sm text-muted-foreground mt-2">Última actualización: 01/06/2026</p>
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">Politica de Privacidad</h1>
+        <p className="text-sm text-muted-foreground mt-2">ultima actualizacion: 01/06/2026</p>
 
         <section className="mt-8 space-y-6 text-sm leading-relaxed text-muted-foreground">
           <div>
@@ -34,19 +34,19 @@ function Page() {
           </div>
           <div>
             <h2 className="text-lg font-semibold text-foreground mb-2">2. Datos recolectados</h2>
-            <p>Recolectamos datos identificatorios de la persona jurídica y de sus representantes, datos operativos de la cuenta y datos de navegación con fines de seguridad y prevención de fraude.</p>
+            <p>Recolectamos datos identificatorios de la persona juridica y de sus representantes, datos operativos de la cuenta y datos de navegacion con fines de seguridad y prevencion de fraude.</p>
           </div>
           <div>
             <h2 className="text-lg font-semibold text-foreground mb-2">3. Finalidad</h2>
-            <p>Los datos se utilizan para prestar el servicio, cumplir obligaciones regulatorias (Ley 25.246 de Prevención de Lavado de Activos) y comunicaciones vinculadas al servicio.</p>
+            <p>Los datos se utilizan para prestar el servicio, cumplir obligaciones regulatorias (Ley 25.246 de Prevencion de Lavado de Activos) y comunicaciones vinculadas al servicio.</p>
           </div>
           <div>
             <h2 className="text-lg font-semibold text-foreground mb-2">4. Derechos del titular</h2>
-            <p>De acuerdo con la Ley 25.326, el titular podrá ejercer los derechos de acceso, rectificación, actualización y supresión de sus datos escribiendo a privacidad@molly.com.ar.</p>
+            <p>De acuerdo con la Ley 25.326, el titular podra ejercer los derechos de acceso, rectificacion, actualizacion y supresion de sus datos escribiendo a privacidad@molly.com.ar.</p>
           </div>
           <div>
             <h2 className="text-lg font-semibold text-foreground mb-2">5. Autoridad de contralor</h2>
-            <p>La Agencia de Acceso a la Información Pública, en su carácter de Órgano de Control de la Ley 25.326, tiene la atribución de atender las denuncias y reclamos.</p>
+            <p>La Agencia de Acceso a la Informacion Publica, en su caracter de organo de Control de la Ley 25.326, tiene la atribucion de atender las denuncias y reclamos.</p>
           </div>
         </section>
       </article>

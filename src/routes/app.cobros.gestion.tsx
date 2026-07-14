@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { Plus, Eye, FileSpreadsheet, Download, Search, Filter } from "lucide-react";
 import { Card, BtnPrimary, BtnOutline, Input, Label } from "@/components/portal-shell";
@@ -69,10 +69,10 @@ function GestionLotes() {
     const rows = lotes.map((l) => ({
       ID: l.id,
       Nombre: l.nombre,
-      Período: l.periodo,
+      Periodo: l.periodo,
       Estado: ESTADO_LABEL[l.estado],
-      "Fecha creación": l.createdAt,
-      "Fecha finalización": l.fechaFinalizacion ?? "-",
+      "Fecha creacion": l.createdAt,
+      "Fecha finalizacion": l.fechaFinalizacion ?? "-",
       Progreso: `${l.progreso}%`,
       "Pagos completos": l.cantidadPagos,
       "Pagos parciales": l.cantidadParciales,
@@ -131,13 +131,13 @@ function GestionLotes() {
       {/* Filtros */}
       <Card className="mb-6">
         <div className="flex flex-wrap gap-3 items-center">
-          <div className="relative flex-1 min-w-[200px]">
+          <div className="relative w-full sm:flex-1 sm:min-w-[200px]">
             <Search
               size={14}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
             />
             <Input
-              placeholder="Buscar por nombre, ID o período..."
+              placeholder="Buscar por nombre, ID o periodo..."
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
               className="pl-9 text-sm"
@@ -189,10 +189,10 @@ function GestionLotes() {
                   Nombre
                 </th>
                 <th className="text-left px-5 py-3 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
-                  Fecha creación
+                  Fecha creacion
                 </th>
                 <th className="text-left px-5 py-3 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
-                  Finalización
+                  Finalizacion
                 </th>
                 <th className="text-left px-5 py-3 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
                   Estado
@@ -219,7 +219,7 @@ function GestionLotes() {
                   Por cobrar
                 </th>
                 <th className="text-center px-5 py-3 font-semibold text-xs uppercase tracking-wider text-muted-foreground">
-                  Acción
+                  Accion
                 </th>
               </tr>
             </thead>
@@ -266,15 +266,15 @@ function GestionLotes() {
                     {formatARS(l.montoPorCobrar)}
                   </td>
                   <td className="px-5 py-3 text-center">
-                    <button
+                    <BtnOutline
                       onClick={() =>
                         navigate({ to: "/app/cobros/gestion/$id", params: { id: l.id } })
                       }
-                      className="inline-flex items-center justify-center w-8 h-8 rounded-md hover:bg-muted transition"
+                      className="h-8 px-2.5 text-xs"
                       title="Ver detalle"
                     >
-                      <Eye size={15} className="text-muted-foreground" />
-                    </button>
+                      <Eye size={14} /> Ver
+                    </BtnOutline>
                   </td>
                 </tr>
               ))}

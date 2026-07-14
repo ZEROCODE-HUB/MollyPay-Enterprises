@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useMemo, type ReactNode } from "react";
 import {
   ArrowLeft,
@@ -92,7 +92,7 @@ function DetalleLote() {
           El lote con ID {id} no existe o fue eliminado.
         </p>
         <BtnOutline className="mt-4" onClick={() => navigate({ to: "/app/cobros/gestion" })}>
-          Volver a gestión
+          Volver a gestion
         </BtnOutline>
       </div>
     );
@@ -113,7 +113,7 @@ function DetalleLote() {
       toast.success("Lote iniciado - se generaron los links de pago");
       trigger();
     } else {
-      toast.error("El lote no está en estado pendiente");
+      toast.error("El lote no esta en estado pendiente");
     }
   };
 
@@ -149,10 +149,10 @@ function DetalleLote() {
 
   const exportExcel = () => {
     const rows = registros.map((r) => ({
-      Descripción: r.descripcion,
+      Descripcion: r.descripcion,
       Monto: r.monto,
       Pagado: r.montoPagado,
-      "Fecha creación": r.createdAt.slice(0, 10),
+      "Fecha creacion": r.createdAt.slice(0, 10),
       "1er vencimiento": r.fechaVencimiento1 ?? "-",
       "2do vencimiento": r.fechaVencimiento2 ?? "-",
       "3er vencimiento": r.fechaVencimiento3 ?? "-",
@@ -160,7 +160,7 @@ function DetalleLote() {
       "Tipo entidad": r.tipoEntidad,
       "ID entidad": r.idEntidad,
       "Sub entidad": r.subEntidad,
-      "Identificación usuario": r.identificacionUsuario,
+      "Identificacion usuario": r.identificacionUsuario,
       "Fecha pago": r.fechaPago?.slice(0, 10) ?? "-",
       Estado: REGISTRO_ESTADO_BADGE[r.estado]?.label ?? r.estado,
       "Link de pago": r.linkDePago ?? "-",
@@ -260,12 +260,12 @@ function DetalleLote() {
         </BtnOutline>
       </div>
 
-      {/* 4 bloques de información */}
+      {/* 4 bloques de informacion */}
       <div className="grid md:grid-cols-2 gap-4 mb-6">
         {/* Info general */}
         <Card>
           <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
-            Información general
+            Informacion general
           </h4>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
@@ -277,7 +277,7 @@ function DetalleLote() {
               <span>{estadoCatalogo[lote.estado]?.label}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Creación</span>
+              <span className="text-muted-foreground">Creacion</span>
               <span>{lote.createdAt.slice(0, 10)}</span>
             </div>
             <div className="flex justify-between">
@@ -285,16 +285,16 @@ function DetalleLote() {
               <span>{lote.fechaInicio?.slice(0, 10) ?? "-"}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Finalización</span>
+              <span className="text-muted-foreground">Finalizacion</span>
               <span>{lote.fechaFinalizacion?.slice(0, 10) ?? "-"}</span>
             </div>
           </div>
         </Card>
 
-        {/* Estadísticas */}
+        {/* Estadisticas */}
         <Card>
           <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
-            Estadísticas
+            Estadisticas
           </h4>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
@@ -332,10 +332,10 @@ function DetalleLote() {
           </div>
         </Card>
 
-        {/* Configuración */}
+        {/* Configuracion */}
         <Card>
           <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
-            Configuración
+            Configuracion
           </h4>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
@@ -367,7 +367,7 @@ function DetalleLote() {
               <span className="font-semibold">Operaciones</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Tasa interés</span>
+              <span className="text-muted-foreground">Tasa interes</span>
               <span className="font-semibold">{lote.tasaInteres}%</span>
             </div>
           </div>
@@ -416,7 +416,7 @@ function DetalleLote() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/50">
-                <th className="text-left px-3 py-3 font-semibold text-xs uppercase">Descripción</th>
+                <th className="text-left px-3 py-3 font-semibold text-xs uppercase">Descripcion</th>
                 <th className="text-right px-3 py-3 font-semibold text-xs uppercase">Monto</th>
                 <th className="text-right px-3 py-3 font-semibold text-xs uppercase">Pagado</th>
                 <th className="text-left px-3 py-3 font-semibold text-xs uppercase">Entidad</th>

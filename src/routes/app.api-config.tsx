@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+﻿import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ExternalLink, BookOpen, X } from "lucide-react";
 import { Card, BtnPrimary, BtnOutline } from "@/components/portal-shell";
@@ -6,7 +6,7 @@ import { Card, BtnPrimary, BtnOutline } from "@/components/portal-shell";
 export const Route = createFileRoute("/app/api-config")({
   head: () => ({
     meta: [
-      { title: "Configuración de APIs Externas — Molipay" },
+      { title: "Configuracion de APIs Externas — Molipay" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -22,15 +22,15 @@ function Page() {
       <nav className="text-xs text-muted-foreground mb-4 flex items-center gap-1.5">
         <Link to="/app" className="hover:text-foreground transition">Inicio</Link>
         <span>/</span>
-        <span className="text-foreground font-semibold">Configuración de APIs Externas</span>
+        <span className="text-foreground font-semibold">Configuracion de APIs Externas</span>
       </nav>
 
       {/* Title */}
       <div className="mb-6">
-        <h1 className="text-xl font-semibold">Configuración de APIs Externas</h1>
+        <h1 className="text-xl font-semibold">Configuracion de APIs Externas</h1>
         <p className="text-sm text-muted-foreground mt-2 max-w-2xl">
-          Gestione el acceso a las APIs externas de la plataforma. Para consultar la documentación
-          técnica, visite nuestro sitio de documentación.
+          Gestione el acceso a las APIs externas de la plataforma. Para consultar la documentacion
+          tecnica, visite nuestro sitio de documentacion.
         </p>
       </div>
 
@@ -38,10 +38,10 @@ function Page() {
       <Card className="max-w-xl">
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
           <div className="flex-1">
-            <h2 className="text-sm font-semibold">Módulo de APIs Externas</h2>
+            <h2 className="text-sm font-semibold">Modulo de APIs Externas</h2>
             <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-              Este módulo le permite integrar sus sistemas con las APIs externas de Molipay.
-              Actualmente no está habilitado para su cuenta.
+              Este modulo le permite integrar sus sistemas con las APIs externas de Molipay.
+              Actualmente no esta habilitado para su cuenta.
             </p>
           </div>
           <div className="flex flex-col gap-2 shrink-0">
@@ -51,10 +51,10 @@ function Page() {
               rel="noreferrer"
               className="inline-flex h-9 items-center gap-2 px-4 text-sm font-semibold rounded-md border bg-card hover:bg-muted transition whitespace-nowrap"
             >
-              <BookOpen size={14} /> Ver documentación
+              <BookOpen size={14} /> Ver documentacion
             </a>
             <BtnPrimary onClick={() => setModalOpen(true)}>
-              <ExternalLink size={14} /> Solicitar habilitación
+              <ExternalLink size={14} /> Solicitar habilitacion
             </BtnPrimary>
           </div>
         </div>
@@ -80,9 +80,9 @@ function Page() {
               </div>
             </div>
             <h3 className="text-base font-semibold mb-2">
-              El módulo de APIs externas no está habilitado para su cuenta.
+              El modulo de APIs externas no esta habilitado para su cuenta.
             </h3>
-            <p className="text-sm text-muted-foreground mb-6">¿Desea solicitar su habilitación?</p>
+            <p className="text-sm text-muted-foreground mb-6">¿Desea solicitar su habilitacion?</p>
             <div className="flex gap-3 justify-center">
               <BtnOutline onClick={() => setModalOpen(false)}>Cancelar</BtnOutline>
               <BtnPrimary
@@ -95,7 +95,7 @@ function Page() {
                   setModalOpen(false);
                 }}
               >
-                Solicitar habilitación
+                Solicitar habilitacion
               </BtnPrimary>
             </div>
           </div>

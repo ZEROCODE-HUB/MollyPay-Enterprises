@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Download, Filter, FileText, ArrowDownLeft, ArrowUpRight,
@@ -30,7 +30,7 @@ function isCoelsa(txid: string) {
 
 function txidLabel(txid: string) {
   if (isInternalTransfer(txid)) return { label: "Transferencia interna", code: txid };
-  if (isCoelsa(txid)) return { label: "Código COELSA", code: txid };
+  if (isCoelsa(txid)) return { label: "Codigo COELSA", code: txid };
   return { label: "TXID", code: txid };
 }
 
@@ -50,7 +50,7 @@ type Mov = {
   referencia: string;
   usuario: string;
   numeroOp: string;
-  canal: "Web" | "API" | "Móvil";
+  canal: "Web" | "API" | "Movil";
   subcuenta: string;
   senderName: string;
   senderCuit: string;
@@ -61,20 +61,20 @@ type Mov = {
 };
 
 const movs: Mov[] = [
-  { txid: "TX-2026-06-02-8841", tipo: "ingreso", categoria: "Cobros con QR", titular: "Carlos Méndez S.A.", cuit: "30-71234567-8", cbuCvu: "0000003100054321678901", fecha: "02/06/2026 14:32", monto: 1840000, estado: "Acreditado", medio: "Cobro QR", referencia: "QR-8821", usuario: "Sistema", numeroOp: "OP-2026-4421", canal: "Web", subcuenta: "Sucursal Centro", senderName: "Carlos Méndez S.A.", senderCuit: "30-71234567-8", senderCbu: "0000003100054321678901", receiverName: EMPRESA.nombre, receiverCuit: EMPRESA.cuit, receiverCbu: EMPRESA.cbu },
+  { txid: "TX-2026-06-02-8841", tipo: "ingreso", categoria: "Cobros con QR", titular: "Carlos Mendez S.A.", cuit: "30-71234567-8", cbuCvu: "0000003100054321678901", fecha: "02/06/2026 14:32", monto: 1840000, estado: "Acreditado", medio: "Cobro QR", referencia: "QR-8821", usuario: "Sistema", numeroOp: "OP-2026-4421", canal: "Web", subcuenta: "Sucursal Centro", senderName: "Carlos Mendez S.A.", senderCuit: "30-71234567-8", senderCbu: "0000003100054321678901", receiverName: EMPRESA.nombre, receiverCuit: EMPRESA.cuit, receiverCbu: EMPRESA.cbu },
   { txid: "TX-2026-06-02-8842", tipo: "egreso", categoria: "Egresos", titular: "Proveedor SA", cuit: "30-71888888-1", cbuCvu: "0000003100023456789012", fecha: "02/06/2026 11:08", monto: 220000, estado: "Acreditado", medio: "Transferencia", referencia: "TR-9982", usuario: "Admin", numeroOp: "OP-2026-4422", canal: "Web", subcuenta: "Operaciones", senderName: EMPRESA.nombre, senderCuit: EMPRESA.cuit, senderCbu: EMPRESA.cbu, receiverName: "Proveedor SA", receiverCuit: "30-71888888-1", receiverCbu: "0000003100023456789012" },
   { txid: "8843", tipo: "ingreso", categoria: "Ingresos", titular: "Consorcio Av. Siempre Viva", cuit: "30-72345678-9", cbuCvu: "0000003100076543210987", fecha: "01/06/2026 18:30", monto: 1480500, estado: "Acreditado", medio: "Lote", referencia: "LT-0034", usuario: "Admin", numeroOp: "OP-2026-4423", canal: "Web", subcuenta: "Operaciones", senderName: "Consorcio Av. Siempre Viva", senderCuit: "30-72345678-9", senderCbu: "0000003100076543210987", receiverName: EMPRESA.nombre, receiverCuit: EMPRESA.cuit, receiverCbu: EMPRESA.cbu },
   { txid: "TX-2026-06-01-8844", tipo: "egreso", categoria: "Egresos", titular: "Edesur S.A.", cuit: "30-50000000-4", cbuCvu: "0000003100034567890123", fecha: "01/06/2026 16:12", monto: 64320, estado: "Acreditado", medio: "Servicio", referencia: "SV-1102", usuario: "Sistema", numeroOp: "OP-2026-4424", canal: "API", subcuenta: "Sucursal Norte", senderName: EMPRESA.nombre, senderCuit: EMPRESA.cuit, senderCbu: EMPRESA.cbu, receiverName: "Edesur S.A.", receiverCuit: "30-50000000-4", receiverCbu: "0000003100034567890123" },
-  { txid: "LP9k2x7COELSA8823456", tipo: "ingreso", categoria: "Cobros con Tarjeta", titular: "Estudio Ríos Asoc.", cuit: "30-73456789-0", cbuCvu: "0000003100045678901234", fecha: "31/05/2026 14:08", monto: 92800, estado: "Acreditado", medio: "Link de pago", referencia: "LP-9k2x7", usuario: "Sistema", numeroOp: "OP-2026-4425", canal: "Web", subcuenta: "Operaciones", senderName: "Estudio Ríos Asoc.", senderCuit: "30-73456789-0", senderCbu: "0000003100045678901234", receiverName: EMPRESA.nombre, receiverCuit: EMPRESA.cuit, receiverCbu: EMPRESA.cbu },
-  { txid: "COELSA9988776655443322", tipo: "egreso", categoria: "Egresos", titular: "Estudio Ríos Asoc.", cuit: "30-73456789-0", cbuCvu: "0000003100045678901234", fecha: "30/05/2026 11:22", monto: 145000, estado: "Acreditado", medio: "Transferencia", referencia: "TR-9974", usuario: "Admin", numeroOp: "OP-2026-4426", canal: "Web", subcuenta: "Operaciones", senderName: EMPRESA.nombre, senderCuit: EMPRESA.cuit, senderCbu: EMPRESA.cbu, receiverName: "Estudio Ríos Asoc.", receiverCuit: "30-73456789-0", receiverCbu: "0000003100045678901234" },
-  { txid: "TX-2026-05-30-8847", tipo: "ingreso", categoria: "Cobros con QR", titular: "Lucía Fernández", cuit: "27-38456789-1", cbuCvu: "0000003100056789012345", fecha: "30/05/2026 09:05", monto: 8200, estado: "Acreditado", medio: "Cobro QR", referencia: "QR-8820", usuario: "Sistema", numeroOp: "OP-2026-4427", canal: "Móvil", subcuenta: "Sucursal Centro", senderName: "Lucía Fernández", senderCuit: "27-38456789-1", senderCbu: "0000003100056789012345", receiverName: EMPRESA.nombre, receiverCuit: EMPRESA.cuit, receiverCbu: EMPRESA.cbu },
-  { txid: "TX-2026-05-29-8848", tipo: "egreso", categoria: "Egresos", titular: "Juan Pérez", cuit: "20-27890123-4", cbuCvu: "0000003100067890123456", fecha: "29/05/2026 17:44", monto: 35000, estado: "Pendiente", medio: "Transferencia", referencia: "TR-9968", usuario: "Admin", numeroOp: "OP-2026-4428", canal: "Web", subcuenta: "Sucursal Norte", senderName: EMPRESA.nombre, senderCuit: EMPRESA.cuit, senderCbu: EMPRESA.cbu, receiverName: "Juan Pérez", receiverCuit: "20-27890123-4", receiverCbu: "0000003100067890123456" },
+  { txid: "LP9k2x7COELSA8823456", tipo: "ingreso", categoria: "Cobros con Tarjeta", titular: "Estudio Rios Asoc.", cuit: "30-73456789-0", cbuCvu: "0000003100045678901234", fecha: "31/05/2026 14:08", monto: 92800, estado: "Acreditado", medio: "Link de pago", referencia: "LP-9k2x7", usuario: "Sistema", numeroOp: "OP-2026-4425", canal: "Web", subcuenta: "Operaciones", senderName: "Estudio Rios Asoc.", senderCuit: "30-73456789-0", senderCbu: "0000003100045678901234", receiverName: EMPRESA.nombre, receiverCuit: EMPRESA.cuit, receiverCbu: EMPRESA.cbu },
+  { txid: "COELSA9988776655443322", tipo: "egreso", categoria: "Egresos", titular: "Estudio Rios Asoc.", cuit: "30-73456789-0", cbuCvu: "0000003100045678901234", fecha: "30/05/2026 11:22", monto: 145000, estado: "Acreditado", medio: "Transferencia", referencia: "TR-9974", usuario: "Admin", numeroOp: "OP-2026-4426", canal: "Web", subcuenta: "Operaciones", senderName: EMPRESA.nombre, senderCuit: EMPRESA.cuit, senderCbu: EMPRESA.cbu, receiverName: "Estudio Rios Asoc.", receiverCuit: "30-73456789-0", receiverCbu: "0000003100045678901234" },
+  { txid: "TX-2026-05-30-8847", tipo: "ingreso", categoria: "Cobros con QR", titular: "Lucia Fernandez", cuit: "27-38456789-1", cbuCvu: "0000003100056789012345", fecha: "30/05/2026 09:05", monto: 8200, estado: "Acreditado", medio: "Cobro QR", referencia: "QR-8820", usuario: "Sistema", numeroOp: "OP-2026-4427", canal: "Movil", subcuenta: "Sucursal Centro", senderName: "Lucia Fernandez", senderCuit: "27-38456789-1", senderCbu: "0000003100056789012345", receiverName: EMPRESA.nombre, receiverCuit: EMPRESA.cuit, receiverCbu: EMPRESA.cbu },
+  { txid: "TX-2026-05-29-8848", tipo: "egreso", categoria: "Egresos", titular: "Juan Perez", cuit: "20-27890123-4", cbuCvu: "0000003100067890123456", fecha: "29/05/2026 17:44", monto: 35000, estado: "Pendiente", medio: "Transferencia", referencia: "TR-9968", usuario: "Admin", numeroOp: "OP-2026-4428", canal: "Web", subcuenta: "Sucursal Norte", senderName: EMPRESA.nombre, senderCuit: EMPRESA.cuit, senderCbu: EMPRESA.cbu, receiverName: "Juan Perez", receiverCuit: "20-27890123-4", receiverCbu: "0000003100067890123456" },
   { txid: "TX-2026-05-28-8849", tipo: "ingreso", categoria: "Ingresos", titular: "Inmobiliaria del Plata", cuit: "30-74567890-1", cbuCvu: "0000003100078901234567", fecha: "28/05/2026 10:30", monto: 2800000, estado: "Acreditado", medio: "Transferencia", referencia: "TR-9967", usuario: "Sistema", numeroOp: "OP-2026-4429", canal: "API", subcuenta: "Operaciones", senderName: "Inmobiliaria del Plata", senderCuit: "30-74567890-1", senderCbu: "0000003100078901234567", receiverName: EMPRESA.nombre, receiverCuit: EMPRESA.cuit, receiverCbu: EMPRESA.cbu },
   { txid: "TX-2026-05-27-8850", tipo: "egreso", categoria: "Egresos", titular: "AFIP", cuit: "30-50000000-4", cbuCvu: "0000003100089012345678", fecha: "27/05/2026 09:00", monto: 890000, estado: "Acreditado", medio: "Servicio", referencia: "SV-1101", usuario: "Sistema", numeroOp: "OP-2026-4430", canal: "API", subcuenta: "Operaciones", senderName: EMPRESA.nombre, senderCuit: EMPRESA.cuit, senderCbu: EMPRESA.cbu, receiverName: "AFIP", receiverCuit: "30-50000000-4", receiverCbu: "0000003100089012345678" },
   { txid: "TX-2026-05-26-8851", tipo: "ingreso", categoria: "Cobros con Tarjeta", titular: "Club Social y Deportivo", cuit: "30-75678901-2", cbuCvu: "0000003100090123456789", fecha: "26/05/2026 15:45", monto: 550000, estado: "Acreditado", medio: "Link de pago", referencia: "LP-9k2x6", usuario: "Sistema", numeroOp: "OP-2026-4431", canal: "Web", subcuenta: "Sucursal Centro", senderName: "Club Social y Deportivo", senderCuit: "30-75678901-2", senderCbu: "0000003100090123456789", receiverName: EMPRESA.nombre, receiverCuit: EMPRESA.cuit, receiverCbu: EMPRESA.cbu },
-  { txid: "TX-2026-05-25-8852", tipo: "egreso", categoria: "Comisiones", titular: "OSECAC", cuit: "30-71000000-0", cbuCvu: "0000003100001234567890", fecha: "25/05/2026 08:30", monto: 420000, estado: "Rechazado", medio: "Comisión", referencia: "TR-9966", usuario: "Admin", numeroOp: "OP-2026-4432", canal: "Web", subcuenta: "Sucursal Norte", senderName: EMPRESA.nombre, senderCuit: EMPRESA.cuit, senderCbu: EMPRESA.cbu, receiverName: "OSECAC", receiverCuit: "30-71000000-0", receiverCbu: "0000003100001234567890" },
-  { txid: "TX-2026-05-24-8853", tipo: "ingreso", categoria: "Ingresos", titular: "Alquileres Galería Central", cuit: "30-76789012-3", cbuCvu: "0000003100101234567890", fecha: "24/05/2026 11:00", monto: 3200000, estado: "Acreditado", medio: "Transferencia", referencia: "TR-9965", usuario: "Sistema", numeroOp: "OP-2026-4433", canal: "Web", subcuenta: "Operaciones", senderName: "Alquileres Galería Central", senderCuit: "30-76789012-3", senderCbu: "0000003100101234567890", receiverName: EMPRESA.nombre, receiverCuit: EMPRESA.cuit, receiverCbu: EMPRESA.cbu },
-  { txid: "TX-2026-05-23-8854", tipo: "egreso", categoria: "Pagos con QR", titular: "Proveedor Logística SA", cuit: "30-77890123-4", cbuCvu: "0000003100112345678901", fecha: "23/05/2026 16:30", monto: 78000, estado: "Acreditado", medio: "Cobro QR", referencia: "QR-8819", usuario: "Admin", numeroOp: "OP-2026-4434", canal: "Móvil", subcuenta: "Sucursal Centro", senderName: EMPRESA.nombre, senderCuit: EMPRESA.cuit, senderCbu: EMPRESA.cbu, receiverName: "Proveedor Logística SA", receiverCuit: "30-77890123-4", receiverCbu: "0000003100112345678901" },
+  { txid: "TX-2026-05-25-8852", tipo: "egreso", categoria: "Comisiones", titular: "OSECAC", cuit: "30-71000000-0", cbuCvu: "0000003100001234567890", fecha: "25/05/2026 08:30", monto: 420000, estado: "Rechazado", medio: "Comision", referencia: "TR-9966", usuario: "Admin", numeroOp: "OP-2026-4432", canal: "Web", subcuenta: "Sucursal Norte", senderName: EMPRESA.nombre, senderCuit: EMPRESA.cuit, senderCbu: EMPRESA.cbu, receiverName: "OSECAC", receiverCuit: "30-71000000-0", receiverCbu: "0000003100001234567890" },
+  { txid: "TX-2026-05-24-8853", tipo: "ingreso", categoria: "Ingresos", titular: "Alquileres Galeria Central", cuit: "30-76789012-3", cbuCvu: "0000003100101234567890", fecha: "24/05/2026 11:00", monto: 3200000, estado: "Acreditado", medio: "Transferencia", referencia: "TR-9965", usuario: "Sistema", numeroOp: "OP-2026-4433", canal: "Web", subcuenta: "Operaciones", senderName: "Alquileres Galeria Central", senderCuit: "30-76789012-3", senderCbu: "0000003100101234567890", receiverName: EMPRESA.nombre, receiverCuit: EMPRESA.cuit, receiverCbu: EMPRESA.cbu },
+  { txid: "TX-2026-05-23-8854", tipo: "egreso", categoria: "Pagos con QR", titular: "Proveedor Logistica SA", cuit: "30-77890123-4", cbuCvu: "0000003100112345678901", fecha: "23/05/2026 16:30", monto: 78000, estado: "Acreditado", medio: "Cobro QR", referencia: "QR-8819", usuario: "Admin", numeroOp: "OP-2026-4434", canal: "Movil", subcuenta: "Sucursal Centro", senderName: EMPRESA.nombre, senderCuit: EMPRESA.cuit, senderCbu: EMPRESA.cbu, receiverName: "Proveedor Logistica SA", receiverCuit: "30-77890123-4", receiverCbu: "0000003100112345678901" },
 ];
 
 function parseRowDate(f: string): Date {
@@ -140,7 +140,7 @@ function Page() {
     <>
       <PageHeader
         title="Historial"
-        description="Auditoría completa de movimientos con filtros, exportación y detalle de transacciones."
+        description="Auditoria completa de movimientos con filtros, exportacion y detalle de transacciones."
         action={
           <div className="flex gap-2">
             <BtnOutline onClick={() => setPreview(true)}><Download size={14} /> Exportar reporte</BtnOutline>
@@ -184,12 +184,12 @@ function Page() {
       {/* KPIs resumen */}
       <div className="grid md:grid-cols-4 gap-5 mb-6">
         <Card className="p-5">
-          <div className="text-xs text-muted-foreground mb-1">Ingresos del período</div>
+          <div className="text-xs text-muted-foreground mb-1">Ingresos del periodo</div>
           <div className="text-xl md:text-2xl font-bold text-emerald-700">{formatARS(totalIngresos)}</div>
           <div className="text-xs text-muted-foreground mt-1">{filtered.filter((r) => r.tipo === "ingreso").length} movimientos</div>
         </Card>
         <Card className="p-5">
-          <div className="text-xs text-muted-foreground mb-1">Egresos del período</div>
+          <div className="text-xs text-muted-foreground mb-1">Egresos del periodo</div>
           <div className="text-xl md:text-2xl font-bold text-foreground">{formatARS(totalEgresos)}</div>
           <div className="text-xs text-muted-foreground mt-1">{filtered.filter((r) => r.tipo === "egreso").length} movimientos</div>
         </Card>
@@ -219,23 +219,23 @@ function Page() {
             <Input type="date" value={hasta} onChange={(e) => setHasta(e.target.value)} min={desde || undefined} />
           </div>
           <div className="min-w-0">
-            <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Tipo de operación</label>
-            <select value={categoria} onChange={(e) => setCategoria(e.target.value)} className="h-10 px-3 rounded-md border bg-card text-sm min-w-[170px]">
+            <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Tipo de operacion</label>
+            <select value={categoria} onChange={(e) => setCategoria(e.target.value)} className="h-10 px-3 rounded-md border bg-card text-sm w-full sm:w-auto sm:min-w-[170px]">
               {CATEGORIAS.map(({ k, l }) => <option key={k} value={k}>{l}</option>)}
             </select>
           </div>
           <div className="min-w-0">
             <label className="block text-xs font-semibold text-muted-foreground mb-1.5">Subcuenta</label>
-            <select value={subFiltro} onChange={(e) => setSubFiltro(e.target.value)} className="h-10 px-3 rounded-md border bg-card text-sm min-w-[150px]">
+            <select value={subFiltro} onChange={(e) => setSubFiltro(e.target.value)} className="h-10 px-3 rounded-md border bg-card text-sm w-full sm:w-auto sm:min-w-[150px]">
               <option value="Todas">Todas</option>
               {subcuentas.map((s) => <option key={s}>{s}</option>)}
             </select>
           </div>
         </div>
 
-        {/* Búsquedas independientes */}
+        {/* Busquedas independientes */}
         <div className="border-t pt-4 mb-4">
-          <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Búsquedas específicas</div>
+          <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Busquedas especificas</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <label className="block text-xs text-muted-foreground mb-1">CBU / CVU</label>
@@ -246,7 +246,7 @@ function Page() {
               <Input placeholder="Buscar por CUIT..." value={buscarCuit} onChange={(e) => setBuscarCuit(e.target.value)} />
             </div>
             <div>
-              <label className="block text-xs text-muted-foreground mb-1">TXID / N° Operación</label>
+              <label className="block text-xs text-muted-foreground mb-1">TXID / N° Operacion</label>
               <Input placeholder="Buscar por TXID..." value={buscarTxid} onChange={(e) => setBuscarTxid(e.target.value)} />
             </div>
             <div>
@@ -347,7 +347,7 @@ function Page() {
                         <Share2 size={14} />
                       </button>
                       <button
-                        title="Ver más"
+                        title="Ver mas"
                         onClick={() => setDetalle(r)}
                         className="h-9 w-9 inline-flex items-center justify-center rounded-lg border bg-card hover:bg-accent hover:border-primary/40 transition"
                       >
@@ -377,14 +377,14 @@ function Page() {
           <div className="relative bg-card rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl">
             {/* Header */}
             <div className="sticky top-0 bg-card border-b px-6 py-4 flex justify-between items-center z-10 rounded-t-xl">
-              <div className="font-semibold">Comprobante de transacción</div>
+              <div className="font-semibold">Comprobante de transaccion</div>
               <button onClick={() => setDetalle(null)} className="h-8 w-8 inline-flex items-center justify-center rounded-lg hover:bg-accent transition">
                 <X size={16} />
               </button>
             </div>
 
             <div className="p-6 space-y-6">
-              {/* Tipo de operación */}
+              {/* Tipo de operacion */}
               <div className="flex items-center gap-4 pb-5 border-b">
                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
                   detalle.tipo === "ingreso" ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-600"
@@ -419,7 +419,7 @@ function Page() {
                 </div>
               </div>
 
-              {/* TXID con identificación */}
+              {/* TXID con identificacion */}
               <div className="pb-5 border-b">
                 <div className="text-xs text-muted-foreground mb-1">{txidLabel(detalle.txid).label}</div>
                 <div className="font-mono text-sm font-medium break-all">{detalle.txid}</div>
@@ -431,7 +431,7 @@ function Page() {
                   <div className="w-2 h-2 rounded-full bg-emerald-500" />
                   <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Desde</span>
                 </div>
-                <div className="grid grid-cols-3 gap-4 text-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
                   <div>
                     <div className="text-xs text-muted-foreground">Nombre</div>
                     <div className="font-medium truncate">{detalle.senderName}</div>
@@ -453,7 +453,7 @@ function Page() {
                   <div className="w-2 h-2 rounded-full bg-blue-500" />
                   <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Hacia</span>
                 </div>
-                <div className="grid grid-cols-3 gap-4 text-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
                   <div>
                     <div className="text-xs text-muted-foreground">Nombre</div>
                     <div className="font-medium truncate">{detalle.receiverName}</div>
@@ -472,7 +472,7 @@ function Page() {
               {/* Info adicional */}
               <div className="grid grid-cols-2 gap-4 text-sm pb-2">
                 <div>
-                  <div className="text-xs text-muted-foreground">N° de operación</div>
+                  <div className="text-xs text-muted-foreground">N° de operacion</div>
                   <div className="font-medium">{detalle.numeroOp}</div>
                 </div>
                 <div>
@@ -492,7 +492,7 @@ function Page() {
                   <div>{detalle.subcuenta}</div>
                 </div>
                 <div>
-                  <div className="text-xs text-muted-foreground">Categoría</div>
+                  <div className="text-xs text-muted-foreground">Categoria</div>
                   <div>{detalle.categoria}</div>
                 </div>
               </div>
@@ -516,7 +516,7 @@ function Page() {
         open={false}
         onClose={() => {}}
         title="Filtros avanzados"
-        description="Combiná criterios para acotar tu historial."
+        description="Combina criterios para acotar tu historial."
         submitLabel="Aplicar filtros"
         size="lg"
         onSubmit={() => {}}
@@ -544,10 +544,10 @@ function Page() {
               <h2 className="text-xl font-semibold">Reporte de movimientos</h2>
               <div className="text-sm text-muted-foreground">
                 {vista === "principal" ? "Cuenta principal (consolidado)" : `Subcuenta: ${sub}`}
-                {categoria !== "Todas" && ` · Categoría: ${categoria}`}
+                {categoria !== "Todas" && ` · Categoria: ${categoria}`}
               </div>
               <Card className="bg-muted/30 p-5">
-                <div className="grid grid-cols-3 gap-4 text-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
                   <div><div className="text-xs text-muted-foreground">Ingresos</div><div className="font-semibold">{formatARS(totalIngresos)}</div></div>
                   <div><div className="text-xs text-muted-foreground">Egresos</div><div className="font-semibold">{formatARS(totalEgresos)}</div></div>
                   <div><div className="text-xs text-muted-foreground">Neto</div><div className="font-semibold text-emerald-700">{totalIngresos - totalEgresos >= 0 ? "+ " : "- "}{formatARS(Math.abs(totalIngresos - totalEgresos))}</div></div>

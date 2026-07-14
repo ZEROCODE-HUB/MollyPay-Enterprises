@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   PieChart,
@@ -25,11 +25,11 @@ export const Route = createFileRoute("/app/qr/")({ component: Dashboard });
 
 const presets = [
   { label: "Hoy", days: 0 },
-  { label: "7 d\u00edas", days: 7 },
-  { label: "15 d\u00edas", days: 15 },
-  { label: "30 d\u00edas", days: 30 },
-  { label: "60 d\u00edas", days: 60 },
-  { label: "90 d\u00edas", days: 90 },
+  { label: "7 dias", days: 7 },
+  { label: "15 dias", days: 15 },
+  { label: "30 dias", days: 30 },
+  { label: "60 dias", days: 60 },
+  { label: "90 dias", days: 90 },
 ];
 
 const COLORS: Record<string, string> = {
@@ -79,13 +79,13 @@ function Dashboard() {
     { icon: Activity, label: "Transacciones", value: "1.005" },
     { icon: TrendingUp, label: "Ticket promedio", value: formatter(18020) },
     { icon: Store, label: "PDV activos", value: "5" },
-    { icon: TrendingUp, label: "Tasa de éxito", value: "92,4%" },
+    { icon: TrendingUp, label: "Tasa de exito", value: "92,4%" },
   ];
 
   const exportExcel = () => {
     const ws = XLSX.utils.json_to_sheet([
-      ...kpis.map((k) => ({ Métrica: k.label, Valor: k.value })),
-      ...mockMontosPorPdv.map((d) => ({ Métrica: "Monto " + d.name, Valor: formatter(d.amount) })),
+      ...kpis.map((k) => ({ Metrica: k.label, Valor: k.value })),
+      ...mockMontosPorPdv.map((d) => ({ Metrica: "Monto " + d.name, Valor: formatter(d.amount) })),
     ]);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Dashboard QR");
@@ -95,9 +95,9 @@ function Dashboard() {
   const exportPDF = () => {
     const doc = new jsPDF();
     doc.text("Dashboard - Cobros con QR", 14, 20);
-    doc.text("Período: " + presetLabel, 14, 30);
+    doc.text("Periodo: " + presetLabel, 14, 30);
     const body = kpis.map((k) => [k.label, k.value]);
-    (doc as any).autoTable({ startY: 38, head: [["Métrica", "Valor"]], body });
+    (doc as any).autoTable({ startY: 38, head: [["Metrica", "Valor"]], body });
     doc.save("qr-dashboard-" + presetLabel + ".pdf");
   };
 
@@ -214,7 +214,7 @@ function Dashboard() {
       {/* Evolution chart */}
       <Card>
         <h4 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
-          Evolución de cobros
+          Evolucion de cobros
         </h4>
         <ResponsiveContainer width="100%" height={280}>
           <LineChart data={mockEvolucion}>
