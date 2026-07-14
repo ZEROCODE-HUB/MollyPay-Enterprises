@@ -1,13 +1,19 @@
 ﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
-import { Plus, Eye, FileSpreadsheet, Download, Search, Filter } from "lucide-react";
-import { Card, BtnPrimary, BtnOutline, Input, Label } from "@/components/portal-shell";
+import { useState, useMemo, useEffect } from "react";
+import { Plus, Eye, FileSpreadsheet, Download, Search, Filter, X } from "lucide-react";
+import { Card, BtnPrimary, BtnOutline, Input, Label, Badge } from "@/components/portal-shell";
 import {
   getLotesGestion,
+  getLoteById,
+  getRegistrosByLoteId,
+  getPagosByRegistroId,
+  getCBUById,
   formatARS,
   estadoCatalogo,
   type LoteEstado,
   type LoteGestionRow,
+  type Lote,
+  type RegistroDeLote,
 } from "@/data/cobros-masivos";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
@@ -41,6 +47,10 @@ function GestionLotes() {
   const [filtroEstado, setFiltroEstado] = useState<LoteEstado | "todos">("todos");
   const [fechaDesde, setFechaDesde] = useState("");
   const [fechaHasta, setFechaHasta] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [detalleLote, setDetalleLote] = useState<Lote | null>(null);
+  const [detalleOpen, setDetalleOpen] = useState(false);
 
   const lotes = useMemo(() => {
     let data = getLotesGestion();
@@ -64,6 +74,21 @@ function GestionLotes() {
     }
     return data;
   }, [busqueda, filtroEstado, fechaDesde, fechaHasta]);
+
+  useEffect(() => { setPage(1); }, [busqueda, filtroEstado, fechaDesde, fechaHasta]);
+
+  const totalPages = Math.max(1, Math.ceil(lotes.length / pageSize));
+  const paginated = lotes.slice((page - 1) * pageSize, page * pageSize);
+
+  const abrirDetalle = (id: string) => {
+    const lote = getLoteById(id);
+    if (lote) {
+      setDetalleLote(lote);
+      setDetalleOpen(true);
+    }
+  };
+
+  const ROWS_OPTIONS = [10, 20, 50];
 
   const exportExcel = () => {
     const rows = lotes.map((l) => ({
@@ -114,7 +139,7 @@ function GestionLotes() {
   };
 
   return (
-    <div>
+    <>
       {/* Acciones globales */}
       <div className="flex flex-wrap gap-3 mb-6 items-center">
         <BtnPrimary onClick={() => navigate({ to: "/app/cobros/nuevo" })}>
@@ -224,7 +249,7 @@ function GestionLotes() {
               </tr>
             </thead>
             <tbody className="divide-y">
-              {lotes.map((l) => (
+              {paginated.map((l) => (
                 <tr key={l.id} className="hover:bg-muted/30 transition-colors">
                   <td className="px-5 py-3 font-semibold">{l.nombre}</td>
                   <td className="px-5 py-3 text-xs text-muted-foreground">
@@ -267,9 +292,7 @@ function GestionLotes() {
                   </td>
                   <td className="px-5 py-3 text-center">
                     <BtnOutline
-                      onClick={() =>
-                        navigate({ to: "/app/cobros/gestion/$id", params: { id: l.id } })
-                      }
+                      onClick={() => abrirDetalle(l.id)}
                       className="h-8 px-2.5 text-xs"
                       title="Ver detalle"
                     >
@@ -289,6 +312,122 @@ function GestionLotes() {
           </table>
         </div>
       </Card>
-    </div>
+
+      {/* Paginacion */}
+      <div className="flex flex-wrap items-center justify-between gap-4 mt-4">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <span>Filas por pagina:</span>
+          <select
+            className="h-8 px-2 rounded border bg-card text-xs"
+            value={pageSize}
+            onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }}
+          >
+            {ROWS_OPTIONS.map((n) => (
+              <option key={n} value={n}>{n}</option>
+            ))}
+          </select>
+          <span>
+            {lotes.length === 0
+              ? "0 registros"
+              : `${(page - 1) * pageSize + 1}–${Math.min(page * pageSize, lotes.length)} de ${lotes.length}`}
+          </span>
+        </div>
+        <div className="flex gap-1">
+          <BtnOutline className="h-8 px-3 text-xs" disabled={page <= 1} onClick={() => setPage(1)}>
+            Primero
+          </BtnOutline>
+          <BtnOutline className="h-8 px-3 text-xs" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
+            Anterior
+          </BtnOutline>
+          <span className="flex items-center px-3 text-xs text-muted-foreground">
+            {page} / {totalPages}
+          </span>
+          <BtnOutline className="h-8 px-3 text-xs" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>
+            Siguiente
+          </BtnOutline>
+          <BtnOutline className="h-8 px-3 text-xs" disabled={page >= totalPages} onClick={() => setPage(totalPages)}>
+            Ultimo
+          </BtnOutline>
+        </div>
+      </div>
+
+      {/* Modal: Detalle del lote */}
+      {detalleOpen && detalleLote && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setDetalleOpen(false)} />
+          <div className="relative bg-card rounded-lg max-w-3xl w-full max-h-[85vh] overflow-y-auto shadow-xl">
+            <div className="sticky top-0 bg-card border-b px-6 py-4 flex justify-between items-center z-10">
+              <div>
+                <h3 className="font-semibold text-lg">{detalleLote.nombre}</h3>
+                <p className="text-xs text-muted-foreground">ID: {detalleLote.id} · Periodo: {detalleLote.periodo}</p>
+              </div>
+              <button onClick={() => setDetalleOpen(false)} className="p-1.5 hover:bg-muted rounded-md">
+                <X size={18} />
+              </button>
+            </div>
+            <div className="p-6 space-y-6">
+              {/* Resumen */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  ["Total registros", String(getRegistrosByLoteId(detalleLote.id).length), ""],
+                  ["Cobrados", String(getRegistrosByLoteId(detalleLote.id).filter((r) => r.estado === "pagado_total").length), "text-emerald-600"],
+                  ["Pendientes", String(getRegistrosByLoteId(detalleLote.id).filter((r) => r.estado === "pendiente" || r.estado === "vencido").length), "text-amber-600"],
+                  ["Monto total", formatARS(getRegistrosByLoteId(detalleLote.id).reduce((s, r) => s + r.monto, 0)), ""],
+                ].map(([label, value, color]) => (
+                  <div key={label} className="bg-muted/30 rounded-lg p-3 text-center">
+                    <div className="text-xs text-muted-foreground">{label}</div>
+                    <div className={`text-lg font-semibold mt-0.5 ${color}`}>{value}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Registros */}
+              <div>
+                <h4 className="text-sm font-semibold mb-3">Registros del lote ({getRegistrosByLoteId(detalleLote.id).length})</h4>
+                <div className="overflow-x-auto border rounded-lg">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
+                        <th className="text-left px-4 py-2.5">CBU destino</th>
+                        <th className="text-left px-4 py-2.5">Titular</th>
+                        <th className="text-right px-4 py-2.5">Monto</th>
+                        <th className="text-right px-4 py-2.5">Cobrado</th>
+                        <th className="text-center px-4 py-2.5">Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {getRegistrosByLoteId(detalleLote.id).map((r) => {
+                        const cbu = r.cbuId ? getCBUById(r.cbuId) : null;
+                        return (
+                          <tr key={r.id} className="border-b last:border-0 hover:bg-muted/30">
+                            <td className="px-4 py-2.5 font-mono text-xs">{cbu?.cbu ?? r.cbuId ?? "-"}</td>
+                            <td className="px-4 py-2.5 text-xs">{cbu?.alias ?? (r.identificacionUsuario || "-")}</td>
+                            <td className="px-4 py-2.5 text-right font-semibold">{formatARS(r.monto)}</td>
+                            <td className="px-4 py-2.5 text-right text-emerald-600">{formatARS(r.montoPagado)}</td>
+                            <td className="px-4 py-2.5 text-center">
+                              <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold ${
+                                r.estado === "pagado_total" ? "bg-emerald-100 text-emerald-700" :
+                                r.estado === "pagado_parcial" ? "bg-blue-100 text-blue-700" :
+                                r.estado === "vencido" || r.estado === "error" ? "bg-red-100 text-red-700" :
+                                "bg-amber-100 text-amber-800"
+                              }`}>
+                                {r.estado === "pagado_total" ? "Pagado" :
+                                 r.estado === "pagado_parcial" ? "Parcial" :
+                                 r.estado === "vencido" ? "Vencido" :
+                                 r.estado === "error" ? "Error" : "Pendiente"}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
