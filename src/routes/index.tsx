@@ -327,7 +327,7 @@ function Hero() {
                 className="inline-flex h-12 items-center gap-2 px-7 text-sm font-medium text-white transition-colors hover:opacity-90"
                 style={{ background: "#C8102E", borderRadius: 8 }}
               >
-                Conoce mÃ¡s <ArrowRight size={16} />
+                Conoce mas <ArrowRight size={16} />
               </a>
               <a
                 href="#contacto"
@@ -338,7 +338,7 @@ function Hero() {
                   borderRadius: 8,
                 }}
               >
-                ContÃ¡ctanos
+                Contactanos
               </a>
             </div>
           </div>
