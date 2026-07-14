@@ -11,7 +11,8 @@ type Tab = "unica" | "programar" | "borradores" | "programadas" | "destinatarios
 
 type Draft = { id: string; destinatario: string; alias: string; monto: string; concepto: string; ref: string; fecha: string };
 type Scheduled = { id: string; destinatario: string; alias: string; monto: string; fecha: string; hora: string; estado: string; concepto: string };
-type Destinatario = { nombre: string; alias: string; banco: string };
+type CoelsaResult = { nombre: string; cuit: string; cbu: string; alias: string };
+type Destinatario = CoelsaResult & { banco: string };
 
 const draftsMock: Draft[] = [
   { id: "d1", destinatario: "Proveedor SA", alias: "proveedor.sa", monto: "$ 220.000", concepto: "Pago a proveedor", ref: "Factura 0034", fecha: "08/07/2026" },
@@ -25,11 +26,21 @@ const scheduledMock: Scheduled[] = [
 ];
 
 const destinatariosMock: Destinatario[] = [
-  { nombre: "Proveedor SA", alias: "proveedor.sa", banco: "Banco Galicia" },
-  { nombre: "Estudio Rios", alias: "rios.contable", banco: "Banco Nacion" },
-  { nombre: "Servicios Generales", alias: "serv.generales", banco: "Banco Macro" },
-  { nombre: "Juan Perez", alias: "juanperez.mp", banco: "Mercado Pago" },
-  { nombre: "Maria Lopez", alias: "mlopez.cv", banco: "Banco Santander" },
+  { nombre: "Proveedor SA", cuit: "30-12345678-9", cbu: "0000003100099887766112", alias: "proveedor.sa", banco: "Banco Galicia" },
+  { nombre: "Estudio Rios", cuit: "30-87654321-0", cbu: "0000003200099887766223", alias: "rios.contable", banco: "Banco Nacion" },
+  { nombre: "Servicios Generales", cuit: "30-11122333-4", cbu: "0000003300099887766334", alias: "serv.generales", banco: "Banco Macro" },
+  { nombre: "Juan Perez", cuit: "20-22333444-5", cbu: "0000003400099887766445", alias: "juanperez.mp", banco: "Mercado Pago" },
+  { nombre: "Maria Lopez", cuit: "27-33444555-6", cbu: "0000003500099887766556", alias: "mlopez.cv", banco: "Banco Santander" },
+];
+
+const qelsaMock: CoelsaResult[] = [
+  { nombre: "Proveedor SA", cuit: "30-12345678-9", cbu: "0000003100099887766112", alias: "proveedor.sa" },
+  { nombre: "Estudio Rios", cuit: "30-87654321-0", cbu: "0000003200099887766223", alias: "rios.contable" },
+  { nombre: "Servicios Generales", cuit: "30-11122333-4", cbu: "0000003300099887766334", alias: "serv.generales" },
+  { nombre: "Juan Perez", cuit: "20-22333444-5", cbu: "0000003400099887766445", alias: "juanperez.mp" },
+  { nombre: "Maria Lopez", cuit: "27-33444555-6", cbu: "0000003500099887766556", alias: "mlopez.cv" },
+  { nombre: "Electro SA", cuit: "30-44555666-7", cbu: "0000003600099887766667", alias: "electro.sa" },
+  { nombre: "Transportes Rapidos", cuit: "30-55666777-8", cbu: "0000003700099887766778", alias: "trans.rapidos" },
 ];
 
 function Page() {
@@ -37,6 +48,7 @@ function Page() {
   const [confirm, setConfirm] = useState(false);
   const [destAlias, setDestAlias] = useState("");
   const [saveDestOpen, setSaveDestOpen] = useState(false);
+  const [prefilledDestinatario, setPrefilledDestinatario] = useState<CoelsaResult | undefined>(undefined);
   const [plantillaOpen, setPlantillaOpen] = useState(false);
   const [drafts, setDrafts] = useState<Draft[]>(draftsMock);
   const [scheduled, setScheduled] = useState<Scheduled[]>(scheduledMock);
@@ -133,6 +145,8 @@ function Page() {
               onSaveTemplate={() => {
                 toast.success("Plantilla guardada");
               }}
+              prefilledDestinatario={prefilledDestinatario}
+              onClearPrefill={() => setPrefilledDestinatario(undefined)}
             />
           )}
           {tab === "programar" && (
@@ -182,7 +196,8 @@ function Page() {
             />
           )}
           {tab === "destinatarios" && (
-            <DestinatariosList onSelect={() => {
+            <DestinatariosList onSelect={(d) => {
+              setPrefilledDestinatario(d);
               setTab("unica");
               toast.success("Destinatario cargado");
             }} />
@@ -315,26 +330,57 @@ function Unica({
   onOtpRequired,
   onSaveDraft,
   onSaveTemplate,
+  prefilledDestinatario,
+  onClearPrefill,
 }: {
   confirm: boolean;
   setConfirm: (v: boolean) => void;
   onOtpRequired: () => void;
   onSaveDraft: (d: Draft) => void;
   onSaveTemplate: () => void;
+  prefilledDestinatario?: CoelsaResult;
+  onClearPrefill?: () => void;
 }) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searching, setSearching] = useState(false);
+  const [selectedDestinatario, setSelectedDestinatario] = useState<CoelsaResult | null>(
+    () => prefilledDestinatario ?? null
+  );
+  const [frecuentesOpen, setFrecuentesOpen] = useState(false);
   const [monto, setMonto] = useState("220000");
-  const [destinatario, setDestinatario] = useState("proveedor.sa");
 
   const saveAsDraft = () => {
+    if (!selectedDestinatario) return;
     onSaveDraft({
       id: `d${Date.now()}`,
-      destinatario: "Nuevo borrador",
-      alias: destinatario,
+      destinatario: selectedDestinatario.nombre,
+      alias: selectedDestinatario.alias,
       monto: `$ ${Number(monto).toLocaleString("es-AR")}`,
       concepto: "Pago a proveedor",
       ref: "",
       fecha: new Date().toLocaleDateString("es-AR"),
     });
+  };
+
+  const handleSearch = async () => {
+    const q = searchQuery.trim();
+    if (!q) return;
+    setSearching(true);
+    await new Promise((r) => setTimeout(r, 600));
+    const found = qelsaMock.find(
+      (r) =>
+        r.alias.toLowerCase().includes(q.toLowerCase()) ||
+        r.cuit.includes(q) ||
+        r.cbu.includes(q) ||
+        r.nombre.toLowerCase().includes(q.toLowerCase())
+    );
+    setSearching(false);
+    if (found) {
+      onClearPrefill?.();
+      setSelectedDestinatario(found);
+    } else {
+      toast.error("Destinatario no encontrado en QELSA");
+    }
   };
 
   if (confirm) {
@@ -344,12 +390,13 @@ function Unica({
         <div className="border rounded-md divide-y">
           {[
             ["Origen", "Cuenta operativa"],
-            ["Destinatario", "Proveedor SA"],
-            ["CBU", "0000003 100099887766 11"],
-            ["Banco", "Banco Galicia"],
-            ["Monto", "$ 220.000,00"],
+            ["Destinatario", selectedDestinatario?.nombre ?? "-"],
+            ["CUIT", selectedDestinatario?.cuit ?? "-"],
+            ["CBU", selectedDestinatario?.cbu ?? "-"],
+            ["Alias", selectedDestinatario ? `@${selectedDestinatario.alias}` : "-"],
+            ["Monto", `$ ${Number(monto).toLocaleString("es-AR")}`],
             ["Comision estimada", "$ 80,00 (0,30%)"],
-            ["Total debito", "$ 220.080,00"],
+            ["Total debito", `$ ${(Number(monto) + 80).toLocaleString("es-AR")}`],
           ].map(([k, v]) => (
             <div key={k} className="flex justify-between py-2.5 px-3 text-sm">
               <span className="text-muted-foreground">{k}</span>
@@ -368,8 +415,120 @@ function Unica({
     );
   }
 
+  if (!selectedDestinatario) {
+    return (
+      <div className="space-y-4">
+        <div>
+          <Label>Destinatario</Label>
+          <div className="flex gap-2">
+            <div className="flex-1">
+              <Input
+                placeholder="Buscar por CUIT, CBU o alias"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleSearch();
+                  }
+                }}
+                disabled={searching}
+              />
+            </div>
+            <BtnPrimary type="button" onClick={handleSearch} disabled={searching}>
+              {searching ? "Buscando..." : "Buscar"}
+            </BtnPrimary>
+          </div>
+          {searching && (
+            <div className="text-xs text-muted-foreground mt-1.5 flex items-center gap-1">
+              <span className="animate-pulse">Consultando QELSA...</span>
+            </div>
+          )}
+        </div>
+
+        <BtnOutline type="button" onClick={() => setFrecuentesOpen(true)} className="w-full">
+          <Users size={14} /> Destinatarios frecuentes
+        </BtnOutline>
+
+        <FormDialog
+          open={frecuentesOpen}
+          onClose={() => setFrecuentesOpen(false)}
+          title="Destinatarios frecuentes"
+          description="Selecciona un destinatario de tu lista."
+          submitLabel="Cerrar"
+          onSubmit={() => setFrecuentesOpen(false)}
+          size="md"
+        >
+          {destinatariosMock.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground text-sm">
+              No tenes destinatarios frecuentes guardados.
+            </div>
+          ) : (
+            <div className="divide-y max-h-72 overflow-y-auto">
+              {destinatariosMock.map((d) => (
+                <div
+                  key={d.alias}
+                  className="flex items-center justify-between py-2.5 px-1 hover:bg-muted/50 cursor-pointer rounded"
+                  onClick={() => {
+                    onClearPrefill?.();
+                    setSelectedDestinatario(d);
+                    setFrecuentesOpen(false);
+                  }}
+                >
+                  <div>
+                    <div className="text-sm font-semibold">{d.nombre}</div>
+                    <div className="text-xs text-muted-foreground">@{d.alias} · {d.banco}</div>
+                  </div>
+                  <span className="text-xs text-primary font-semibold">Seleccionar</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </FormDialog>
+      </div>
+    );
+  }
+
   return (
     <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setConfirm(true); }}>
+      {/* Validated data card */}
+      <div className="border border-green-200 bg-green-50 dark:bg-green-950/20 dark:border-green-800 rounded-lg p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <ShieldCheck size={16} className="text-green-600" />
+          <span className="text-xs font-semibold text-green-700 dark:text-green-400 uppercase tracking-wider">
+            Datos validados de QELSA
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Nombre</span>
+            <span className="font-semibold">{selectedDestinatario.nombre}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">CUIT</span>
+            <span className="font-semibold">{selectedDestinatario.cuit}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">CBU</span>
+            <span className="font-semibold">{selectedDestinatario.cbu}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Alias</span>
+            <span className="font-semibold">@{selectedDestinatario.alias}</span>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => {
+            onClearPrefill?.();
+            setSelectedDestinatario(null);
+          }}
+          className="text-xs text-primary mt-2 hover:underline"
+        >
+          Cambiar destinatario
+        </button>
+      </div>
+
       <div className="grid sm:grid-cols-2 gap-3">
         <div className="sm:col-span-2">
           <Label>Origen de fondos</Label>
@@ -378,17 +537,6 @@ function Unica({
             <option>Sucursal Centro — $ 4.220.000,00</option>
             <option>Sucursal Norte — $ 1.870.500,00</option>
           </select>
-        </div>
-        <div className="sm:col-span-2">
-          <Label>Destinatario</Label>
-          <Input
-            placeholder="Buscar por CBU, CVU o alias"
-            value={destinatario}
-            onChange={(e) => setDestinatario(e.target.value)}
-          />
-          <div className="text-xs text-muted-foreground mt-1">
-            <ShieldCheck size={11} className="inline mr-1" /> Validado: Proveedor SA — Banco Galicia
-          </div>
         </div>
         <div>
           <Label>Monto</Label>
