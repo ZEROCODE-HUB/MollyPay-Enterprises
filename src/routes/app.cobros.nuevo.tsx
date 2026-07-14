@@ -49,7 +49,7 @@ function NuevoLote() {
   const tomorrow = format(new Date(Date.now() + 86400000), "yyyy-MM-dd");
   const [nombre, setNombre] = useState("");
   const [periodo, setPeriodo] = useState(format(new Date(), "yyyy-MM"));
-  const [diaProcesamiento, setDiaProcesamiento] = useState(tomorrow);
+  const [diaProcesamiento, setDiaProcesamiento] = useState(15);
   const [tasaInteres, setTasaInteres] = useState(10);
   const [fechaVenc1, setFechaVenc1] = useState(tomorrow);
   const [fechaVenc2, setFechaVenc2] = useState("");
@@ -75,8 +75,8 @@ function NuevoLote() {
       toast.error("El periodo debe estar en formato AAAA-MM");
       return false;
     }
-    if (!diaProcesamiento || diaProcesamiento < tomorrow) {
-      toast.error("El dia de procesamiento no puede ser anterior a manana");
+    if (!diaProcesamiento || diaProcesamiento < 1 || diaProcesamiento > 31) {
+      toast.error("El dia de pago debe ser un numero entre 1 y 31");
       return false;
     }
     if (!fechaVenc1 || fechaVenc1 < tomorrow) {
@@ -278,14 +278,16 @@ function NuevoLote() {
                 />
               </div>
               <div>
-                <Label>Dia de procesamiento</Label>
+                <Label>Dia de pago</Label>
                 <Input
-                  type="date"
+                  type="number"
+                  min={1}
+                  max={31}
                   value={diaProcesamiento}
-                  onChange={(e) => setDiaProcesamiento(e.target.value)}
+                  onChange={(e) => setDiaProcesamiento(Number(e.target.value))}
                 />
                 <p className="text-[11px] text-muted-foreground mt-1">
-                  No puede ser anterior a manana. El proceso batch corre a las 10:00 AM.
+                  Dia del mes en que se procesaran los cobros (1-31).
                 </p>
               </div>
               <div>
@@ -563,8 +565,8 @@ function NuevoLote() {
                 <div className="font-semibold">{periodo}</div>
               </div>
               <div>
-                <span className="text-muted-foreground">Procesamiento:</span>
-                <div className="font-semibold">{diaProcesamiento}</div>
+                <span className="text-muted-foreground">Dia de pago:</span>
+                <div className="font-semibold">Cada mes, dia {diaProcesamiento}</div>
               </div>
               <div>
                 <span className="text-muted-foreground">Tasa de interes:</span>
