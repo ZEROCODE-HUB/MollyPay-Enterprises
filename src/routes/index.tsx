@@ -172,7 +172,7 @@ function SiteHeader() {
               fontWeight: 500,
             }}
           >
-            Inicia sesiÃ³n
+            Inicia sesion
           </Link>
           <Link
             to="/login"
@@ -187,7 +187,7 @@ function SiteHeader() {
               fontWeight: 500,
             }}
           >
-            RegÃ­strate
+            Registrate
           </Link>
           <Link
             to="/login"
