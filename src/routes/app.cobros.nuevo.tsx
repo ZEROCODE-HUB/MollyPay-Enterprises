@@ -1,5 +1,5 @@
 ﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, ArrowRight, Check, Upload, FileSpreadsheet, Download, X } from "lucide-react";
 import { Card, BtnPrimary, BtnOutline, Input, Label } from "@/components/portal-shell";
 import { toast } from "sonner";
@@ -40,6 +40,10 @@ function NuevoLote() {
   const [subiendo, setSubiendo] = useState(false);
   const [csvData, setCsvData] = useState<CSVRow[]>([]);
   const [csvFileName, setCsvFileName] = useState("");
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
+
+  useEffect(() => { setPage(1); }, [csvData]);
 
   // Paso 1 - Parametros generales
   const tomorrow = format(new Date(Date.now() + 86400000), "yyyy-MM-dd");
@@ -492,7 +496,7 @@ function NuevoLote() {
                       </tr>
                     </thead>
                     <tbody className="divide-y">
-                      {csvData.slice(0, 20).map((r, i) => (
+                      {csvData.slice((page - 1) * pageSize, page * pageSize).map((r, i) => (
                         <tr key={i}>
                           <td className="px-3 py-2">
                             {r.tipo_entidad} {r.id_entidad} - {r.sub_entidad}
@@ -508,16 +512,18 @@ function NuevoLote() {
                           </td>
                         </tr>
                       ))}
-                      {csvData.length > 20 && (
-                        <tr>
-                          <td colSpan={6} className="px-3 py-2 text-center text-muted-foreground">
-                            ... y {csvData.length - 20} registros mas
-                          </td>
-                        </tr>
-                      )}
                     </tbody>
                   </table>
                 </div>
+                {csvData.length > pageSize && (
+                  <div className="flex items-center justify-between text-xs text-muted-foreground pt-2">
+                    <span>{`${(page - 1) * pageSize + 1}–${Math.min(page * pageSize, csvData.length)} de ${csvData.length}`}</span>
+                    <div className="flex gap-1">
+                      <BtnOutline className="h-7 px-2 text-[11px]" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Anterior</BtnOutline>
+                      <BtnOutline className="h-7 px-2 text-[11px]" disabled={page >= Math.ceil(csvData.length / pageSize)} onClick={() => setPage((p) => Math.min(Math.ceil(csvData.length / pageSize), p + 1))}>Siguiente</BtnOutline>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </Card>

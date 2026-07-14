@@ -1,5 +1,5 @@
 ﻿import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Download, Filter, Search, ArrowDownLeft, ArrowUpRight, ChevronRight,
   FileText, X, AlertCircle, Activity,
@@ -33,6 +33,11 @@ const rows: Mov[] = [
 function Page() {
   const [detalle, setDetalle] = useState<Mov | null>(null);
   const [filtrosOpen, setFiltrosOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const pageSize = 5;
+
+  const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
+  const paginated = rows.slice((page - 1) * pageSize, page * pageSize);
 
   return (
     <>
@@ -103,7 +108,7 @@ function Page() {
               </tr>
             </thead>
             <tbody>
-              {rows.map((r) => {
+              {paginated.map((r) => {
                 const isIn = r.m.startsWith("+");
                 return (
                   <tr key={r.ref} className="border-b last:border-0 hover:bg-muted/30">
@@ -138,10 +143,10 @@ function Page() {
         </div>
 
         <div className="px-5 py-3 border-t flex justify-between items-center text-xs text-muted-foreground">
-          <span>Mostrando 1–8 de 12.480 operaciones</span>
+          <span>{rows.length === 0 ? "0 registros" : `${(page - 1) * pageSize + 1}–${Math.min(page * pageSize, rows.length)} de ${rows.length}`}</span>
           <div className="flex gap-1">
-            <BtnOutline className="h-8 px-3 text-xs">Anterior</BtnOutline>
-            <BtnOutline className="h-8 px-3 text-xs">Siguiente</BtnOutline>
+            <BtnOutline className="h-8 px-3 text-xs" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Anterior</BtnOutline>
+            <BtnOutline className="h-8 px-3 text-xs" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Siguiente</BtnOutline>
           </div>
         </div>
       </Card>

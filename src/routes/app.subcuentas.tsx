@@ -1,5 +1,5 @@
 ﻿import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   Plus, Copy, ArrowDownLeft, ArrowUpRight, Settings2, Eye, Pencil, Trash2, Search,
   ArrowLeftRight, ShieldCheck, Lock, Users, Zap, Download, Filter, X, Key, Pause,
@@ -122,6 +122,9 @@ function Page() {
   const [q, setQ] = useState("");
   const [tipo, setTipo] = useState("Todos");
   const [estado, setEstado] = useState("Todos");
+  const [tab, setTab] = useState<"subcuentas" | "movimientos">("subcuentas");
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
 
   const filtradas = useMemo(
     () => subs.filter(s =>
@@ -132,6 +135,11 @@ function Page() {
     ),
     [q, tipo, estado, deletedNames]
   );
+
+  const totalPages = Math.max(1, Math.ceil(filtradas.length / pageSize));
+  const paginated = filtradas.slice((page - 1) * pageSize, page * pageSize);
+
+  useEffect(() => { setPage(1); }, [q, tipo, estado]);
 
   const total = subs.reduce((a, s) => a + s.disp + s.ret, 0);
   const totalDisp = subs.reduce((a, s) => a + s.disp, 0);
@@ -173,72 +181,141 @@ function Page() {
         </div>
       </Card>
 
-      <div className="grid lg:grid-cols-[1.7fr_1fr] gap-6">
-        <Card className="p-0 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
-                  <th className="text-left px-4 py-2.5">Nombre</th>
-                  <th className="text-left px-4 py-2.5">Apellido</th>
-                  <th className="text-left px-4 py-2.5">Email</th>
-                  <th className="text-left px-4 py-2.5">Estado</th>
-                  <th className="text-right px-4 py-2.5">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtradas.map((s) => (
-                  <tr key={s.n} className="border-b last:border-0 hover:bg-muted/30">
-                    <td className="px-4 py-3 font-semibold">{s.n}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{s.apellido}</td>
-                    <td className="px-4 py-3 text-xs text-muted-foreground">{s.email}</td>
-                    <td className="px-4 py-3">
-                      <Badge tone={s.e === "Activa" ? "success" : "warn"}>{s.e}</Badge>
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <div className="flex gap-1 justify-end">
-                        <button
-                          onClick={() => setDetailSub(s)}
-                          className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition"
-                          title="Ver detalle"
-                        >
-                          <Eye size={14} />
-                        </button>
-                        <button
-                          onClick={() => { setEditSub(s); setNuevoOpen(true); }}
-                          className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition"
-                          title="Editar"
-                        >
-                          <Pencil size={14} />
-                        </button>
-                        <button
-                          onClick={() => {
-                            setDeletedNames((prev) => {
-                              const next = new Set(prev);
-                              next.add(s.n);
-                              return next;
-                            });
-                            toast.success("Subcuenta eliminada");
-                          }}
-                          className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-red-50 hover:text-red-600 transition"
-                          title="Borrar"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Card>
+      {/* Tabs: Subcuentas / Movimientos */}
+      <div className="flex gap-1.5 mb-4">
+        {(["subcuentas", "movimientos"] as const).map((t) => (
+          <button
+            key={t}
+            onClick={() => setTab(t)}
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition ${
+              tab === t
+                ? "bg-[color:var(--brand-soft)] text-[color:var(--brand-dark)] border-transparent"
+                : "bg-card hover:bg-muted"
+            }`}
+          >
+            {t === "subcuentas" ? "Subcuentas" : "Movimientos recientes"}
+          </button>
+        ))}
+      </div>
 
-        <div className="space-y-4">
+      {tab === "subcuentas" && (
+        <div className="grid lg:grid-cols-[1.7fr_1fr] gap-6">
+          <Card className="p-0 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
+                    <th className="text-left px-4 py-2.5">Nombre</th>
+                    <th className="text-left px-4 py-2.5">Apellido</th>
+                    <th className="text-left px-4 py-2.5">Email</th>
+                    <th className="text-left px-4 py-2.5">Estado</th>
+                    <th className="text-right px-4 py-2.5">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paginated.map((s) => (
+                    <tr key={s.n} className="border-b last:border-0 hover:bg-muted/30">
+                      <td className="px-4 py-3 font-semibold">{s.n}</td>
+                      <td className="px-4 py-3 text-muted-foreground">{s.apellido}</td>
+                      <td className="px-4 py-3 text-xs text-muted-foreground">{s.email}</td>
+                      <td className="px-4 py-3">
+                        <Badge tone={s.e === "Activa" ? "success" : "warn"}>{s.e}</Badge>
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <div className="flex gap-1 justify-end">
+                          <button
+                            onClick={() => setDetailSub(s)}
+                            className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition"
+                            title="Ver detalle"
+                          >
+                            <Eye size={14} />
+                          </button>
+                          <button
+                            onClick={() => { setEditSub(s); setNuevoOpen(true); }}
+                            className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition"
+                            title="Editar"
+                          >
+                            <Pencil size={14} />
+                          </button>
+                          <button
+                            onClick={() => {
+                              setDeletedNames((prev) => {
+                                const next = new Set(prev);
+                                next.add(s.n);
+                                return next;
+                              });
+                              toast.success("Subcuenta eliminada");
+                            }}
+                            className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-red-50 hover:text-red-600 transition"
+                            title="Borrar"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="flex items-center justify-between px-4 py-3 border-t text-xs text-muted-foreground">
+              <span>{filtradas.length === 0 ? "0 registros" : `${(page - 1) * pageSize + 1}–${Math.min(page * pageSize, filtradas.length)} de ${filtradas.length}`}</span>
+              <div className="flex gap-1">
+                <BtnOutline className="h-7 px-2 text-[11px]" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Anterior</BtnOutline>
+                <BtnOutline className="h-7 px-2 text-[11px]" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Siguiente</BtnOutline>
+              </div>
+            </div>
+          </Card>
+
+          <div className="space-y-4">
+            <Card>
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-semibold text-sm">Distribucion del saldo</h3>
+              </div>
+              <div className="space-y-2">
+                {subs.map((s) => {
+                  const pct = (s.disp + s.ret) / total * 100;
+                  return (
+                    <div key={s.n}>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="truncate pr-2">{s.n}</span>
+                        <span className="font-semibold">{pct.toFixed(1)}%</span>
+                      </div>
+                      <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+                        <div className="h-full rounded-full" style={{ width: `${pct}%`, background: s.color }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </Card>
+
+            <Card>
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-semibold text-sm flex items-center gap-2"><Zap size={13} /> Reglas automaticas</h3>
+                <BtnOutline className="h-7 px-2 text-[11px]" onClick={() => setReglaOpen(true)}>Gestionar</BtnOutline>
+              </div>
+              <div className="divide-y">
+                {reglas.map((r) => (
+                  <div key={r.n} className="py-2.5 flex justify-between items-start gap-2">
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold">{r.n}</div>
+                      <div className="text-[11px] text-muted-foreground">{r.desc}</div>
+                    </div>
+                    <Badge tone={r.act ? "success" : "neutral"}>{r.act ? "Activa" : "Inactiva"}</Badge>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+        </div>
+      )}
+
+      {tab === "movimientos" && (
+        <div className="grid lg:grid-cols-[1.7fr_1fr] gap-6">
           <Card>
             <div className="flex justify-between items-center mb-3">
               <h3 className="font-semibold text-sm">Movimientos recientes</h3>
-              <BtnOutline className="h-7 px-2 text-[11px]">Ver todos</BtnOutline>
             </div>
             <div className="divide-y">
               {movimientosSidebar.map((m, i) => (
@@ -256,45 +333,49 @@ function Page() {
             </div>
           </Card>
 
-          <Card>
-            <h3 className="font-semibold text-sm mb-3">Distribucion del saldo</h3>
-            <div className="space-y-2">
-              {subs.map((s) => {
-                const pct = (s.disp + s.ret) / total * 100;
-                return (
-                  <div key={s.n}>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="truncate pr-2">{s.n}</span>
-                      <span className="font-semibold">{pct.toFixed(1)}%</span>
+          <div className="space-y-4">
+            <Card>
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-semibold text-sm">Distribucion del saldo</h3>
+              </div>
+              <div className="space-y-2">
+                {subs.map((s) => {
+                  const pct = (s.disp + s.ret) / total * 100;
+                  return (
+                    <div key={s.n}>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="truncate pr-2">{s.n}</span>
+                        <span className="font-semibold">{pct.toFixed(1)}%</span>
+                      </div>
+                      <div className="h-1.5 rounded-full bg-muted overflow-hidden">
+                        <div className="h-full rounded-full" style={{ width: `${pct}%`, background: s.color }} />
+                      </div>
                     </div>
-                    <div className="h-1.5 rounded-full bg-muted overflow-hidden">
-                      <div className="h-full rounded-full" style={{ width: `${pct}%`, background: s.color }} />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </Card>
+                  );
+                })}
+              </div>
+            </Card>
 
-          <Card>
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="font-semibold text-sm flex items-center gap-2"><Zap size={13} /> Reglas automaticas</h3>
-              <BtnOutline className="h-7 px-2 text-[11px]" onClick={() => setReglaOpen(true)}>Gestionar</BtnOutline>
-            </div>
-            <div className="divide-y">
-              {reglas.map((r) => (
-                <div key={r.n} className="py-2.5 flex justify-between items-start gap-2">
-                  <div className="min-w-0">
-                    <div className="text-sm font-semibold">{r.n}</div>
-                    <div className="text-[11px] text-muted-foreground">{r.desc}</div>
+            <Card>
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-semibold text-sm flex items-center gap-2"><Zap size={13} /> Reglas automaticas</h3>
+                <BtnOutline className="h-7 px-2 text-[11px]" onClick={() => setReglaOpen(true)}>Gestionar</BtnOutline>
+              </div>
+              <div className="divide-y">
+                {reglas.map((r) => (
+                  <div key={r.n} className="py-2.5 flex justify-between items-start gap-2">
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold">{r.n}</div>
+                      <div className="text-[11px] text-muted-foreground">{r.desc}</div>
+                    </div>
+                    <Badge tone={r.act ? "success" : "neutral"}>{r.act ? "Activa" : "Inactiva"}</Badge>
                   </div>
-                  <Badge tone={r.act ? "success" : "neutral"}>{r.act ? "Activa" : "Inactiva"}</Badge>
-                </div>
-              ))}
-            </div>
-          </Card>
+                ))}
+              </div>
+            </Card>
+          </div>
         </div>
-      </div>
+      )}
 
       {detailSub && <SubDetailModal sub={detailSub} onClose={() => setDetailSub(null)} />}
 

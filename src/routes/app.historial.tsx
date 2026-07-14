@@ -1,5 +1,5 @@
 ﻿import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Download, Filter, FileText, ArrowDownLeft, ArrowUpRight,
   ChevronRight, Wallet, X, Eye, FileSpreadsheet, Share2,
@@ -107,6 +107,8 @@ function Page() {
   const [buscarCuit, setBuscarCuit] = useState("");
   const [buscarTxid, setBuscarTxid] = useState("");
   const [buscarTitular, setBuscarTitular] = useState("");
+  const [page, setPage] = useState(1);
+  const pageSize = 5;
   const serie = "RP-EMP-2026-000042";
 
   const filtered = movs.filter((r) => {
@@ -126,6 +128,10 @@ function Page() {
   });
 
   const subcuentas = [...new Set(movs.map((m) => m.subcuenta))];
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const paginated = filtered.slice((page - 1) * pageSize, page * pageSize);
+
+  useEffect(() => { setPage(1); }, [desde, hasta, categoria, subFiltro, buscarCbu, buscarCuit, buscarTxid, buscarTitular]);
 
   const totalIngresos = filtered.filter((r) => r.tipo === "ingreso").reduce((s, r) => s + r.monto, 0);
   const totalEgresos = filtered.filter((r) => r.tipo === "egreso").reduce((s, r) => s + r.monto, 0);
@@ -295,7 +301,7 @@ function Page() {
                   </td>
                 </tr>
               )}
-              {filtered.map((r, i) => (
+              {paginated.map((r, i) => (
                 <tr key={i} className="border-b last:border-0 hover:bg-muted/30 transition-colors">
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-3 min-w-0 max-w-[220px]">
@@ -362,10 +368,10 @@ function Page() {
         </div>
 
         <div className="flex items-center justify-between px-5 py-4 border-t text-xs text-muted-foreground">
-          <div>Mostrando {filtered.length} de {movs.length} movimientos</div>
+          <div>{filtered.length === 0 ? "0 registros" : `${(page - 1) * pageSize + 1}–${Math.min(page * pageSize, filtered.length)} de ${filtered.length}`}</div>
           <div className="flex gap-2">
-            <BtnOutline className="h-8 px-4 text-xs">Anterior</BtnOutline>
-            <BtnOutline className="h-8 px-4 text-xs">Siguiente</BtnOutline>
+            <BtnOutline className="h-8 px-4 text-xs" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Anterior</BtnOutline>
+            <BtnOutline className="h-8 px-4 text-xs" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Siguiente</BtnOutline>
           </div>
         </div>
       </Card>

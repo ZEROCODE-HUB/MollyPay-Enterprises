@@ -1,5 +1,5 @@
 ﻿import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, useMemo, type ReactNode } from "react";
+import { useState, useMemo, useEffect, type ReactNode } from "react";
 import {
   ArrowLeft,
   Play,
@@ -75,11 +75,17 @@ function DetalleLote() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(0);
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const lote = useMemo(() => getLoteById(id), [id, refresh]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const registros = useMemo(() => getRegistrosByLoteId(id), [id, refresh]);
+  const registrosPaginados = registros.slice((page - 1) * pageSize, page * pageSize);
+  const totalPages = Math.max(1, Math.ceil(registros.length / pageSize));
+
+  useEffect(() => { setPage(1); }, [registros.length]);
 
   const trigger = () => setRefresh((r) => r + 1);
 
@@ -430,7 +436,7 @@ function DetalleLote() {
               </tr>
             </thead>
             <tbody className="divide-y">
-              {registros.map((r) => {
+              {registrosPaginados.map((r) => {
                 const cb = r.cbuId ? getCBUById(r.cbuId) : null;
                 return (
                   <tr key={r.id} className="hover:bg-muted/30 transition-colors">
@@ -543,6 +549,15 @@ function DetalleLote() {
             </tbody>
           </table>
         </div>
+        {registros.length > pageSize && (
+          <div className="flex items-center justify-between px-5 py-3 border-t text-xs text-muted-foreground">
+            <span>{`${(page - 1) * pageSize + 1}–${Math.min(page * pageSize, registros.length)} de ${registros.length}`}</span>
+            <div className="flex gap-1">
+              <BtnOutline className="h-7 px-2 text-[11px]" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Anterior</BtnOutline>
+              <BtnOutline className="h-7 px-2 text-[11px]" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Siguiente</BtnOutline>
+            </div>
+          </div>
+        )}
       </Card>
     </div>
   );

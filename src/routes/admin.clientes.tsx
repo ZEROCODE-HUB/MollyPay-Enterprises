@@ -1,5 +1,5 @@
 ﻿import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Plus, Search, Filter, Building2, FileText, CheckCircle2, Clock,
   XCircle, AlertCircle, Upload, MessageSquare, ChevronRight, X,
@@ -50,8 +50,14 @@ function Page() {
   const [detalle, setDetalle] = useState<typeof clientes[number] | null>(null);
   const [nuevo, setNuevo] = useState(false);
   const [filtro, setFiltro] = useState<Estado | "Todos">("Todos");
+  const [page, setPage] = useState(1);
+  const pageSize = 5;
 
   const filtrados = filtro === "Todos" ? clientes : clientes.filter(c => c.e === filtro);
+  const totalPages = Math.max(1, Math.ceil(filtrados.length / pageSize));
+  const paginated = filtrados.slice((page - 1) * pageSize, page * pageSize);
+
+  useEffect(() => { setPage(1); }, [filtro]);
 
   return (
     <>
@@ -127,7 +133,7 @@ function Page() {
                     <BtnPrimary onClick={() => setNuevo(true)} className="mt-4"><Plus size={16} /> Nuevo cliente</BtnPrimary>
                   </div>
                 </td></tr>
-              ) : filtrados.map((c) => (
+              ) : paginated.map((c) => (
                 <tr key={c.c} className="border-b last:border-0 hover:bg-muted/30">
                   <td className="px-5 py-3 font-semibold">{c.n}</td>
                   <td className="px-5 py-3 text-xs text-muted-foreground font-mono">{c.c}</td>
@@ -148,10 +154,10 @@ function Page() {
         </div>
 
         <div className="px-5 py-3 border-t text-xs text-muted-foreground flex justify-between items-center">
-          <span>Mostrando {filtrados.length} de {clientes.length} clientes</span>
+          <span>{filtrados.length === 0 ? "0 registros" : `${(page - 1) * pageSize + 1}–${Math.min(page * pageSize, filtrados.length)} de ${filtrados.length}`}</span>
           <div className="flex gap-1">
-            <BtnOutline className="h-8 px-3 text-xs">Anterior</BtnOutline>
-            <BtnOutline className="h-8 px-3 text-xs">Siguiente</BtnOutline>
+            <BtnOutline className="h-8 px-3 text-xs" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Anterior</BtnOutline>
+            <BtnOutline className="h-8 px-3 text-xs" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Siguiente</BtnOutline>
           </div>
         </div>
       </Card>
