@@ -190,8 +190,7 @@ function SiteHeader() {
             Registrate
           </Link>
           <Link
-            to="/login"
-            search={{ register: "pj" }}
+            to="/app"
             className="inline-flex h-9 sm:h-10 items-center px-3 sm:px-4 text-white transition-colors hover:opacity-90 whitespace-nowrap"
             style={{
               background: "#C8102E",
@@ -201,8 +200,8 @@ function SiteHeader() {
               fontWeight: 500,
             }}
           >
-            <span className="hidden sm:inline">Registra tu empresa</span>
-            <span className="sm:hidden">Registrar</span>
+            <span className="hidden sm:inline">Demo empresa</span>
+            <span className="sm:hidden">Demo</span>
           </Link>
         </div>
       </div>
