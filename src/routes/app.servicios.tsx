@@ -1,5 +1,5 @@
 ﻿import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   Search,
   Zap,
@@ -40,87 +40,21 @@ type Item = {
   cat: string;
   e: "Pendiente" | "Proximo" | "Vencido";
   debito?: boolean;
+  suscrito: boolean;
 };
 
 const servicios: Item[] = [
-  {
-    n: "Edesur",
-    c: "Cuenta 8821-039 · Belgrano",
-    v: "$ 64.320,00",
-    venc: "05/06/2026",
-    icon: Zap,
-    cat: "Energia",
-    e: "Pendiente",
-    debito: true,
-  },
-  {
-    n: "Metrogas",
-    c: "Cuenta 4421-128 · Belgrano",
-    v: "$ 22.180,00",
-    venc: "08/06/2026",
-    icon: Flame,
-    cat: "Gas",
-    e: "Pendiente",
-    debito: true,
-  },
-  {
-    n: "AySA",
-    c: "Cuenta 9990-2211",
-    v: "$ 18.450,00",
-    venc: "12/06/2026",
-    icon: Droplet,
-    cat: "Agua",
-    e: "Proximo",
-    debito: true,
-  },
-  {
-    n: "ABL CABA",
-    c: "Partida 12.345.678",
-    v: "$ 45.900,00",
-    venc: "15/06/2026",
-    icon: Building2,
-    cat: "Impuesto",
-    e: "Proximo",
-  },
-  {
-    n: "ARBA",
-    c: "Cuenta 88.123-4",
-    v: "$ 88.230,00",
-    venc: "20/06/2026",
-    icon: FileText,
-    cat: "Impuesto",
-    e: "Proximo",
-  },
-  {
-    n: "Cablevision",
-    c: "Cuenta 7728-339",
-    v: "$ 32.100,00",
-    venc: "03/06/2026",
-    icon: Tv,
-    cat: "Internet",
-    e: "Vencido",
-    debito: true,
-  },
-  {
-    n: "Telecom",
-    c: "Linea 011-4444-5555",
-    v: "$ 14.800,00",
-    venc: "10/06/2026",
-    icon: Phone,
-    cat: "Telefonia",
-    e: "Proximo",
-    debito: true,
-  },
-  {
-    n: "Fibertel Empresas",
-    c: "Cuenta 4488-1102",
-    v: "$ 88.500,00",
-    venc: "14/06/2026",
-    icon: Wifi,
-    cat: "Internet",
-    e: "Proximo",
-    debito: true,
-  },
+  { n: "Edesur", c: "Cuenta 8821-039 · Belgrano", v: "$ 64.320,00", venc: "05/06/2026", icon: Zap, cat: "Energia", e: "Pendiente", debito: true, suscrito: true },
+  { n: "Metrogas", c: "Cuenta 4421-128 · Belgrano", v: "$ 22.180,00", venc: "08/06/2026", icon: Flame, cat: "Gas", e: "Pendiente", debito: true, suscrito: true },
+  { n: "AySA", c: "Cuenta 9990-2211", v: "$ 18.450,00", venc: "12/06/2026", icon: Droplet, cat: "Agua", e: "Proximo", debito: true, suscrito: true },
+  { n: "ABL CABA", c: "Partida 12.345.678", v: "$ 45.900,00", venc: "15/06/2026", icon: Building2, cat: "Impuesto", e: "Proximo", suscrito: true },
+  { n: "ARBA", c: "Cuenta 88.123-4", v: "$ 88.230,00", venc: "20/06/2026", icon: FileText, cat: "Impuesto", e: "Proximo", suscrito: true },
+  { n: "Cablevision", c: "Cuenta 7728-339", v: "$ 32.100,00", venc: "03/06/2026", icon: Tv, cat: "Internet", e: "Vencido", debito: true, suscrito: true },
+  { n: "Telecom", c: "Linea 011-4444-5555", v: "$ 14.800,00", venc: "10/06/2026", icon: Phone, cat: "Telefonia", e: "Proximo", debito: true, suscrito: true },
+  { n: "Fibertel Empresas", c: "Cuenta 4488-1102", v: "$ 88.500,00", venc: "14/06/2026", icon: Wifi, cat: "Internet", e: "Proximo", debito: true, suscrito: true },
+  { n: "Claro Empresas", c: "Linea corporativa", v: "$ 0", venc: "-", icon: Phone, cat: "Telefonia", e: "Proximo", suscrito: false },
+  { n: "OSDE", c: "Plan corporativo", v: "$ 0", venc: "-", icon: Building2, cat: "Salud", e: "Proximo", suscrito: false },
+  { n: "Mercado Pago", c: "Cuenta merchant", v: "$ 0", venc: "-", icon: Globe, cat: "Servicios", e: "Proximo", suscrito: false },
 ];
 
 const cats = ["Todos", "Energia", "Gas", "Agua", "Impuesto", "Internet", "Telefonia"];
@@ -207,7 +141,7 @@ function daysUntil(d: string) {
 }
 
 type Tab = "servicios" | "remesas";
-type SectionTab = "proximos" | "suscritos" | "historial";
+type SectionTab = "proximos" | "suscritos" | "disponibles" | "historial";
 
 const PREVIEW_LIMIT = 5;
 
@@ -224,8 +158,10 @@ function Page() {
   const [sectionTab, setSectionTab] = useState<SectionTab>("proximos");
   const [proxAll, setProxAll] = useState(false);
   const [suscAll, setSuscAll] = useState(false);
+  const [dispAll, setDispAll] = useState(false);
   const [histAll, setHistAll] = useState(false);
   const [debitoSet, setDebitoSet] = useState<Set<string>>(new Set());
+  const [editarServicio, setEditarServicio] = useState<Item | null>(null);
 
   const sorted = [...servicios].sort((a, b) => {
     if (sort === "vencimiento") return parseDate(a.venc).getTime() - parseDate(b.venc).getTime();
@@ -241,6 +177,9 @@ function Page() {
   const prox = [...filtrados].sort(
     (a, b) => parseDate(a.venc).getTime() - parseDate(b.venc).getTime(),
   );
+
+  const suscritos = useMemo(() => filtrados.filter((s) => s.suscrito), [filtrados]);
+  const disponibles = useMemo(() => servicios.filter((s) => !s.suscrito), []);
 
   const hFiltrados = historial.filter((t) => {
     if (hCat !== "Todas" && t.cat !== hCat) return false;
@@ -309,7 +248,8 @@ function Page() {
           <div className="flex gap-1 mb-5 bg-muted/50 p-1 rounded-lg">
             {([
               ["proximos", `Proximos pagos (${prox.length})`],
-              ["suscritos", `Servicios suscritos (${filtrados.length})`],
+              ["suscritos", `Suscritos (${suscritos.length})`],
+              ["disponibles", `Disponibles (${disponibles.length})`],
               ["historial", `Historial (${hFiltrados.length})`],
             ] as Array<[SectionTab, string]>).map(([k, l]) => (
               <button
@@ -410,23 +350,13 @@ function Page() {
             <Card className="mb-6">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-semibold text-sm">Servicios suscritos</h3>
-                <BtnPrimary className="h-9 px-3 text-xs" onClick={() => toast.success("Formulario de suscripcion abierto")}>
-                  Suscribir nuevo servicio
-                </BtnPrimary>
               </div>
               <div className="flex flex-wrap gap-2 mb-4">
                 <div className="relative w-full sm:flex-1 sm:min-w-[200px]">
-                  <Search
-                    size={14}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                  />
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                   <Input placeholder="Buscar servicio o numero de cuenta..." className="pl-9" />
                 </div>
-                <select
-                  className="h-10 px-3 rounded-md border bg-card text-sm"
-                  value={sort}
-                  onChange={(e) => setSort(e.target.value)}
-                >
+                <select className="h-10 px-3 rounded-md border bg-card text-sm" value={sort} onChange={(e) => setSort(e.target.value)}>
                   <option value="vencimiento">Orden: vencimiento</option>
                   <option value="monto">Monto</option>
                   <option value="alfabetico">Alfabetico</option>
@@ -434,21 +364,11 @@ function Page() {
               </div>
               <div className="flex flex-wrap gap-1.5 mb-4">
                 {cats.map((c) => (
-                  <button
-                    key={c}
-                    onClick={() => setCatFilt(c)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${
-                      catFilt === c
-                        ? "bg-[color:var(--brand-soft)] text-[color:var(--brand-dark)] border-transparent"
-                        : "bg-card hover:bg-muted"
-                    }`}
-                  >
-                    {c}
-                  </button>
+                  <button key={c} onClick={() => setCatFilt(c)} className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${catFilt === c ? "bg-[color:var(--brand-soft)] text-[color:var(--brand-dark)] border-transparent" : "bg-card hover:bg-muted"}`}>{c}</button>
                 ))}
               </div>
               <div className="divide-y">
-                {(suscAll ? filtrados : filtrados.slice(0, PREVIEW_LIMIT)).map((s) => {
+                {(suscAll ? suscritos : suscritos.slice(0, PREVIEW_LIMIT)).map((s) => {
                   const Icon = s.icon;
                   return (
                     <div key={s.n + s.c} className="flex items-center justify-between gap-3 py-3.5">
@@ -457,72 +377,59 @@ function Page() {
                           <Icon size={18} className="text-[color:var(--brand-dark)]" />
                         </div>
                         <div className="min-w-0">
-                          <div className="font-semibold text-sm truncate">
-                            {s.n} <span className="text-muted-foreground font-normal">· {s.cat}</span>
-                          </div>
+                          <div className="font-semibold text-sm truncate">{s.n} <span className="text-muted-foreground font-normal">· {s.cat}</span></div>
                           <div className="text-xs text-muted-foreground truncate">{s.c}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-3 shrink-0">
                         <div className="text-right hidden sm:block">
                           <div className="text-sm font-semibold">{s.v}</div>
-                          <div className="text-[11px] text-muted-foreground flex items-center gap-1 justify-end">
-                            <Clock size={10} /> Vence {s.venc}
-                          </div>
+                          <div className="text-[11px] text-muted-foreground flex items-center gap-1 justify-end"><Clock size={10} /> Vence {s.venc}</div>
                         </div>
-                        <Badge
-                          tone={
-                            s.e === "Vencido" ? "danger" : s.e === "Pendiente" ? "warn" : "neutral"
-                          }
-                        >
-                          {s.e}
-                        </Badge>
+                        <Badge tone={s.e === "Vencido" ? "danger" : s.e === "Pendiente" ? "warn" : "neutral"}>{s.e}</Badge>
                         {s.debito && (
-                          <button
-                            onClick={() => {
-                              setDebitoSet((prev) => {
-                                const next = new Set(prev);
-                                const k = s.n + s.c;
-                                if (next.has(k)) next.delete(k);
-                                else next.add(k);
-                                return next;
-                              });
-                              toast.success(
-                                debitoSet.has(s.n + s.c)
-                                  ? "Debito directo desactivado de " + s.n
-                                  : "Debito directo activado para " + s.n,
-                              );
-                            }}
-                            className={`h-9 px-2.5 rounded-md text-[11px] font-semibold border transition ${
-                              debitoSet.has(s.n + s.c)
-                                ? "bg-[color:var(--brand-soft)] text-[color:var(--brand-dark)] border-transparent"
-                                : "bg-card text-muted-foreground border-border hover:bg-muted"
-                            }`}
-                            title="Debito directo"
-                          >
-                            DD
-                          </button>
+                          <button onClick={() => { setDebitoSet((prev) => { const next = new Set(prev); const k = s.n + s.c; if (next.has(k)) next.delete(k); else next.add(k); return next; }); toast.success(debitoSet.has(s.n + s.c) ? "Debito directo desactivado de " + s.n : "Debito directo activado para " + s.n); }} className={`h-9 px-2.5 rounded-md text-[11px] font-semibold border transition ${debitoSet.has(s.n + s.c) ? "bg-[color:var(--brand-soft)] text-[color:var(--brand-dark)] border-transparent" : "bg-card text-muted-foreground border-border hover:bg-muted"}`} title="Debito directo">DD</button>
                         )}
-                        <BtnOutline
-                          className="h-9 px-2.5 text-xs"
-                          onClick={() => toast.success("Editando " + s.n)}
-                        >
-                          Editar
-                        </BtnOutline>
-                        <BtnPrimary className="h-9 px-4" onClick={() => setPagar(s)}>
-                          Pagar
-                        </BtnPrimary>
+                        <BtnOutline className="h-9 px-2.5 text-xs" onClick={() => setEditarServicio(s)}>Editar</BtnOutline>
+                        <BtnPrimary className="h-9 px-4" onClick={() => setPagar(s)}>Pagar</BtnPrimary>
                       </div>
                     </div>
                   );
                 })}
               </div>
-              {filtrados.length > PREVIEW_LIMIT && (
-                <button
-                  onClick={() => setSuscAll(!suscAll)}
-                  className="w-full text-center text-xs font-semibold text-primary pt-3 pb-1 hover:opacity-80 transition border-t border-border mt-1"
-                >
-                  {suscAll ? "Mostrar menos" : `Ver todos (${filtrados.length})`}
+              {suscritos.length > PREVIEW_LIMIT && (
+                <button onClick={() => setSuscAll(!suscAll)} className="w-full text-center text-xs font-semibold text-primary pt-3 pb-1 hover:opacity-80 transition border-t border-border mt-1">
+                  {suscAll ? "Mostrar menos" : `Ver todos (${suscritos.length})`}
+                </button>
+              )}
+            </Card>
+          )}
+
+          {sectionTab === "disponibles" && (
+            <Card className="mb-6">
+              <h3 className="font-semibold text-sm mb-4">Servicios disponibles para suscribir</h3>
+              <div className="divide-y">
+                {(dispAll ? disponibles : disponibles.slice(0, PREVIEW_LIMIT)).map((s) => {
+                  const Icon = s.icon;
+                  return (
+                    <div key={s.n + s.c} className="flex items-center justify-between gap-3 py-3.5">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-10 h-10 rounded-md bg-muted flex items-center justify-center shrink-0">
+                          <Icon size={18} className="text-muted-foreground" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="font-semibold text-sm truncate">{s.n} <span className="text-muted-foreground font-normal">· {s.cat}</span></div>
+                          <div className="text-xs text-muted-foreground truncate">No suscrito</div>
+                        </div>
+                      </div>
+                      <BtnPrimary className="h-9 px-4 shrink-0" onClick={() => { toast.success("Suscripcion a " + s.n + " iniciada"); }}>Suscribir</BtnPrimary>
+                    </div>
+                  );
+                })}
+              </div>
+              {disponibles.length > PREVIEW_LIMIT && (
+                <button onClick={() => setDispAll(!dispAll)} className="w-full text-center text-xs font-semibold text-primary pt-3 pb-1 hover:opacity-80 transition border-t border-border mt-1">
+                  {dispAll ? "Mostrar menos" : `Ver todos (${disponibles.length})`}
                 </button>
               )}
             </Card>
@@ -729,6 +636,27 @@ function Page() {
           </div>
         </>
       )}
+
+      <FormDialog
+        open={editarServicio !== null}
+        onClose={() => setEditarServicio(null)}
+        title={editarServicio ? `Editar ${editarServicio.n}` : "Editar servicio"}
+        description="Modifica la configuracion del servicio."
+        submitLabel="Guardar cambios"
+        onSubmit={() => { setEditarServicio(null); toast.success("Servicio actualizado"); }}
+      >
+        {editarServicio && (
+          <>
+            <div><Label>Numero de cuenta / referencia</Label><Input defaultValue={editarServicio.c} /></div>
+            <div><Label>Categoria</Label>
+              <select className="w-full h-10 px-3 rounded-md border bg-card text-sm" defaultValue={editarServicio.cat}>
+                {cats.filter((c) => c !== "Todos").map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <label className="flex items-center gap-2 text-xs"><input type="checkbox" defaultChecked={editarServicio.debito} /> Debito automatico habilitado</label>
+          </>
+        )}
+      </FormDialog>
 
       <FormDialog
         open={pagar !== null}

@@ -1,4 +1,4 @@
-﻿import { createFileRoute, Link } from "@tanstack/react-router";
+﻿import { createFileRoute } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import {
   RefreshCw, Pause, Key, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight,
@@ -77,16 +77,7 @@ function Page() {
 
   return (
     <>
-      {/* Breadcrumb */}
-      <nav className="text-xs text-muted-foreground mb-4 flex items-center gap-1.5">
-        <Link to="/app" className="hover:text-foreground transition">Inicio</Link>
-        <span>/</span>
-        <span className="text-muted-foreground/60">Business</span>
-        <span>/</span>
-        <Link to="/app/link-pago" className="hover:text-foreground transition">BLP</Link>
-        <span>/</span>
-        <span className="text-foreground font-semibold">E-commerce</span>
-      </nav>
+
 
       {/* Title */}
       <div className="mb-6">

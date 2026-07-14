@@ -1,9 +1,9 @@
 ﻿import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState, useEffect } from "react";
 import {
-  Plus, Copy, ArrowDownLeft, ArrowUpRight, Settings2, Eye, Pencil, Trash2, Search,
-  ArrowLeftRight, ShieldCheck, Lock, Users, Zap, Download, Filter, X, Key, Pause,
-  Building2, ChevronDown, ChevronUp,
+  Plus, Copy, ArrowDownLeft, ArrowUpRight, Eye, Pencil, Trash2, Search,
+  ArrowLeftRight, Lock, Download, Filter, X, Key, Pause,
+  Building2, ChevronDown, ChevronUp, PieChart,
 } from "lucide-react";
 import { PageHeader, Card, BtnPrimary, BtnOutline, Badge, Stat, Input, Label } from "@/components/portal-shell";
 import { toast } from "sonner";
@@ -54,11 +54,12 @@ type Mov = {
 };
 
 const movimientosSidebar = [
+  { sc: "Recaudacion expensas", d: "Cobro masivo — Lote expensas Abril (102/128)", m: "+ $ 4.120.000", f: "Hoy 08:30", t: "CobroMasivo" },
   { sc: "Sucursal Centro", d: "Cobro QR — Cliente #4821", m: "+ $ 18.400", f: "10:42", t: "Credito" },
   { sc: "Operaciones", d: "Transferencia a Proveedor SA", m: "- $ 220.000", f: "10:18", t: "Debito" },
   { sc: "Sucursal Norte", d: "Link de pago Factura 0033", m: "+ $ 64.800", f: "09:30", t: "Credito" },
   { sc: "Operaciones", d: "Pago Edesur", m: "- $ 64.320", f: "Ayer 18:11", t: "Debito" },
-  { sc: "Recaudacion expensas", d: "Lote expensas Marzo (84/128)", m: "+ $ 3.840.000", f: "Ayer 17:02", t: "Credito" },
+  { sc: "Recaudacion expensas", d: "Cobro masivo — Lote expensas Marzo (84/128)", m: "+ $ 3.840.000", f: "Ayer 17:02", t: "CobroMasivo" },
   { sc: "Sueldos", d: "Transferencia recibida cuenta madre", m: "+ $ 980.000", f: "Ayer 14:30", t: "Credito" },
   { sc: "Operaciones", d: "Comision Molly", m: "- $ 4.820", f: "Ayer 12:00", t: "Debito" },
   { sc: "Sucursal Centro", d: "Conciliacion bancaria", m: "+ $ 0", f: "06:00", t: "Sistema" },
@@ -89,8 +90,10 @@ const movimientosPorSub: Record<string, Mov[]> = {
     { tipo: "egreso", titulo: "Retiraste dinero", txid: "TX-2026-05-29-8860", cbu: "0000003100189012345678", entidad: "Pago QR Proveedor", fecha: "29/05/2026", hora: "16:30", monto: 78000 },
   ],
   "Recaudacion expensas": [
-    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-06-01-8861", cbu: "0000003100190123456789", entidad: "Lote expensas Marzo (84/128)", fecha: "01/06/2026", hora: "17:02", monto: 3840000 },
-    { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-05-25-8862", cbu: "0000003100201234567890", entidad: "Lote expensas Febrero (76/128)", fecha: "25/05/2026", hora: "16:30", monto: 3520000 },
+    { tipo: "ingreso", titulo: "Cobro masivo — Lote expensas Abril", txid: "TX-2026-06-15-8870", cbu: "0000003100245678901234", entidad: "Lote expensas Abril (102/128)", fecha: "15/06/2026", hora: "08:30", monto: 4120000 },
+    { tipo: "ingreso", titulo: "Cobro masivo — Lote expensas Marzo", txid: "TX-2026-06-01-8861", cbu: "0000003100190123456789", entidad: "Lote expensas Marzo (84/128)", fecha: "01/06/2026", hora: "17:02", monto: 3840000 },
+    { tipo: "ingreso", titulo: "Cobro masivo — Lote expensas Febrero", txid: "TX-2026-05-25-8862", cbu: "0000003100201234567890", entidad: "Lote expensas Febrero (76/128)", fecha: "25/05/2026", hora: "16:30", monto: 3520000 },
+    { tipo: "ingreso", titulo: "Subcuenta creada por cobro masivo", txid: "CREACION-EXP-001", cbu: "0000003100190123456789", entidad: "Creacion automatica desde lote de cobros", fecha: "25/05/2026", hora: "16:30", monto: 0 },
   ],
   "Sueldos": [
     { tipo: "ingreso", titulo: "Ingresaste dinero", txid: "TX-2026-06-01-8863", cbu: "0000003100212345678901", entidad: "Transferencia cuenta madre", fecha: "01/06/2026", hora: "14:30", monto: 980000 },
@@ -101,13 +104,6 @@ const movimientosPorSub: Record<string, Mov[]> = {
   ],
 };
 
-const reglas = [
-  { n: "Auto-distribucion cobros expensas", desc: "Recaudacion expensas → 80% Operaciones · 20% Garantias", act: true },
-  { n: "Barrido fin de dia", desc: "Sucursales → Operaciones cuando saldo > $ 3.000.000", act: true },
-  { n: "Fondeo sueldos", desc: "Operaciones → Sueldos · dia 25 de cada mes", act: true },
-  { n: "Tope alerta", desc: "Notificar cuando subcuenta < $ 100.000", act: false },
-];
-
 const fmt = (n: number) => "$ " + n.toLocaleString("es-AR");
 
 const fmtMov = (n: number) => (n >= 0 ? "+" : "") + "$ " + Math.abs(n).toLocaleString("es-AR");
@@ -115,7 +111,6 @@ const fmtMov = (n: number) => (n >= 0 ? "+" : "") + "$ " + Math.abs(n).toLocaleS
 function Page() {
   const [nuevoOpen, setNuevoOpen] = useState(false);
   const [transfOpen, setTransfOpen] = useState(false);
-  const [reglaOpen, setReglaOpen] = useState(false);
   const [detailSub, setDetailSub] = useState<Sub | null>(null);
   const [editSub, setEditSub] = useState<Sub | null>(null);
   const [deletedNames, setDeletedNames] = useState<Set<string>>(new Set());
@@ -149,7 +144,7 @@ function Page() {
     <>
       <PageHeader
         title="Subcuentas"
-        description="Una cuenta madre, multiples CBU. Gestiona fondos, responsables, limites y reglas automaticas."
+        description="Una cuenta madre, multiples CBU. Gestiona fondos, responsables, limites."
         action={
           <div className="flex gap-2">
             <BtnOutline onClick={() => setTransfOpen(true)}><ArrowLeftRight size={14} /> Transferir entre subcuentas</BtnOutline>
@@ -158,11 +153,41 @@ function Page() {
         }
       />
 
-      <div className="grid md:grid-cols-4 gap-4 mb-6">
-        <Stat label="Saldo total" value={fmt(total)} sub={`${subs.length} subcuentas`} />
-        <Stat label="Disponible" value={fmt(totalDisp)} sub="Listo para operar" />
-        <Stat label="Retenido" value={fmt(totalRet)} sub="Pendiente de liberar" />
-        <Stat label="Reglas activas" value={`${reglas.filter(r => r.act).length} / ${reglas.length}`} sub="Distribucion automatica" />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+        <div className="bg-card border rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Saldo total</div>
+          <div className="text-base md:text-lg font-semibold mt-0.5">{fmt(total)}</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">{subs.length} subcuentas</div>
+        </div>
+        <div className="bg-card border rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Disponible</div>
+          <div className="text-base md:text-lg font-semibold mt-0.5">{fmt(totalDisp)}</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">Listo para operar</div>
+        </div>
+        <div className="bg-card border rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Retenido</div>
+          <div className="text-base md:text-lg font-semibold mt-0.5">{fmt(totalRet)}</div>
+          <div className="text-[10px] text-muted-foreground mt-0.5">Pendiente de liberar</div>
+        </div>
+        <div className="bg-card border rounded-lg p-3">
+          <div className="text-[10px] uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+            <PieChart size={11} /> Distribucion del saldo
+          </div>
+          <div className="text-xs mt-1 space-y-1">
+            {subs.slice(0, 3).map((s) => {
+              const pct = ((s.disp + s.ret) / total * 100).toFixed(1);
+              return (
+                <div key={s.n} className="flex items-center gap-1.5">
+                  <div className="h-1.5 rounded-full flex-1 bg-muted overflow-hidden">
+                    <div className="h-full rounded-full" style={{ width: `${pct}%`, background: s.color }} />
+                  </div>
+                  <span className="font-semibold text-[10px] w-12 text-right">{pct}%</span>
+                </div>
+              );
+            })}
+            {subs.length > 3 && <div className="text-[10px] text-muted-foreground">+{subs.length - 3} mas</div>}
+          </div>
+        </div>
       </div>
 
       <Card className="mb-4 p-3">
@@ -177,7 +202,6 @@ function Page() {
           <select value={estado} onChange={(e) => setEstado(e.target.value)} className="h-10 px-3 rounded-md border bg-card text-sm">
             <option>Todos</option><option>Activa</option><option>Pausada</option>
           </select>
-          <BtnOutline className="h-10" onClick={() => setReglaOpen(true)}><Zap size={14} /> Reglas de distribucion</BtnOutline>
         </div>
       </Card>
 
@@ -199,182 +223,91 @@ function Page() {
       </div>
 
       {tab === "subcuentas" && (
-        <div className="grid lg:grid-cols-[1.7fr_1fr] gap-6">
-          <Card className="p-0 overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
-                    <th className="text-left px-4 py-2.5">Nombre</th>
-                    <th className="text-left px-4 py-2.5">Apellido</th>
-                    <th className="text-left px-4 py-2.5">Email</th>
-                    <th className="text-left px-4 py-2.5">Estado</th>
-                    <th className="text-right px-4 py-2.5">Acciones</th>
+        <Card className="p-0 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-[11px] uppercase tracking-wide text-muted-foreground border-b bg-muted/30">
+                  <th className="text-left px-4 py-2.5">Nombre</th>
+                  <th className="text-left px-4 py-2.5">Apellido</th>
+                  <th className="text-left px-4 py-2.5">Email</th>
+                  <th className="text-left px-4 py-2.5">Estado</th>
+                  <th className="text-right px-4 py-2.5">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginated.map((s) => (
+                  <tr key={s.n} className="border-b last:border-0 hover:bg-muted/30">
+                    <td className="px-4 py-3 font-semibold">{s.n}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{s.apellido}</td>
+                    <td className="px-4 py-3 text-xs text-muted-foreground">{s.email}</td>
+                    <td className="px-4 py-3">
+                      <Badge tone={s.e === "Activa" ? "success" : "warn"}>{s.e}</Badge>
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <div className="flex gap-1 justify-end">
+                        <button
+                          onClick={() => setDetailSub(s)}
+                          className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition"
+                          title="Ver detalle"
+                        >
+                          <Eye size={14} />
+                        </button>
+                        <button
+                          onClick={() => { setEditSub(s); setNuevoOpen(true); }}
+                          className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition"
+                          title="Editar"
+                        >
+                          <Pencil size={14} />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setDeletedNames((prev) => {
+                              const next = new Set(prev);
+                              next.add(s.n);
+                              return next;
+                            });
+                            toast.success("Subcuenta eliminada");
+                          }}
+                          className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-red-50 hover:text-red-600 transition"
+                          title="Borrar"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {paginated.map((s) => (
-                    <tr key={s.n} className="border-b last:border-0 hover:bg-muted/30">
-                      <td className="px-4 py-3 font-semibold">{s.n}</td>
-                      <td className="px-4 py-3 text-muted-foreground">{s.apellido}</td>
-                      <td className="px-4 py-3 text-xs text-muted-foreground">{s.email}</td>
-                      <td className="px-4 py-3">
-                        <Badge tone={s.e === "Activa" ? "success" : "warn"}>{s.e}</Badge>
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <div className="flex gap-1 justify-end">
-                          <button
-                            onClick={() => setDetailSub(s)}
-                            className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition"
-                            title="Ver detalle"
-                          >
-                            <Eye size={14} />
-                          </button>
-                          <button
-                            onClick={() => { setEditSub(s); setNuevoOpen(true); }}
-                            className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-muted transition"
-                            title="Editar"
-                          >
-                            <Pencil size={14} />
-                          </button>
-                          <button
-                            onClick={() => {
-                              setDeletedNames((prev) => {
-                                const next = new Set(prev);
-                                next.add(s.n);
-                                return next;
-                              });
-                              toast.success("Subcuenta eliminada");
-                            }}
-                            className="h-8 w-8 inline-flex items-center justify-center rounded-md border bg-card hover:bg-red-50 hover:text-red-600 transition"
-                            title="Borrar"
-                          >
-                            <Trash2 size={14} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="flex items-center justify-between px-4 py-3 border-t text-xs text-muted-foreground">
-              <span>{filtradas.length === 0 ? "0 registros" : `${(page - 1) * pageSize + 1}–${Math.min(page * pageSize, filtradas.length)} de ${filtradas.length}`}</span>
-              <div className="flex gap-1">
-                <BtnOutline className="h-7 px-2 text-[11px]" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Anterior</BtnOutline>
-                <BtnOutline className="h-7 px-2 text-[11px]" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Siguiente</BtnOutline>
-              </div>
-            </div>
-          </Card>
-
-          <div className="space-y-4">
-            <Card>
-              <div className="flex justify-between items-center mb-3">
-                <h3 className="font-semibold text-sm">Distribucion del saldo</h3>
-              </div>
-              <div className="space-y-2">
-                {subs.map((s) => {
-                  const pct = (s.disp + s.ret) / total * 100;
-                  return (
-                    <div key={s.n}>
-                      <div className="flex justify-between text-xs mb-1">
-                        <span className="truncate pr-2">{s.n}</span>
-                        <span className="font-semibold">{pct.toFixed(1)}%</span>
-                      </div>
-                      <div className="h-1.5 rounded-full bg-muted overflow-hidden">
-                        <div className="h-full rounded-full" style={{ width: `${pct}%`, background: s.color }} />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </Card>
-
-            <Card>
-              <div className="flex justify-between items-center mb-3">
-                <h3 className="font-semibold text-sm flex items-center gap-2"><Zap size={13} /> Reglas automaticas</h3>
-                <BtnOutline className="h-7 px-2 text-[11px]" onClick={() => setReglaOpen(true)}>Gestionar</BtnOutline>
-              </div>
-              <div className="divide-y">
-                {reglas.map((r) => (
-                  <div key={r.n} className="py-2.5 flex justify-between items-start gap-2">
-                    <div className="min-w-0">
-                      <div className="text-sm font-semibold">{r.n}</div>
-                      <div className="text-[11px] text-muted-foreground">{r.desc}</div>
-                    </div>
-                    <Badge tone={r.act ? "success" : "neutral"}>{r.act ? "Activa" : "Inactiva"}</Badge>
-                  </div>
                 ))}
-              </div>
-            </Card>
+              </tbody>
+            </table>
           </div>
-        </div>
+          <div className="flex items-center justify-between px-4 py-3 border-t text-xs text-muted-foreground">
+            <span>{filtradas.length === 0 ? "0 registros" : `${(page - 1) * pageSize + 1}–${Math.min(page * pageSize, filtradas.length)} de ${filtradas.length}`}</span>
+            <div className="flex gap-1">
+              <BtnOutline className="h-7 px-2 text-[11px]" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Anterior</BtnOutline>
+              <BtnOutline className="h-7 px-2 text-[11px]" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Siguiente</BtnOutline>
+            </div>
+          </div>
+        </Card>
       )}
 
       {tab === "movimientos" && (
-        <div className="grid lg:grid-cols-[1.7fr_1fr] gap-6">
-          <Card>
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="font-semibold text-sm">Movimientos recientes</h3>
-            </div>
-            <div className="divide-y">
-              {movimientosSidebar.map((m, i) => (
-                <div key={i} className="py-2.5">
-                  <div className="flex justify-between text-sm">
-                    <span className="font-semibold truncate pr-2">{m.d}</span>
-                    <span className={`font-semibold whitespace-nowrap ${m.m.startsWith("+") ? "text-emerald-700" : m.m.startsWith("-") ? "text-red-700" : "text-muted-foreground"}`}>{m.m}</span>
-                  </div>
-                  <div className="text-xs text-muted-foreground flex justify-between">
-                    <span>{m.sc} · {m.t}</span>
-                    <span>{m.f}</span>
-                  </div>
+        <Card>
+          <div className="divide-y">
+            {movimientosSidebar.map((m, i) => (
+              <div key={i} className="py-2.5">
+                <div className="flex justify-between text-sm">
+                  <span className="font-semibold truncate pr-2">{m.d}</span>
+                  <span className={`font-semibold whitespace-nowrap ${m.m.startsWith("+") ? "text-emerald-700" : m.m.startsWith("-") ? "text-red-700" : "text-muted-foreground"}`}>{m.m}</span>
                 </div>
-              ))}
-            </div>
-          </Card>
-
-          <div className="space-y-4">
-            <Card>
-              <div className="flex justify-between items-center mb-3">
-                <h3 className="font-semibold text-sm">Distribucion del saldo</h3>
+                <div className="text-xs text-muted-foreground flex justify-between">
+                  <span>{m.sc} · {m.t}</span>
+                  <span>{m.f}</span>
+                </div>
               </div>
-              <div className="space-y-2">
-                {subs.map((s) => {
-                  const pct = (s.disp + s.ret) / total * 100;
-                  return (
-                    <div key={s.n}>
-                      <div className="flex justify-between text-xs mb-1">
-                        <span className="truncate pr-2">{s.n}</span>
-                        <span className="font-semibold">{pct.toFixed(1)}%</span>
-                      </div>
-                      <div className="h-1.5 rounded-full bg-muted overflow-hidden">
-                        <div className="h-full rounded-full" style={{ width: `${pct}%`, background: s.color }} />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </Card>
-
-            <Card>
-              <div className="flex justify-between items-center mb-3">
-                <h3 className="font-semibold text-sm flex items-center gap-2"><Zap size={13} /> Reglas automaticas</h3>
-                <BtnOutline className="h-7 px-2 text-[11px]" onClick={() => setReglaOpen(true)}>Gestionar</BtnOutline>
-              </div>
-              <div className="divide-y">
-                {reglas.map((r) => (
-                  <div key={r.n} className="py-2.5 flex justify-between items-start gap-2">
-                    <div className="min-w-0">
-                      <div className="text-sm font-semibold">{r.n}</div>
-                      <div className="text-[11px] text-muted-foreground">{r.desc}</div>
-                    </div>
-                    <Badge tone={r.act ? "success" : "neutral"}>{r.act ? "Activa" : "Inactiva"}</Badge>
-                  </div>
-                ))}
-              </div>
-            </Card>
+            ))}
           </div>
-        </div>
+        </Card>
       )}
 
       {detailSub && <SubDetailModal sub={detailSub} onClose={() => setDetailSub(null)} />}
@@ -427,48 +360,6 @@ function Page() {
         </div>
         <div><Label>Monto (ARS)</Label><Input placeholder="0,00" /></div>
         <div><Label>Concepto</Label><Input placeholder="Barrido fin de dia, fondeo, etc." /></div>
-      </FormDialog>
-
-      <FormDialog
-        open={reglaOpen}
-        onClose={() => setReglaOpen(false)}
-        title="Reglas de distribucion automatica"
-        description="Aplica movimientos automaticos entre subcuentas segun condiciones."
-        submitLabel="Guardar regla"
-        size="lg"
-        onSubmit={() => { setReglaOpen(false); toast.success("Regla guardada"); }}
-      >
-        <div className="grid grid-cols-2 gap-3">
-          <div><Label>Subcuenta origen</Label>
-            <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">{subs.map(s => <option key={s.n}>{s.n}</option>)}</select>
-          </div>
-          <div><Label>Tipo de regla</Label>
-            <select className="w-full h-10 px-3 rounded-md border bg-card text-sm">
-              <option>Distribucion por porcentaje</option>
-              <option>Barrido a destino unico</option>
-              <option>Fondeo programado</option>
-              <option>Alerta de saldo minimo</option>
-            </select>
-          </div>
-        </div>
-        <div>
-          <Label>Distribucion</Label>
-          <div className="space-y-2">
-            {subs.slice(0, 3).map((s, i) => (
-              <div key={s.n} className="grid grid-cols-[1fr_120px] gap-2 items-center">
-                <select className="h-9 px-3 rounded-md border bg-card text-sm" defaultValue={s.n}>
-                  {subs.map(x => <option key={x.n}>{x.n}</option>)}
-                </select>
-                <div className="relative">
-                  <Input defaultValue={[60, 30, 10][i]} className="h-9 pr-7" />
-                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">%</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <label className="flex items-center gap-2 text-xs"><input type="checkbox" defaultChecked /> Notificar al ejecutarse</label>
-        <label className="flex items-center gap-2 text-xs"><input type="checkbox" /> Requerir aprobacion manual</label>
       </FormDialog>
 
       {detailSub && (
