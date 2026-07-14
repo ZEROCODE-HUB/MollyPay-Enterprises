@@ -314,7 +314,7 @@ function LoginPage() {
             </div>
           </div>
           <button
-            onClick={() => enterAs()}
+            onClick={() => { setRole("empresa"); navigate({ to: "/app" }); }}
             className="w-full mt-5 h-11 text-sm font-semibold transition-colors"
             style={{
               border: "1px solid rgba(10,22,40,0.2)",
@@ -326,7 +326,7 @@ function LoginPage() {
               fontSize: "0.75rem",
             }}
           >
-            Ingresar como Empresa
+            Demo empresa
           </button>
         </div>
       )}
